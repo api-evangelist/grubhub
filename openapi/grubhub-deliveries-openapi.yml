@@ -1,0 +1,241 @@
+openapi: 3.1.0
+info:
+  title: Grubhub Deliveries API
+  description: >-
+    The Grubhub Deliveries API enables partners to manage delivery logistics
+    and interact with Grubhub's nationwide courier network. It provides
+    delivery status tracking through key states including driver assignment,
+    pickup ready, and out for delivery. Partners can leverage Grubhub Connect,
+    a full-service delivery solution for delivery aggregators, marketplaces,
+    and enterprise merchants to fulfill orders using Grubhub drivers. The API
+    also supports driver communication through proxy phone numbers.
+  version: '1.0.0'
+  contact:
+    name: Grubhub Developer Support
+    url: https://grubhub-developers.zendesk.com/hc/en-us
+  termsOfService: https://www.grubhub.com/legal/terms-of-use
+externalDocs:
+  description: Grubhub Deliveries API Documentation
+  url: https://developer.grubhub.com/api/deliveries
+servers:
+  - url: https://api-third-party-gtm.grubhub.com
+    description: Production Server
+  - url: https://api-third-party-gtm-pp.grubhub.com
+    description: Preproduction Server
+tags:
+  - name: Delivery Status
+    description: >-
+      Endpoints for tracking delivery status, driver information, and
+      estimated arrival times.
+  - name: Driver Communication
+    description: >-
+      Endpoints for establishing communication with delivery drivers
+      through proxy phone numbers.
+security:
+  - hmacAuth: []
+paths:
+  /pos/v1/merchant/{merchant_long_id}/orders/{order_uuid}/delivery:
+    get:
+      operationId: getDeliveryStatus
+      summary: Get delivery status for an order
+      description: >-
+        Retrieves the current state of a delivery for an order, including
+        driver contact information, driver arrival ETAs, driver latitude
+        and longitude coordinates, and delivery lifecycle state. Partners
+        can use this to provide real-time delivery tracking to merchants.
+      tags:
+        - Delivery Status
+      parameters:
+        - $ref: '#/components/parameters/MerchantLongId'
+        - $ref: '#/components/parameters/OrderUuid'
+      responses:
+        '200':
+          description: Current delivery status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Delivery'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Order or delivery not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /pos/v1/merchant/{merchant_long_id}/orders/{order_uuid}/delivery/proxy-phone:
+    post:
+      operationId: createProxyCourierPhone
+      summary: Create proxy courier phone number
+      description: >-
+        Generates a masked proxy phone number that creates a bridge between
+        the merchant's phone number and the courier's phone number. This
+        protects both parties' actual phone numbers while enabling direct
+        communication. Best practice is to call this endpoint as needed
+        rather than caching the result.
+      tags:
+        - Driver Communication
+      parameters:
+        - $ref: '#/components/parameters/MerchantLongId'
+        - $ref: '#/components/parameters/OrderUuid'
+      responses:
+        '200':
+          description: Proxy phone number created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProxyPhone'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Order or delivery not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  securitySchemes:
+    hmacAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: >-
+        HMAC-based authentication. Every request must include X-GH-PARTNER-KEY
+        and an Authorization header with MAC authentication details.
+  parameters:
+    MerchantLongId:
+      name: merchant_long_id
+      in: path
+      required: true
+      description: >-
+        The long-form unique identifier for the merchant on Grubhub.
+      schema:
+        type: string
+    OrderUuid:
+      name: order_uuid
+      in: path
+      required: true
+      description: >-
+        The UUID of the order.
+      schema:
+        type: string
+        format: uuid
+  schemas:
+    Delivery:
+      type: object
+      description: >-
+        The current state of a delivery including driver and tracking details.
+      properties:
+        order_uuid:
+          type: string
+          format: uuid
+          description: >-
+            The UUID of the associated order.
+        status:
+          type: string
+          description: >-
+            The current lifecycle status of the delivery.
+          enum:
+            - PENDING
+            - DRIVER_ASSIGNED
+            - DRIVER_EN_ROUTE_TO_PICKUP
+            - ARRIVED_AT_PICKUP
+            - PICKED_UP
+            - OUT_FOR_DELIVERY
+            - ARRIVED_AT_DROPOFF
+            - DELIVERED
+            - CANCELLED
+        driver:
+          $ref: '#/components/schemas/Driver'
+        pickup_eta:
+          type: string
+          format: date-time
+          description: >-
+            Estimated time of arrival at the pickup location.
+        dropoff_eta:
+          type: string
+          format: date-time
+          description: >-
+            Estimated time of arrival at the delivery location.
+        tracking_url:
+          type: string
+          format: uri
+          description: >-
+            A URL providing real-time delivery status updates, courier
+            tracking, courier name, and contact options.
+        updated_at:
+          type: string
+          format: date-time
+          description: >-
+            Timestamp of the last delivery status update.
+    Driver:
+      type: object
+      description: >-
+        Information about the assigned delivery driver.
+      properties:
+        name:
+          type: string
+          description: >-
+            The driver's display name.
+        phone:
+          type: string
+          description: >-
+            The driver's contact phone number.
+        delivery_method:
+          type: string
+          description: >-
+            The method of delivery being used by the driver.
+          enum:
+            - CAR
+            - BIKE
+            - WALKING
+        latitude:
+          type: number
+          format: double
+          description: >-
+            The driver's current latitude coordinate.
+        longitude:
+          type: number
+          format: double
+          description: >-
+            The driver's current longitude coordinate.
+    ProxyPhone:
+      type: object
+      description: >-
+        A masked proxy phone number for communicating with the courier.
+      properties:
+        proxy_phone_number:
+          type: string
+          description: >-
+            The masked phone number that bridges communication between
+            the merchant and the courier.
+        expires_at:
+          type: string
+          format: date-time
+          description: >-
+            When this proxy phone number expires.
+    Error:
+      type: object
+      description: >-
+        Standard error response from the Grubhub API.
+      properties:
+        error:
+          type: string
+          description: >-
+            Error type identifier.
+        message:
+          type: string
+          description: >-
+            Human-readable error description.
+        status:
+          type: integer
+          description: >-
+            HTTP status code.

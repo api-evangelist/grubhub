@@ -1,0 +1,568 @@
+openapi: 3.1.0
+info:
+  title: Grubhub Menu API
+  description: >-
+    The Grubhub Menu API enables partners and merchants to create, update,
+    and manage restaurant menus within the Grubhub Marketplace. It supports
+    building normalized menu structures including schedules, sections, items,
+    modifiers, and pricing. POS integrations are required to sync menus
+    through this API, ensuring that restaurant offerings on Grubhub stay
+    current with their local menu changes. Menu ingestion uses a diff-based
+    approach with external IDs to match, update, create, and remove menu
+    objects.
+  version: '1.0.0'
+  contact:
+    name: Grubhub Developer Support
+    url: https://grubhub-developers.zendesk.com/hc/en-us
+  termsOfService: https://www.grubhub.com/legal/terms-of-use
+externalDocs:
+  description: Grubhub Menu API Documentation
+  url: https://developer.grubhub.com/api/menu
+servers:
+  - url: https://api-third-party-gtm.grubhub.com
+    description: Production Server
+  - url: https://api-third-party-gtm-pp.grubhub.com
+    description: Preproduction Server
+tags:
+  - name: Menu Ingestion
+    description: >-
+      Endpoints for uploading and managing normalized menus including
+      schedules, sections, items, and modifiers.
+  - name: Menu Retrieval
+    description: >-
+      Endpoints for retrieving the current menu for a merchant.
+  - name: Menu Schedule Overrides
+    description: >-
+      Endpoints for managing menu schedule overrides such as temporary
+      availability changes.
+security:
+  - hmacAuth: []
+paths:
+  /pos/v1/menu/ingestion:
+    post:
+      operationId: ingestMenu
+      summary: Ingest a normalized menu
+      description: >-
+        Uploads a complete menu to Grubhub including schedules, sections,
+        items, and modifiers. The API uses external IDs to perform a diff
+        between the current and uploaded versions. Matching external IDs
+        will have their fields updated, new IDs will create objects, and
+        missing IDs will cause the associated items to be removed. Processing
+        completes asynchronously after the endpoint responds.
+      tags:
+        - Menu Ingestion
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PosNormalizedMenu'
+      responses:
+        '202':
+          description: Menu ingestion accepted for processing
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IngestionJobResponse'
+        '400':
+          description: Invalid menu payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /pos/v1/menu/ingestion/jobs/{job_id}:
+    get:
+      operationId: getMenuIngestionStatus
+      summary: Get menu ingestion job status
+      description: >-
+        Returns the status of a full menu ingestion job. Use this endpoint
+        to check whether a previously submitted menu ingestion has completed
+        processing successfully or encountered errors.
+      tags:
+        - Menu Ingestion
+      parameters:
+        - $ref: '#/components/parameters/JobId'
+      responses:
+        '200':
+          description: Ingestion job status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IngestionJobStatus'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Job not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /pos/v1/merchant/{merchant_id}/ingestion/menu:
+    get:
+      operationId: getMerchantMenu
+      summary: Retrieve current merchant menu
+      description: >-
+        Retrieves the current menu for a merchant as a PosNormalizedMenu
+        object. The returned menu can be edited and re-ingested to update
+        the merchant's menu on the Grubhub platform.
+      tags:
+        - Menu Retrieval
+      parameters:
+        - $ref: '#/components/parameters/MerchantId'
+      responses:
+        '200':
+          description: Current merchant menu
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PosNormalizedMenu'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Merchant not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /pos/v1/merchant/{merchant_id}/menu/schedules/overrides/external:
+    put:
+      operationId: updateMenuScheduleOverrides
+      summary: Update menu schedule overrides
+      description: >-
+        Creates or updates menu schedule overrides for a merchant. Schedule
+        overrides allow temporary changes to menu availability, such as
+        making certain items unavailable during specific time periods.
+      tags:
+        - Menu Schedule Overrides
+      parameters:
+        - $ref: '#/components/parameters/MerchantId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MenuScheduleOverrideRequest'
+      responses:
+        '200':
+          description: Schedule override updated successfully
+        '400':
+          description: Invalid override request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Merchant not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /pos/v1/merchant/{merchant_id}/menu/schedules/overrides/{job_id}/status:
+    get:
+      operationId: getMenuScheduleOverrideStatus
+      summary: Get menu schedule override job status
+      description: >-
+        Returns the status of a menu schedule override job for a merchant.
+      tags:
+        - Menu Schedule Overrides
+      parameters:
+        - $ref: '#/components/parameters/MerchantId'
+        - $ref: '#/components/parameters/JobId'
+      responses:
+        '200':
+          description: Override job status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IngestionJobStatus'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Job or merchant not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  securitySchemes:
+    hmacAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: >-
+        HMAC-based authentication. Every request must include X-GH-PARTNER-KEY
+        and an Authorization header with MAC authentication details following
+        the IETF HMAC standard.
+  parameters:
+    MerchantId:
+      name: merchant_id
+      in: path
+      required: true
+      description: >-
+        The unique identifier for the merchant on Grubhub.
+      schema:
+        type: string
+    JobId:
+      name: job_id
+      in: path
+      required: true
+      description: >-
+        The unique identifier for the ingestion or override job.
+      schema:
+        type: string
+  schemas:
+    PosNormalizedMenu:
+      type: object
+      description: >-
+        A complete normalized menu structure containing schedules, sections,
+        items, and modifiers. Each object must have an external_id for
+        diff-based ingestion.
+      properties:
+        merchant_id:
+          type: string
+          description: >-
+            The Grubhub merchant identifier this menu belongs to.
+        schedules:
+          type: array
+          description: >-
+            Top-level menu schedules that define what items are available
+            during specific periods of the days and week.
+          items:
+            $ref: '#/components/schemas/MenuSchedule'
+      required:
+        - merchant_id
+        - schedules
+    MenuSchedule:
+      type: object
+      description: >-
+        A schedule defining availability windows and the sections of menu
+        items available during those periods.
+      properties:
+        external_id:
+          type: string
+          description: >-
+            A unique external identifier assigned by the partner for
+            diff-based menu ingestion.
+        name:
+          type: string
+          description: >-
+            The display name of the schedule.
+        availability:
+          type: array
+          description: >-
+            Time windows when this schedule is active.
+          items:
+            $ref: '#/components/schemas/Availability'
+        sections:
+          type: array
+          description: >-
+            Menu sections available during this schedule, such as
+            appetizers or entrees.
+          items:
+            $ref: '#/components/schemas/MenuSection'
+      required:
+        - external_id
+        - name
+        - sections
+    Availability:
+      type: object
+      description: >-
+        A time window defining when a schedule or item is available.
+      properties:
+        day_of_week:
+          type: string
+          description: >-
+            The day of the week this availability applies to.
+          enum:
+            - MONDAY
+            - TUESDAY
+            - WEDNESDAY
+            - THURSDAY
+            - FRIDAY
+            - SATURDAY
+            - SUNDAY
+        start_time:
+          type: string
+          description: >-
+            The start time in HH:mm format.
+          pattern: '^\d{2}:\d{2}$'
+        end_time:
+          type: string
+          description: >-
+            The end time in HH:mm format.
+          pattern: '^\d{2}:\d{2}$'
+    MenuSection:
+      type: object
+      description: >-
+        A grouping of menu items such as appetizers, entrees, or desserts.
+      properties:
+        external_id:
+          type: string
+          description: >-
+            A unique external identifier for diff-based ingestion.
+        name:
+          type: string
+          description: >-
+            The display name of the section.
+        items:
+          type: array
+          description: >-
+            Menu items within this section.
+          items:
+            $ref: '#/components/schemas/MenuItem'
+      required:
+        - external_id
+        - name
+        - items
+    MenuItem:
+      type: object
+      description: >-
+        An individual menu item that a diner can order for delivery or pickup.
+      properties:
+        external_id:
+          type: string
+          description: >-
+            A unique external identifier for diff-based ingestion.
+        name:
+          type: string
+          description: >-
+            The display name of the menu item.
+        description:
+          type: string
+          description: >-
+            A description of the menu item.
+        price:
+          type: number
+          format: double
+          description: >-
+            The base price of the menu item in the merchant's currency.
+          minimum: 0
+        available:
+          type: boolean
+          description: >-
+            Whether this item is currently available for ordering.
+        size_prompt:
+          $ref: '#/components/schemas/SizePrompt'
+        modifier_prompts:
+          type: array
+          description: >-
+            Modifier prompts for this item, such as salad dressing choice
+            or add-on toppings.
+          items:
+            $ref: '#/components/schemas/ModifierPrompt'
+      required:
+        - external_id
+        - name
+        - price
+    SizePrompt:
+      type: object
+      description: >-
+        A size selection prompt for a menu item. Sizes can affect the price
+        of both the item and its modifiers.
+      properties:
+        external_id:
+          type: string
+          description: >-
+            A unique external identifier for this size prompt.
+        name:
+          type: string
+          description: >-
+            The display name for the size prompt.
+        options:
+          type: array
+          description: >-
+            Available size options.
+          items:
+            $ref: '#/components/schemas/SizeOption'
+    SizeOption:
+      type: object
+      description: >-
+        An individual size option within a size prompt.
+      properties:
+        external_id:
+          type: string
+          description: >-
+            A unique external identifier for this size option.
+        name:
+          type: string
+          description: >-
+            The display name of the size option.
+        price:
+          type: number
+          format: double
+          description: >-
+            The price adjustment for selecting this size.
+    ModifierPrompt:
+      type: object
+      description: >-
+        A modifier prompt for a menu item, allowing customization such as
+        choice of dressing, extra toppings, or preparation preferences.
+      properties:
+        external_id:
+          type: string
+          description: >-
+            A unique external identifier for this modifier prompt.
+        name:
+          type: string
+          description: >-
+            The display name of the modifier prompt.
+        required:
+          type: boolean
+          description: >-
+            Whether a selection is required from this modifier prompt.
+        min_selections:
+          type: integer
+          description: >-
+            Minimum number of selections required.
+          minimum: 0
+        max_selections:
+          type: integer
+          description: >-
+            Maximum number of selections allowed.
+          minimum: 1
+        options:
+          type: array
+          description: >-
+            Available modifier options.
+          items:
+            $ref: '#/components/schemas/ModifierOption'
+      required:
+        - external_id
+        - name
+        - options
+    ModifierOption:
+      type: object
+      description: >-
+        An individual modifier option within a modifier prompt.
+      properties:
+        external_id:
+          type: string
+          description: >-
+            A unique external identifier for this modifier option.
+        name:
+          type: string
+          description: >-
+            The display name of the modifier option.
+        price:
+          type: number
+          format: double
+          description: >-
+            The additional price for selecting this modifier.
+          minimum: 0
+        available:
+          type: boolean
+          description: >-
+            Whether this modifier option is currently available.
+    MenuScheduleOverrideRequest:
+      type: object
+      description: >-
+        A request to create or update menu schedule overrides for a merchant.
+      properties:
+        overrides:
+          type: array
+          description: >-
+            List of schedule overrides to apply.
+          items:
+            type: object
+            properties:
+              external_id:
+                type: string
+                description: >-
+                  External identifier for the schedule being overridden.
+              available:
+                type: boolean
+                description: >-
+                  Whether the schedule should be active or inactive.
+              start_date:
+                type: string
+                format: date-time
+                description: >-
+                  The start date and time of the override.
+              end_date:
+                type: string
+                format: date-time
+                description: >-
+                  The end date and time of the override.
+    IngestionJobResponse:
+      type: object
+      description: >-
+        Response returned when a menu ingestion job is accepted.
+      properties:
+        job_id:
+          type: string
+          description: >-
+            The unique identifier for the ingestion job, used to check status.
+    IngestionJobStatus:
+      type: object
+      description: >-
+        Status of a menu ingestion or override job.
+      properties:
+        job_id:
+          type: string
+          description: >-
+            The unique identifier for the job.
+        status:
+          type: string
+          description: >-
+            The current status of the job.
+          enum:
+            - PENDING
+            - PROCESSING
+            - COMPLETED
+            - FAILED
+        errors:
+          type: array
+          description: >-
+            List of errors encountered during processing, if any.
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+                description: >-
+                  Error code.
+              message:
+                type: string
+                description: >-
+                  Human-readable error message.
+    Error:
+      type: object
+      description: >-
+        Standard error response from the Grubhub API.
+      properties:
+        error:
+          type: string
+          description: >-
+            Error type identifier.
+        message:
+          type: string
+          description: >-
+            Human-readable error description.
+        status:
+          type: integer
+          description: >-
+            HTTP status code.

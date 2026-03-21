@@ -1,0 +1,488 @@
+openapi: 3.1.0
+info:
+  title: Grubhub Onboarding API
+  description: >-
+    The Grubhub Onboarding API enables partners to offer self-service
+    integration onboarding directly to their merchants using OAuth-based
+    authentication. It provides endpoints for new merchant referrals,
+    merchant activation and deactivation, merchant association, eligibility
+    checks, and reporting onboarding issues. The API can reduce merchant
+    onboarding time from 7-10 days down to as little as 5-10 minutes.
+  version: '1.0.0'
+  contact:
+    name: Grubhub Developer Support
+    url: https://grubhub-developers.zendesk.com/hc/en-us
+  termsOfService: https://www.grubhub.com/legal/terms-of-use
+externalDocs:
+  description: Grubhub Onboarding API Documentation
+  url: https://developer.grubhub.com/api/onboarding
+servers:
+  - url: https://api-third-party-gtm.grubhub.com
+    description: Production Server
+  - url: https://api-third-party-gtm-pp.grubhub.com
+    description: Preproduction Server
+tags:
+  - name: Merchant Onboarding
+    description: >-
+      Endpoints for onboarding merchants to the Grubhub platform,
+      including referrals, activation, and association.
+  - name: Merchant Eligibility
+    description: >-
+      Endpoints for checking merchant eligibility for onboarding.
+  - name: Issue Reporting
+    description: >-
+      Endpoints for reporting onboarding issues to Grubhub.
+security:
+  - oauthAuth: []
+paths:
+  /pos/v1/onboarding/referral:
+    post:
+      operationId: createMerchantReferral
+      summary: Create a new merchant referral
+      description: >-
+        Sends over the details of a new merchant for onboarding them to
+        Grubhub. This initiates the merchant onboarding process and can
+        significantly reduce the time to get a merchant live on the
+        platform.
+      tags:
+        - Merchant Onboarding
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MerchantReferral'
+      responses:
+        '201':
+          description: Merchant referral created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReferralResponse'
+        '400':
+          description: Invalid referral data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /pos/v1/onboarding/activate:
+    post:
+      operationId: activateMerchant
+      summary: Activate a merchant
+      description: >-
+        Activates a merchant for integration with the partner, enabling
+        the merchant to receive orders through the partner's system on
+        the Grubhub platform.
+      tags:
+        - Merchant Onboarding
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MerchantActivationRequest'
+      responses:
+        '200':
+          description: Merchant activated successfully
+        '400':
+          description: Invalid activation request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Merchant not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /pos/v1/onboarding/deactivate:
+    post:
+      operationId: deactivateMerchant
+      summary: Deactivate a merchant
+      description: >-
+        Validates a merchant and removes its association with the partner.
+        The deactivation request uses partner authentication to identify
+        the calling partner.
+      tags:
+        - Merchant Onboarding
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MerchantDeactivationRequest'
+      responses:
+        '200':
+          description: Merchant deactivated successfully
+        '400':
+          description: Invalid deactivation request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Merchant not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /pos/v1/onboarding/deactivate/partner:
+    post:
+      operationId: deactivateMerchantPartner
+      summary: Deactivate a merchant (partner auth)
+      description: >-
+        Deactivates a merchant using partner-level authentication.
+        Validates the merchant and removes its association with the
+        partner account.
+      tags:
+        - Merchant Onboarding
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MerchantDeactivationRequest'
+      responses:
+        '200':
+          description: Merchant deactivated successfully
+        '400':
+          description: Invalid deactivation request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Merchant not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /pos/v1/onboarding/associate:
+    post:
+      operationId: associateMerchants
+      summary: Associate merchants with partner
+      description: >-
+        Binds provided merchants to the partner for onboarding. Associates
+        a list of merchant IDs with the partner account, enabling the
+        partner to manage these merchants through the API.
+      tags:
+        - Merchant Onboarding
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MerchantAssociationRequest'
+      responses:
+        '200':
+          description: Merchants associated successfully
+        '400':
+          description: Invalid association request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /pos/v1/onboarding/eligibility/{merchant_id}:
+    get:
+      operationId: getMerchantEligibility
+      summary: Get merchant eligibility
+      description: >-
+        Checks whether a merchant is eligible for onboarding with the
+        partner. Returns eligibility status and any requirements that
+        must be met before the merchant can be onboarded.
+      tags:
+        - Merchant Eligibility
+      parameters:
+        - name: merchant_id
+          in: path
+          required: true
+          description: >-
+            The identifier of the merchant to check eligibility for.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Merchant eligibility status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EligibilityResponse'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Merchant not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /pos/v1/onboarding/issue:
+    post:
+      operationId: reportOnboardingIssue
+      summary: Report an onboarding issue
+      description: >-
+        Reports an issue encountered during the merchant onboarding
+        process to Grubhub support for investigation and resolution.
+      tags:
+        - Issue Reporting
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OnboardingIssue'
+      responses:
+        '201':
+          description: Issue reported successfully
+        '400':
+          description: Invalid issue report
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  securitySchemes:
+    oauthAuth:
+      type: oauth2
+      description: >-
+        OAuth 2.0 authentication for the Onboarding API. Partners use
+        OAuth to authenticate merchant onboarding operations.
+      flows:
+        clientCredentials:
+          tokenUrl: /oauth2/direct/auth
+          scopes: {}
+  schemas:
+    MerchantReferral:
+      type: object
+      description: >-
+        Details of a new merchant being referred for onboarding.
+      required:
+        - business_name
+        - address
+        - contact
+      properties:
+        business_name:
+          type: string
+          description: >-
+            The name of the merchant's business.
+        address:
+          $ref: '#/components/schemas/Address'
+        contact:
+          $ref: '#/components/schemas/Contact'
+        external_id:
+          type: string
+          description: >-
+            The partner's external identifier for this merchant.
+        cuisine_types:
+          type: array
+          description: >-
+            Types of cuisine offered by the merchant.
+          items:
+            type: string
+    ReferralResponse:
+      type: object
+      description: >-
+        Response after successfully creating a merchant referral.
+      properties:
+        referral_id:
+          type: string
+          description: >-
+            The unique identifier for this referral.
+        merchant_id:
+          type: string
+          description: >-
+            The assigned Grubhub merchant identifier.
+        status:
+          type: string
+          description: >-
+            The current status of the referral.
+          enum:
+            - PENDING
+            - APPROVED
+            - REJECTED
+    MerchantActivationRequest:
+      type: object
+      description: >-
+        Request to activate a merchant for partner integration.
+      required:
+        - merchant_id
+      properties:
+        merchant_id:
+          type: string
+          description: >-
+            The Grubhub merchant identifier to activate.
+    MerchantDeactivationRequest:
+      type: object
+      description: >-
+        Request to deactivate a merchant and remove partner association.
+      required:
+        - merchant_id
+      properties:
+        merchant_id:
+          type: string
+          description: >-
+            The Grubhub merchant identifier to deactivate.
+        reason:
+          type: string
+          description: >-
+            Reason for deactivating the merchant.
+    MerchantAssociationRequest:
+      type: object
+      description: >-
+        Request to associate merchants with the partner.
+      required:
+        - merchant_ids
+      properties:
+        merchant_ids:
+          type: array
+          description: >-
+            List of merchant IDs to associate with the partner.
+          items:
+            type: string
+          minItems: 1
+    EligibilityResponse:
+      type: object
+      description: >-
+        Merchant eligibility status for onboarding.
+      properties:
+        merchant_id:
+          type: string
+          description: >-
+            The merchant identifier.
+        eligible:
+          type: boolean
+          description: >-
+            Whether the merchant is eligible for onboarding.
+        requirements:
+          type: array
+          description: >-
+            List of requirements that must be met for onboarding.
+          items:
+            type: object
+            properties:
+              requirement:
+                type: string
+                description: >-
+                  Description of the requirement.
+              met:
+                type: boolean
+                description: >-
+                  Whether this requirement has been met.
+    OnboardingIssue:
+      type: object
+      description: >-
+        An issue report for the merchant onboarding process.
+      required:
+        - merchant_id
+        - description
+      properties:
+        merchant_id:
+          type: string
+          description: >-
+            The merchant identifier experiencing the issue.
+        issue_type:
+          type: string
+          description: >-
+            The category of the onboarding issue.
+        description:
+          type: string
+          description: >-
+            Detailed description of the issue encountered.
+    Contact:
+      type: object
+      description: >-
+        Contact information for a merchant.
+      properties:
+        name:
+          type: string
+          description: >-
+            The contact person's name.
+        email:
+          type: string
+          format: email
+          description: >-
+            The contact email address.
+        phone:
+          type: string
+          description: >-
+            The contact phone number.
+    Address:
+      type: object
+      description: >-
+        A physical address.
+      properties:
+        street_address:
+          type: string
+          description: >-
+            The street address line.
+        city:
+          type: string
+          description: >-
+            The city name.
+        state:
+          type: string
+          description: >-
+            The state abbreviation.
+          maxLength: 2
+        zip:
+          type: string
+          description: >-
+            The ZIP code.
+          pattern: '^\d{5}(-\d{4})?$'
+    Error:
+      type: object
+      description: >-
+        Standard error response from the Grubhub API.
+      properties:
+        error:
+          type: string
+          description: >-
+            Error type identifier.
+        message:
+          type: string
+          description: >-
+            Human-readable error description.
+        status:
+          type: integer
+          description: >-
+            HTTP status code.

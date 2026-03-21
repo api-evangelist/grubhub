@@ -1,0 +1,132 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "grubhub": "https://developer.grubhub.com/vocab/",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+
+    "Merchant": {
+      "@id": "grubhub:Merchant",
+      "@context": {
+        "merchant_id": "grubhub:merchantId",
+        "external_id": "grubhub:externalId",
+        "name": "schema:name",
+        "status": "grubhub:merchantStatus",
+        "phone": "schema:telephone",
+        "address": "schema:address",
+        "tax_rate": "grubhub:taxRate",
+        "cuisine_types": {
+          "@id": "grubhub:cuisineTypes",
+          "@container": "@set"
+        },
+        "fulfillment_types": {
+          "@id": "grubhub:fulfillmentTypes",
+          "@container": "@set"
+        }
+      }
+    },
+
+    "Order": {
+      "@id": "grubhub:Order",
+      "@context": {
+        "order_uuid": "grubhub:orderUuid",
+        "merchant_id": "grubhub:merchantId",
+        "status": "grubhub:orderStatus",
+        "fulfillment_type": "grubhub:fulfillmentType",
+        "placed_at": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        },
+        "confirmed_at": {
+          "@id": "grubhub:confirmedAt",
+          "@type": "xsd:dateTime"
+        },
+        "estimated_delivery_at": {
+          "@id": "grubhub:estimatedDeliveryAt",
+          "@type": "xsd:dateTime"
+        },
+        "customer": "grubhub:customer",
+        "items": {
+          "@id": "grubhub:orderItems",
+          "@container": "@set"
+        },
+        "totals": "grubhub:orderTotals",
+        "delivery_address": "schema:deliveryAddress",
+        "special_instructions": "grubhub:specialInstructions"
+      }
+    },
+
+    "MenuItem": {
+      "@id": "grubhub:MenuItem",
+      "@context": {
+        "external_id": "grubhub:externalId",
+        "name": "schema:name",
+        "description": "schema:description",
+        "price": "schema:price",
+        "available": "schema:availability",
+        "modifier_prompts": {
+          "@id": "grubhub:modifierPrompts",
+          "@container": "@set"
+        }
+      }
+    },
+
+    "MenuSection": {
+      "@id": "grubhub:MenuSection",
+      "@context": {
+        "external_id": "grubhub:externalId",
+        "name": "schema:name",
+        "items": {
+          "@id": "grubhub:menuItems",
+          "@container": "@set"
+        }
+      }
+    },
+
+    "Delivery": {
+      "@id": "grubhub:Delivery",
+      "@context": {
+        "delivery_id": "grubhub:deliveryId",
+        "order_uuid": "grubhub:orderUuid",
+        "status": "grubhub:deliveryStatus",
+        "driver": "grubhub:driver",
+        "pickup_eta": {
+          "@id": "grubhub:pickupEta",
+          "@type": "xsd:dateTime"
+        },
+        "dropoff_eta": {
+          "@id": "grubhub:dropoffEta",
+          "@type": "xsd:dateTime"
+        },
+        "tracking_url": {
+          "@id": "grubhub:trackingUrl",
+          "@type": "@id"
+        }
+      }
+    },
+
+    "Driver": {
+      "@id": "grubhub:Driver",
+      "@context": {
+        "name": "schema:name",
+        "phone": "schema:telephone",
+        "delivery_method": "grubhub:deliveryMethod",
+        "latitude": "schema:latitude",
+        "longitude": "schema:longitude"
+      }
+    },
+
+    "Address": {
+      "@id": "schema:PostalAddress",
+      "@context": {
+        "street_address": "schema:streetAddress",
+        "city": "schema:addressLocality",
+        "state": "schema:addressRegion",
+        "zip": "schema:postalCode",
+        "latitude": "schema:latitude",
+        "longitude": "schema:longitude"
+      }
+    }
+  }
+}

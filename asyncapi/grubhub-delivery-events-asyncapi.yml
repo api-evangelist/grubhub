@@ -1,0 +1,329 @@
+asyncapi: 2.6.0
+info:
+  title: Grubhub Delivery Events
+  description: >-
+    Event-driven interface for receiving real-time delivery status updates
+    from Grubhub. Partners can subscribe to webhook notifications for
+    delivery updates including driver assignment, courier location updates,
+    ETA updates, order cancellations, and refund decisions. This eliminates
+    the need for polling delivery status endpoints.
+  version: '1.0.0'
+  contact:
+    name: Grubhub Developer Support
+    url: https://grubhub-developers.zendesk.com/hc/en-us
+servers:
+  partnerWebhook:
+    url: '{webhookUrl}'
+    protocol: https
+    description: >-
+      Partner-hosted webhook endpoint. Grubhub sends delivery event
+      payloads to this URL. Webhook URLs require manual verification
+      by Grubhub to avoid sending requests to unauthorized endpoints.
+    variables:
+      webhookUrl:
+        description: >-
+          The partner's webhook endpoint URL configured during onboarding.
+    security:
+      - basicAuth: []
+      - hmacAuth: []
+channels:
+  /webhook/delivery-status:
+    description: >-
+      Channel for receiving delivery status update events including driver
+      assignment, courier location, ETA updates, and delivery completion.
+    publish:
+      operationId: receiveDeliveryStatusUpdate
+      summary: Receive delivery status updates
+      description: >-
+        Receives delivery status update events from Grubhub including
+        driver assigned, order canceled, courier location updates, and
+        ETA updates for a specific delivery. Also includes courier
+        information such as name and delivery method.
+      message:
+        oneOf:
+          - $ref: '#/components/messages/DriverAssigned'
+          - $ref: '#/components/messages/DeliveryStatusUpdate'
+          - $ref: '#/components/messages/CourierLocationUpdate'
+          - $ref: '#/components/messages/DeliveryCancelled'
+  /webhook/delivery-refund:
+    description: >-
+      Channel for receiving delivery refund update events including
+      acceptance or rejection of refund requests.
+    publish:
+      operationId: receiveDeliveryRefundUpdate
+      summary: Receive delivery refund updates
+      description: >-
+        Receives updates on refund request acceptance or rejection
+        including details on the decision and the refund amount.
+      message:
+        $ref: '#/components/messages/DeliveryRefundUpdate'
+components:
+  securitySchemes:
+    basicAuth:
+      type: userPassword
+      description: >-
+        Basic authentication using credentials provided during partner
+        signup, included in the header of webhook requests.
+    hmacAuth:
+      type: httpApiKey
+      name: Authorization
+      in: header
+      description: >-
+        HMAC authentication providing message integrity verification.
+        Recommended for most webhook integrations.
+  messages:
+    DriverAssigned:
+      name: DriverAssigned
+      title: Driver Assigned
+      summary: >-
+        A delivery driver has been assigned to the order.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/DriverAssignedPayload'
+    DeliveryStatusUpdate:
+      name: DeliveryStatusUpdate
+      title: Delivery Status Update
+      summary: >-
+        The delivery status has changed, such as pickup, en route,
+        or delivered.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/DeliveryStatusPayload'
+    CourierLocationUpdate:
+      name: CourierLocationUpdate
+      title: Courier Location Update
+      summary: >-
+        The courier's location or ETA has been updated.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/CourierLocationPayload'
+    DeliveryCancelled:
+      name: DeliveryCancelled
+      title: Delivery Cancelled
+      summary: >-
+        The delivery has been cancelled.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/DeliveryCancelledPayload'
+    DeliveryRefundUpdate:
+      name: DeliveryRefundUpdate
+      title: Delivery Refund Update
+      summary: >-
+        A refund request has been accepted or rejected with details
+        on the decision and amount.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/DeliveryRefundPayload'
+  schemas:
+    DriverAssignedPayload:
+      type: object
+      description: >-
+        Webhook payload when a driver is assigned to a delivery.
+      properties:
+        event_type:
+          type: string
+          description: >-
+            The type of delivery event.
+          const: DRIVER_ASSIGNED
+        order_uuid:
+          type: string
+          format: uuid
+          description: >-
+            The UUID of the associated order.
+        delivery_id:
+          type: string
+          description: >-
+            The unique identifier for the delivery.
+        driver:
+          type: object
+          description: >-
+            Information about the assigned driver.
+          properties:
+            name:
+              type: string
+              description: >-
+                The driver's display name.
+            phone:
+              type: string
+              description: >-
+                The driver's contact phone number.
+            delivery_method:
+              type: string
+              description: >-
+                The delivery method being used.
+              enum:
+                - CAR
+                - BIKE
+                - WALKING
+        pickup_eta:
+          type: string
+          format: date-time
+          description: >-
+            Estimated time of arrival at the pickup location.
+        dropoff_eta:
+          type: string
+          format: date-time
+          description: >-
+            Estimated time of arrival at the delivery location.
+        timestamp:
+          type: string
+          format: date-time
+          description: >-
+            When this event occurred.
+    DeliveryStatusPayload:
+      type: object
+      description: >-
+        Webhook payload for a delivery status change.
+      properties:
+        event_type:
+          type: string
+          description: >-
+            The type of delivery event.
+          const: DELIVERY_STATUS_UPDATE
+        order_uuid:
+          type: string
+          format: uuid
+          description: >-
+            The UUID of the associated order.
+        delivery_id:
+          type: string
+          description: >-
+            The unique identifier for the delivery.
+        status:
+          type: string
+          description: >-
+            The new delivery status.
+          enum:
+            - DRIVER_EN_ROUTE_TO_PICKUP
+            - ARRIVED_AT_PICKUP
+            - PICKED_UP
+            - OUT_FOR_DELIVERY
+            - ARRIVED_AT_DROPOFF
+            - DELIVERED
+        pickup_eta:
+          type: string
+          format: date-time
+          description: >-
+            Updated estimated time of arrival at pickup.
+        dropoff_eta:
+          type: string
+          format: date-time
+          description: >-
+            Updated estimated time of arrival at dropoff.
+        timestamp:
+          type: string
+          format: date-time
+          description: >-
+            When this event occurred.
+    CourierLocationPayload:
+      type: object
+      description: >-
+        Webhook payload for a courier location or ETA update.
+      properties:
+        event_type:
+          type: string
+          description: >-
+            The type of delivery event.
+          const: COURIER_LOCATION_UPDATE
+        order_uuid:
+          type: string
+          format: uuid
+          description: >-
+            The UUID of the associated order.
+        delivery_id:
+          type: string
+          description: >-
+            The unique identifier for the delivery.
+        latitude:
+          type: number
+          format: double
+          description: >-
+            The courier's current latitude coordinate.
+        longitude:
+          type: number
+          format: double
+          description: >-
+            The courier's current longitude coordinate.
+        pickup_eta:
+          type: string
+          format: date-time
+          description: >-
+            Updated estimated time of arrival at pickup.
+        dropoff_eta:
+          type: string
+          format: date-time
+          description: >-
+            Updated estimated time of arrival at dropoff.
+        timestamp:
+          type: string
+          format: date-time
+          description: >-
+            When this location update was recorded.
+    DeliveryCancelledPayload:
+      type: object
+      description: >-
+        Webhook payload when a delivery is cancelled.
+      properties:
+        event_type:
+          type: string
+          description: >-
+            The type of delivery event.
+          const: DELIVERY_CANCELLED
+        order_uuid:
+          type: string
+          format: uuid
+          description: >-
+            The UUID of the associated order.
+        delivery_id:
+          type: string
+          description: >-
+            The unique identifier for the delivery.
+        reason:
+          type: string
+          description: >-
+            The reason for cancellation.
+        cancelled_at:
+          type: string
+          format: date-time
+          description: >-
+            When the delivery was cancelled.
+    DeliveryRefundPayload:
+      type: object
+      description: >-
+        Webhook payload for a delivery refund decision.
+      properties:
+        event_type:
+          type: string
+          description: >-
+            The type of delivery event.
+          const: DELIVERY_REFUND_UPDATE
+        order_uuid:
+          type: string
+          format: uuid
+          description: >-
+            The UUID of the associated order.
+        delivery_id:
+          type: string
+          description: >-
+            The unique identifier for the delivery.
+        refund_status:
+          type: string
+          description: >-
+            Whether the refund was accepted or rejected.
+          enum:
+            - ACCEPTED
+            - REJECTED
+        refund_amount:
+          type: number
+          format: double
+          description: >-
+            The amount of the refund.
+        decision_reason:
+          type: string
+          description: >-
+            Explanation of the refund decision.
+        decided_at:
+          type: string
+          format: date-time
+          description: >-
+            When the refund decision was made.

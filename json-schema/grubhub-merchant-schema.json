@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developer.grubhub.com/schemas/grubhub/merchant.json",
+  "title": "Grubhub Merchant",
+  "description": "A merchant on the Grubhub platform with store details, fulfillment settings, schedules, and operational status.",
+  "type": "object",
+  "required": ["merchant_id", "name"],
+  "properties": {
+    "merchant_id": {
+      "type": "string",
+      "description": "The Grubhub internal merchant identifier."
+    },
+    "external_id": {
+      "type": "string",
+      "description": "The partner's external merchant identifier."
+    },
+    "name": {
+      "type": "string",
+      "description": "The merchant's display name."
+    },
+    "status": {
+      "type": "string",
+      "description": "The current online/offline status of the merchant on Grubhub.",
+      "enum": ["ONLINE", "OFFLINE"]
+    },
+    "pause_type": {
+      "type": ["string", "null"],
+      "description": "The type of pause applied when merchant is offline. A soft pause is for the remainder of the business day; a hard pause is for multiple days.",
+      "enum": ["SOFT", "HARD", null]
+    },
+    "address": {
+      "$ref": "#/$defs/Address"
+    },
+    "phone": {
+      "type": "string",
+      "description": "The merchant's phone number."
+    },
+    "tax_rate": {
+      "type": "number",
+      "description": "The merchant's applicable tax rate as a decimal.",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "fulfillment_types": {
+      "type": "array",
+      "description": "Supported fulfillment types for this merchant.",
+      "items": {
+        "type": "string",
+        "enum": ["DELIVERY", "PICKUP", "CATERING"]
+      }
+    },
+    "fulfillment_settings": {
+      "$ref": "#/$defs/FulfillmentSettings"
+    },
+    "cuisine_types": {
+      "type": "array",
+      "description": "Types of cuisine offered by the merchant.",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "$defs": {
+    "Address": {
+      "type": "object",
+      "description": "A physical address for the merchant location.",
+      "properties": {
+        "street_address": {
+          "type": "string",
+          "description": "The street address line."
+        },
+        "city": {
+          "type": "string",
+          "description": "The city name."
+        },
+        "state": {
+          "type": "string",
+          "description": "The state abbreviation.",
+          "maxLength": 2
+        },
+        "zip": {
+          "type": "string",
+          "description": "The ZIP code.",
+          "pattern": "^\\d{5}(-\\d{4})?$"
+        },
+        "latitude": {
+          "type": "number",
+          "description": "The latitude coordinate."
+        },
+        "longitude": {
+          "type": "number",
+          "description": "The longitude coordinate."
+        }
+      }
+    },
+    "FulfillmentSettings": {
+      "type": "object",
+      "description": "Fulfillment configuration for a merchant.",
+      "properties": {
+        "delivery_enabled": {
+          "type": "boolean",
+          "description": "Whether delivery is enabled."
+        },
+        "pickup_enabled": {
+          "type": "boolean",
+          "description": "Whether pickup is enabled."
+        },
+        "catering_enabled": {
+          "type": "boolean",
+          "description": "Whether catering is enabled."
+        },
+        "estimated_prep_time_minutes": {
+          "type": "integer",
+          "description": "Estimated preparation time in minutes.",
+          "minimum": 0
+        },
+        "delivery_radius_miles": {
+          "type": "number",
+          "description": "The delivery radius in miles.",
+          "minimum": 0
+        },
+        "minimum_order_amount": {
+          "type": "number",
+          "description": "The minimum order amount for delivery.",
+          "minimum": 0
+        }
+      }
+    }
+  }
+}

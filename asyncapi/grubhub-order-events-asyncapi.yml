@@ -1,0 +1,351 @@
+asyncapi: 2.6.0
+info:
+  title: Grubhub Order Events
+  description: >-
+    Event-driven interface for receiving real-time order notifications from
+    Grubhub. When a diner places an order, Grubhub monitors that order and
+    sends notifications based on the current status. The webhook channel
+    passes a payload of information about the order to a specified URI.
+    New orders are expected to be received through webhooks rather than
+    by polling API endpoints. Partners configure webhook subscriptions
+    to receive order lifecycle events in real time.
+  version: '1.0.0'
+  contact:
+    name: Grubhub Developer Support
+    url: https://grubhub-developers.zendesk.com/hc/en-us
+servers:
+  partnerWebhook:
+    url: '{webhookUrl}'
+    protocol: https
+    description: >-
+      Partner-hosted webhook endpoint. Grubhub sends order event payloads
+      to this URL. Partners cannot set up or modify webhook URLs on their
+      own as manual verification is required.
+    variables:
+      webhookUrl:
+        description: >-
+          The partner's webhook endpoint URL configured during onboarding.
+    security:
+      - basicAuth: []
+      - hmacAuth: []
+channels:
+  /webhook/orders:
+    description: >-
+      Channel for receiving order notification events. Grubhub posts
+      webhook payloads to the partner's configured endpoint when order
+      events occur.
+    publish:
+      operationId: receiveOrderEvent
+      summary: Receive order notification events
+      description: >-
+        Receives order lifecycle events from Grubhub including new orders,
+        order confirmations, status changes, and cancellations.
+      message:
+        oneOf:
+          - $ref: '#/components/messages/NewOrder'
+          - $ref: '#/components/messages/OrderStatusChange'
+          - $ref: '#/components/messages/OrderCancellation'
+          - $ref: '#/components/messages/OrderChangeRequest'
+components:
+  securitySchemes:
+    basicAuth:
+      type: userPassword
+      description: >-
+        Basic authentication using a username and password selected
+        during partner signup. Credentials are included in the header
+        of webhook requests from Grubhub.
+    hmacAuth:
+      type: httpApiKey
+      name: Authorization
+      in: header
+      description: >-
+        HMAC authentication providing a higher level of security by
+        constructing a signature in the request header. Includes details
+        about the sender and ensures the integrity of the message.
+        HMAC is recommended for most webhook integrations.
+  messages:
+    NewOrder:
+      name: NewOrder
+      title: New Order
+      summary: >-
+        A new order has been placed by a diner on Grubhub and is ready
+        for the partner to process.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/OrderWebhookPayload'
+    OrderStatusChange:
+      name: OrderStatusChange
+      title: Order Status Change
+      summary: >-
+        An order's status has changed in the Grubhub system, such as
+        moving to confirmed, in progress, or ready states.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/OrderStatusWebhookPayload'
+    OrderCancellation:
+      name: OrderCancellation
+      title: Order Cancellation
+      summary: >-
+        An order has been cancelled by either the diner or the Grubhub
+        system.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/OrderCancellationPayload'
+    OrderChangeRequest:
+      name: OrderChangeRequest
+      title: Order Change Request
+      summary: >-
+        A change has been requested for an existing order, such as item
+        modifications or special instruction updates.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/OrderChangeRequestPayload'
+  schemas:
+    OrderWebhookPayload:
+      type: object
+      description: >-
+        Webhook payload for a new order placed through Grubhub.
+      properties:
+        event_type:
+          type: string
+          description: >-
+            The type of event that triggered this webhook.
+          const: NEW_ORDER
+        order_uuid:
+          type: string
+          format: uuid
+          description: >-
+            The unique identifier for the order.
+        merchant_id:
+          type: string
+          description: >-
+            The Grubhub merchant identifier.
+        placed_at:
+          type: string
+          format: date-time
+          description: >-
+            When the order was placed.
+        fulfillment_type:
+          type: string
+          description: >-
+            The type of fulfillment requested.
+          enum:
+            - DELIVERY
+            - PICKUP
+        customer:
+          type: object
+          description: >-
+            Customer details for the order.
+          properties:
+            first_name:
+              type: string
+              description: >-
+                Customer's first name.
+            last_name:
+              type: string
+              description: >-
+                Customer's last name.
+            phone:
+              type: string
+              description: >-
+                Customer's phone number.
+        items:
+          type: array
+          description: >-
+            Items included in the order.
+          items:
+            type: object
+            properties:
+              item_id:
+                type: string
+                description: >-
+                  The menu item identifier.
+              name:
+                type: string
+                description: >-
+                  The item name.
+              quantity:
+                type: integer
+                description: >-
+                  The quantity ordered.
+              price:
+                type: number
+                format: double
+                description: >-
+                  The unit price.
+              modifiers:
+                type: array
+                description: >-
+                  Applied modifiers.
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      description: >-
+                        Modifier name.
+                    price:
+                      type: number
+                      format: double
+                      description: >-
+                        Modifier price.
+        totals:
+          type: object
+          description: >-
+            Financial totals for the order.
+          properties:
+            subtotal:
+              type: number
+              format: double
+              description: >-
+                Subtotal before taxes and fees.
+            tax:
+              type: number
+              format: double
+              description: >-
+                Tax amount.
+            tip:
+              type: number
+              format: double
+              description: >-
+                Tip amount.
+            total:
+              type: number
+              format: double
+              description: >-
+                Total order amount.
+        delivery_address:
+          type: object
+          description: >-
+            Delivery address for the order.
+          properties:
+            street_address:
+              type: string
+              description: >-
+                Street address.
+            city:
+              type: string
+              description: >-
+                City name.
+            state:
+              type: string
+              description: >-
+                State abbreviation.
+            zip:
+              type: string
+              description: >-
+                ZIP code.
+        special_instructions:
+          type: string
+          description: >-
+            Special instructions from the customer.
+    OrderStatusWebhookPayload:
+      type: object
+      description: >-
+        Webhook payload for an order status change event.
+      properties:
+        event_type:
+          type: string
+          description: >-
+            The type of event that triggered this webhook.
+          const: ORDER_STATUS_CHANGE
+        order_uuid:
+          type: string
+          format: uuid
+          description: >-
+            The unique identifier for the order.
+        merchant_id:
+          type: string
+          description: >-
+            The Grubhub merchant identifier.
+        previous_status:
+          type: string
+          description: >-
+            The previous order status.
+        new_status:
+          type: string
+          description: >-
+            The new order status.
+          enum:
+            - CONFIRMED
+            - IN_PROGRESS
+            - READY
+            - OUT_FOR_DELIVERY
+            - COMPLETED
+        updated_at:
+          type: string
+          format: date-time
+          description: >-
+            When the status was updated.
+    OrderCancellationPayload:
+      type: object
+      description: >-
+        Webhook payload for an order cancellation event.
+      properties:
+        event_type:
+          type: string
+          description: >-
+            The type of event that triggered this webhook.
+          const: ORDER_CANCELLED
+        order_uuid:
+          type: string
+          format: uuid
+          description: >-
+            The unique identifier for the cancelled order.
+        merchant_id:
+          type: string
+          description: >-
+            The Grubhub merchant identifier.
+        cancelled_by:
+          type: string
+          description: >-
+            Who initiated the cancellation.
+          enum:
+            - DINER
+            - MERCHANT
+            - SYSTEM
+        reason:
+          type: string
+          description: >-
+            The reason for cancellation.
+        cancelled_at:
+          type: string
+          format: date-time
+          description: >-
+            When the order was cancelled.
+    OrderChangeRequestPayload:
+      type: object
+      description: >-
+        Webhook payload for an order change request event.
+      properties:
+        event_type:
+          type: string
+          description: >-
+            The type of event that triggered this webhook.
+          const: ORDER_CHANGE_REQUEST
+        order_uuid:
+          type: string
+          format: uuid
+          description: >-
+            The unique identifier for the order.
+        merchant_id:
+          type: string
+          description: >-
+            The Grubhub merchant identifier.
+        change_request_id:
+          type: string
+          description: >-
+            The unique identifier for the change request.
+        change_type:
+          type: string
+          description: >-
+            The type of change being requested.
+        details:
+          type: string
+          description: >-
+            Details about the requested change.
+        requested_at:
+          type: string
+          format: date-time
+          description: >-
+            When the change was requested.

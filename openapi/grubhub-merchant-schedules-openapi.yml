@@ -1,0 +1,483 @@
+openapi: 3.1.0
+info:
+  title: Grubhub Merchant Schedules API
+  description: >-
+    The Grubhub Merchant Schedules API allows partners to manage restaurant
+    operating hours and availability on the Grubhub Marketplace. It supports
+    setting regular business hours for delivery, pickup, and catering,
+    temporary closures, schedule overrides, and special holiday schedules.
+    Partners can check merchant availability status and update schedules
+    to ensure customers see accurate ordering windows for each restaurant
+    location.
+  version: '1.0.0'
+  contact:
+    name: Grubhub Developer Support
+    url: https://grubhub-developers.zendesk.com/hc/en-us
+  termsOfService: https://www.grubhub.com/legal/terms-of-use
+externalDocs:
+  description: Grubhub Merchant Schedules API Documentation
+  url: https://developer.grubhub.com/api/merchant-schedules
+servers:
+  - url: https://api-third-party-gtm.grubhub.com
+    description: Production Server
+  - url: https://api-third-party-gtm-pp.grubhub.com
+    description: Preproduction Server
+tags:
+  - name: Schedules
+    description: >-
+      Endpoints for retrieving and managing merchant operating hours for
+      delivery, pickup, and catering.
+  - name: Schedule Overrides
+    description: >-
+      Endpoints for creating and managing temporary schedule overrides
+      such as closures and holiday hours.
+security:
+  - hmacAuth: []
+paths:
+  /pos/v1/merchant/{merchant_id}/schedules/delivery:
+    get:
+      operationId: getDeliverySchedule
+      summary: Get delivery schedule
+      description: >-
+        Returns the full weekly delivery hours for a merchant. The schedule
+        defines the hours per day of the week that the merchant can accept
+        delivery orders.
+      tags:
+        - Schedules
+      parameters:
+        - $ref: '#/components/parameters/MerchantId'
+      responses:
+        '200':
+          description: Weekly delivery schedule
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WeeklySchedule'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Merchant not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      operationId: updateDeliverySchedule
+      summary: Update delivery schedule
+      description: >-
+        Creates or updates the weekly delivery schedule for a merchant,
+        specifying the hours per day of the week that the merchant can
+        accept delivery orders. If a schedule does not exist, one will
+        be created.
+      tags:
+        - Schedules
+      parameters:
+        - $ref: '#/components/parameters/MerchantId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WeeklySchedule'
+      responses:
+        '200':
+          description: Delivery schedule updated successfully
+        '400':
+          description: Invalid schedule data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Merchant not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /pos/v1/merchant/{merchant_id}/schedules/pickup:
+    get:
+      operationId: getPickupSchedule
+      summary: Get pickup schedule
+      description: >-
+        Returns the full weekly pickup hours for a merchant. The schedule
+        defines the hours per day of the week that the merchant can accept
+        pickup orders.
+      tags:
+        - Schedules
+      parameters:
+        - $ref: '#/components/parameters/MerchantId'
+      responses:
+        '200':
+          description: Weekly pickup schedule
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WeeklySchedule'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Merchant not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      operationId: updatePickupSchedule
+      summary: Update pickup schedule
+      description: >-
+        Creates or updates the weekly pickup schedule for a merchant,
+        specifying the hours per day of the week that the merchant can
+        accept pickup orders. If a schedule does not exist, one will
+        be created.
+      tags:
+        - Schedules
+      parameters:
+        - $ref: '#/components/parameters/MerchantId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WeeklySchedule'
+      responses:
+        '200':
+          description: Pickup schedule updated successfully
+        '400':
+          description: Invalid schedule data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Merchant not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /pos/v1/merchant/{merchant_id}/schedules/catering:
+    get:
+      operationId: getCateringSchedule
+      summary: Get catering schedule
+      description: >-
+        Returns the full weekly catering hours for a merchant. The schedule
+        defines the hours per day of the week that the merchant can accept
+        catering orders.
+      tags:
+        - Schedules
+      parameters:
+        - $ref: '#/components/parameters/MerchantId'
+      responses:
+        '200':
+          description: Weekly catering schedule
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WeeklySchedule'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Merchant not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      operationId: updateCateringSchedule
+      summary: Update catering schedule
+      description: >-
+        Creates or updates the weekly catering schedule for a merchant,
+        specifying the hours per day of the week that the merchant can
+        accept catering orders. If a schedule does not exist, one will
+        be created.
+      tags:
+        - Schedules
+      parameters:
+        - $ref: '#/components/parameters/MerchantId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WeeklySchedule'
+      responses:
+        '200':
+          description: Catering schedule updated successfully
+        '400':
+          description: Invalid schedule data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Merchant not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /pos/v1/merchant/{merchant_id}/schedules/overrides:
+    post:
+      operationId: createScheduleOverride
+      summary: Create a schedule override
+      description: >-
+        Adds a schedule override for a merchant, allowing temporary
+        changes to operating hours such as closures, extended hours,
+        or holiday schedules.
+      tags:
+        - Schedule Overrides
+      parameters:
+        - $ref: '#/components/parameters/MerchantId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScheduleOverrideRequest'
+      responses:
+        '201':
+          description: Schedule override created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScheduleOverride'
+        '400':
+          description: Invalid override request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Merchant not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      operationId: cancelScheduleOverride
+      summary: Cancel a schedule override
+      description: >-
+        Cancels an existing schedule override for a merchant, restoring
+        the regular operating hours.
+      tags:
+        - Schedule Overrides
+      parameters:
+        - $ref: '#/components/parameters/MerchantId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - override_id
+              properties:
+                override_id:
+                  type: string
+                  description: >-
+                    The identifier of the override to cancel.
+      responses:
+        '200':
+          description: Schedule override cancelled successfully
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Override or merchant not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  securitySchemes:
+    hmacAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: >-
+        HMAC-based authentication. Every request must include X-GH-PARTNER-KEY
+        and an Authorization header with MAC authentication details.
+  parameters:
+    MerchantId:
+      name: merchant_id
+      in: path
+      required: true
+      description: >-
+        The unique identifier for the merchant on Grubhub.
+      schema:
+        type: string
+  schemas:
+    WeeklySchedule:
+      type: object
+      description: >-
+        A weekly schedule defining operating hours for each day of the week.
+      properties:
+        monday:
+          $ref: '#/components/schemas/DaySchedule'
+        tuesday:
+          $ref: '#/components/schemas/DaySchedule'
+        wednesday:
+          $ref: '#/components/schemas/DaySchedule'
+        thursday:
+          $ref: '#/components/schemas/DaySchedule'
+        friday:
+          $ref: '#/components/schemas/DaySchedule'
+        saturday:
+          $ref: '#/components/schemas/DaySchedule'
+        sunday:
+          $ref: '#/components/schemas/DaySchedule'
+    DaySchedule:
+      type: object
+      description: >-
+        Operating hours for a single day, supporting multiple time windows.
+      properties:
+        open:
+          type: boolean
+          description: >-
+            Whether the merchant is open on this day.
+        time_windows:
+          type: array
+          description: >-
+            Time windows when the merchant is available. Supports split
+            shifts with multiple windows per day.
+          items:
+            $ref: '#/components/schemas/TimeWindow'
+    TimeWindow:
+      type: object
+      description: >-
+        A time window defining a start and end time.
+      properties:
+        start_time:
+          type: string
+          description: >-
+            The start time in HH:mm format.
+          pattern: '^\d{2}:\d{2}$'
+        end_time:
+          type: string
+          description: >-
+            The end time in HH:mm format.
+          pattern: '^\d{2}:\d{2}$'
+      required:
+        - start_time
+        - end_time
+    ScheduleOverrideRequest:
+      type: object
+      description: >-
+        Request to create a schedule override for temporary changes
+        to operating hours.
+      required:
+        - start_date
+        - end_date
+      properties:
+        start_date:
+          type: string
+          format: date-time
+          description: >-
+            The start date and time of the override.
+        end_date:
+          type: string
+          format: date-time
+          description: >-
+            The end date and time of the override.
+        closed:
+          type: boolean
+          description: >-
+            Whether the merchant should be closed during this override period.
+        time_windows:
+          type: array
+          description: >-
+            Custom operating hours during the override period. Only
+            applicable when closed is false.
+          items:
+            $ref: '#/components/schemas/TimeWindow'
+        reason:
+          type: string
+          description: >-
+            Reason for the schedule override.
+    ScheduleOverride:
+      type: object
+      description: >-
+        A schedule override with its assigned identifier.
+      properties:
+        override_id:
+          type: string
+          description: >-
+            The unique identifier for this override.
+        start_date:
+          type: string
+          format: date-time
+          description: >-
+            The start date and time of the override.
+        end_date:
+          type: string
+          format: date-time
+          description: >-
+            The end date and time of the override.
+        closed:
+          type: boolean
+          description: >-
+            Whether the merchant is closed during this override period.
+        time_windows:
+          type: array
+          description: >-
+            Custom operating hours during the override period.
+          items:
+            $ref: '#/components/schemas/TimeWindow'
+        reason:
+          type: string
+          description: >-
+            Reason for the schedule override.
+    Error:
+      type: object
+      description: >-
+        Standard error response from the Grubhub API.
+      properties:
+        error:
+          type: string
+          description: >-
+            Error type identifier.
+        message:
+          type: string
+          description: >-
+            Human-readable error description.
+        status:
+          type: integer
+          description: >-
+            HTTP status code.

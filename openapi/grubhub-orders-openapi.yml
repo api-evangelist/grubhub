@@ -1,0 +1,603 @@
+openapi: 3.1.0
+info:
+  title: Grubhub Orders API
+  description: >-
+    The Grubhub Orders API allows partners to receive, manage, and update
+    order statuses for restaurant orders placed through the Grubhub
+    Marketplace. Partners can retrieve individual orders by UUID, list
+    orders by status and date range, confirm orders with estimated wait
+    times, and update order lifecycle states. New orders are primarily
+    received through webhook subscriptions, with polling available as
+    a fallback.
+  version: '1.0.0'
+  contact:
+    name: Grubhub Developer Support
+    url: https://grubhub-developers.zendesk.com/hc/en-us
+  termsOfService: https://www.grubhub.com/legal/terms-of-use
+externalDocs:
+  description: Grubhub Orders API Documentation
+  url: https://developer.grubhub.com/api/orders
+servers:
+  - url: https://api-third-party-gtm.grubhub.com
+    description: Production Server
+  - url: https://api-third-party-gtm-pp.grubhub.com
+    description: Preproduction Server
+tags:
+  - name: Orders
+    description: >-
+      Endpoints for retrieving and managing orders placed through the
+      Grubhub Marketplace.
+  - name: Order Status
+    description: >-
+      Endpoints for confirming orders and updating order lifecycle states.
+  - name: Order Change Requests
+    description: >-
+      Endpoints for managing order change requests and modifications.
+  - name: Order Polling
+    description: >-
+      Endpoints for polling orders across multiple merchants. Webhook
+      subscription is the preferred method for receiving new orders.
+security:
+  - hmacAuth: []
+paths:
+  /pos/v1/merchant/{merchant_long_id}/orders/{order_uuid}:
+    get:
+      operationId: getOrder
+      summary: Get a single order
+      description: >-
+        Returns a single order requested by its UUID for the specified
+        merchant. Includes complete order details such as items, totals,
+        delivery information, and current status.
+      tags:
+        - Orders
+      parameters:
+        - $ref: '#/components/parameters/MerchantLongId'
+        - $ref: '#/components/parameters/OrderUuid'
+      responses:
+        '200':
+          description: Order details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Order not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /pos/v1/merchant/{merchant_long_id}/orders:
+    get:
+      operationId: listMerchantOrders
+      summary: List orders for a merchant
+      description: >-
+        Returns the list of orders for the requested merchant in a given
+        status and date range. Useful for retrieving historical orders
+        or checking orders in specific lifecycle states.
+      tags:
+        - Orders
+      parameters:
+        - $ref: '#/components/parameters/MerchantLongId'
+        - name: status
+          in: query
+          description: >-
+            Filter orders by their current status.
+          schema:
+            type: string
+            enum:
+              - PENDING
+              - CONFIRMED
+              - IN_PROGRESS
+              - READY
+              - COMPLETED
+              - CANCELLED
+        - name: start_date
+          in: query
+          description: >-
+            Start of the date range filter in ISO 8601 format.
+          schema:
+            type: string
+            format: date-time
+        - name: end_date
+          in: query
+          description: >-
+            End of the date range filter in ISO 8601 format.
+          schema:
+            type: string
+            format: date-time
+      responses:
+        '200':
+          description: List of orders matching criteria
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  orders:
+                    type: array
+                    description: >-
+                      List of orders matching the specified criteria.
+                    items:
+                      $ref: '#/components/schemas/Order'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Merchant not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /pos/v1/orders/poll:
+    get:
+      operationId: pollOrders
+      summary: Poll orders across merchants
+      description: >-
+        Returns all orders for a group of merchants in a given state
+        within the given time range. This is a fallback mechanism;
+        new orders should primarily be received through webhook
+        subscriptions rather than periodic polling.
+      tags:
+        - Order Polling
+      parameters:
+        - name: status
+          in: query
+          description: >-
+            Filter orders by their current status.
+          schema:
+            type: string
+        - name: start_date
+          in: query
+          description: >-
+            Start of the date range filter in ISO 8601 format.
+          schema:
+            type: string
+            format: date-time
+        - name: end_date
+          in: query
+          description: >-
+            End of the date range filter in ISO 8601 format.
+          schema:
+            type: string
+            format: date-time
+      responses:
+        '200':
+          description: List of orders matching criteria
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  orders:
+                    type: array
+                    description: >-
+                      List of orders matching the specified criteria.
+                    items:
+                      $ref: '#/components/schemas/Order'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /pos/v1/merchant/{merchant_long_id}/orders/{order_uuid}/confirm:
+    post:
+      operationId: confirmOrder
+      summary: Confirm an order
+      description: >-
+        Confirms an order that has been received. All orders that can be
+        fulfilled are required to be confirmed. Partners can optionally
+        indicate an estimated delivery time using wait_time_in_minutes
+        in the request body.
+      tags:
+        - Order Status
+      parameters:
+        - $ref: '#/components/parameters/MerchantLongId'
+        - $ref: '#/components/parameters/OrderUuid'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderConfirmation'
+      responses:
+        '200':
+          description: Order confirmed successfully
+        '400':
+          description: Invalid confirmation request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Order not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /pos/v1/merchant/{merchant_long_id}/orders/{order_uuid}/status:
+    put:
+      operationId: updateOrderStatus
+      summary: Update order status
+      description: >-
+        Updates the status of an order through its lifecycle states.
+        Partners use this endpoint to mark orders as in progress, ready
+        for pickup, out for delivery, or completed.
+      tags:
+        - Order Status
+      parameters:
+        - $ref: '#/components/parameters/MerchantLongId'
+        - $ref: '#/components/parameters/OrderUuid'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderStatusUpdate'
+      responses:
+        '200':
+          description: Order status updated successfully
+        '400':
+          description: Invalid status transition
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Order not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /pos/v1/merchant/{merchant_long_id}/orders/{order_uuid}/changerequests:
+    get:
+      operationId: getOrderChangeRequests
+      summary: Get order change requests
+      description: >-
+        Returns the status of order change requests for a specific order.
+        Change requests may include modifications to items, quantities,
+        or special instructions.
+      tags:
+        - Order Change Requests
+      parameters:
+        - $ref: '#/components/parameters/MerchantLongId'
+        - $ref: '#/components/parameters/OrderUuid'
+      responses:
+        '200':
+          description: List of change requests
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  change_requests:
+                    type: array
+                    description: >-
+                      List of change requests for this order.
+                    items:
+                      $ref: '#/components/schemas/OrderChangeRequest'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Order not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  securitySchemes:
+    hmacAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: >-
+        HMAC-based authentication. Every request must include X-GH-PARTNER-KEY
+        and an Authorization header with MAC authentication details.
+  parameters:
+    MerchantLongId:
+      name: merchant_long_id
+      in: path
+      required: true
+      description: >-
+        The long-form unique identifier for the merchant on Grubhub.
+      schema:
+        type: string
+    OrderUuid:
+      name: order_uuid
+      in: path
+      required: true
+      description: >-
+        The UUID of the order.
+      schema:
+        type: string
+        format: uuid
+  schemas:
+    Order:
+      type: object
+      description: >-
+        A complete order placed through the Grubhub Marketplace.
+      properties:
+        order_uuid:
+          type: string
+          format: uuid
+          description: >-
+            The unique identifier for the order.
+        merchant_id:
+          type: string
+          description: >-
+            The merchant identifier this order was placed with.
+        status:
+          type: string
+          description: >-
+            The current lifecycle status of the order.
+          enum:
+            - PENDING
+            - CONFIRMED
+            - IN_PROGRESS
+            - READY
+            - OUT_FOR_DELIVERY
+            - COMPLETED
+            - CANCELLED
+        placed_at:
+          type: string
+          format: date-time
+          description: >-
+            The timestamp when the order was placed.
+        estimated_delivery_at:
+          type: string
+          format: date-time
+          description: >-
+            The estimated delivery time for the order.
+        fulfillment_type:
+          type: string
+          description: >-
+            The type of fulfillment for this order.
+          enum:
+            - DELIVERY
+            - PICKUP
+        customer:
+          $ref: '#/components/schemas/Customer'
+        items:
+          type: array
+          description: >-
+            The items included in this order.
+          items:
+            $ref: '#/components/schemas/OrderItem'
+        totals:
+          $ref: '#/components/schemas/OrderTotals'
+        delivery_address:
+          $ref: '#/components/schemas/Address'
+        special_instructions:
+          type: string
+          description: >-
+            Special instructions provided by the customer.
+    Customer:
+      type: object
+      description: >-
+        Customer information associated with an order.
+      properties:
+        first_name:
+          type: string
+          description: >-
+            The customer's first name.
+        last_name:
+          type: string
+          description: >-
+            The customer's last name.
+        phone:
+          type: string
+          description: >-
+            The customer's phone number.
+    OrderItem:
+      type: object
+      description: >-
+        An individual item within an order.
+      properties:
+        item_id:
+          type: string
+          description: >-
+            The unique identifier for the menu item.
+        name:
+          type: string
+          description: >-
+            The display name of the item.
+        quantity:
+          type: integer
+          description: >-
+            The quantity ordered.
+          minimum: 1
+        price:
+          type: number
+          format: double
+          description: >-
+            The unit price of the item.
+        modifiers:
+          type: array
+          description: >-
+            Modifiers applied to this item.
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: >-
+                  The name of the modifier.
+              price:
+                type: number
+                format: double
+                description: >-
+                  The additional price for this modifier.
+        special_instructions:
+          type: string
+          description: >-
+            Item-level special instructions.
+    OrderTotals:
+      type: object
+      description: >-
+        Financial totals for an order.
+      properties:
+        subtotal:
+          type: number
+          format: double
+          description: >-
+            The subtotal before taxes and fees.
+        tax:
+          type: number
+          format: double
+          description: >-
+            The tax amount.
+        delivery_fee:
+          type: number
+          format: double
+          description: >-
+            The delivery fee charged.
+        tip:
+          type: number
+          format: double
+          description: >-
+            The tip amount.
+        total:
+          type: number
+          format: double
+          description: >-
+            The total amount for the order.
+    Address:
+      type: object
+      description: >-
+        A physical address.
+      properties:
+        street_address:
+          type: string
+          description: >-
+            The street address line.
+        apt_suite:
+          type: string
+          description: >-
+            Apartment or suite number.
+        city:
+          type: string
+          description: >-
+            The city name.
+        state:
+          type: string
+          description: >-
+            The state abbreviation.
+        zip:
+          type: string
+          description: >-
+            The ZIP code.
+        latitude:
+          type: number
+          format: double
+          description: >-
+            The latitude coordinate.
+        longitude:
+          type: number
+          format: double
+          description: >-
+            The longitude coordinate.
+    OrderConfirmation:
+      type: object
+      description: >-
+        Payload for confirming an order, with optional wait time estimate.
+      properties:
+        wait_time_in_minutes:
+          type: integer
+          description: >-
+            Estimated number of minutes until the order will be ready
+            for delivery or pickup.
+          minimum: 1
+    OrderStatusUpdate:
+      type: object
+      description: >-
+        Payload for updating an order's lifecycle status.
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          description: >-
+            The new status for the order.
+          enum:
+            - IN_PROGRESS
+            - READY
+            - OUT_FOR_DELIVERY
+            - COMPLETED
+            - CANCELLED
+        reason:
+          type: string
+          description: >-
+            Reason for the status change, particularly relevant for
+            cancellations.
+    OrderChangeRequest:
+      type: object
+      description: >-
+        A change request for an existing order.
+      properties:
+        id:
+          type: string
+          description: >-
+            The unique identifier for the change request.
+        status:
+          type: string
+          description: >-
+            The current status of the change request.
+          enum:
+            - PENDING
+            - APPROVED
+            - REJECTED
+        type:
+          type: string
+          description: >-
+            The type of change being requested.
+        details:
+          type: string
+          description: >-
+            Details about the requested change.
+        created_at:
+          type: string
+          format: date-time
+          description: >-
+            When the change request was created.
+    Error:
+      type: object
+      description: >-
+        Standard error response from the Grubhub API.
+      properties:
+        error:
+          type: string
+          description: >-
+            Error type identifier.
+        message:
+          type: string
+          description: >-
+            Human-readable error description.
+        status:
+          type: integer
+          description: >-
+            HTTP status code.

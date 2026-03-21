@@ -1,0 +1,220 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developer.grubhub.com/schemas/grubhub/order.json",
+  "title": "Grubhub Order",
+  "description": "A complete order placed through the Grubhub Marketplace, including items, totals, customer information, delivery address, and lifecycle status.",
+  "type": "object",
+  "required": ["order_uuid", "merchant_id", "status", "items", "totals"],
+  "properties": {
+    "order_uuid": {
+      "type": "string",
+      "format": "uuid",
+      "description": "The unique identifier for the order."
+    },
+    "merchant_id": {
+      "type": "string",
+      "description": "The Grubhub merchant identifier this order was placed with."
+    },
+    "external_order_id": {
+      "type": "string",
+      "description": "The partner's external identifier for this order."
+    },
+    "status": {
+      "type": "string",
+      "description": "The current lifecycle status of the order.",
+      "enum": ["PENDING", "CONFIRMED", "IN_PROGRESS", "READY", "OUT_FOR_DELIVERY", "COMPLETED", "CANCELLED"]
+    },
+    "fulfillment_type": {
+      "type": "string",
+      "description": "The type of fulfillment for this order.",
+      "enum": ["DELIVERY", "PICKUP"]
+    },
+    "placed_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The timestamp when the order was placed by the diner."
+    },
+    "confirmed_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The timestamp when the order was confirmed by the merchant."
+    },
+    "estimated_delivery_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The estimated delivery or pickup time for the order."
+    },
+    "customer": {
+      "$ref": "#/$defs/Customer"
+    },
+    "items": {
+      "type": "array",
+      "description": "The items included in this order.",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/OrderItem"
+      }
+    },
+    "totals": {
+      "$ref": "#/$defs/OrderTotals"
+    },
+    "delivery_address": {
+      "$ref": "#/$defs/Address"
+    },
+    "special_instructions": {
+      "type": "string",
+      "description": "Special instructions provided by the customer for the entire order.",
+      "maxLength": 500
+    },
+    "wait_time_in_minutes": {
+      "type": "integer",
+      "description": "Estimated number of minutes until the order is ready, set during confirmation.",
+      "minimum": 1
+    }
+  },
+  "$defs": {
+    "Customer": {
+      "type": "object",
+      "description": "Customer information associated with an order.",
+      "properties": {
+        "first_name": {
+          "type": "string",
+          "description": "The customer's first name."
+        },
+        "last_name": {
+          "type": "string",
+          "description": "The customer's last name."
+        },
+        "phone": {
+          "type": "string",
+          "description": "The customer's phone number."
+        }
+      }
+    },
+    "OrderItem": {
+      "type": "object",
+      "description": "An individual item within an order.",
+      "required": ["item_id", "name", "quantity", "price"],
+      "properties": {
+        "item_id": {
+          "type": "string",
+          "description": "The unique identifier for the menu item."
+        },
+        "name": {
+          "type": "string",
+          "description": "The display name of the item."
+        },
+        "quantity": {
+          "type": "integer",
+          "description": "The quantity ordered.",
+          "minimum": 1
+        },
+        "price": {
+          "type": "number",
+          "description": "The unit price of the item.",
+          "minimum": 0
+        },
+        "size": {
+          "type": "string",
+          "description": "The selected size for this item, if applicable."
+        },
+        "modifiers": {
+          "type": "array",
+          "description": "Modifiers applied to this item.",
+          "items": {
+            "$ref": "#/$defs/OrderModifier"
+          }
+        },
+        "special_instructions": {
+          "type": "string",
+          "description": "Item-level special instructions.",
+          "maxLength": 250
+        }
+      }
+    },
+    "OrderModifier": {
+      "type": "object",
+      "description": "A modifier applied to an ordered item.",
+      "required": ["name"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the modifier."
+        },
+        "price": {
+          "type": "number",
+          "description": "The additional price for this modifier.",
+          "minimum": 0
+        }
+      }
+    },
+    "OrderTotals": {
+      "type": "object",
+      "description": "Financial totals for an order.",
+      "required": ["total"],
+      "properties": {
+        "subtotal": {
+          "type": "number",
+          "description": "The subtotal before taxes and fees.",
+          "minimum": 0
+        },
+        "tax": {
+          "type": "number",
+          "description": "The tax amount.",
+          "minimum": 0
+        },
+        "delivery_fee": {
+          "type": "number",
+          "description": "The delivery fee charged.",
+          "minimum": 0
+        },
+        "tip": {
+          "type": "number",
+          "description": "The tip amount.",
+          "minimum": 0
+        },
+        "total": {
+          "type": "number",
+          "description": "The total amount for the order.",
+          "minimum": 0
+        }
+      }
+    },
+    "Address": {
+      "type": "object",
+      "description": "A physical address.",
+      "properties": {
+        "street_address": {
+          "type": "string",
+          "description": "The street address line."
+        },
+        "apt_suite": {
+          "type": "string",
+          "description": "Apartment or suite number."
+        },
+        "city": {
+          "type": "string",
+          "description": "The city name."
+        },
+        "state": {
+          "type": "string",
+          "description": "The state abbreviation.",
+          "maxLength": 2
+        },
+        "zip": {
+          "type": "string",
+          "description": "The ZIP code.",
+          "pattern": "^\\d{5}(-\\d{4})?$"
+        },
+        "latitude": {
+          "type": "number",
+          "description": "The latitude coordinate."
+        },
+        "longitude": {
+          "type": "number",
+          "description": "The longitude coordinate."
+        }
+      }
+    }
+  }
+}

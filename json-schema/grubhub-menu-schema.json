@@ -1,0 +1,246 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developer.grubhub.com/schemas/grubhub/menu.json",
+  "title": "Grubhub Normalized Menu",
+  "description": "A PosNormalizedMenu structure for the Grubhub Menu API containing schedules, sections, items, modifiers, and pricing. Each object has an external_id used for diff-based ingestion.",
+  "type": "object",
+  "required": ["merchant_id", "schedules"],
+  "properties": {
+    "merchant_id": {
+      "type": "string",
+      "description": "The Grubhub merchant identifier this menu belongs to."
+    },
+    "schedules": {
+      "type": "array",
+      "description": "Top-level menu schedules defining what items are available during specific time periods.",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/MenuSchedule"
+      }
+    }
+  },
+  "$defs": {
+    "MenuSchedule": {
+      "type": "object",
+      "description": "A schedule defining availability windows and menu sections available during those periods.",
+      "required": ["external_id", "name", "sections"],
+      "properties": {
+        "external_id": {
+          "type": "string",
+          "description": "A unique external identifier assigned by the partner for diff-based menu ingestion."
+        },
+        "name": {
+          "type": "string",
+          "description": "The display name of the schedule."
+        },
+        "availability": {
+          "type": "array",
+          "description": "Time windows when this schedule is active.",
+          "items": {
+            "$ref": "#/$defs/Availability"
+          }
+        },
+        "sections": {
+          "type": "array",
+          "description": "Menu sections available during this schedule.",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/MenuSection"
+          }
+        }
+      }
+    },
+    "Availability": {
+      "type": "object",
+      "description": "A time window defining when a schedule is available.",
+      "required": ["day_of_week", "start_time", "end_time"],
+      "properties": {
+        "day_of_week": {
+          "type": "string",
+          "description": "The day of the week this availability applies to.",
+          "enum": ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"]
+        },
+        "start_time": {
+          "type": "string",
+          "description": "The start time in HH:mm format.",
+          "pattern": "^\\d{2}:\\d{2}$"
+        },
+        "end_time": {
+          "type": "string",
+          "description": "The end time in HH:mm format.",
+          "pattern": "^\\d{2}:\\d{2}$"
+        }
+      }
+    },
+    "MenuSection": {
+      "type": "object",
+      "description": "A grouping of menu items such as appetizers, entrees, or desserts.",
+      "required": ["external_id", "name", "items"],
+      "properties": {
+        "external_id": {
+          "type": "string",
+          "description": "A unique external identifier for diff-based ingestion."
+        },
+        "name": {
+          "type": "string",
+          "description": "The display name of the section."
+        },
+        "items": {
+          "type": "array",
+          "description": "Menu items within this section.",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/MenuItem"
+          }
+        }
+      }
+    },
+    "MenuItem": {
+      "type": "object",
+      "description": "An individual menu item that a diner can order.",
+      "required": ["external_id", "name", "price"],
+      "properties": {
+        "external_id": {
+          "type": "string",
+          "description": "A unique external identifier for diff-based ingestion."
+        },
+        "name": {
+          "type": "string",
+          "description": "The display name of the menu item."
+        },
+        "description": {
+          "type": "string",
+          "description": "A description of the menu item."
+        },
+        "price": {
+          "type": "number",
+          "description": "The base price of the menu item.",
+          "minimum": 0
+        },
+        "available": {
+          "type": "boolean",
+          "description": "Whether this item is currently available for ordering.",
+          "default": true
+        },
+        "size_prompt": {
+          "$ref": "#/$defs/SizePrompt"
+        },
+        "modifier_prompts": {
+          "type": "array",
+          "description": "Modifier prompts allowing customization of this item.",
+          "items": {
+            "$ref": "#/$defs/ModifierPrompt"
+          }
+        }
+      }
+    },
+    "SizePrompt": {
+      "type": "object",
+      "description": "A size selection prompt. Sizes can affect the price of the item and its modifiers.",
+      "required": ["external_id", "name", "options"],
+      "properties": {
+        "external_id": {
+          "type": "string",
+          "description": "A unique external identifier for this size prompt."
+        },
+        "name": {
+          "type": "string",
+          "description": "The display name for the size prompt."
+        },
+        "options": {
+          "type": "array",
+          "description": "Available size options.",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/SizeOption"
+          }
+        }
+      }
+    },
+    "SizeOption": {
+      "type": "object",
+      "description": "An individual size option.",
+      "required": ["external_id", "name"],
+      "properties": {
+        "external_id": {
+          "type": "string",
+          "description": "A unique external identifier for this size option."
+        },
+        "name": {
+          "type": "string",
+          "description": "The display name of the size option."
+        },
+        "price": {
+          "type": "number",
+          "description": "The price adjustment for selecting this size.",
+          "minimum": 0
+        }
+      }
+    },
+    "ModifierPrompt": {
+      "type": "object",
+      "description": "A modifier prompt allowing customization such as dressing choice or toppings.",
+      "required": ["external_id", "name", "options"],
+      "properties": {
+        "external_id": {
+          "type": "string",
+          "description": "A unique external identifier for this modifier prompt."
+        },
+        "name": {
+          "type": "string",
+          "description": "The display name of the modifier prompt."
+        },
+        "required": {
+          "type": "boolean",
+          "description": "Whether a selection is required from this modifier prompt.",
+          "default": false
+        },
+        "min_selections": {
+          "type": "integer",
+          "description": "Minimum number of selections required.",
+          "minimum": 0,
+          "default": 0
+        },
+        "max_selections": {
+          "type": "integer",
+          "description": "Maximum number of selections allowed.",
+          "minimum": 1
+        },
+        "options": {
+          "type": "array",
+          "description": "Available modifier options.",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/ModifierOption"
+          }
+        }
+      }
+    },
+    "ModifierOption": {
+      "type": "object",
+      "description": "An individual modifier option.",
+      "required": ["external_id", "name"],
+      "properties": {
+        "external_id": {
+          "type": "string",
+          "description": "A unique external identifier for this modifier option."
+        },
+        "name": {
+          "type": "string",
+          "description": "The display name of the modifier option."
+        },
+        "price": {
+          "type": "number",
+          "description": "The additional price for selecting this modifier.",
+          "minimum": 0,
+          "default": 0
+        },
+        "available": {
+          "type": "boolean",
+          "description": "Whether this modifier option is currently available.",
+          "default": true
+        }
+      }
+    }
+  }
+}

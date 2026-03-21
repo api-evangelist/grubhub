@@ -1,0 +1,569 @@
+openapi: 3.1.0
+info:
+  title: Grubhub Merchant Data API
+  description: >-
+    The Grubhub Merchant Data API provides endpoints for managing merchant
+    information, including store details, tax rates, fulfillment settings,
+    and configuration groups. Partners can retrieve all Grubhub locations
+    associated with a merchant's account, update merchant profiles, and
+    manage operational settings such as online/offline status. This API is
+    essential for maintaining accurate restaurant data across the Grubhub
+    platform.
+  version: '1.0.0'
+  contact:
+    name: Grubhub Developer Support
+    url: https://grubhub-developers.zendesk.com/hc/en-us
+  termsOfService: https://www.grubhub.com/legal/terms-of-use
+externalDocs:
+  description: Grubhub Merchant Data API Documentation
+  url: https://developer.grubhub.com/api/merchant-data
+servers:
+  - url: https://api-third-party-gtm.grubhub.com
+    description: Production Server
+  - url: https://api-third-party-gtm-pp.grubhub.com
+    description: Preproduction Server
+tags:
+  - name: Merchants
+    description: >-
+      Endpoints for retrieving merchant information and ID mappings.
+  - name: Merchant Status
+    description: >-
+      Endpoints for managing merchant online/offline status on Grubhub,
+      including soft and hard pauses.
+  - name: Merchant Properties
+    description: >-
+      Endpoints for updating merchant properties such as fulfillment
+      settings and tax rates.
+security:
+  - hmacAuth: []
+paths:
+  /pos/v1/merchants:
+    get:
+      operationId: listMerchants
+      summary: List partner merchants
+      description: >-
+        Returns the internal and external merchant ID mappings associated
+        with your partner_id. Use this endpoint to discover all Grubhub
+        locations linked to your partner account.
+      tags:
+        - Merchants
+      responses:
+        '200':
+          description: List of merchant ID mappings
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  merchants:
+                    type: array
+                    description: >-
+                      List of merchant ID mappings.
+                    items:
+                      $ref: '#/components/schemas/MerchantMapping'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /pos/v1/merchant/{merchant_id}:
+    get:
+      operationId: getMerchant
+      summary: Get merchant summary
+      description: >-
+        Returns summary information about a merchant including store
+        details, address, and configuration.
+      tags:
+        - Merchants
+      parameters:
+        - $ref: '#/components/parameters/MerchantId'
+      responses:
+        '200':
+          description: Merchant summary information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Merchant'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Merchant not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /pos/v1/merchant/{merchant_id}/fulfillment:
+    get:
+      operationId: getMerchantFulfillment
+      summary: Get merchant fulfillment info
+      description: >-
+        Returns a merchant's fulfillment configuration including delivery
+        and pickup settings, estimated preparation times, and service area
+        details.
+      tags:
+        - Merchant Properties
+      parameters:
+        - $ref: '#/components/parameters/MerchantId'
+      responses:
+        '200':
+          description: Merchant fulfillment information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FulfillmentInfo'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Merchant not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /pos/v1/merchants/status:
+    put:
+      operationId: updateMerchantStatus
+      summary: Update merchant online/offline status
+      description: >-
+        Sets the status of a batch of merchants to online or offline on
+        Grubhub. When offline, merchants will not be listed on the site.
+        When online, merchants will be listed and able to accept orders.
+        Supports both soft pauses (remainder of business day) and hard
+        pauses (multiple days).
+      tags:
+        - Merchant Status
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MerchantStatusUpdateRequest'
+      responses:
+        '202':
+          description: Status update accepted for processing
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchJobResponse'
+        '400':
+          description: Invalid status update request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /pos/v1/merchants/status/{batch_id}:
+    get:
+      operationId: getMerchantStatusBatch
+      summary: Get merchant status batch progress
+      description: >-
+        Returns the status of a merchant online/offline batch operation
+        together with the progress for each individual merchant in the
+        batch.
+      tags:
+        - Merchant Status
+      parameters:
+        - $ref: '#/components/parameters/BatchId'
+      responses:
+        '200':
+          description: Batch operation status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchJobStatus'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Batch not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /pos/v1/merchants/properties:
+    put:
+      operationId: updateMerchantProperties
+      summary: Update merchant properties in batch
+      description: >-
+        Updates properties for a batch of merchants, such as fulfillment
+        settings, tax rates, and configuration groups.
+      tags:
+        - Merchant Properties
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MerchantPropertiesUpdateRequest'
+      responses:
+        '202':
+          description: Properties update accepted for processing
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchJobResponse'
+        '400':
+          description: Invalid properties update request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /pos/v1/merchants/properties/{batch_id}:
+    get:
+      operationId: getMerchantPropertiesBatch
+      summary: Get merchant properties batch progress
+      description: >-
+        Returns the status of a merchant properties update batch together
+        with the progress for each individual merchant.
+      tags:
+        - Merchant Properties
+      parameters:
+        - $ref: '#/components/parameters/BatchId'
+      responses:
+        '200':
+          description: Batch operation status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchJobStatus'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Batch not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  securitySchemes:
+    hmacAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: >-
+        HMAC-based authentication. Every request must include X-GH-PARTNER-KEY
+        and an Authorization header with MAC authentication details.
+  parameters:
+    MerchantId:
+      name: merchant_id
+      in: path
+      required: true
+      description: >-
+        The unique identifier for the merchant on Grubhub.
+      schema:
+        type: string
+    BatchId:
+      name: batch_id
+      in: path
+      required: true
+      description: >-
+        The unique identifier for a batch operation.
+      schema:
+        type: string
+  schemas:
+    MerchantMapping:
+      type: object
+      description: >-
+        Mapping between internal Grubhub merchant IDs and external partner
+        merchant IDs.
+      properties:
+        merchant_id:
+          type: string
+          description: >-
+            The Grubhub internal merchant identifier.
+        external_id:
+          type: string
+          description: >-
+            The partner's external merchant identifier.
+        name:
+          type: string
+          description: >-
+            The merchant's display name.
+        status:
+          type: string
+          description: >-
+            The current status of the merchant.
+          enum:
+            - ONLINE
+            - OFFLINE
+    Merchant:
+      type: object
+      description: >-
+        Summary information about a merchant on Grubhub.
+      properties:
+        merchant_id:
+          type: string
+          description: >-
+            The Grubhub internal merchant identifier.
+        external_id:
+          type: string
+          description: >-
+            The partner's external merchant identifier.
+        name:
+          type: string
+          description: >-
+            The merchant's display name.
+        address:
+          $ref: '#/components/schemas/Address'
+        phone:
+          type: string
+          description: >-
+            The merchant's phone number.
+        status:
+          type: string
+          description: >-
+            The current online/offline status.
+          enum:
+            - ONLINE
+            - OFFLINE
+        tax_rate:
+          type: number
+          format: double
+          description: >-
+            The merchant's applicable tax rate.
+        fulfillment_types:
+          type: array
+          description: >-
+            Supported fulfillment types for this merchant.
+          items:
+            type: string
+            enum:
+              - DELIVERY
+              - PICKUP
+              - CATERING
+    FulfillmentInfo:
+      type: object
+      description: >-
+        Fulfillment configuration for a merchant.
+      properties:
+        delivery_enabled:
+          type: boolean
+          description: >-
+            Whether delivery is enabled for this merchant.
+        pickup_enabled:
+          type: boolean
+          description: >-
+            Whether pickup is enabled for this merchant.
+        catering_enabled:
+          type: boolean
+          description: >-
+            Whether catering is enabled for this merchant.
+        estimated_prep_time_minutes:
+          type: integer
+          description: >-
+            Estimated preparation time in minutes.
+          minimum: 0
+        delivery_radius_miles:
+          type: number
+          format: double
+          description: >-
+            The delivery radius in miles.
+        minimum_order_amount:
+          type: number
+          format: double
+          description: >-
+            The minimum order amount for delivery.
+    MerchantStatusUpdateRequest:
+      type: object
+      description: >-
+        Request to update online/offline status for a batch of merchants.
+      required:
+        - merchants
+      properties:
+        merchants:
+          type: array
+          description: >-
+            List of merchants to update.
+          items:
+            type: object
+            required:
+              - merchant_id
+              - status
+            properties:
+              merchant_id:
+                type: string
+                description: >-
+                  The Grubhub merchant identifier.
+              status:
+                type: string
+                description: >-
+                  The desired status for the merchant.
+                enum:
+                  - ONLINE
+                  - OFFLINE
+              pause_type:
+                type: string
+                description: >-
+                  The type of pause to apply when setting offline. A soft
+                  pause takes the merchant offline for the remainder of the
+                  business day. A hard pause takes the merchant offline for
+                  multiple days.
+                enum:
+                  - SOFT
+                  - HARD
+    MerchantPropertiesUpdateRequest:
+      type: object
+      description: >-
+        Request to update properties for a batch of merchants.
+      required:
+        - merchants
+      properties:
+        merchants:
+          type: array
+          description: >-
+            List of merchants with properties to update.
+          items:
+            type: object
+            required:
+              - merchant_id
+            properties:
+              merchant_id:
+                type: string
+                description: >-
+                  The Grubhub merchant identifier.
+              tax_rate:
+                type: number
+                format: double
+                description: >-
+                  Updated tax rate for the merchant.
+              fulfillment_settings:
+                type: object
+                description: >-
+                  Updated fulfillment settings.
+                properties:
+                  delivery_enabled:
+                    type: boolean
+                    description: >-
+                      Whether delivery should be enabled.
+                  pickup_enabled:
+                    type: boolean
+                    description: >-
+                      Whether pickup should be enabled.
+                  estimated_prep_time_minutes:
+                    type: integer
+                    description: >-
+                      Updated estimated preparation time.
+    BatchJobResponse:
+      type: object
+      description: >-
+        Response returned when a batch operation is accepted for processing.
+      properties:
+        batch_id:
+          type: string
+          description: >-
+            The unique identifier for tracking the batch operation.
+    BatchJobStatus:
+      type: object
+      description: >-
+        Status of a batch operation with per-merchant progress.
+      properties:
+        batch_id:
+          type: string
+          description: >-
+            The unique identifier for the batch operation.
+        status:
+          type: string
+          description: >-
+            The overall status of the batch.
+          enum:
+            - PENDING
+            - PROCESSING
+            - COMPLETED
+            - FAILED
+        merchants:
+          type: array
+          description: >-
+            Progress for each individual merchant in the batch.
+          items:
+            type: object
+            properties:
+              merchant_id:
+                type: string
+                description: >-
+                  The merchant identifier.
+              status:
+                type: string
+                description: >-
+                  The status for this merchant's update.
+                enum:
+                  - PENDING
+                  - SUCCESS
+                  - FAILED
+              error:
+                type: string
+                description: >-
+                  Error message if the update failed for this merchant.
+    Address:
+      type: object
+      description: >-
+        A physical address.
+      properties:
+        street_address:
+          type: string
+          description: >-
+            The street address line.
+        city:
+          type: string
+          description: >-
+            The city name.
+        state:
+          type: string
+          description: >-
+            The state abbreviation.
+        zip:
+          type: string
+          description: >-
+            The ZIP code.
+        latitude:
+          type: number
+          format: double
+          description: >-
+            The latitude coordinate.
+        longitude:
+          type: number
+          format: double
+          description: >-
+            The longitude coordinate.
+    Error:
+      type: object
+      description: >-
+        Standard error response from the Grubhub API.
+      properties:
+        error:
+          type: string
+          description: >-
+            Error type identifier.
+        message:
+          type: string
+          description: >-
+            Human-readable error description.
+        status:
+          type: integer
+          description: >-
+            HTTP status code.
