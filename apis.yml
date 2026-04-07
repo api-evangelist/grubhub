@@ -1,5 +1,6 @@
 aid: grubhub
-url: https://raw.githubusercontent.com/api-evangelist/grubhub/refs/heads/main/apis.yml
+url: 
+  https://raw.githubusercontent.com/api-evangelist/grubhub/refs/heads/main/apis.yml
 modified: '2026-03-20'
 apis:
   - aid: grubhub:menu-api
@@ -9,7 +10,8 @@ apis:
       - Menus
       - Restaurants
       - Online Ordering
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.grubhub.com
     humanURL: https://developer.grubhub.com/api/menu
     properties:
@@ -32,7 +34,8 @@ apis:
       - Restaurants
       - Online Ordering
       - Webhooks
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.grubhub.com
     humanURL: https://developer.grubhub.com/api/orders
     properties:
@@ -56,7 +59,8 @@ apis:
       - Merchants
       - Restaurants
       - Data Management
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.grubhub.com
     humanURL: https://developer.grubhub.com/api/merchant-data
     properties:
@@ -78,11 +82,14 @@ apis:
       - Scheduling
       - Restaurants
       - Availability
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.grubhub.com
-    humanURL: https://developer.grubhub.com/docs/6uXmPesMoYmoV6jZx6lVfa/checking-merchant-availability
+    humanURL: 
+      https://developer.grubhub.com/docs/6uXmPesMoYmoV6jZx6lVfa/checking-merchant-availability
     properties:
-      - url: https://developer.grubhub.com/docs/6uXmPesMoYmoV6jZx6lVfa/checking-merchant-availability
+      - url: 
+          https://developer.grubhub.com/docs/6uXmPesMoYmoV6jZx6lVfa/checking-merchant-availability
         type: Documentation
       - url: openapi/grubhub-merchant-schedules-openapi.yml
         type: OpenAPI
@@ -100,11 +107,14 @@ apis:
       - Logistics
       - Drivers
       - Delivery Tracking
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.grubhub.com
-    humanURL: https://developer.grubhub.com/docs/2xRv0wZtNljuMTpizzNqD2/interacting-with-drivers
+    humanURL: 
+      https://developer.grubhub.com/docs/2xRv0wZtNljuMTpizzNqD2/interacting-with-drivers
     properties:
-      - url: https://developer.grubhub.com/docs/2xRv0wZtNljuMTpizzNqD2/interacting-with-drivers
+      - url: 
+          https://developer.grubhub.com/docs/2xRv0wZtNljuMTpizzNqD2/interacting-with-drivers
         type: Documentation
       - url: openapi/grubhub-deliveries-openapi.yml
         type: OpenAPI
@@ -124,7 +134,8 @@ apis:
       - Onboarding
       - Merchants
       - Integration
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.grubhub.com
     humanURL: https://developer.grubhub.com/api/onboarding
     properties:
@@ -149,3 +160,8 @@ common:
     url: json-schema/grubhub-menu-schema.json
   - type: JSONSchema
     url: json-schema/grubhub-merchant-schema.json
+description: >-
+  Grubhub works with brands, point of sale companies, and online ordering providers
+  to power an ordering experience in Grubhub Marketplace and within restaurant-branded
+  web experiences. This documentation describes the normalized endpoints required
+  for ingesting menu content and facilitating order transmission.
