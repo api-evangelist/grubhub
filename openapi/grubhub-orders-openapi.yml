@@ -23,13 +23,6 @@ servers:
   - url: https://api-third-party-gtm-pp.grubhub.com
     description: Preproduction Server
 tags:
-  - name: Orders
-    description: >-
-      Endpoints for retrieving and managing orders placed through the
-      Grubhub Marketplace.
-  - name: Order Status
-    description: >-
-      Endpoints for confirming orders and updating order lifecycle states.
   - name: Order Change Requests
     description: >-
       Endpoints for managing order change requests and modifications.
@@ -37,6 +30,13 @@ tags:
     description: >-
       Endpoints for polling orders across multiple merchants. Webhook
       subscription is the preferred method for receiving new orders.
+  - name: Order Status
+    description: >-
+      Endpoints for confirming orders and updating order lifecycle states.
+  - name: Orders
+    description: >-
+      Endpoints for retrieving and managing orders placed through the
+      Grubhub Marketplace.
 security:
   - hmacAuth: []
 paths:

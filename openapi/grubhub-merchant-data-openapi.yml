@@ -23,17 +23,17 @@ servers:
   - url: https://api-third-party-gtm-pp.grubhub.com
     description: Preproduction Server
 tags:
-  - name: Merchants
-    description: >-
-      Endpoints for retrieving merchant information and ID mappings.
-  - name: Merchant Status
-    description: >-
-      Endpoints for managing merchant online/offline status on Grubhub,
-      including soft and hard pauses.
   - name: Merchant Properties
     description: >-
       Endpoints for updating merchant properties such as fulfillment
       settings and tax rates.
+  - name: Merchant Status
+    description: >-
+      Endpoints for managing merchant online/offline status on Grubhub,
+      including soft and hard pauses.
+  - name: Merchants
+    description: >-
+      Endpoints for retrieving merchant information and ID mappings.
 security:
   - hmacAuth: []
 paths:

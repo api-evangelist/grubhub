@@ -1,6 +1,5 @@
 aid: grubhub
-url: 
-  https://raw.githubusercontent.com/api-evangelist/grubhub/refs/heads/main/apis.yml
+url: https://raw.githubusercontent.com/api-evangelist/grubhub/refs/heads/main/apis.yml
 modified: '2026-03-20'
 apis:
   - aid: grubhub:menu-api
@@ -8,10 +7,9 @@ apis:
     tags:
       - Food Delivery
       - Menus
-      - Restaurants
       - Online Ordering
-    image: 
-      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+      - Restaurants
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.grubhub.com
     humanURL: https://developer.grubhub.com/api/menu
     properties:
@@ -30,12 +28,11 @@ apis:
     name: Grubhub Orders API
     tags:
       - Food Delivery
+      - Online Ordering
       - Orders
       - Restaurants
-      - Online Ordering
       - Webhooks
-    image: 
-      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.grubhub.com
     humanURL: https://developer.grubhub.com/api/orders
     properties:
@@ -55,12 +52,11 @@ apis:
   - aid: grubhub:merchant-data-api
     name: Grubhub Merchant Data API
     tags:
+      - Data Management
       - Food Delivery
       - Merchants
       - Restaurants
-      - Data Management
-    image: 
-      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.grubhub.com
     humanURL: https://developer.grubhub.com/api/merchant-data
     properties:
@@ -78,18 +74,15 @@ apis:
   - aid: grubhub:merchant-schedules-api
     name: Grubhub Merchant Schedules API
     tags:
-      - Food Delivery
-      - Scheduling
-      - Restaurants
       - Availability
-    image: 
-      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+      - Food Delivery
+      - Restaurants
+      - Scheduling
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.grubhub.com
-    humanURL: 
-      https://developer.grubhub.com/docs/6uXmPesMoYmoV6jZx6lVfa/checking-merchant-availability
+    humanURL: https://developer.grubhub.com/docs/6uXmPesMoYmoV6jZx6lVfa/checking-merchant-availability
     properties:
-      - url: 
-          https://developer.grubhub.com/docs/6uXmPesMoYmoV6jZx6lVfa/checking-merchant-availability
+      - url: https://developer.grubhub.com/docs/6uXmPesMoYmoV6jZx6lVfa/checking-merchant-availability
         type: Documentation
       - url: openapi/grubhub-merchant-schedules-openapi.yml
         type: OpenAPI
@@ -103,18 +96,15 @@ apis:
   - aid: grubhub:deliveries-api
     name: Grubhub Deliveries API
     tags:
+      - Delivery Tracking
+      - Drivers
       - Food Delivery
       - Logistics
-      - Drivers
-      - Delivery Tracking
-    image: 
-      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.grubhub.com
-    humanURL: 
-      https://developer.grubhub.com/docs/2xRv0wZtNljuMTpizzNqD2/interacting-with-drivers
+    humanURL: https://developer.grubhub.com/docs/2xRv0wZtNljuMTpizzNqD2/interacting-with-drivers
     properties:
-      - url: 
-          https://developer.grubhub.com/docs/2xRv0wZtNljuMTpizzNqD2/interacting-with-drivers
+      - url: https://developer.grubhub.com/docs/2xRv0wZtNljuMTpizzNqD2/interacting-with-drivers
         type: Documentation
       - url: openapi/grubhub-deliveries-openapi.yml
         type: OpenAPI
@@ -131,11 +121,10 @@ apis:
     name: Grubhub Onboarding API
     tags:
       - Food Delivery
-      - Onboarding
-      - Merchants
       - Integration
-    image: 
-      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+      - Merchants
+      - Onboarding
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.grubhub.com
     humanURL: https://developer.grubhub.com/api/onboarding
     properties:

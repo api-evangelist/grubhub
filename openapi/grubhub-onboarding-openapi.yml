@@ -22,16 +22,16 @@ servers:
   - url: https://api-third-party-gtm-pp.grubhub.com
     description: Preproduction Server
 tags:
+  - name: Issue Reporting
+    description: >-
+      Endpoints for reporting onboarding issues to Grubhub.
+  - name: Merchant Eligibility
+    description: >-
+      Endpoints for checking merchant eligibility for onboarding.
   - name: Merchant Onboarding
     description: >-
       Endpoints for onboarding merchants to the Grubhub platform,
       including referrals, activation, and association.
-  - name: Merchant Eligibility
-    description: >-
-      Endpoints for checking merchant eligibility for onboarding.
-  - name: Issue Reporting
-    description: >-
-      Endpoints for reporting onboarding issues to Grubhub.
 security:
   - oauthAuth: []
 paths:

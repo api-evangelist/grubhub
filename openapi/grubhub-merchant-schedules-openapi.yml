@@ -23,14 +23,14 @@ servers:
   - url: https://api-third-party-gtm-pp.grubhub.com
     description: Preproduction Server
 tags:
-  - name: Schedules
-    description: >-
-      Endpoints for retrieving and managing merchant operating hours for
-      delivery, pickup, and catering.
   - name: Schedule Overrides
     description: >-
       Endpoints for creating and managing temporary schedule overrides
       such as closures and holiday hours.
+  - name: Schedules
+    description: >-
+      Endpoints for retrieving and managing merchant operating hours for
+      delivery, pickup, and catering.
 security:
   - hmacAuth: []
 paths:
