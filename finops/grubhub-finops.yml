@@ -1,172 +1,103 @@
 specification: FinOps Framework
 specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
 alignedWith:
   framework: FinOps Foundation Framework
   frameworkUrl: https://www.finops.org/framework/
   dataSpec: FOCUS
   dataSpecVersion: '1.3'
   dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
-provider: grubhub
+provider: Grubhub
 providerId: grubhub
-publisherName: grubhub
-serviceCategory: API
+publisherName: Grubhub Holdings Inc.
+serviceCategory: Food Delivery / Marketplaces
 created: '2026-05-04'
-modified: '2026-05-04'
+modified: '2026-05-05'
+reconciled: false
 tags:
   - FinOps
-  - Cost Management
   - FOCUS
-description: FinOps framework definition for the grubhub API surface. Provides a FOCUS-aligned mapping
-  for cost allocation, usage measurement, and unit-economics reporting across the provider's APIs.
-principles:
-  - name: Visibility
-    description: Make API consumption costs visible to engineering, product, and finance teams in near
-      real-time.
-  - name: Allocation
-    description: Tag every chargeable API call with the consuming team, environment, application, and
-      feature so cost can be allocated.
-  - name: Optimization
-    description: Continuously evaluate request patterns, caching, batching, and tier selection to reduce
-      cost per useful unit of work.
-  - name: Accountability
-    description: Establish budget owners and chargeback or showback flows for each consuming team.
-domains:
-  - name: Understand Usage and Cost
-    capabilities:
-      - Data Ingestion
-      - Allocation
-      - Reporting and Analytics
-      - Anomaly Management
-  - name: Quantify Business Value
-    capabilities:
-      - Planning and Estimating
-      - Forecasting
-      - Budgeting
-      - Benchmarking
-      - Unit Economics
-  - name: Optimize Usage and Cost
-    capabilities:
-      - Architecting for Cloud
-      - Rate Optimization
-      - Workload Optimization
-      - Cloud Sustainability
-      - Licensing and SaaS
-  - name: Manage the FinOps Practice
-    capabilities:
-      - FinOps Practice Operations
-      - FinOps Education and Enablement
-      - Invoicing and Chargeback
-      - Onboarding Workloads
-      - Intersecting Disciplines
+  - Food Delivery
+  - Marketplaces
+  - Restaurants
+description: 'FOCUS-aligned FinOps for Grubhub: revenue model is marketplace commission per
+  restaurant order plus optional Grubhub Connect delivery fees, not per-API-call billing. Partner
+  integration APIs (Menu, Orders, Deliveries, Merchant Data, Schedules, Onboarding) are included
+  with the merchant marketplace agreement. Treat this document as a placeholder pending direct
+  reconciliation with a Grubhub merchant or partner contract.'
+notes: No public per-call API price book. Cost flows through restaurant-marketplace commissions
+  and optional service fees. Reconcile against signed merchant or partner contract.
+sources:
+  - https://developer.grubhub.com
+  - https://www.grubhub.com/restaurant
 billingModel:
-  pricingCategory: Usage-Based
-  billingFrequency: Monthly
+  pricingCategory: Take Rate
+  billingFrequency: Continuous Settlement
   billingCurrency: USD
   chargeCategories:
     - Usage
     - Purchase
-    - Tax
-    - Credit
     - Adjustment
-  chargeFrequency: Recurring
+    - Refund
 focusColumns:
-  ServiceName: grubhub
-  ServiceCategory: Developer Tools / API
-  ProviderName: grubhub
-  PublisherName: grubhub
-  InvoiceIssuerName: grubhub
-  PricingCategory: Usage-Based
-  PricingUnit: request
+  ServiceName: Grubhub
+  ServiceCategory: Food Delivery / Marketplaces
+  ProviderName: Grubhub
+  PublisherName: Grubhub Holdings Inc.
+  InvoiceIssuerName: Grubhub Holdings Inc.
   BillingCurrency: USD
   ChargeCategory: Usage
 meters:
+  - name: marketplace_orders
+    description: Orders routed through the Grubhub Marketplace
+    unit: order
+    aggregation: sum
+    dimensions:
+      - restaurant
+      - market
+      - order_type
+  - name: marketplace_gmv
+    description: Gross merchandise value of marketplace orders
+    unit: USD
+    aggregation: sum
+    dimensions:
+      - restaurant
+      - market
+  - name: connect_deliveries
+    description: Deliveries fulfilled by the Grubhub courier network (Grubhub Connect)
+    unit: delivery
+    aggregation: sum
+    dimensions:
+      - restaurant
+      - market
   - name: api_requests
-    description: Count of billable API requests
+    description: Partner integration API calls (operational metric, not directly billed)
     unit: request
     aggregation: sum
     dimensions:
       - api
-      - endpoint
-      - tier
-      - region
-      - consumer
-  - name: data_egress
-    description: Bytes returned over the network in API responses
-    unit: GB
+      - partner
+      - restaurant
+  - name: webhook_events
+    description: Outbound order / delivery / merchant webhook events
+    unit: event
     aggregation: sum
     dimensions:
-      - api
-      - region
-      - consumer
-  - name: compute_seconds
-    description: Server-side compute consumed by the request, where applicable
-    unit: second
-    aggregation: sum
-    dimensions:
-      - api
-      - endpoint
-      - tier
-apis:
-  - name: Grubhub Menu API
-    baseURL: https://api.grubhub.com
-    tags:
-      - Food Delivery
-      - Menus
-      - Online Ordering
-      - Restaurants
-    serviceName: Grubhub Menu API
-    serviceCategory: API
-  - name: Grubhub Orders API
-    baseURL: https://api.grubhub.com
-    tags:
-      - Food Delivery
-      - Online Ordering
-      - Orders
-      - Restaurants
-      - Webhooks
-    serviceName: Grubhub Orders API
-    serviceCategory: API
-  - name: Grubhub Merchant Data API
-    baseURL: https://api.grubhub.com
-    tags:
-      - Data Management
-      - Food Delivery
-      - Merchants
-      - Restaurants
-    serviceName: Grubhub Merchant Data API
-    serviceCategory: API
-  - name: Grubhub Merchant Schedules API
-    baseURL: https://api.grubhub.com
-    tags:
-      - Availability
-      - Food Delivery
-      - Restaurants
-      - Scheduling
-    serviceName: Grubhub Merchant Schedules API
-    serviceCategory: API
-  - name: Grubhub Deliveries API
-    baseURL: https://api.grubhub.com
-    tags:
-      - Delivery Tracking
-      - Drivers
-      - Food Delivery
-      - Logistics
-    serviceName: Grubhub Deliveries API
-    serviceCategory: API
-  - name: Grubhub Onboarding API
-    baseURL: https://api.grubhub.com
-    tags:
-      - Food Delivery
-      - Integration
-      - Merchants
-      - Onboarding
-    serviceName: Grubhub Onboarding API
-    serviceCategory: API
-unitEconomics:
-  - name: Cost per 1K Requests
-    metric: billed_cost / (api_requests / 1000)
-    target: TBD
-  - name: Cost per Active Consumer
-    metric: billed_cost / active_consumers
-    target: TBD
-maintainers: []
+      - event_type
+      - restaurant
+principles:
+  - name: Visibility
+    description: Use the Grubhub merchant portal / payouts reporting and partner dashboards to
+      reconcile commission, delivery, and refund line items per restaurant.
+  - name: Allocation
+    description: Tag restaurants / locations with brand / region / franchisee so commission and
+      Connect-delivery costs allocate to the correct P&L.
+  - name: Optimization
+    description: Negotiate commission rates at scale; tune which markets use Connect vs
+      restaurant-fulfilled delivery; use the Schedules API to avoid orders during overload.
+  - name: Accountability
+    description: Designate a partnerships / merchant-ops owner accountable for the Grubhub
+      contract, monthly payout reconciliation, and dispute / refund handling.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

@@ -1,107 +1,51 @@
 specification: API Commons Rate Limits
 specificationVersion: '0.1'
 schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
-provider: grubhub
+provider: Grubhub
 providerId: grubhub
 created: '2026-05-04'
-modified: '2026-05-04'
+modified: '2026-05-05'
+reconciled: false
 tags:
   - Rate Limiting
-  - Quotas
-  - Throttling
-description: Machine-readable rate limit definitions for the grubhub API surface. Captures per-tier quotas,
-  burst behavior, response signaling, and recovery semantics. Defaults are scaffold values to be replaced
-  with published provider limits.
-headers:
-  limit: X-RateLimit-Limit
-  remaining: X-RateLimit-Remaining
-  reset: X-RateLimit-Reset
-  retryAfter: Retry-After
-  policy: RateLimit-Policy
+  - Food Delivery
+  - Marketplaces
+  - Restaurants
+description: Grubhub does not publish numeric rate-limit values for the partner / merchant APIs on
+  its public developer portal landing pages (the portal is JavaScript-rendered and not directly
+  fetchable). Limits are presumed to be assigned per partner integration during onboarding and
+  enforced per OAuth client. Treat the entries below as placeholders pending direct documentation
+  from Grubhub.
+notes: No public rate-limit numbers found via automated fetch; developer.grubhub.com requires
+  client-side JS to render. Reconcile once direct partner-portal access is available.
+sources:
+  - https://developer.grubhub.com
 responseCodes:
   throttled: 429
-  quotaExceeded: 429
   serviceUnavailable: 503
 limits:
-  - tier: free
-    name: Free Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 10
-    burst: 20
-    timeFrame: minute
-    applies:
-      - Grubhub Menu API
-      - Grubhub Orders API
-      - Grubhub Merchant Data API
-      - Grubhub Merchant Schedules API
-      - Grubhub Deliveries API
-      - Grubhub Onboarding API
-  - tier: free
-    name: Free Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 1000
-    timeFrame: month
-    applies:
-      - Grubhub Menu API
-      - Grubhub Orders API
-      - Grubhub Merchant Data API
-      - Grubhub Merchant Schedules API
-      - Grubhub Deliveries API
-      - Grubhub Onboarding API
-  - tier: professional
-    name: Professional Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 100
-    burst: 200
-    timeFrame: minute
-    applies:
-      - Grubhub Menu API
-      - Grubhub Orders API
-      - Grubhub Merchant Data API
-      - Grubhub Merchant Schedules API
-      - Grubhub Deliveries API
-      - Grubhub Onboarding API
-  - tier: professional
-    name: Professional Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 100000
-    timeFrame: month
-    applies:
-      - Grubhub Menu API
-      - Grubhub Orders API
-      - Grubhub Merchant Data API
-      - Grubhub Merchant Schedules API
-      - Grubhub Deliveries API
-      - Grubhub Onboarding API
-  - tier: enterprise
-    name: Enterprise Negotiated Limit
-    scope: contract
-    metric: requests_per_minute
-    limit: 1000
-    burst: 5000
-    timeFrame: minute
-    applies:
-      - Grubhub Menu API
-      - Grubhub Orders API
-      - Grubhub Merchant Data API
-      - Grubhub Merchant Schedules API
-      - Grubhub Deliveries API
-      - Grubhub Onboarding API
+  - name: Partner integration APIs
+    scope: oauth-client
+    metric: varies
+    limit: 'see partner integration documentation'
+    notes: Limits are assigned per OAuth client at partner onboarding; numeric values are not
+      published publicly.
+  - name: Webhook delivery (Orders, Deliveries)
+    scope: partner-endpoint
+    metric: varies
+    limit: 'partner endpoint must accept burst order volumes'
+    notes: Grubhub posts events to the partner's webhook URL; partner is expected to absorb peak
+      restaurant order volume rather than rate-limit.
 policies:
   - name: Backoff Strategy
-    description: Clients should implement exponential backoff with jitter, honoring the Retry-After header
+    description: Use exponential backoff with jitter on 429 / 503 responses; honor Retry-After
       when present.
-  - name: Burst Handling
-    description: Short bursts above the steady-state limit are tolerated up to the documented burst ceiling
-      before throttling engages.
-  - name: Quota Reset
-    description: Monthly quotas reset at the start of each calendar month in UTC. Per-minute and per-second
-      windows reset on a sliding-window basis.
-  - name: Fair Use
-    description: Even on uncapped enterprise tiers, sustained usage that materially impacts shared infrastructure
-      may be subject to fair-use throttling.
-maintainers: []
+  - name: Webhook reliability
+    description: Partners receiving Orders / Deliveries webhooks should respond quickly (2xx)
+      and process asynchronously to avoid Grubhub-side retry storms.
+  - name: Per-integration scoping
+    description: Limits scoped per partner OAuth client; new integrations should pre-provision
+      headroom with Grubhub before launch.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
