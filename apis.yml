@@ -141,7 +141,7 @@ apis:
       days down to as little as 5-10 minutes, significantly decreasing
       integration downtime.
 common:
-  - type: JSON-LD
+  - type: JSONLD
     url: json-ld/grubhub-context.jsonld
   - type: JSONSchema
     url: json-schema/grubhub-order-schema.json
