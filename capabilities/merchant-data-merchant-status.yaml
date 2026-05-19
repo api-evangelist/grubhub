@@ -1,0 +1,114 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Grubhub Merchant Data API — Merchant Status
+  description: 'Grubhub Merchant Data API — Merchant Status. 2 operations. Lead operation: Update merchant online/offline
+    status. Self-contained Naftiko capability covering one Grubhub business surface.'
+  tags:
+  - Grubhub
+  - Merchant Status
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    GRUBHUB_API_KEY: GRUBHUB_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: merchant-data-merchant-status
+    baseUri: https://api-third-party-gtm.grubhub.com
+    description: Grubhub Merchant Data API — Merchant Status business capability. Self-contained, no shared references.
+    resources:
+    - name: pos-v1-merchants-status
+      path: /pos/v1/merchants/status
+      operations:
+      - name: updatemerchantstatus
+        method: PUT
+        description: Update merchant online/offline status
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: pos-v1-merchants-status-batch_id
+      path: /pos/v1/merchants/status/{batch_id}
+      operations:
+      - name: getmerchantstatusbatch
+        method: GET
+        description: Get merchant status batch progress
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: Authorization
+      value: '{{env.GRUBHUB_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: merchant-data-merchant-status-rest
+    port: 8080
+    description: REST adapter for Grubhub Merchant Data API — Merchant Status. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/pos/v1/merchants/status
+      name: pos-v1-merchants-status
+      description: REST surface for pos-v1-merchants-status.
+      operations:
+      - method: PUT
+        name: updatemerchantstatus
+        description: Update merchant online/offline status
+        call: merchant-data-merchant-status.updatemerchantstatus
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/pos/v1/merchants/status/{batch-id}
+      name: pos-v1-merchants-status-batch-id
+      description: REST surface for pos-v1-merchants-status-batch_id.
+      operations:
+      - method: GET
+        name: getmerchantstatusbatch
+        description: Get merchant status batch progress
+        call: merchant-data-merchant-status.getmerchantstatusbatch
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: merchant-data-merchant-status-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Grubhub Merchant Data API — Merchant Status. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: update-merchant-online-offline-status
+      description: Update merchant online/offline status
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: merchant-data-merchant-status.updatemerchantstatus
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-merchant-status-batch-progress
+      description: Get merchant status batch progress
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: merchant-data-merchant-status.getmerchantstatusbatch
+      outputParameters:
+      - type: object
+        mapping: $.

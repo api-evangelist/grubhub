@@ -1,0 +1,72 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Grubhub Deliveries API — Delivery Status
+  description: 'Grubhub Deliveries API — Delivery Status. 1 operations. Lead operation: Get delivery status for an order.
+    Self-contained Naftiko capability covering one Grubhub business surface.'
+  tags:
+  - Grubhub
+  - Delivery Status
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    GRUBHUB_API_KEY: GRUBHUB_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: deliveries-delivery-status
+    baseUri: https://api-third-party-gtm.grubhub.com
+    description: Grubhub Deliveries API — Delivery Status business capability. Self-contained, no shared references.
+    resources:
+    - name: pos-v1-merchant-merchant_long_id-orders-order_uuid-delivery
+      path: /pos/v1/merchant/{merchant_long_id}/orders/{order_uuid}/delivery
+      operations:
+      - name: getdeliverystatus
+        method: GET
+        description: Get delivery status for an order
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: Authorization
+      value: '{{env.GRUBHUB_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: deliveries-delivery-status-rest
+    port: 8080
+    description: REST adapter for Grubhub Deliveries API — Delivery Status. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/pos/v1/merchant/{merchant-long-id}/orders/{order-uuid}/delivery
+      name: pos-v1-merchant-merchant-long-id-orders-order-uuid-delivery
+      description: REST surface for pos-v1-merchant-merchant_long_id-orders-order_uuid-delivery.
+      operations:
+      - method: GET
+        name: getdeliverystatus
+        description: Get delivery status for an order
+        call: deliveries-delivery-status.getdeliverystatus
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: deliveries-delivery-status-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Grubhub Deliveries API — Delivery Status. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: get-delivery-status-order
+      description: Get delivery status for an order
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: deliveries-delivery-status.getdeliverystatus
+      outputParameters:
+      - type: object
+        mapping: $.

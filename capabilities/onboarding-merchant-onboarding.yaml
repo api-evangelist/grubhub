@@ -1,0 +1,248 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Grubhub Onboarding API — Merchant Onboarding
+  description: 'Grubhub Onboarding API — Merchant Onboarding. 5 operations. Lead operation: Activate a merchant. Self-contained
+    Naftiko capability covering one Grubhub business surface.'
+  tags:
+  - Grubhub
+  - Merchant Onboarding
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    GRUBHUB_API_KEY: GRUBHUB_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: onboarding-merchant-onboarding
+    baseUri: https://api-third-party-gtm.grubhub.com
+    description: Grubhub Onboarding API — Merchant Onboarding business capability. Self-contained, no shared references.
+    resources:
+    - name: pos-v1-onboarding-activate
+      path: /pos/v1/onboarding/activate
+      operations:
+      - name: activatemerchant
+        method: POST
+        description: Activate a merchant
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: pos-v1-onboarding-associate
+      path: /pos/v1/onboarding/associate
+      operations:
+      - name: associatemerchants
+        method: POST
+        description: Associate merchants with partner
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: pos-v1-onboarding-deactivate
+      path: /pos/v1/onboarding/deactivate
+      operations:
+      - name: deactivatemerchant
+        method: POST
+        description: Deactivate a merchant
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: pos-v1-onboarding-deactivate-partner
+      path: /pos/v1/onboarding/deactivate/partner
+      operations:
+      - name: deactivatemerchantpartner
+        method: POST
+        description: Deactivate a merchant (partner auth)
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: pos-v1-onboarding-referral
+      path: /pos/v1/onboarding/referral
+      operations:
+      - name: createmerchantreferral
+        method: POST
+        description: Create a new merchant referral
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.GRUBHUB_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: onboarding-merchant-onboarding-rest
+    port: 8080
+    description: REST adapter for Grubhub Onboarding API — Merchant Onboarding. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/pos/v1/onboarding/activate
+      name: pos-v1-onboarding-activate
+      description: REST surface for pos-v1-onboarding-activate.
+      operations:
+      - method: POST
+        name: activatemerchant
+        description: Activate a merchant
+        call: onboarding-merchant-onboarding.activatemerchant
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/pos/v1/onboarding/associate
+      name: pos-v1-onboarding-associate
+      description: REST surface for pos-v1-onboarding-associate.
+      operations:
+      - method: POST
+        name: associatemerchants
+        description: Associate merchants with partner
+        call: onboarding-merchant-onboarding.associatemerchants
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/pos/v1/onboarding/deactivate
+      name: pos-v1-onboarding-deactivate
+      description: REST surface for pos-v1-onboarding-deactivate.
+      operations:
+      - method: POST
+        name: deactivatemerchant
+        description: Deactivate a merchant
+        call: onboarding-merchant-onboarding.deactivatemerchant
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/pos/v1/onboarding/deactivate/partner
+      name: pos-v1-onboarding-deactivate-partner
+      description: REST surface for pos-v1-onboarding-deactivate-partner.
+      operations:
+      - method: POST
+        name: deactivatemerchantpartner
+        description: Deactivate a merchant (partner auth)
+        call: onboarding-merchant-onboarding.deactivatemerchantpartner
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/pos/v1/onboarding/referral
+      name: pos-v1-onboarding-referral
+      description: REST surface for pos-v1-onboarding-referral.
+      operations:
+      - method: POST
+        name: createmerchantreferral
+        description: Create a new merchant referral
+        call: onboarding-merchant-onboarding.createmerchantreferral
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: onboarding-merchant-onboarding-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Grubhub Onboarding API — Merchant Onboarding. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: activate-merchant
+      description: Activate a merchant
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: onboarding-merchant-onboarding.activatemerchant
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: associate-merchants-partner
+      description: Associate merchants with partner
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: onboarding-merchant-onboarding.associatemerchants
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: deactivate-merchant
+      description: Deactivate a merchant
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: onboarding-merchant-onboarding.deactivatemerchant
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: deactivate-merchant-partner-auth
+      description: Deactivate a merchant (partner auth)
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: onboarding-merchant-onboarding.deactivatemerchantpartner
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-new-merchant-referral
+      description: Create a new merchant referral
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: onboarding-merchant-onboarding.createmerchantreferral
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

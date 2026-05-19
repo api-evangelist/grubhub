@@ -1,0 +1,93 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Grubhub Orders API — Order Polling
+  description: 'Grubhub Orders API — Order Polling. 1 operations. Lead operation: Poll orders across merchants. Self-contained
+    Naftiko capability covering one Grubhub business surface.'
+  tags:
+  - Grubhub
+  - Order Polling
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    GRUBHUB_API_KEY: GRUBHUB_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: orders-order-polling
+    baseUri: https://api-third-party-gtm.grubhub.com
+    description: Grubhub Orders API — Order Polling business capability. Self-contained, no shared references.
+    resources:
+    - name: pos-v1-orders-poll
+      path: /pos/v1/orders/poll
+      operations:
+      - name: pollorders
+        method: GET
+        description: Poll orders across merchants
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: status
+          in: query
+          type: string
+          description: Filter orders by their current status.
+        - name: start_date
+          in: query
+          type: string
+          description: Start of the date range filter in ISO 8601 format.
+        - name: end_date
+          in: query
+          type: string
+          description: End of the date range filter in ISO 8601 format.
+    authentication:
+      type: apikey
+      key: Authorization
+      value: '{{env.GRUBHUB_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: orders-order-polling-rest
+    port: 8080
+    description: REST adapter for Grubhub Orders API — Order Polling. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/pos/v1/orders/poll
+      name: pos-v1-orders-poll
+      description: REST surface for pos-v1-orders-poll.
+      operations:
+      - method: GET
+        name: pollorders
+        description: Poll orders across merchants
+        call: orders-order-polling.pollorders
+        with:
+          status: rest.status
+          start_date: rest.start_date
+          end_date: rest.end_date
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: orders-order-polling-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Grubhub Orders API — Order Polling. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: poll-orders-across-merchants
+      description: Poll orders across merchants
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: orders-order-polling.pollorders
+      with:
+        status: tools.status
+        start_date: tools.start_date
+        end_date: tools.end_date
+      outputParameters:
+      - type: object
+        mapping: $.

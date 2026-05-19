@@ -1,0 +1,80 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Grubhub Onboarding API — Merchant Eligibility
+  description: 'Grubhub Onboarding API — Merchant Eligibility. 1 operations. Lead operation: Get merchant eligibility. Self-contained
+    Naftiko capability covering one Grubhub business surface.'
+  tags:
+  - Grubhub
+  - Merchant Eligibility
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    GRUBHUB_API_KEY: GRUBHUB_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: onboarding-merchant-eligibility
+    baseUri: https://api-third-party-gtm.grubhub.com
+    description: Grubhub Onboarding API — Merchant Eligibility business capability. Self-contained, no shared references.
+    resources:
+    - name: pos-v1-onboarding-eligibility-merchant_id
+      path: /pos/v1/onboarding/eligibility/{merchant_id}
+      operations:
+      - name: getmerchanteligibility
+        method: GET
+        description: Get merchant eligibility
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: merchant_id
+          in: path
+          type: string
+          description: The identifier of the merchant to check eligibility for.
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.GRUBHUB_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: onboarding-merchant-eligibility-rest
+    port: 8080
+    description: REST adapter for Grubhub Onboarding API — Merchant Eligibility. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/pos/v1/onboarding/eligibility/{merchant-id}
+      name: pos-v1-onboarding-eligibility-merchant-id
+      description: REST surface for pos-v1-onboarding-eligibility-merchant_id.
+      operations:
+      - method: GET
+        name: getmerchanteligibility
+        description: Get merchant eligibility
+        call: onboarding-merchant-eligibility.getmerchanteligibility
+        with:
+          merchant_id: rest.merchant_id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: onboarding-merchant-eligibility-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Grubhub Onboarding API — Merchant Eligibility. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: get-merchant-eligibility
+      description: Get merchant eligibility
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: onboarding-merchant-eligibility.getmerchanteligibility
+      with:
+        merchant_id: tools.merchant_id
+      outputParameters:
+      - type: object
+        mapping: $.

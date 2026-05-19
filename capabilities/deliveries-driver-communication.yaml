@@ -1,0 +1,72 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Grubhub Deliveries API — Driver Communication
+  description: 'Grubhub Deliveries API — Driver Communication. 1 operations. Lead operation: Create proxy courier phone number.
+    Self-contained Naftiko capability covering one Grubhub business surface.'
+  tags:
+  - Grubhub
+  - Driver Communication
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    GRUBHUB_API_KEY: GRUBHUB_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: deliveries-driver-communication
+    baseUri: https://api-third-party-gtm.grubhub.com
+    description: Grubhub Deliveries API — Driver Communication business capability. Self-contained, no shared references.
+    resources:
+    - name: pos-v1-merchant-merchant_long_id-orders-order_uuid-delivery-proxy-phone
+      path: /pos/v1/merchant/{merchant_long_id}/orders/{order_uuid}/delivery/proxy-phone
+      operations:
+      - name: createproxycourierphone
+        method: POST
+        description: Create proxy courier phone number
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: Authorization
+      value: '{{env.GRUBHUB_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: deliveries-driver-communication-rest
+    port: 8080
+    description: REST adapter for Grubhub Deliveries API — Driver Communication. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/pos/v1/merchant/{merchant-long-id}/orders/{order-uuid}/delivery/proxy-phone
+      name: pos-v1-merchant-merchant-long-id-orders-order-uuid-delivery-proxy-phone
+      description: REST surface for pos-v1-merchant-merchant_long_id-orders-order_uuid-delivery-proxy-phone.
+      operations:
+      - method: POST
+        name: createproxycourierphone
+        description: Create proxy courier phone number
+        call: deliveries-driver-communication.createproxycourierphone
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: deliveries-driver-communication-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Grubhub Deliveries API — Driver Communication. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: create-proxy-courier-phone-number
+      description: Create proxy courier phone number
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: deliveries-driver-communication.createproxycourierphone
+      outputParameters:
+      - type: object
+        mapping: $.

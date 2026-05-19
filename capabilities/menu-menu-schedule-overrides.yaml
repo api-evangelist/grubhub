@@ -1,0 +1,114 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Grubhub Menu API — Menu Schedule Overrides
+  description: 'Grubhub Menu API — Menu Schedule Overrides. 2 operations. Lead operation: Update menu schedule overrides.
+    Self-contained Naftiko capability covering one Grubhub business surface.'
+  tags:
+  - Grubhub
+  - Menu Schedule Overrides
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    GRUBHUB_API_KEY: GRUBHUB_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: menu-menu-schedule-overrides
+    baseUri: https://api-third-party-gtm.grubhub.com
+    description: Grubhub Menu API — Menu Schedule Overrides business capability. Self-contained, no shared references.
+    resources:
+    - name: pos-v1-merchant-merchant_id-menu-schedules-overrides-external
+      path: /pos/v1/merchant/{merchant_id}/menu/schedules/overrides/external
+      operations:
+      - name: updatemenuscheduleoverrides
+        method: PUT
+        description: Update menu schedule overrides
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: pos-v1-merchant-merchant_id-menu-schedules-overrides-job_id-status
+      path: /pos/v1/merchant/{merchant_id}/menu/schedules/overrides/{job_id}/status
+      operations:
+      - name: getmenuscheduleoverridestatus
+        method: GET
+        description: Get menu schedule override job status
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: Authorization
+      value: '{{env.GRUBHUB_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: menu-menu-schedule-overrides-rest
+    port: 8080
+    description: REST adapter for Grubhub Menu API — Menu Schedule Overrides. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/pos/v1/merchant/{merchant-id}/menu/schedules/overrides/external
+      name: pos-v1-merchant-merchant-id-menu-schedules-overrides-external
+      description: REST surface for pos-v1-merchant-merchant_id-menu-schedules-overrides-external.
+      operations:
+      - method: PUT
+        name: updatemenuscheduleoverrides
+        description: Update menu schedule overrides
+        call: menu-menu-schedule-overrides.updatemenuscheduleoverrides
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/pos/v1/merchant/{merchant-id}/menu/schedules/overrides/{job-id}/status
+      name: pos-v1-merchant-merchant-id-menu-schedules-overrides-job-id-status
+      description: REST surface for pos-v1-merchant-merchant_id-menu-schedules-overrides-job_id-status.
+      operations:
+      - method: GET
+        name: getmenuscheduleoverridestatus
+        description: Get menu schedule override job status
+        call: menu-menu-schedule-overrides.getmenuscheduleoverridestatus
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: menu-menu-schedule-overrides-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Grubhub Menu API — Menu Schedule Overrides. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: update-menu-schedule-overrides
+      description: Update menu schedule overrides
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: menu-menu-schedule-overrides.updatemenuscheduleoverrides
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-menu-schedule-override-job
+      description: Get menu schedule override job status
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: menu-menu-schedule-overrides.getmenuscheduleoverridestatus
+      outputParameters:
+      - type: object
+        mapping: $.

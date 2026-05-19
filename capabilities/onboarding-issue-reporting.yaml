@@ -1,0 +1,80 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Grubhub Onboarding API — Issue Reporting
+  description: 'Grubhub Onboarding API — Issue Reporting. 1 operations. Lead operation: Report an onboarding issue. Self-contained
+    Naftiko capability covering one Grubhub business surface.'
+  tags:
+  - Grubhub
+  - Issue Reporting
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    GRUBHUB_API_KEY: GRUBHUB_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: onboarding-issue-reporting
+    baseUri: https://api-third-party-gtm.grubhub.com
+    description: Grubhub Onboarding API — Issue Reporting business capability. Self-contained, no shared references.
+    resources:
+    - name: pos-v1-onboarding-issue
+      path: /pos/v1/onboarding/issue
+      operations:
+      - name: reportonboardingissue
+        method: POST
+        description: Report an onboarding issue
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.GRUBHUB_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: onboarding-issue-reporting-rest
+    port: 8080
+    description: REST adapter for Grubhub Onboarding API — Issue Reporting. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/pos/v1/onboarding/issue
+      name: pos-v1-onboarding-issue
+      description: REST surface for pos-v1-onboarding-issue.
+      operations:
+      - method: POST
+        name: reportonboardingissue
+        description: Report an onboarding issue
+        call: onboarding-issue-reporting.reportonboardingissue
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: onboarding-issue-reporting-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Grubhub Onboarding API — Issue Reporting. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: report-onboarding-issue
+      description: Report an onboarding issue
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: onboarding-issue-reporting.reportonboardingissue
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
