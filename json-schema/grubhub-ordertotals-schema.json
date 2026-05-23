@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/OrderTotals",
+  "title": "OrderTotals",
+  "type": "object",
+  "description": "Financial totals for an order.",
+  "properties": {
+    "subtotal": {
+      "type": "number",
+      "format": "double",
+      "description": "The subtotal before taxes and fees."
+    },
+    "tax": {
+      "type": "number",
+      "format": "double",
+      "description": "The tax amount."
+    },
+    "delivery_fee": {
+      "type": "number",
+      "format": "double",
+      "description": "The delivery fee charged."
+    },
+    "tip": {
+      "type": "number",
+      "format": "double",
+      "description": "The tip amount."
+    },
+    "total": {
+      "type": "number",
+      "format": "double",
+      "description": "The total amount for the order."
+    }
+  }
+}

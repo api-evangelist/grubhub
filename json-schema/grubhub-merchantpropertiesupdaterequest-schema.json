@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/MerchantPropertiesUpdateRequest",
+  "title": "MerchantPropertiesUpdateRequest",
+  "type": "object",
+  "description": "Request to update properties for a batch of merchants.",
+  "required": [
+    "merchants"
+  ],
+  "properties": {
+    "merchants": {
+      "type": "array",
+      "description": "List of merchants with properties to update.",
+      "items": {
+        "type": "object",
+        "required": [
+          "merchant_id"
+        ],
+        "properties": {
+          "merchant_id": {
+            "type": "string",
+            "description": "The Grubhub merchant identifier."
+          },
+          "tax_rate": {
+            "type": "number",
+            "format": "double",
+            "description": "Updated tax rate for the merchant."
+          },
+          "fulfillment_settings": {
+            "type": "object",
+            "description": "Updated fulfillment settings.",
+            "properties": {
+              "delivery_enabled": {
+                "type": "boolean",
+                "description": "Whether delivery should be enabled."
+              },
+              "pickup_enabled": {
+                "type": "boolean",
+                "description": "Whether pickup should be enabled."
+              },
+              "estimated_prep_time_minutes": {
+                "type": "integer",
+                "description": "Updated estimated preparation time."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

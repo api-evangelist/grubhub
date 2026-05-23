@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ReferralResponse",
+  "title": "ReferralResponse",
+  "type": "object",
+  "description": "Response after successfully creating a merchant referral.",
+  "properties": {
+    "referral_id": {
+      "type": "string",
+      "description": "The unique identifier for this referral."
+    },
+    "merchant_id": {
+      "type": "string",
+      "description": "The assigned Grubhub merchant identifier."
+    },
+    "status": {
+      "type": "string",
+      "description": "The current status of the referral.",
+      "enum": [
+        "PENDING",
+        "APPROVED",
+        "REJECTED"
+      ]
+    }
+  }
+}

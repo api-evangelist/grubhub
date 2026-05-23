@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/BatchJobResponse",
+  "title": "BatchJobResponse",
+  "type": "object",
+  "description": "Response returned when a batch operation is accepted for processing.",
+  "properties": {
+    "batch_id": {
+      "type": "string",
+      "description": "The unique identifier for tracking the batch operation."
+    }
+  }
+}

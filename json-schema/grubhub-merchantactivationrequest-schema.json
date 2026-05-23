@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/MerchantActivationRequest",
+  "title": "MerchantActivationRequest",
+  "type": "object",
+  "description": "Request to activate a merchant for partner integration.",
+  "required": [
+    "merchant_id"
+  ],
+  "properties": {
+    "merchant_id": {
+      "type": "string",
+      "description": "The Grubhub merchant identifier to activate."
+    }
+  }
+}

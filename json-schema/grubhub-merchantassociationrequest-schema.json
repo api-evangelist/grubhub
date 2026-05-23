@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/MerchantAssociationRequest",
+  "title": "MerchantAssociationRequest",
+  "type": "object",
+  "description": "Request to associate merchants with the partner.",
+  "required": [
+    "merchant_ids"
+  ],
+  "properties": {
+    "merchant_ids": {
+      "type": "array",
+      "description": "List of merchant IDs to associate with the partner.",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    }
+  }
+}

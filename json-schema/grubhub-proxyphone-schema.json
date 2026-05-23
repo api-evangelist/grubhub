@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ProxyPhone",
+  "title": "ProxyPhone",
+  "type": "object",
+  "description": "A masked proxy phone number for communicating with the courier.",
+  "properties": {
+    "proxy_phone_number": {
+      "type": "string",
+      "description": "The masked phone number that bridges communication between the merchant and the courier."
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When this proxy phone number expires."
+    }
+  }
+}

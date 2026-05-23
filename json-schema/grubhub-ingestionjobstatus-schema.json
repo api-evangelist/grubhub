@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/IngestionJobStatus",
+  "title": "IngestionJobStatus",
+  "type": "object",
+  "description": "Status of a menu ingestion or override job.",
+  "properties": {
+    "job_id": {
+      "type": "string",
+      "description": "The unique identifier for the job."
+    },
+    "status": {
+      "type": "string",
+      "description": "The current status of the job.",
+      "enum": [
+        "PENDING",
+        "PROCESSING",
+        "COMPLETED",
+        "FAILED"
+      ]
+    },
+    "errors": {
+      "type": "array",
+      "description": "List of errors encountered during processing, if any.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Error code."
+          },
+          "message": {
+            "type": "string",
+            "description": "Human-readable error message."
+          }
+        }
+      }
+    }
+  }
+}

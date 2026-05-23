@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Delivery",
+  "title": "Delivery",
+  "type": "object",
+  "description": "The current state of a delivery including driver and tracking details.",
+  "properties": {
+    "order_uuid": {
+      "type": "string",
+      "format": "uuid",
+      "description": "The UUID of the associated order."
+    },
+    "status": {
+      "type": "string",
+      "description": "The current lifecycle status of the delivery.",
+      "enum": [
+        "PENDING",
+        "DRIVER_ASSIGNED",
+        "DRIVER_EN_ROUTE_TO_PICKUP",
+        "ARRIVED_AT_PICKUP",
+        "PICKED_UP",
+        "OUT_FOR_DELIVERY",
+        "ARRIVED_AT_DROPOFF",
+        "DELIVERED",
+        "CANCELLED"
+      ]
+    },
+    "driver": {
+      "$ref": "#/components/schemas/Driver"
+    },
+    "pickup_eta": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Estimated time of arrival at the pickup location."
+    },
+    "dropoff_eta": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Estimated time of arrival at the delivery location."
+    },
+    "tracking_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "A URL providing real-time delivery status updates, courier tracking, courier name, and contact options."
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of the last delivery status update."
+    }
+  }
+}

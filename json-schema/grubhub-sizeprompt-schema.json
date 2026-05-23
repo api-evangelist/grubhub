@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/SizePrompt",
+  "title": "SizePrompt",
+  "type": "object",
+  "description": "A size selection prompt for a menu item. Sizes can affect the price of both the item and its modifiers.",
+  "properties": {
+    "external_id": {
+      "type": "string",
+      "description": "A unique external identifier for this size prompt."
+    },
+    "name": {
+      "type": "string",
+      "description": "The display name for the size prompt."
+    },
+    "options": {
+      "type": "array",
+      "description": "Available size options.",
+      "items": {
+        "$ref": "#/components/schemas/SizeOption"
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/OnboardingIssue",
+  "title": "OnboardingIssue",
+  "type": "object",
+  "description": "An issue report for the merchant onboarding process.",
+  "required": [
+    "merchant_id",
+    "description"
+  ],
+  "properties": {
+    "merchant_id": {
+      "type": "string",
+      "description": "The merchant identifier experiencing the issue."
+    },
+    "issue_type": {
+      "type": "string",
+      "description": "The category of the onboarding issue."
+    },
+    "description": {
+      "type": "string",
+      "description": "Detailed description of the issue encountered."
+    }
+  }
+}

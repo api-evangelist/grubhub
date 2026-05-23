@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/MerchantReferral",
+  "title": "MerchantReferral",
+  "type": "object",
+  "description": "Details of a new merchant being referred for onboarding.",
+  "required": [
+    "business_name",
+    "address",
+    "contact"
+  ],
+  "properties": {
+    "business_name": {
+      "type": "string",
+      "description": "The name of the merchant's business."
+    },
+    "address": {
+      "$ref": "#/components/schemas/Address"
+    },
+    "contact": {
+      "$ref": "#/components/schemas/Contact"
+    },
+    "external_id": {
+      "type": "string",
+      "description": "The partner's external identifier for this merchant."
+    },
+    "cuisine_types": {
+      "type": "array",
+      "description": "Types of cuisine offered by the merchant.",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

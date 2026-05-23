@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/WeeklySchedule",
+  "title": "WeeklySchedule",
+  "type": "object",
+  "description": "A weekly schedule defining operating hours for each day of the week.",
+  "properties": {
+    "monday": {
+      "$ref": "#/components/schemas/DaySchedule"
+    },
+    "tuesday": {
+      "$ref": "#/components/schemas/DaySchedule"
+    },
+    "wednesday": {
+      "$ref": "#/components/schemas/DaySchedule"
+    },
+    "thursday": {
+      "$ref": "#/components/schemas/DaySchedule"
+    },
+    "friday": {
+      "$ref": "#/components/schemas/DaySchedule"
+    },
+    "saturday": {
+      "$ref": "#/components/schemas/DaySchedule"
+    },
+    "sunday": {
+      "$ref": "#/components/schemas/DaySchedule"
+    }
+  }
+}

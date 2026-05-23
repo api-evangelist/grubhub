@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/MenuItem",
+  "title": "MenuItem",
+  "type": "object",
+  "description": "An individual menu item that a diner can order for delivery or pickup.",
+  "properties": {
+    "external_id": {
+      "type": "string",
+      "description": "A unique external identifier for diff-based ingestion."
+    },
+    "name": {
+      "type": "string",
+      "description": "The display name of the menu item."
+    },
+    "description": {
+      "type": "string",
+      "description": "A description of the menu item."
+    },
+    "price": {
+      "type": "number",
+      "format": "double",
+      "description": "The base price of the menu item in the merchant's currency.",
+      "minimum": 0
+    },
+    "available": {
+      "type": "boolean",
+      "description": "Whether this item is currently available for ordering."
+    },
+    "size_prompt": {
+      "$ref": "#/components/schemas/SizePrompt"
+    },
+    "modifier_prompts": {
+      "type": "array",
+      "description": "Modifier prompts for this item, such as salad dressing choice or add-on toppings.",
+      "items": {
+        "$ref": "#/components/schemas/ModifierPrompt"
+      }
+    }
+  },
+  "required": [
+    "external_id",
+    "name",
+    "price"
+  ]
+}

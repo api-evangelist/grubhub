@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Driver",
+  "title": "Driver",
+  "type": "object",
+  "description": "Information about the assigned delivery driver.",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The driver's display name."
+    },
+    "phone": {
+      "type": "string",
+      "description": "The driver's contact phone number."
+    },
+    "delivery_method": {
+      "type": "string",
+      "description": "The method of delivery being used by the driver.",
+      "enum": [
+        "CAR",
+        "BIKE",
+        "WALKING"
+      ]
+    },
+    "latitude": {
+      "type": "number",
+      "format": "double",
+      "description": "The driver's current latitude coordinate."
+    },
+    "longitude": {
+      "type": "number",
+      "format": "double",
+      "description": "The driver's current longitude coordinate."
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/BatchJobStatus",
+  "title": "BatchJobStatus",
+  "type": "object",
+  "description": "Status of a batch operation with per-merchant progress.",
+  "properties": {
+    "batch_id": {
+      "type": "string",
+      "description": "The unique identifier for the batch operation."
+    },
+    "status": {
+      "type": "string",
+      "description": "The overall status of the batch.",
+      "enum": [
+        "PENDING",
+        "PROCESSING",
+        "COMPLETED",
+        "FAILED"
+      ]
+    },
+    "merchants": {
+      "type": "array",
+      "description": "Progress for each individual merchant in the batch.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "merchant_id": {
+            "type": "string",
+            "description": "The merchant identifier."
+          },
+          "status": {
+            "type": "string",
+            "description": "The status for this merchant's update.",
+            "enum": [
+              "PENDING",
+              "SUCCESS",
+              "FAILED"
+            ]
+          },
+          "error": {
+            "type": "string",
+            "description": "Error message if the update failed for this merchant."
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+name: Grubhub Domain Vocabulary
+provider: Grubhub
+providerId: grubhub
+description: Tag-derived vocabulary for the Grubhub API surface; sourced from openapi/ tags.
+terms:
+- term: Order Change Requests
+  description: Endpoints for managing order change requests and modifications.
+- term: Order Polling
+  description: Endpoints for polling orders across multiple merchants. Webhook subscription is the preferred method for receiving
+    new orders.
+- term: Order Status
+  description: Endpoints for confirming orders and updating order lifecycle states.
+- term: Orders
+  description: Endpoints for retrieving and managing orders placed through the Grubhub Marketplace.

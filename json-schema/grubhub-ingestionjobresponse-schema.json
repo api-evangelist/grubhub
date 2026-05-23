@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/IngestionJobResponse",
+  "title": "IngestionJobResponse",
+  "type": "object",
+  "description": "Response returned when a menu ingestion job is accepted.",
+  "properties": {
+    "job_id": {
+      "type": "string",
+      "description": "The unique identifier for the ingestion job, used to check status."
+    }
+  }
+}

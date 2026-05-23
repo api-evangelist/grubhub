@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/MenuSchedule",
+  "title": "MenuSchedule",
+  "type": "object",
+  "description": "A schedule defining availability windows and the sections of menu items available during those periods.",
+  "properties": {
+    "external_id": {
+      "type": "string",
+      "description": "A unique external identifier assigned by the partner for diff-based menu ingestion."
+    },
+    "name": {
+      "type": "string",
+      "description": "The display name of the schedule."
+    },
+    "availability": {
+      "type": "array",
+      "description": "Time windows when this schedule is active.",
+      "items": {
+        "$ref": "#/components/schemas/Availability"
+      }
+    },
+    "sections": {
+      "type": "array",
+      "description": "Menu sections available during this schedule, such as appetizers or entrees.",
+      "items": {
+        "$ref": "#/components/schemas/MenuSection"
+      }
+    }
+  },
+  "required": [
+    "external_id",
+    "name",
+    "sections"
+  ]
+}

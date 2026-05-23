@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/OrderChangeRequest",
+  "title": "OrderChangeRequest",
+  "type": "object",
+  "description": "A change request for an existing order.",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The unique identifier for the change request."
+    },
+    "status": {
+      "type": "string",
+      "description": "The current status of the change request.",
+      "enum": [
+        "PENDING",
+        "APPROVED",
+        "REJECTED"
+      ]
+    },
+    "type": {
+      "type": "string",
+      "description": "The type of change being requested."
+    },
+    "details": {
+      "type": "string",
+      "description": "Details about the requested change."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the change request was created."
+    }
+  }
+}

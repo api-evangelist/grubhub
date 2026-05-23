@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ModifierPrompt",
+  "title": "ModifierPrompt",
+  "type": "object",
+  "description": "A modifier prompt for a menu item, allowing customization such as choice of dressing, extra toppings, or preparation preferences.",
+  "properties": {
+    "external_id": {
+      "type": "string",
+      "description": "A unique external identifier for this modifier prompt."
+    },
+    "name": {
+      "type": "string",
+      "description": "The display name of the modifier prompt."
+    },
+    "required": {
+      "type": "boolean",
+      "description": "Whether a selection is required from this modifier prompt."
+    },
+    "min_selections": {
+      "type": "integer",
+      "description": "Minimum number of selections required.",
+      "minimum": 0
+    },
+    "max_selections": {
+      "type": "integer",
+      "description": "Maximum number of selections allowed.",
+      "minimum": 1
+    },
+    "options": {
+      "type": "array",
+      "description": "Available modifier options.",
+      "items": {
+        "$ref": "#/components/schemas/ModifierOption"
+      }
+    }
+  },
+  "required": [
+    "external_id",
+    "name",
+    "options"
+  ]
+}

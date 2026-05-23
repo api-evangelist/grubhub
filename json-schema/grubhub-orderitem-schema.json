@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/OrderItem",
+  "title": "OrderItem",
+  "type": "object",
+  "description": "An individual item within an order.",
+  "properties": {
+    "item_id": {
+      "type": "string",
+      "description": "The unique identifier for the menu item."
+    },
+    "name": {
+      "type": "string",
+      "description": "The display name of the item."
+    },
+    "quantity": {
+      "type": "integer",
+      "description": "The quantity ordered.",
+      "minimum": 1
+    },
+    "price": {
+      "type": "number",
+      "format": "double",
+      "description": "The unit price of the item."
+    },
+    "modifiers": {
+      "type": "array",
+      "description": "Modifiers applied to this item.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the modifier."
+          },
+          "price": {
+            "type": "number",
+            "format": "double",
+            "description": "The additional price for this modifier."
+          }
+        }
+      }
+    },
+    "special_instructions": {
+      "type": "string",
+      "description": "Item-level special instructions."
+    }
+  }
+}

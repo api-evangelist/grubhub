@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/OrderStatusUpdate",
+  "title": "OrderStatusUpdate",
+  "type": "object",
+  "description": "Payload for updating an order's lifecycle status.",
+  "required": [
+    "status"
+  ],
+  "properties": {
+    "status": {
+      "type": "string",
+      "description": "The new status for the order.",
+      "enum": [
+        "IN_PROGRESS",
+        "READY",
+        "OUT_FOR_DELIVERY",
+        "COMPLETED",
+        "CANCELLED"
+      ]
+    },
+    "reason": {
+      "type": "string",
+      "description": "Reason for the status change, particularly relevant for cancellations."
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/FulfillmentInfo",
+  "title": "FulfillmentInfo",
+  "type": "object",
+  "description": "Fulfillment configuration for a merchant.",
+  "properties": {
+    "delivery_enabled": {
+      "type": "boolean",
+      "description": "Whether delivery is enabled for this merchant."
+    },
+    "pickup_enabled": {
+      "type": "boolean",
+      "description": "Whether pickup is enabled for this merchant."
+    },
+    "catering_enabled": {
+      "type": "boolean",
+      "description": "Whether catering is enabled for this merchant."
+    },
+    "estimated_prep_time_minutes": {
+      "type": "integer",
+      "description": "Estimated preparation time in minutes.",
+      "minimum": 0
+    },
+    "delivery_radius_miles": {
+      "type": "number",
+      "format": "double",
+      "description": "The delivery radius in miles."
+    },
+    "minimum_order_amount": {
+      "type": "number",
+      "format": "double",
+      "description": "The minimum order amount for delivery."
+    }
+  }
+}

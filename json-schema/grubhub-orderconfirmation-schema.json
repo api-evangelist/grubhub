@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/OrderConfirmation",
+  "title": "OrderConfirmation",
+  "type": "object",
+  "description": "Payload for confirming an order, with optional wait time estimate.",
+  "properties": {
+    "wait_time_in_minutes": {
+      "type": "integer",
+      "description": "Estimated number of minutes until the order will be ready for delivery or pickup.",
+      "minimum": 1
+    }
+  }
+}

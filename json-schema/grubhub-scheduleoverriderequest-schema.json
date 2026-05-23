@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ScheduleOverrideRequest",
+  "title": "ScheduleOverrideRequest",
+  "type": "object",
+  "description": "Request to create a schedule override for temporary changes to operating hours.",
+  "required": [
+    "start_date",
+    "end_date"
+  ],
+  "properties": {
+    "start_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The start date and time of the override."
+    },
+    "end_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The end date and time of the override."
+    },
+    "closed": {
+      "type": "boolean",
+      "description": "Whether the merchant should be closed during this override period."
+    },
+    "time_windows": {
+      "type": "array",
+      "description": "Custom operating hours during the override period. Only applicable when closed is false.",
+      "items": {
+        "$ref": "#/components/schemas/TimeWindow"
+      }
+    },
+    "reason": {
+      "type": "string",
+      "description": "Reason for the schedule override."
+    }
+  }
+}

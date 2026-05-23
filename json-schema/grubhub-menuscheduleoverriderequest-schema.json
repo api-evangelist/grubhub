@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/MenuScheduleOverrideRequest",
+  "title": "MenuScheduleOverrideRequest",
+  "type": "object",
+  "description": "A request to create or update menu schedule overrides for a merchant.",
+  "properties": {
+    "overrides": {
+      "type": "array",
+      "description": "List of schedule overrides to apply.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "external_id": {
+            "type": "string",
+            "description": "External identifier for the schedule being overridden."
+          },
+          "available": {
+            "type": "boolean",
+            "description": "Whether the schedule should be active or inactive."
+          },
+          "start_date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The start date and time of the override."
+          },
+          "end_date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The end date and time of the override."
+          }
+        }
+      }
+    }
+  }
+}

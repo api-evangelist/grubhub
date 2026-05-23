@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/MerchantDeactivationRequest",
+  "title": "MerchantDeactivationRequest",
+  "type": "object",
+  "description": "Request to deactivate a merchant and remove partner association.",
+  "required": [
+    "merchant_id"
+  ],
+  "properties": {
+    "merchant_id": {
+      "type": "string",
+      "description": "The Grubhub merchant identifier to deactivate."
+    },
+    "reason": {
+      "type": "string",
+      "description": "Reason for deactivating the merchant."
+    }
+  }
+}

@@ -1,0 +1,122 @@
+{
+  "provider": "Grubhub",
+  "providerId": "grubhub",
+  "kind": "json-structure",
+  "description": "Structural overview of the Grubhub API surface; extracted from openapi/.",
+  "schemaCount": 9,
+  "operationCount": 6,
+  "schemas": [
+    {
+      "name": "Order",
+      "type": "object",
+      "propertyCount": 11,
+      "required": []
+    },
+    {
+      "name": "Customer",
+      "type": "object",
+      "propertyCount": 3,
+      "required": []
+    },
+    {
+      "name": "OrderItem",
+      "type": "object",
+      "propertyCount": 6,
+      "required": []
+    },
+    {
+      "name": "OrderTotals",
+      "type": "object",
+      "propertyCount": 5,
+      "required": []
+    },
+    {
+      "name": "Address",
+      "type": "object",
+      "propertyCount": 7,
+      "required": []
+    },
+    {
+      "name": "OrderConfirmation",
+      "type": "object",
+      "propertyCount": 1,
+      "required": []
+    },
+    {
+      "name": "OrderStatusUpdate",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "status"
+      ]
+    },
+    {
+      "name": "OrderChangeRequest",
+      "type": "object",
+      "propertyCount": 5,
+      "required": []
+    },
+    {
+      "name": "Error",
+      "type": "object",
+      "propertyCount": 3,
+      "required": []
+    }
+  ],
+  "operations": [
+    {
+      "method": "GET",
+      "path": "/pos/v1/merchant/{merchant_long_id}/orders/{order_uuid}",
+      "operationId": "getOrder",
+      "summary": "Get a single order",
+      "tags": [
+        "Orders"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/pos/v1/merchant/{merchant_long_id}/orders",
+      "operationId": "listMerchantOrders",
+      "summary": "List orders for a merchant",
+      "tags": [
+        "Orders"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/pos/v1/orders/poll",
+      "operationId": "pollOrders",
+      "summary": "Poll orders across merchants",
+      "tags": [
+        "Order Polling"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/pos/v1/merchant/{merchant_long_id}/orders/{order_uuid}/confirm",
+      "operationId": "confirmOrder",
+      "summary": "Confirm an order",
+      "tags": [
+        "Order Status"
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/pos/v1/merchant/{merchant_long_id}/orders/{order_uuid}/status",
+      "operationId": "updateOrderStatus",
+      "summary": "Update order status",
+      "tags": [
+        "Order Status"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/pos/v1/merchant/{merchant_long_id}/orders/{order_uuid}/changerequests",
+      "operationId": "getOrderChangeRequests",
+      "summary": "Get order change requests",
+      "tags": [
+        "Order Change Requests"
+      ]
+    }
+  ]
+}

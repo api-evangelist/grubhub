@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/MerchantStatusUpdateRequest",
+  "title": "MerchantStatusUpdateRequest",
+  "type": "object",
+  "description": "Request to update online/offline status for a batch of merchants.",
+  "required": [
+    "merchants"
+  ],
+  "properties": {
+    "merchants": {
+      "type": "array",
+      "description": "List of merchants to update.",
+      "items": {
+        "type": "object",
+        "required": [
+          "merchant_id",
+          "status"
+        ],
+        "properties": {
+          "merchant_id": {
+            "type": "string",
+            "description": "The Grubhub merchant identifier."
+          },
+          "status": {
+            "type": "string",
+            "description": "The desired status for the merchant.",
+            "enum": [
+              "ONLINE",
+              "OFFLINE"
+            ]
+          },
+          "pause_type": {
+            "type": "string",
+            "description": "The type of pause to apply when setting offline. A soft pause takes the merchant offline for the remainder of the business day. A hard pause takes the merchant offline for multiple days.",
+            "enum": [
+              "SOFT",
+              "HARD"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

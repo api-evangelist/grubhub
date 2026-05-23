@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Address",
+  "title": "Address",
+  "type": "object",
+  "description": "A physical address.",
+  "properties": {
+    "street_address": {
+      "type": "string",
+      "description": "The street address line."
+    },
+    "city": {
+      "type": "string",
+      "description": "The city name."
+    },
+    "state": {
+      "type": "string",
+      "description": "The state abbreviation."
+    },
+    "zip": {
+      "type": "string",
+      "description": "The ZIP code."
+    },
+    "latitude": {
+      "type": "number",
+      "format": "double",
+      "description": "The latitude coordinate."
+    },
+    "longitude": {
+      "type": "number",
+      "format": "double",
+      "description": "The longitude coordinate."
+    }
+  }
+}

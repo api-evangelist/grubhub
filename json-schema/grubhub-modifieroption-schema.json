@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ModifierOption",
+  "title": "ModifierOption",
+  "type": "object",
+  "description": "An individual modifier option within a modifier prompt.",
+  "properties": {
+    "external_id": {
+      "type": "string",
+      "description": "A unique external identifier for this modifier option."
+    },
+    "name": {
+      "type": "string",
+      "description": "The display name of the modifier option."
+    },
+    "price": {
+      "type": "number",
+      "format": "double",
+      "description": "The additional price for selecting this modifier.",
+      "minimum": 0
+    },
+    "available": {
+      "type": "boolean",
+      "description": "Whether this modifier option is currently available."
+    }
+  }
+}
