@@ -1,0 +1,175 @@
+naftiko: "1.0.0-alpha2"
+
+info:
+  label: "Grubhub Merchant Data API — Merchant Properties"
+  description: >-
+    Merchant Data — Merchant Properties. 3 operation(s). Lead operation: Get Merchant Fulfillment Info.
+    Self-contained Naftiko capability covering one Grubhub business surface.
+  tags:
+    - Grubhub
+    - Merchant Data
+    - Merchant Properties
+  created: "2026-06-02"
+  modified: "2026-06-02"
+
+binds:
+  - namespace: env
+    keys:
+      GRUBHUB_API_TOKEN: GRUBHUB_API_TOKEN
+
+capability:
+
+  # Consumes — upstream Grubhub HTTP API
+  consumes:
+    - type: http
+      namespace: "merchant-data-merchant-properties"
+      baseUri: "https://api-third-party-gtm.grubhub.com"
+      description: "Grubhub Merchant Data API — Merchant Properties business capability. Self-contained, no shared references."
+      authentication:
+        type: apikey
+        key: Authorization
+        value: "{{env.GRUBHUB_API_TOKEN}}"
+        placement: header
+      resources:
+        - name: "merchant-merchant-id-fulfillment"
+          path: "/pos/v1/merchant/{merchant_id}/fulfillment"
+          operations:
+            - name: "getMerchantFulfillment"
+              method: GET
+              description: "Get Merchant Fulfillment Info"
+              inputParameters:
+                - name: "merchant_id"
+                  in: path
+                  type: string
+                  required: true
+                  description: "The unique identifier for the merchant on Grubhub."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+        - name: "merchants-properties"
+          path: "/pos/v1/merchants/properties"
+          operations:
+            - name: "updateMerchantProperties"
+              method: PUT
+              description: "Update Merchant Properties in Batch"
+              inputParameters:
+                - name: "body"
+                  in: body
+                  type: object
+                  required: true
+                  description: "Request payload."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+        - name: "merchants-properties-batch-id"
+          path: "/pos/v1/merchants/properties/{batch_id}"
+          operations:
+            - name: "getMerchantPropertiesBatch"
+              method: GET
+              description: "Get Merchant Properties Batch Progress"
+              inputParameters:
+                - name: "batch_id"
+                  in: path
+                  type: string
+                  required: true
+                  description: "The unique identifier for a batch operation."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+  # REST exposer (required default)
+  exposes:
+    - type: rest
+      namespace: "merchant-data-merchant-properties-rest"
+      port: 8080
+      description: "REST adapter for Grubhub Merchant Data API — Merchant Properties. One Spectral-compliant resource per consumed operation."
+      resources:
+        - path: "/v1/merchant/{merchant-id}/fulfillment"
+          name: "merchant-merchant-id-fulfillment"
+          description: "REST surface for Merchant Properties."
+          operations:
+            - method: GET
+              name: "getMerchantFulfillment"
+              description: "Get Merchant Fulfillment Info"
+              call: "merchant-data-merchant-properties.getMerchantFulfillment"
+              with:
+                "merchant_id": "rest.merchant_id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: "/v1/merchants/properties"
+          name: "merchants-properties"
+          description: "REST surface for Merchant Properties."
+          operations:
+            - method: PUT
+              name: "updateMerchantProperties"
+              description: "Update Merchant Properties in Batch"
+              call: "merchant-data-merchant-properties.updateMerchantProperties"
+              with:
+                "body": "rest.body"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: "/v1/merchants/properties/{batch-id}"
+          name: "merchants-properties-batch-id"
+          description: "REST surface for Merchant Properties."
+          operations:
+            - method: GET
+              name: "getMerchantPropertiesBatch"
+              description: "Get Merchant Properties Batch Progress"
+              call: "merchant-data-merchant-properties.getMerchantPropertiesBatch"
+              with:
+                "batch_id": "rest.batch_id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+  # MCP exposer (required default)
+    - type: mcp
+      namespace: "merchant-data-merchant-properties-mcp"
+      port: 9090
+      transport: http
+      description: "MCP adapter for Grubhub Merchant Data API — Merchant Properties. One tool per consumed operation."
+      tools:
+        - name: "get-merchant-fulfillment-info"
+          description: "Get Merchant Fulfillment Info"
+          hints:
+            readOnly: true
+            destructive: false
+            idempotent: true
+          call: "merchant-data-merchant-properties.getMerchantFulfillment"
+          with:
+            "merchant_id": "tools.merchant_id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: "update-merchant-properties-batch"
+          description: "Update Merchant Properties in Batch"
+          hints:
+            readOnly: false
+            destructive: false
+            idempotent: true
+          call: "merchant-data-merchant-properties.updateMerchantProperties"
+          with:
+            "body": "tools.body"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: "get-merchant-properties-batch-progress"
+          description: "Get Merchant Properties Batch Progress"
+          hints:
+            readOnly: true
+            destructive: false
+            idempotent: true
+          call: "merchant-data-merchant-properties.getMerchantPropertiesBatch"
+          with:
+            "batch_id": "tools.batch_id"
+          outputParameters:
+            - type: object
+              mapping: "$."

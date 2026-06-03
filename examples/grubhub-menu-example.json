@@ -1,0 +1,25 @@
+{
+  "merchant_id": "ghm-1234567890",
+  "schedules": [
+    {
+      "external_id": "id-1234567890",
+      "name": "Margherita Pizza",
+      "availability": [
+        {
+          "day_of_week": "THURSDAY",
+          "start_time": "sample-value",
+          "end_time": "sample-value"
+        }
+      ],
+      "sections": [
+        {
+          "external_id": "id-1234567890",
+          "name": "Margherita Pizza",
+          "items": [
+            {}
+          ]
+        }
+      ]
+    }
+  ]
+}

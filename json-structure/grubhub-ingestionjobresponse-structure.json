@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/refs/heads/main/json-structure/grubhub-ingestionjobresponse-structure.json",
+  "name": "IngestionJobResponse",
+  "description": "Response returned when a menu ingestion job is accepted.",
+  "type": "object",
+  "properties": {
+    "job_id": {
+      "type": "string",
+      "description": "The unique identifier for the ingestion job, used to check status."
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "merchant_id": "ghm-1234567890",
+  "eligible": false,
+  "requirements": [
+    {
+      "requirement": "sample-value",
+      "met": true
+    }
+  ]
+}

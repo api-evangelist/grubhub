@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/refs/heads/main/json-structure/grubhub-merchantmapping-structure.json",
+  "name": "MerchantMapping",
+  "description": "Mapping between internal Grubhub merchant IDs and external partner merchant IDs.",
+  "type": "object",
+  "properties": {
+    "merchant_id": {
+      "type": "string",
+      "description": "The Grubhub internal merchant identifier."
+    },
+    "external_id": {
+      "type": "string",
+      "description": "The partner's external merchant identifier."
+    },
+    "name": {
+      "type": "string",
+      "description": "The merchant's display name."
+    },
+    "status": {
+      "type": "string",
+      "description": "The current status of the merchant.",
+      "enum": [
+        "ONLINE",
+        "OFFLINE"
+      ]
+    }
+  }
+}

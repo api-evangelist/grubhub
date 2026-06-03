@@ -1,0 +1,8 @@
+{
+  "delivery_enabled": false,
+  "pickup_enabled": true,
+  "catering_enabled": false,
+  "estimated_prep_time_minutes": 15,
+  "delivery_radius_miles": 18.11,
+  "minimum_order_amount": 49.08
+}

@@ -4,23 +4,29 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Grubhub
 providerId: grubhub
 created: '2026-05-04'
-modified: '2026-05-05'
-reconciled: false
+modified: '2026-06-02'
+reconciled: true
 tags:
   - Food Delivery
   - Marketplaces
   - Restaurants
   - Online Ordering
-description: Grubhub's developer APIs (Menu, Orders, Merchant Data, Merchant Schedules, Deliveries,
-  Onboarding) are integration APIs for restaurants, POS providers, online ordering providers, and
-  delivery aggregators. Access is granted through Grubhub's partner program rather than self-serve
-  signup. Grubhub does not publish per-call API prices; revenue flows from marketplace commissions
-  and merchant subscription plans negotiated with restaurants. The developer portal renders only
-  via JavaScript so the public landing pages return no plan content to automated fetches.
-notes: No public per-call API price list. Plan information here reflects the partner-program
-  structure inferred from the developer portal taxonomy. Reconcile against a partner contract or
-  the live developer portal once accessible.
+description: >-
+  Grubhub's developer APIs (Menu, Orders, Merchant Data, Merchant Schedules, Deliveries,
+  Onboarding) are integration APIs accessed through Grubhub's partner program rather than self-serve
+  signup; they carry no published per-call API price. Grubhub's revenue is commission-based -
+  restaurants on the Grubhub Marketplace pay a per-order commission whose rate depends on the
+  Marketplace plan they choose (Basic / Plus / Premium), plus a payment-processing fee and optional
+  add-ons such as Sponsored Listings. The integration APIs are included with a Marketplace listing.
+  Commission percentages below are the publicly advertised ranges; the exact rate is set per
+  restaurant contract and varies by market.
+notes: Marketplace commission tiers (Basic ~15%, Plus ~20-25%, Premium/All-Access ~25-30%), the ~3.05%
+  + $0.30 payment-processing fee, and the +5% Sponsored Listing add-on are reconciled against Grubhub's
+  public restaurant pricing pages. Exact rates are negotiated per restaurant and per market; the API
+  partner-integration plan itself has no published price (contact partnerships).
 sources:
+  - https://get.grubhub.com/faq/what-fees-does-grubhub-charge-restaurants/
+  - https://get.grubhub.com/blog/grubhub-prices-guide/
   - https://developer.grubhub.com
   - https://www.grubhub.com/restaurant
 plans:
@@ -29,7 +35,7 @@ plans:
     type: enterprise
     description: Partner / POS / aggregator integration covering Menu, Orders, Deliveries,
       Merchant Data, Schedules, and Onboarding APIs. Access is via Grubhub's partner program
-      with technical onboarding and sandbox provisioning.
+      with technical onboarding and sandbox provisioning. No published per-call API price.
     entries:
       - label: Integration access
         name: partner_access
@@ -50,29 +56,109 @@ plans:
       - name: Grubhub Onboarding API
       - name: Sandbox provisioning
       - name: Partner technical onboarding
-  - id: grubhub-merchant-marketplace
-    name: Restaurant Marketplace (commission-based)
+  - id: grubhub-marketplace-basic
+    name: Marketplace Basic
     type: usage-based
-    description: Restaurants on the Grubhub Marketplace pay commission on each order plus
-      optional marketing / delivery service fees. The commission rate is set per restaurant
-      contract; published Marketplace plans are tiered (e.g. Basic / Plus / Premium) with
-      different commission rates and feature bundles. The integration APIs are included with
-      the marketplace listing.
+    description: Marketplace listing for restaurants that fulfill delivery with their own drivers.
+      Lowest commission tier; the restaurant handles its own logistics. Integration APIs included.
     entries:
-      - label: Per-order commission
-        name: order_commission
+      - label: Per-order commission (Basic)
+        name: marketplace_commission_basic
         type: metered
         metric: order
         limit: -1
         timeFrame: usage
         geo: US
         unit: 1
-        price: contact restaurant sales
+        price: '~15%'
+        userMultiplied: false
+      - label: Payment processing fee
+        name: payment_processing
+        type: metered
+        metric: transaction
+        limit: -1
+        timeFrame: usage
+        geo: US
+        unit: 1
+        price: '3.05% + $0.30'
         userMultiplied: false
     elements:
       - name: Grubhub Marketplace listing
       - name: Order routing through Grubhub Orders API
-      - name: Optional Grubhub Connect delivery
+      - name: Self-delivery (restaurant-owned drivers)
+  - id: grubhub-marketplace-plus
+    name: Marketplace Plus
+    type: usage-based
+    description: Marketplace listing that unlocks Grubhub's driver network so Grubhub handles
+      delivery, at a higher per-order commission than Basic. Integration APIs included.
+    entries:
+      - label: Per-order commission (Plus)
+        name: marketplace_commission_plus
+        type: metered
+        metric: order
+        limit: -1
+        timeFrame: usage
+        geo: US
+        unit: 1
+        price: '~20-25%'
+        userMultiplied: false
+      - label: Payment processing fee
+        name: payment_processing
+        type: metered
+        metric: transaction
+        limit: -1
+        timeFrame: usage
+        geo: US
+        unit: 1
+        price: '3.05% + $0.30'
+        userMultiplied: false
+    elements:
+      - name: Grubhub Marketplace listing
+      - name: Grubhub driver network delivery (Grubhub Connect)
+      - name: Order routing through Grubhub Orders API
+      - name: Delivery tracking through Grubhub Deliveries API
+  - id: grubhub-marketplace-premium
+    name: Marketplace Premium / All-Access
+    type: usage-based
+    description: Highest Marketplace tier bundling Grubhub-network delivery with additional
+      marketing and promotion tools. Highest per-order commission. Integration APIs included.
+    entries:
+      - label: Per-order commission (Premium / All-Access)
+        name: marketplace_commission_premium
+        type: metered
+        metric: order
+        limit: -1
+        timeFrame: usage
+        geo: US
+        unit: 1
+        price: '~25-30%'
+        userMultiplied: false
+      - label: Payment processing fee
+        name: payment_processing
+        type: metered
+        metric: transaction
+        limit: -1
+        timeFrame: usage
+        geo: US
+        unit: 1
+        price: '3.05% + $0.30'
+        userMultiplied: false
+      - label: Sponsored Listing (optional add-on)
+        name: sponsored_listing
+        type: metered
+        metric: order
+        limit: -1
+        timeFrame: usage
+        geo: US
+        unit: 1
+        price: '+5%'
+        userMultiplied: false
+    elements:
+      - name: Grubhub Marketplace listing
+      - name: Grubhub driver network delivery (Grubhub Connect)
+      - name: Marketing and promotion tools
+      - name: Optional Sponsored Listing placement
+      - name: Order routing through Grubhub Orders API
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

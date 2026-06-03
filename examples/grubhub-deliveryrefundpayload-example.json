@@ -1,0 +1,9 @@
+{
+  "event_type": "STANDARD",
+  "order_uuid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "delivery_id": "id-1234567890",
+  "refund_status": "ACCEPTED",
+  "refund_amount": 0.0,
+  "decision_reason": "Out of an item.",
+  "decided_at": "2026-06-02T18:30:00Z"
+}

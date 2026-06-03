@@ -10,6 +10,7 @@ info:
     to ensure customers see accurate ordering windows for each restaurant
     location.
   version: '1.0.0'
+  x-last-validated: '2026-06-02'
   contact:
     name: Grubhub Developer Support
     url: https://grubhub-developers.zendesk.com/hc/en-us
@@ -18,34 +19,37 @@ externalDocs:
   description: Grubhub Merchant Schedules API Documentation
   url: https://developer.grubhub.com/api/merchant-schedules
 servers:
-  - url: https://api-third-party-gtm.grubhub.com
-    description: Production Server
-  - url: https://api-third-party-gtm-pp.grubhub.com
-    description: Preproduction Server
+- url: https://api-third-party-gtm.grubhub.com
+  description: Production Server
+- url: https://api-third-party-gtm-pp.grubhub.com
+  description: Preproduction Server
 tags:
-  - name: Schedule Overrides
-    description: >-
-      Endpoints for creating and managing temporary schedule overrides
-      such as closures and holiday hours.
-  - name: Schedules
-    description: >-
-      Endpoints for retrieving and managing merchant operating hours for
-      delivery, pickup, and catering.
+- name: Schedule Overrides
+  description: >-
+    Endpoints for creating and managing temporary schedule overrides
+    such as closures and holiday hours.
+- name: Schedules
+  description: >-
+    Endpoints for retrieving and managing merchant operating hours for
+    delivery, pickup, and catering.
 security:
-  - hmacAuth: []
+- hmacAuth: []
 paths:
   /pos/v1/merchant/{merchant_id}/schedules/delivery:
     get:
       operationId: getDeliverySchedule
-      summary: Get delivery schedule
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+      summary: Grubhub Get Delivery Schedule
       description: >-
         Returns the full weekly delivery hours for a merchant. The schedule
         defines the hours per day of the week that the merchant can accept
         delivery orders.
       tags:
-        - Schedules
+      - Schedules
       parameters:
-        - $ref: '#/components/parameters/MerchantId'
+      - $ref: '#/components/parameters/MerchantId'
       responses:
         '200':
           description: Weekly delivery schedule
@@ -53,36 +57,135 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/WeeklySchedule'
+              examples:
+                GetDeliverySchedule200Example:
+                  summary: Default getDeliverySchedule 200 response
+                  x-microcks-default: true
+                  value:
+                    monday:
+                      open: true
+                      time_windows:
+                      - start_time: {}
+                        end_time: {}
+                    tuesday:
+                      open: true
+                      time_windows:
+                      - start_time: {}
+                        end_time: {}
+                    wednesday:
+                      open: true
+                      time_windows:
+                      - start_time: {}
+                        end_time: {}
+                    thursday:
+                      open: true
+                      time_windows:
+                      - start_time: {}
+                        end_time: {}
+                    friday:
+                      open: true
+                      time_windows:
+                      - start_time: {}
+                        end_time: {}
+                    saturday:
+                      open: true
+                      time_windows:
+                      - start_time: {}
+                        end_time: {}
+                    sunday:
+                      open: true
+                      time_windows:
+                      - start_time: {}
+                        end_time: {}
         '401':
           description: Authentication failed
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                GetDeliverySchedule401Example:
+                  summary: Default getDeliverySchedule 401 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
         '404':
           description: Merchant not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                GetDeliverySchedule404Example:
+                  summary: Default getDeliverySchedule 404 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
     put:
       operationId: updateDeliverySchedule
-      summary: Update delivery schedule
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+      summary: Grubhub Update Delivery Schedule
       description: >-
         Creates or updates the weekly delivery schedule for a merchant,
         specifying the hours per day of the week that the merchant can
         accept delivery orders. If a schedule does not exist, one will
         be created.
       tags:
-        - Schedules
+      - Schedules
       parameters:
-        - $ref: '#/components/parameters/MerchantId'
+      - $ref: '#/components/parameters/MerchantId'
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/WeeklySchedule'
+            examples:
+              UpdateDeliveryScheduleRequestExample:
+                summary: Default updateDeliverySchedule request
+                x-microcks-default: true
+                value:
+                  monday:
+                    open: true
+                    time_windows:
+                    - start_time: {}
+                      end_time: {}
+                  tuesday:
+                    open: true
+                    time_windows:
+                    - start_time: {}
+                      end_time: {}
+                  wednesday:
+                    open: true
+                    time_windows:
+                    - start_time: {}
+                      end_time: {}
+                  thursday:
+                    open: true
+                    time_windows:
+                    - start_time: {}
+                      end_time: {}
+                  friday:
+                    open: true
+                    time_windows:
+                    - start_time: {}
+                      end_time: {}
+                  saturday:
+                    open: true
+                    time_windows:
+                    - start_time: {}
+                      end_time: {}
+                  sunday:
+                    open: true
+                    time_windows:
+                    - start_time: {}
+                      end_time: {}
       responses:
         '200':
           description: Delivery schedule updated successfully
@@ -92,30 +195,57 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                UpdateDeliverySchedule400Example:
+                  summary: Default updateDeliverySchedule 400 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
         '401':
           description: Authentication failed
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                UpdateDeliverySchedule401Example:
+                  summary: Default updateDeliverySchedule 401 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
         '404':
           description: Merchant not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                UpdateDeliverySchedule404Example:
+                  summary: Default updateDeliverySchedule 404 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
   /pos/v1/merchant/{merchant_id}/schedules/pickup:
     get:
       operationId: getPickupSchedule
-      summary: Get pickup schedule
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+      summary: Grubhub Get Pickup Schedule
       description: >-
         Returns the full weekly pickup hours for a merchant. The schedule
         defines the hours per day of the week that the merchant can accept
         pickup orders.
       tags:
-        - Schedules
+      - Schedules
       parameters:
-        - $ref: '#/components/parameters/MerchantId'
+      - $ref: '#/components/parameters/MerchantId'
       responses:
         '200':
           description: Weekly pickup schedule
@@ -123,36 +253,135 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/WeeklySchedule'
+              examples:
+                GetPickupSchedule200Example:
+                  summary: Default getPickupSchedule 200 response
+                  x-microcks-default: true
+                  value:
+                    monday:
+                      open: true
+                      time_windows:
+                      - start_time: {}
+                        end_time: {}
+                    tuesday:
+                      open: true
+                      time_windows:
+                      - start_time: {}
+                        end_time: {}
+                    wednesday:
+                      open: true
+                      time_windows:
+                      - start_time: {}
+                        end_time: {}
+                    thursday:
+                      open: true
+                      time_windows:
+                      - start_time: {}
+                        end_time: {}
+                    friday:
+                      open: true
+                      time_windows:
+                      - start_time: {}
+                        end_time: {}
+                    saturday:
+                      open: true
+                      time_windows:
+                      - start_time: {}
+                        end_time: {}
+                    sunday:
+                      open: true
+                      time_windows:
+                      - start_time: {}
+                        end_time: {}
         '401':
           description: Authentication failed
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                GetPickupSchedule401Example:
+                  summary: Default getPickupSchedule 401 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
         '404':
           description: Merchant not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                GetPickupSchedule404Example:
+                  summary: Default getPickupSchedule 404 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
     put:
       operationId: updatePickupSchedule
-      summary: Update pickup schedule
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+      summary: Grubhub Update Pickup Schedule
       description: >-
         Creates or updates the weekly pickup schedule for a merchant,
         specifying the hours per day of the week that the merchant can
         accept pickup orders. If a schedule does not exist, one will
         be created.
       tags:
-        - Schedules
+      - Schedules
       parameters:
-        - $ref: '#/components/parameters/MerchantId'
+      - $ref: '#/components/parameters/MerchantId'
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/WeeklySchedule'
+            examples:
+              UpdatePickupScheduleRequestExample:
+                summary: Default updatePickupSchedule request
+                x-microcks-default: true
+                value:
+                  monday:
+                    open: true
+                    time_windows:
+                    - start_time: {}
+                      end_time: {}
+                  tuesday:
+                    open: true
+                    time_windows:
+                    - start_time: {}
+                      end_time: {}
+                  wednesday:
+                    open: true
+                    time_windows:
+                    - start_time: {}
+                      end_time: {}
+                  thursday:
+                    open: true
+                    time_windows:
+                    - start_time: {}
+                      end_time: {}
+                  friday:
+                    open: true
+                    time_windows:
+                    - start_time: {}
+                      end_time: {}
+                  saturday:
+                    open: true
+                    time_windows:
+                    - start_time: {}
+                      end_time: {}
+                  sunday:
+                    open: true
+                    time_windows:
+                    - start_time: {}
+                      end_time: {}
       responses:
         '200':
           description: Pickup schedule updated successfully
@@ -162,30 +391,57 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                UpdatePickupSchedule400Example:
+                  summary: Default updatePickupSchedule 400 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
         '401':
           description: Authentication failed
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                UpdatePickupSchedule401Example:
+                  summary: Default updatePickupSchedule 401 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
         '404':
           description: Merchant not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                UpdatePickupSchedule404Example:
+                  summary: Default updatePickupSchedule 404 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
   /pos/v1/merchant/{merchant_id}/schedules/catering:
     get:
       operationId: getCateringSchedule
-      summary: Get catering schedule
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+      summary: Grubhub Get Catering Schedule
       description: >-
         Returns the full weekly catering hours for a merchant. The schedule
         defines the hours per day of the week that the merchant can accept
         catering orders.
       tags:
-        - Schedules
+      - Schedules
       parameters:
-        - $ref: '#/components/parameters/MerchantId'
+      - $ref: '#/components/parameters/MerchantId'
       responses:
         '200':
           description: Weekly catering schedule
@@ -193,36 +449,135 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/WeeklySchedule'
+              examples:
+                GetCateringSchedule200Example:
+                  summary: Default getCateringSchedule 200 response
+                  x-microcks-default: true
+                  value:
+                    monday:
+                      open: true
+                      time_windows:
+                      - start_time: {}
+                        end_time: {}
+                    tuesday:
+                      open: true
+                      time_windows:
+                      - start_time: {}
+                        end_time: {}
+                    wednesday:
+                      open: true
+                      time_windows:
+                      - start_time: {}
+                        end_time: {}
+                    thursday:
+                      open: true
+                      time_windows:
+                      - start_time: {}
+                        end_time: {}
+                    friday:
+                      open: true
+                      time_windows:
+                      - start_time: {}
+                        end_time: {}
+                    saturday:
+                      open: true
+                      time_windows:
+                      - start_time: {}
+                        end_time: {}
+                    sunday:
+                      open: true
+                      time_windows:
+                      - start_time: {}
+                        end_time: {}
         '401':
           description: Authentication failed
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                GetCateringSchedule401Example:
+                  summary: Default getCateringSchedule 401 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
         '404':
           description: Merchant not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                GetCateringSchedule404Example:
+                  summary: Default getCateringSchedule 404 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
     put:
       operationId: updateCateringSchedule
-      summary: Update catering schedule
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+      summary: Grubhub Update Catering Schedule
       description: >-
         Creates or updates the weekly catering schedule for a merchant,
         specifying the hours per day of the week that the merchant can
         accept catering orders. If a schedule does not exist, one will
         be created.
       tags:
-        - Schedules
+      - Schedules
       parameters:
-        - $ref: '#/components/parameters/MerchantId'
+      - $ref: '#/components/parameters/MerchantId'
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/WeeklySchedule'
+            examples:
+              UpdateCateringScheduleRequestExample:
+                summary: Default updateCateringSchedule request
+                x-microcks-default: true
+                value:
+                  monday:
+                    open: true
+                    time_windows:
+                    - start_time: {}
+                      end_time: {}
+                  tuesday:
+                    open: true
+                    time_windows:
+                    - start_time: {}
+                      end_time: {}
+                  wednesday:
+                    open: true
+                    time_windows:
+                    - start_time: {}
+                      end_time: {}
+                  thursday:
+                    open: true
+                    time_windows:
+                    - start_time: {}
+                      end_time: {}
+                  friday:
+                    open: true
+                    time_windows:
+                    - start_time: {}
+                      end_time: {}
+                  saturday:
+                    open: true
+                    time_windows:
+                    - start_time: {}
+                      end_time: {}
+                  sunday:
+                    open: true
+                    time_windows:
+                    - start_time: {}
+                      end_time: {}
       responses:
         '200':
           description: Catering schedule updated successfully
@@ -232,36 +587,75 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                UpdateCateringSchedule400Example:
+                  summary: Default updateCateringSchedule 400 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
         '401':
           description: Authentication failed
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                UpdateCateringSchedule401Example:
+                  summary: Default updateCateringSchedule 401 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
         '404':
           description: Merchant not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                UpdateCateringSchedule404Example:
+                  summary: Default updateCateringSchedule 404 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
   /pos/v1/merchant/{merchant_id}/schedules/overrides:
     post:
       operationId: createScheduleOverride
-      summary: Create a schedule override
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+      summary: Grubhub Create a Schedule Override
       description: >-
         Adds a schedule override for a merchant, allowing temporary
         changes to operating hours such as closures, extended hours,
         or holiday schedules.
       tags:
-        - Schedule Overrides
+      - Schedule Overrides
       parameters:
-        - $ref: '#/components/parameters/MerchantId'
+      - $ref: '#/components/parameters/MerchantId'
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/ScheduleOverrideRequest'
+            examples:
+              CreateScheduleOverrideRequestExample:
+                summary: Default createScheduleOverride request
+                x-microcks-default: true
+                value:
+                  start_date: '2026-06-02T18:30:00Z'
+                  end_date: '2026-06-02T18:30:00Z'
+                  closed: true
+                  time_windows:
+                  - start_time: '2026-06-02T18:30:00Z'
+                    end_time: '2026-06-02T18:30:00Z'
+                  reason: Out of an item.
       responses:
         '201':
           description: Schedule override created successfully
@@ -269,34 +663,74 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ScheduleOverride'
+              examples:
+                CreateScheduleOverride201Example:
+                  summary: Default createScheduleOverride 201 response
+                  x-microcks-default: true
+                  value:
+                    override_id: id-1234567890
+                    start_date: '2026-06-02T18:30:00Z'
+                    end_date: '2026-06-02T18:30:00Z'
+                    closed: true
+                    time_windows:
+                    - start_time: '2026-06-02T18:30:00Z'
+                      end_time: '2026-06-02T18:30:00Z'
+                    reason: Out of an item.
         '400':
           description: Invalid override request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                CreateScheduleOverride400Example:
+                  summary: Default createScheduleOverride 400 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
         '401':
           description: Authentication failed
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                CreateScheduleOverride401Example:
+                  summary: Default createScheduleOverride 401 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
         '404':
           description: Merchant not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                CreateScheduleOverride404Example:
+                  summary: Default createScheduleOverride 404 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
     delete:
       operationId: cancelScheduleOverride
-      summary: Cancel a schedule override
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+      summary: Grubhub Cancel a Schedule Override
       description: >-
         Cancels an existing schedule override for a merchant, restoring
         the regular operating hours.
       tags:
-        - Schedule Overrides
+      - Schedule Overrides
       parameters:
-        - $ref: '#/components/parameters/MerchantId'
+      - $ref: '#/components/parameters/MerchantId'
       requestBody:
         required: true
         content:
@@ -304,12 +738,18 @@ paths:
             schema:
               type: object
               required:
-                - override_id
+              - override_id
               properties:
                 override_id:
                   type: string
                   description: >-
                     The identifier of the override to cancel.
+            examples:
+              CancelScheduleOverrideRequestExample:
+                summary: Default cancelScheduleOverride request
+                x-microcks-default: true
+                value:
+                  override_id: string
       responses:
         '200':
           description: Schedule override cancelled successfully
@@ -319,12 +759,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                CancelScheduleOverride401Example:
+                  summary: Default cancelScheduleOverride 401 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
         '404':
           description: Override or merchant not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                CancelScheduleOverride404Example:
+                  summary: Default cancelScheduleOverride 404 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
 components:
   securitySchemes:
     hmacAuth:
@@ -372,6 +828,7 @@ components:
           type: boolean
           description: >-
             Whether the merchant is open on this day.
+          example: true
         time_windows:
           type: array
           description: >-
@@ -389,37 +846,42 @@ components:
           description: >-
             The start time in HH:mm format.
           pattern: '^\d{2}:\d{2}$'
+          example: '2026-06-02T18:30:00Z'
         end_time:
           type: string
           description: >-
             The end time in HH:mm format.
           pattern: '^\d{2}:\d{2}$'
+          example: '2026-06-02T18:30:00Z'
       required:
-        - start_time
-        - end_time
+      - start_time
+      - end_time
     ScheduleOverrideRequest:
       type: object
       description: >-
         Request to create a schedule override for temporary changes
         to operating hours.
       required:
-        - start_date
-        - end_date
+      - start_date
+      - end_date
       properties:
         start_date:
           type: string
           format: date-time
           description: >-
             The start date and time of the override.
+          example: '2026-06-02T18:30:00Z'
         end_date:
           type: string
           format: date-time
           description: >-
             The end date and time of the override.
+          example: '2026-06-02T18:30:00Z'
         closed:
           type: boolean
           description: >-
             Whether the merchant should be closed during this override period.
+          example: true
         time_windows:
           type: array
           description: >-
@@ -431,6 +893,7 @@ components:
           type: string
           description: >-
             Reason for the schedule override.
+          example: Out of an item.
     ScheduleOverride:
       type: object
       description: >-
@@ -440,20 +903,24 @@ components:
           type: string
           description: >-
             The unique identifier for this override.
+          example: id-1234567890
         start_date:
           type: string
           format: date-time
           description: >-
             The start date and time of the override.
+          example: '2026-06-02T18:30:00Z'
         end_date:
           type: string
           format: date-time
           description: >-
             The end date and time of the override.
+          example: '2026-06-02T18:30:00Z'
         closed:
           type: boolean
           description: >-
             Whether the merchant is closed during this override period.
+          example: true
         time_windows:
           type: array
           description: >-
@@ -464,6 +931,7 @@ components:
           type: string
           description: >-
             Reason for the schedule override.
+          example: Out of an item.
     Error:
       type: object
       description: >-
@@ -473,11 +941,14 @@ components:
           type: string
           description: >-
             Error type identifier.
+          example: invalid_request
         message:
           type: string
           description: >-
             Human-readable error description.
+          example: Operation completed successfully.
         status:
           type: integer
           description: >-
             HTTP status code.
+          example: 0

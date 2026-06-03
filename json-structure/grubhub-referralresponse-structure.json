@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/refs/heads/main/json-structure/grubhub-referralresponse-structure.json",
+  "name": "ReferralResponse",
+  "description": "Response after successfully creating a merchant referral.",
+  "type": "object",
+  "properties": {
+    "referral_id": {
+      "type": "string",
+      "description": "The unique identifier for this referral."
+    },
+    "merchant_id": {
+      "type": "string",
+      "description": "The assigned Grubhub merchant identifier."
+    },
+    "status": {
+      "type": "string",
+      "description": "The current status of the referral.",
+      "enum": [
+        "PENDING",
+        "APPROVED",
+        "REJECTED"
+      ]
+    }
+  }
+}

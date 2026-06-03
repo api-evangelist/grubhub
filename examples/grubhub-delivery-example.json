@@ -1,0 +1,9 @@
+{
+  "order_uuid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "status": "ARRIVED_AT_PICKUP",
+  "driver": null,
+  "pickup_eta": "2026-06-02T18:30:00Z",
+  "dropoff_eta": "2026-06-02T18:30:00Z",
+  "tracking_url": "https://developer.grubhub.com/track/abc123",
+  "updated_at": "2026-06-02T18:30:00Z"
+}

@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developer.grubhub.com/schemas/grubhub/deliverystatuspayload.json",
+  "title": "Grubhub Delivery Status Payload",
+  "description": "Webhook payload for a delivery status change.",
+  "type": "object",
+  "properties": {
+    "event_type": {
+      "type": "string",
+      "description": "The type of delivery event.",
+      "const": "DELIVERY_STATUS_UPDATE",
+      "example": "STANDARD"
+    },
+    "order_uuid": {
+      "type": "string",
+      "format": "uuid",
+      "description": "The UUID of the associated order.",
+      "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+    },
+    "delivery_id": {
+      "type": "string",
+      "description": "The unique identifier for the delivery.",
+      "example": "id-1234567890"
+    },
+    "status": {
+      "type": "string",
+      "description": "The new delivery status.",
+      "enum": [
+        "DRIVER_EN_ROUTE_TO_PICKUP",
+        "ARRIVED_AT_PICKUP",
+        "PICKED_UP",
+        "OUT_FOR_DELIVERY",
+        "ARRIVED_AT_DROPOFF",
+        "DELIVERED"
+      ],
+      "example": "DRIVER_EN_ROUTE_TO_PICKUP"
+    },
+    "pickup_eta": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Updated estimated time of arrival at pickup.",
+      "example": "2026-06-02T18:30:00Z"
+    },
+    "dropoff_eta": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Updated estimated time of arrival at dropoff.",
+      "example": "2026-06-02T18:30:00Z"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When this event occurred.",
+      "example": "2026-06-02T18:30:00Z"
+    }
+  }
+}

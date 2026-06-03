@@ -1,0 +1,10 @@
+{
+  "external_id": "id-1234567890",
+  "name": "Margherita Pizza",
+  "required": false,
+  "min_selections": 58,
+  "max_selections": 58,
+  "options": [
+    null
+  ]
+}

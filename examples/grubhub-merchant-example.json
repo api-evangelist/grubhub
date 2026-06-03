@@ -1,0 +1,31 @@
+{
+  "merchant_id": "ghm-1234567890",
+  "external_id": "id-1234567890",
+  "name": "Margherita Pizza",
+  "status": "ONLINE",
+  "pause_type": "HARD",
+  "address": {
+    "street_address": "111 W Washington St",
+    "city": "Chicago",
+    "state": "IL",
+    "zip": "60602",
+    "latitude": 41.8781,
+    "longitude": -87.6298
+  },
+  "phone": "+13125550142",
+  "tax_rate": 0.95,
+  "fulfillment_types": [
+    "DELIVERY"
+  ],
+  "fulfillment_settings": {
+    "delivery_enabled": false,
+    "pickup_enabled": false,
+    "catering_enabled": true,
+    "estimated_prep_time_minutes": 15,
+    "delivery_radius_miles": 11.48,
+    "minimum_order_amount": 19.92
+  },
+  "cuisine_types": [
+    "STANDARD"
+  ]
+}

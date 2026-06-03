@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/refs/heads/main/json-structure/grubhub-modifieroption-structure.json",
+  "name": "ModifierOption",
+  "description": "An individual modifier option within a modifier prompt.",
+  "type": "object",
+  "properties": {
+    "external_id": {
+      "type": "string",
+      "description": "A unique external identifier for this modifier option."
+    },
+    "name": {
+      "type": "string",
+      "description": "The display name of the modifier option."
+    },
+    "price": {
+      "type": "double",
+      "description": "The additional price for selecting this modifier.",
+      "minimum": 0
+    },
+    "available": {
+      "type": "boolean",
+      "description": "Whether this modifier option is currently available."
+    }
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developer.grubhub.com/schemas/grubhub/ordercancellationpayload.json",
+  "title": "Grubhub Order Cancellation Payload",
+  "description": "Webhook payload for an order cancellation event.",
+  "type": "object",
+  "properties": {
+    "event_type": {
+      "type": "string",
+      "description": "The type of event that triggered this webhook.",
+      "const": "ORDER_CANCELLED",
+      "example": "STANDARD"
+    },
+    "order_uuid": {
+      "type": "string",
+      "format": "uuid",
+      "description": "The unique identifier for the cancelled order.",
+      "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+    },
+    "merchant_id": {
+      "type": "string",
+      "description": "The Grubhub merchant identifier.",
+      "example": "ghm-1234567890"
+    },
+    "cancelled_by": {
+      "type": "string",
+      "description": "Who initiated the cancellation.",
+      "enum": [
+        "DINER",
+        "MERCHANT",
+        "SYSTEM"
+      ],
+      "example": "DINER"
+    },
+    "reason": {
+      "type": "string",
+      "description": "The reason for cancellation.",
+      "example": "Out of an item."
+    },
+    "cancelled_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the order was cancelled.",
+      "example": "2026-06-02T18:30:00Z"
+    }
+  }
+}

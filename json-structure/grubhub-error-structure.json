@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/refs/heads/main/json-structure/grubhub-error-structure.json",
+  "name": "Error",
+  "description": "Standard error response from the Grubhub API.",
+  "type": "object",
+  "properties": {
+    "error": {
+      "type": "string",
+      "description": "Error type identifier."
+    },
+    "message": {
+      "type": "string",
+      "description": "Human-readable error description."
+    },
+    "status": {
+      "type": "int32",
+      "description": "HTTP status code."
+    }
+  }
+}

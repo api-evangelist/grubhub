@@ -24,8 +24,8 @@ servers:
         description: >-
           The partner's webhook endpoint URL configured during onboarding.
     security:
-      - basicAuth: []
-      - hmacAuth: []
+    - basicAuth: []
+    - hmacAuth: []
 channels:
   /webhook/delivery-status:
     description: >-
@@ -41,10 +41,10 @@ channels:
         information such as name and delivery method.
       message:
         oneOf:
-          - $ref: '#/components/messages/DriverAssigned'
-          - $ref: '#/components/messages/DeliveryStatusUpdate'
-          - $ref: '#/components/messages/CourierLocationUpdate'
-          - $ref: '#/components/messages/DeliveryCancelled'
+        - $ref: '#/components/messages/DriverAssigned'
+        - $ref: '#/components/messages/DeliveryStatusUpdate'
+        - $ref: '#/components/messages/CourierLocationUpdate'
+        - $ref: '#/components/messages/DeliveryCancelled'
   /webhook/delivery-refund:
     description: >-
       Channel for receiving delivery refund update events including
@@ -80,6 +80,21 @@ components:
       contentType: application/json
       payload:
         $ref: '#/components/schemas/DriverAssignedPayload'
+      examples:
+      - name: DriverAssignedDefaultExample
+        summary: Default DriverAssigned example payload
+        x-microcks-default: true
+        payload:
+          event_type: STANDARD
+          order_uuid: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+          delivery_id: id-1234567890
+          driver:
+            name: string
+            phone: string
+            delivery_method: CAR
+          pickup_eta: '2026-06-02T18:30:00Z'
+          dropoff_eta: '2026-06-02T18:30:00Z'
+          timestamp: '2026-06-02T18:30:00Z'
     DeliveryStatusUpdate:
       name: DeliveryStatusUpdate
       title: Delivery Status Update
@@ -89,6 +104,18 @@ components:
       contentType: application/json
       payload:
         $ref: '#/components/schemas/DeliveryStatusPayload'
+      examples:
+      - name: DeliveryStatusUpdateDefaultExample
+        summary: Default DeliveryStatusUpdate example payload
+        x-microcks-default: true
+        payload:
+          event_type: STANDARD
+          order_uuid: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+          delivery_id: id-1234567890
+          status: DRIVER_EN_ROUTE_TO_PICKUP
+          pickup_eta: '2026-06-02T18:30:00Z'
+          dropoff_eta: '2026-06-02T18:30:00Z'
+          timestamp: '2026-06-02T18:30:00Z'
     CourierLocationUpdate:
       name: CourierLocationUpdate
       title: Courier Location Update
@@ -97,6 +124,19 @@ components:
       contentType: application/json
       payload:
         $ref: '#/components/schemas/CourierLocationPayload'
+      examples:
+      - name: CourierLocationUpdateDefaultExample
+        summary: Default CourierLocationUpdate example payload
+        x-microcks-default: true
+        payload:
+          event_type: STANDARD
+          order_uuid: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+          delivery_id: id-1234567890
+          latitude: 41.8781
+          longitude: -87.6298
+          pickup_eta: '2026-06-02T18:30:00Z'
+          dropoff_eta: '2026-06-02T18:30:00Z'
+          timestamp: '2026-06-02T18:30:00Z'
     DeliveryCancelled:
       name: DeliveryCancelled
       title: Delivery Cancelled
@@ -105,6 +145,16 @@ components:
       contentType: application/json
       payload:
         $ref: '#/components/schemas/DeliveryCancelledPayload'
+      examples:
+      - name: DeliveryCancelledDefaultExample
+        summary: Default DeliveryCancelled example payload
+        x-microcks-default: true
+        payload:
+          event_type: STANDARD
+          order_uuid: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+          delivery_id: id-1234567890
+          reason: Out of an item.
+          cancelled_at: '2026-06-02T18:30:00Z'
     DeliveryRefundUpdate:
       name: DeliveryRefundUpdate
       title: Delivery Refund Update
@@ -114,6 +164,18 @@ components:
       contentType: application/json
       payload:
         $ref: '#/components/schemas/DeliveryRefundPayload'
+      examples:
+      - name: DeliveryRefundUpdateDefaultExample
+        summary: Default DeliveryRefundUpdate example payload
+        x-microcks-default: true
+        payload:
+          event_type: STANDARD
+          order_uuid: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+          delivery_id: id-1234567890
+          refund_status: ACCEPTED
+          refund_amount: 0.0
+          decision_reason: Out of an item.
+          decided_at: '2026-06-02T18:30:00Z'
   schemas:
     DriverAssignedPayload:
       type: object
@@ -125,15 +187,18 @@ components:
           description: >-
             The type of delivery event.
           const: DRIVER_ASSIGNED
+          example: STANDARD
         order_uuid:
           type: string
           format: uuid
           description: >-
             The UUID of the associated order.
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
         delivery_id:
           type: string
           description: >-
             The unique identifier for the delivery.
+          example: id-1234567890
         driver:
           type: object
           description: >-
@@ -152,24 +217,27 @@ components:
               description: >-
                 The delivery method being used.
               enum:
-                - CAR
-                - BIKE
-                - WALKING
+              - CAR
+              - BIKE
+              - WALKING
         pickup_eta:
           type: string
           format: date-time
           description: >-
             Estimated time of arrival at the pickup location.
+          example: '2026-06-02T18:30:00Z'
         dropoff_eta:
           type: string
           format: date-time
           description: >-
             Estimated time of arrival at the delivery location.
+          example: '2026-06-02T18:30:00Z'
         timestamp:
           type: string
           format: date-time
           description: >-
             When this event occurred.
+          example: '2026-06-02T18:30:00Z'
     DeliveryStatusPayload:
       type: object
       description: >-
@@ -180,41 +248,48 @@ components:
           description: >-
             The type of delivery event.
           const: DELIVERY_STATUS_UPDATE
+          example: STANDARD
         order_uuid:
           type: string
           format: uuid
           description: >-
             The UUID of the associated order.
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
         delivery_id:
           type: string
           description: >-
             The unique identifier for the delivery.
+          example: id-1234567890
         status:
           type: string
           description: >-
             The new delivery status.
           enum:
-            - DRIVER_EN_ROUTE_TO_PICKUP
-            - ARRIVED_AT_PICKUP
-            - PICKED_UP
-            - OUT_FOR_DELIVERY
-            - ARRIVED_AT_DROPOFF
-            - DELIVERED
+          - DRIVER_EN_ROUTE_TO_PICKUP
+          - ARRIVED_AT_PICKUP
+          - PICKED_UP
+          - OUT_FOR_DELIVERY
+          - ARRIVED_AT_DROPOFF
+          - DELIVERED
+          example: DRIVER_EN_ROUTE_TO_PICKUP
         pickup_eta:
           type: string
           format: date-time
           description: >-
             Updated estimated time of arrival at pickup.
+          example: '2026-06-02T18:30:00Z'
         dropoff_eta:
           type: string
           format: date-time
           description: >-
             Updated estimated time of arrival at dropoff.
+          example: '2026-06-02T18:30:00Z'
         timestamp:
           type: string
           format: date-time
           description: >-
             When this event occurred.
+          example: '2026-06-02T18:30:00Z'
     CourierLocationPayload:
       type: object
       description: >-
@@ -225,40 +300,48 @@ components:
           description: >-
             The type of delivery event.
           const: COURIER_LOCATION_UPDATE
+          example: STANDARD
         order_uuid:
           type: string
           format: uuid
           description: >-
             The UUID of the associated order.
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
         delivery_id:
           type: string
           description: >-
             The unique identifier for the delivery.
+          example: id-1234567890
         latitude:
           type: number
           format: double
           description: >-
             The courier's current latitude coordinate.
+          example: 41.8781
         longitude:
           type: number
           format: double
           description: >-
             The courier's current longitude coordinate.
+          example: -87.6298
         pickup_eta:
           type: string
           format: date-time
           description: >-
             Updated estimated time of arrival at pickup.
+          example: '2026-06-02T18:30:00Z'
         dropoff_eta:
           type: string
           format: date-time
           description: >-
             Updated estimated time of arrival at dropoff.
+          example: '2026-06-02T18:30:00Z'
         timestamp:
           type: string
           format: date-time
           description: >-
             When this location update was recorded.
+          example: '2026-06-02T18:30:00Z'
     DeliveryCancelledPayload:
       type: object
       description: >-
@@ -269,24 +352,29 @@ components:
           description: >-
             The type of delivery event.
           const: DELIVERY_CANCELLED
+          example: STANDARD
         order_uuid:
           type: string
           format: uuid
           description: >-
             The UUID of the associated order.
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
         delivery_id:
           type: string
           description: >-
             The unique identifier for the delivery.
+          example: id-1234567890
         reason:
           type: string
           description: >-
             The reason for cancellation.
+          example: Out of an item.
         cancelled_at:
           type: string
           format: date-time
           description: >-
             When the delivery was cancelled.
+          example: '2026-06-02T18:30:00Z'
     DeliveryRefundPayload:
       type: object
       description: >-
@@ -297,33 +385,40 @@ components:
           description: >-
             The type of delivery event.
           const: DELIVERY_REFUND_UPDATE
+          example: STANDARD
         order_uuid:
           type: string
           format: uuid
           description: >-
             The UUID of the associated order.
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
         delivery_id:
           type: string
           description: >-
             The unique identifier for the delivery.
+          example: id-1234567890
         refund_status:
           type: string
           description: >-
             Whether the refund was accepted or rejected.
           enum:
-            - ACCEPTED
-            - REJECTED
+          - ACCEPTED
+          - REJECTED
+          example: ACCEPTED
         refund_amount:
           type: number
           format: double
           description: >-
             The amount of the refund.
+          example: 0.0
         decision_reason:
           type: string
           description: >-
             Explanation of the refund decision.
+          example: Out of an item.
         decided_at:
           type: string
           format: date-time
           description: >-
             When the refund decision was made.
+          example: '2026-06-02T18:30:00Z'

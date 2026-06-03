@@ -26,8 +26,8 @@ servers:
         description: >-
           The partner's webhook endpoint URL configured during onboarding.
     security:
-      - basicAuth: []
-      - hmacAuth: []
+    - basicAuth: []
+    - hmacAuth: []
 channels:
   /webhook/orders:
     description: >-
@@ -42,10 +42,10 @@ channels:
         order confirmations, status changes, and cancellations.
       message:
         oneOf:
-          - $ref: '#/components/messages/NewOrder'
-          - $ref: '#/components/messages/OrderStatusChange'
-          - $ref: '#/components/messages/OrderCancellation'
-          - $ref: '#/components/messages/OrderChangeRequest'
+        - $ref: '#/components/messages/NewOrder'
+        - $ref: '#/components/messages/OrderStatusChange'
+        - $ref: '#/components/messages/OrderCancellation'
+        - $ref: '#/components/messages/OrderChangeRequest'
 components:
   securitySchemes:
     basicAuth:
@@ -73,6 +73,39 @@ components:
       contentType: application/json
       payload:
         $ref: '#/components/schemas/OrderWebhookPayload'
+      examples:
+      - name: NewOrderDefaultExample
+        summary: Default NewOrder example payload
+        x-microcks-default: true
+        payload:
+          event_type: STANDARD
+          order_uuid: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+          merchant_id: ghm-1234567890
+          placed_at: '2026-06-02T18:30:00Z'
+          fulfillment_type: DELIVERY
+          customer:
+            first_name: string
+            last_name: string
+            phone: string
+          items:
+          - item_id: string
+            name: string
+            quantity: 0
+            price: 0.0
+            modifiers:
+            - name: string
+              price: 0.0
+          totals:
+            subtotal: 0.0
+            tax: 0.0
+            tip: 0.0
+            total: 0.0
+          delivery_address:
+            street_address: string
+            city: string
+            state: string
+            zip: string
+          special_instructions: Leave at the front desk.
     OrderStatusChange:
       name: OrderStatusChange
       title: Order Status Change
@@ -82,6 +115,17 @@ components:
       contentType: application/json
       payload:
         $ref: '#/components/schemas/OrderStatusWebhookPayload'
+      examples:
+      - name: OrderStatusChangeDefaultExample
+        summary: Default OrderStatusChange example payload
+        x-microcks-default: true
+        payload:
+          event_type: STANDARD
+          order_uuid: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+          merchant_id: ghm-1234567890
+          previous_status: ACTIVE
+          new_status: CONFIRMED
+          updated_at: '2026-06-02T18:30:00Z'
     OrderCancellation:
       name: OrderCancellation
       title: Order Cancellation
@@ -91,6 +135,17 @@ components:
       contentType: application/json
       payload:
         $ref: '#/components/schemas/OrderCancellationPayload'
+      examples:
+      - name: OrderCancellationDefaultExample
+        summary: Default OrderCancellation example payload
+        x-microcks-default: true
+        payload:
+          event_type: STANDARD
+          order_uuid: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+          merchant_id: ghm-1234567890
+          cancelled_by: DINER
+          reason: Out of an item.
+          cancelled_at: '2026-06-02T18:30:00Z'
     OrderChangeRequest:
       name: OrderChangeRequest
       title: Order Change Request
@@ -100,6 +155,18 @@ components:
       contentType: application/json
       payload:
         $ref: '#/components/schemas/OrderChangeRequestPayload'
+      examples:
+      - name: OrderChangeRequestDefaultExample
+        summary: Default OrderChangeRequest example payload
+        x-microcks-default: true
+        payload:
+          event_type: STANDARD
+          order_uuid: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+          merchant_id: ghm-1234567890
+          change_request_id: id-1234567890
+          change_type: STANDARD
+          details: string
+          requested_at: '2026-06-02T18:30:00Z'
   schemas:
     OrderWebhookPayload:
       type: object
@@ -111,27 +178,32 @@ components:
           description: >-
             The type of event that triggered this webhook.
           const: NEW_ORDER
+          example: STANDARD
         order_uuid:
           type: string
           format: uuid
           description: >-
             The unique identifier for the order.
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
         merchant_id:
           type: string
           description: >-
             The Grubhub merchant identifier.
+          example: ghm-1234567890
         placed_at:
           type: string
           format: date-time
           description: >-
             When the order was placed.
+          example: '2026-06-02T18:30:00Z'
         fulfillment_type:
           type: string
           description: >-
             The type of fulfillment requested.
           enum:
-            - DELIVERY
-            - PICKUP
+          - DELIVERY
+          - PICKUP
+          example: DELIVERY
         customer:
           type: object
           description: >-
@@ -239,6 +311,7 @@ components:
           type: string
           description: >-
             Special instructions from the customer.
+          example: Leave at the front desk.
     OrderStatusWebhookPayload:
       type: object
       description: >-
@@ -249,34 +322,40 @@ components:
           description: >-
             The type of event that triggered this webhook.
           const: ORDER_STATUS_CHANGE
+          example: STANDARD
         order_uuid:
           type: string
           format: uuid
           description: >-
             The unique identifier for the order.
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
         merchant_id:
           type: string
           description: >-
             The Grubhub merchant identifier.
+          example: ghm-1234567890
         previous_status:
           type: string
           description: >-
             The previous order status.
+          example: ACTIVE
         new_status:
           type: string
           description: >-
             The new order status.
           enum:
-            - CONFIRMED
-            - IN_PROGRESS
-            - READY
-            - OUT_FOR_DELIVERY
-            - COMPLETED
+          - CONFIRMED
+          - IN_PROGRESS
+          - READY
+          - OUT_FOR_DELIVERY
+          - COMPLETED
+          example: CONFIRMED
         updated_at:
           type: string
           format: date-time
           description: >-
             When the status was updated.
+          example: '2026-06-02T18:30:00Z'
     OrderCancellationPayload:
       type: object
       description: >-
@@ -287,32 +366,38 @@ components:
           description: >-
             The type of event that triggered this webhook.
           const: ORDER_CANCELLED
+          example: STANDARD
         order_uuid:
           type: string
           format: uuid
           description: >-
             The unique identifier for the cancelled order.
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
         merchant_id:
           type: string
           description: >-
             The Grubhub merchant identifier.
+          example: ghm-1234567890
         cancelled_by:
           type: string
           description: >-
             Who initiated the cancellation.
           enum:
-            - DINER
-            - MERCHANT
-            - SYSTEM
+          - DINER
+          - MERCHANT
+          - SYSTEM
+          example: DINER
         reason:
           type: string
           description: >-
             The reason for cancellation.
+          example: Out of an item.
         cancelled_at:
           type: string
           format: date-time
           description: >-
             When the order was cancelled.
+          example: '2026-06-02T18:30:00Z'
     OrderChangeRequestPayload:
       type: object
       description: >-
@@ -323,29 +408,36 @@ components:
           description: >-
             The type of event that triggered this webhook.
           const: ORDER_CHANGE_REQUEST
+          example: STANDARD
         order_uuid:
           type: string
           format: uuid
           description: >-
             The unique identifier for the order.
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
         merchant_id:
           type: string
           description: >-
             The Grubhub merchant identifier.
+          example: ghm-1234567890
         change_request_id:
           type: string
           description: >-
             The unique identifier for the change request.
+          example: id-1234567890
         change_type:
           type: string
           description: >-
             The type of change being requested.
+          example: STANDARD
         details:
           type: string
           description: >-
             Details about the requested change.
+          example: string
         requested_at:
           type: string
           format: date-time
           description: >-
             When the change was requested.
+          example: '2026-06-02T18:30:00Z'

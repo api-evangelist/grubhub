@@ -1,0 +1,148 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/refs/heads/main/json-structure/grubhub-orderwebhookpayload-structure.json",
+  "name": "Grubhub Order Webhook Payload",
+  "description": "Webhook payload for a new order placed through Grubhub.",
+  "type": "object",
+  "properties": {
+    "event_type": {
+      "type": "string",
+      "description": "The type of event that triggered this webhook.",
+      "const": "NEW_ORDER",
+      "example": "STANDARD"
+    },
+    "order_uuid": {
+      "type": "uuid",
+      "description": "The unique identifier for the order.",
+      "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+    },
+    "merchant_id": {
+      "type": "string",
+      "description": "The Grubhub merchant identifier.",
+      "example": "ghm-1234567890"
+    },
+    "placed_at": {
+      "type": "datetime",
+      "description": "When the order was placed.",
+      "example": "2026-06-02T18:30:00Z"
+    },
+    "fulfillment_type": {
+      "type": "string",
+      "description": "The type of fulfillment requested.",
+      "enum": [
+        "DELIVERY",
+        "PICKUP"
+      ],
+      "example": "DELIVERY"
+    },
+    "customer": {
+      "type": "object",
+      "description": "Customer details for the order.",
+      "properties": {
+        "first_name": {
+          "type": "string",
+          "description": "Customer's first name."
+        },
+        "last_name": {
+          "type": "string",
+          "description": "Customer's last name."
+        },
+        "phone": {
+          "type": "string",
+          "description": "Customer's phone number."
+        }
+      }
+    },
+    "items": {
+      "type": "array",
+      "description": "Items included in the order.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "item_id": {
+            "type": "string",
+            "description": "The menu item identifier."
+          },
+          "name": {
+            "type": "string",
+            "description": "The item name."
+          },
+          "quantity": {
+            "type": "int32",
+            "description": "The quantity ordered."
+          },
+          "price": {
+            "type": "double",
+            "description": "The unit price."
+          },
+          "modifiers": {
+            "type": "array",
+            "description": "Applied modifiers.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Modifier name."
+                },
+                "price": {
+                  "type": "double",
+                  "description": "Modifier price."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "totals": {
+      "type": "object",
+      "description": "Financial totals for the order.",
+      "properties": {
+        "subtotal": {
+          "type": "double",
+          "description": "Subtotal before taxes and fees."
+        },
+        "tax": {
+          "type": "double",
+          "description": "Tax amount."
+        },
+        "tip": {
+          "type": "double",
+          "description": "Tip amount."
+        },
+        "total": {
+          "type": "double",
+          "description": "Total order amount."
+        }
+      }
+    },
+    "delivery_address": {
+      "type": "object",
+      "description": "Delivery address for the order.",
+      "properties": {
+        "street_address": {
+          "type": "string",
+          "description": "Street address."
+        },
+        "city": {
+          "type": "string",
+          "description": "City name."
+        },
+        "state": {
+          "type": "string",
+          "description": "State abbreviation."
+        },
+        "zip": {
+          "type": "string",
+          "description": "ZIP code."
+        }
+      }
+    },
+    "special_instructions": {
+      "type": "string",
+      "description": "Special instructions from the customer.",
+      "example": "Leave at the front desk."
+    }
+  }
+}

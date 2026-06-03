@@ -12,26 +12,30 @@ providerId: grubhub
 publisherName: Grubhub Holdings Inc.
 serviceCategory: Food Delivery / Marketplaces
 created: '2026-05-04'
-modified: '2026-05-05'
-reconciled: false
+modified: '2026-06-02'
+reconciled: true
 tags:
   - FinOps
   - FOCUS
   - Food Delivery
   - Marketplaces
   - Restaurants
-description: 'FOCUS-aligned FinOps for Grubhub: revenue model is marketplace commission per
-  restaurant order plus optional Grubhub Connect delivery fees, not per-API-call billing. Partner
-  integration APIs (Menu, Orders, Deliveries, Merchant Data, Schedules, Onboarding) are included
-  with the merchant marketplace agreement. Treat this document as a placeholder pending direct
-  reconciliation with a Grubhub merchant or partner contract.'
-notes: No public per-call API price book. Cost flows through restaurant-marketplace commissions
-  and optional service fees. Reconcile against signed merchant or partner contract.
+description: 'FOCUS-aligned FinOps for Grubhub: a tiered per-order take rate (Marketplace Basic
+  ~15%, Plus ~20-25%, Premium/All-Access ~25-30%) plus a ~3.05% + $0.30 payment-processing fee and
+  optional add-ons (e.g. +5% Sponsored Listings), not per-API-call billing. The partner integration
+  APIs (Menu, Orders, Deliveries, Merchant Data, Schedules, Onboarding) are included with the
+  merchant Marketplace agreement and carry no separate API charge.'
+notes: Cost flows through restaurant-Marketplace commissions (tiered take rate), payment processing,
+  and optional service fees rather than a per-call API price book. Commission tiers and processing
+  fee reconciled against Grubhub's public restaurant pricing pages; exact per-restaurant rates are
+  contract- and market-specific.
 sources:
+  - https://get.grubhub.com/faq/what-fees-does-grubhub-charge-restaurants/
+  - https://get.grubhub.com/blog/grubhub-prices-guide/
   - https://developer.grubhub.com
   - https://www.grubhub.com/restaurant
 billingModel:
-  pricingCategory: Take Rate
+  pricingCategory: Tiered Take Rate + Processing Fee
   billingFrequency: Continuous Settlement
   billingCurrency: USD
   chargeCategories:
@@ -66,6 +70,13 @@ meters:
   - name: connect_deliveries
     description: Deliveries fulfilled by the Grubhub courier network (Grubhub Connect)
     unit: delivery
+    aggregation: sum
+    dimensions:
+      - restaurant
+      - market
+  - name: payment_processing_fees
+    description: Per-transaction payment-processing charge (~3.05% + $0.30) applied to orders
+    unit: USD
     aggregation: sum
     dimensions:
       - restaurant

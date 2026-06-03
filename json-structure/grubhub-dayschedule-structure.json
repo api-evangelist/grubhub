@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/refs/heads/main/json-structure/grubhub-dayschedule-structure.json",
+  "name": "DaySchedule",
+  "description": "Operating hours for a single day, supporting multiple time windows.",
+  "type": "object",
+  "properties": {
+    "open": {
+      "type": "boolean",
+      "description": "Whether the merchant is open on this day."
+    },
+    "time_windows": {
+      "type": "array",
+      "description": "Time windows when the merchant is available. Supports split shifts with multiple windows per day.",
+      "items": {
+        "$ref": "#/components/schemas/TimeWindow"
+      }
+    }
+  }
+}

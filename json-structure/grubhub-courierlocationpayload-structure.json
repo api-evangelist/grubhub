@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/refs/heads/main/json-structure/grubhub-courierlocationpayload-structure.json",
+  "name": "Grubhub Courier Location Payload",
+  "description": "Webhook payload for a courier location or ETA update.",
+  "type": "object",
+  "properties": {
+    "event_type": {
+      "type": "string",
+      "description": "The type of delivery event.",
+      "const": "COURIER_LOCATION_UPDATE",
+      "example": "STANDARD"
+    },
+    "order_uuid": {
+      "type": "uuid",
+      "description": "The UUID of the associated order.",
+      "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+    },
+    "delivery_id": {
+      "type": "string",
+      "description": "The unique identifier for the delivery.",
+      "example": "id-1234567890"
+    },
+    "latitude": {
+      "type": "double",
+      "description": "The courier's current latitude coordinate.",
+      "example": 41.8781
+    },
+    "longitude": {
+      "type": "double",
+      "description": "The courier's current longitude coordinate.",
+      "example": -87.6298
+    },
+    "pickup_eta": {
+      "type": "datetime",
+      "description": "Updated estimated time of arrival at pickup.",
+      "example": "2026-06-02T18:30:00Z"
+    },
+    "dropoff_eta": {
+      "type": "datetime",
+      "description": "Updated estimated time of arrival at dropoff.",
+      "example": "2026-06-02T18:30:00Z"
+    },
+    "timestamp": {
+      "type": "datetime",
+      "description": "When this location update was recorded.",
+      "example": "2026-06-02T18:30:00Z"
+    }
+  }
+}

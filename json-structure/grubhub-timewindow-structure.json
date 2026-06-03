@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/refs/heads/main/json-structure/grubhub-timewindow-structure.json",
+  "name": "TimeWindow",
+  "description": "A time window defining a start and end time.",
+  "type": "object",
+  "properties": {
+    "start_time": {
+      "type": "string",
+      "description": "The start time in HH:mm format.",
+      "pattern": "^\\d{2}:\\d{2}$"
+    },
+    "end_time": {
+      "type": "string",
+      "description": "The end time in HH:mm format.",
+      "pattern": "^\\d{2}:\\d{2}$"
+    }
+  },
+  "required": [
+    "start_time",
+    "end_time"
+  ]
+}

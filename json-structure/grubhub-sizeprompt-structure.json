@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/refs/heads/main/json-structure/grubhub-sizeprompt-structure.json",
+  "name": "SizePrompt",
+  "description": "A size selection prompt for a menu item. Sizes can affect the price of both the item and its modifiers.",
+  "type": "object",
+  "properties": {
+    "external_id": {
+      "type": "string",
+      "description": "A unique external identifier for this size prompt."
+    },
+    "name": {
+      "type": "string",
+      "description": "The display name for the size prompt."
+    },
+    "options": {
+      "type": "array",
+      "description": "Available size options.",
+      "items": {
+        "$ref": "#/components/schemas/SizeOption"
+      }
+    }
+  }
+}

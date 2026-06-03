@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/refs/heads/main/json-structure/grubhub-availability-structure.json",
+  "name": "Availability",
+  "description": "A time window defining when a schedule or item is available.",
+  "type": "object",
+  "properties": {
+    "day_of_week": {
+      "type": "string",
+      "description": "The day of the week this availability applies to.",
+      "enum": [
+        "MONDAY",
+        "TUESDAY",
+        "WEDNESDAY",
+        "THURSDAY",
+        "FRIDAY",
+        "SATURDAY",
+        "SUNDAY"
+      ]
+    },
+    "start_time": {
+      "type": "string",
+      "description": "The start time in HH:mm format.",
+      "pattern": "^\\d{2}:\\d{2}$"
+    },
+    "end_time": {
+      "type": "string",
+      "description": "The end time in HH:mm format.",
+      "pattern": "^\\d{2}:\\d{2}$"
+    }
+  }
+}

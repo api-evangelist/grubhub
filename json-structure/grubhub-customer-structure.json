@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/refs/heads/main/json-structure/grubhub-customer-structure.json",
+  "name": "Customer",
+  "description": "Customer information associated with an order.",
+  "type": "object",
+  "properties": {
+    "first_name": {
+      "type": "string",
+      "description": "The customer's first name."
+    },
+    "last_name": {
+      "type": "string",
+      "description": "The customer's last name."
+    },
+    "phone": {
+      "type": "string",
+      "description": "The customer's phone number."
+    }
+  }
+}

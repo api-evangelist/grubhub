@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/refs/heads/main/json-structure/grubhub-posnormalizedmenu-structure.json",
+  "name": "PosNormalizedMenu",
+  "description": "A complete normalized menu structure containing schedules, sections, items, and modifiers. Each object must have an external_id for diff-based ingestion.",
+  "type": "object",
+  "properties": {
+    "merchant_id": {
+      "type": "string",
+      "description": "The Grubhub merchant identifier this menu belongs to."
+    },
+    "schedules": {
+      "type": "array",
+      "description": "Top-level menu schedules that define what items are available during specific periods of the days and week.",
+      "items": {
+        "$ref": "#/components/schemas/MenuSchedule"
+      }
+    }
+  },
+  "required": [
+    "merchant_id",
+    "schedules"
+  ]
+}

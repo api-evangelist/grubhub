@@ -1,0 +1,13 @@
+{
+  "item_id": "id-1234567890",
+  "name": "Margherita Pizza",
+  "quantity": 5,
+  "price": 8.59,
+  "modifiers": [
+    {
+      "name": "Margherita Pizza",
+      "price": 15.62
+    }
+  ],
+  "special_instructions": "Leave at the front desk."
+}

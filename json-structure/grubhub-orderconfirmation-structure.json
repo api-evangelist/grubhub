@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/refs/heads/main/json-structure/grubhub-orderconfirmation-structure.json",
+  "name": "OrderConfirmation",
+  "description": "Payload for confirming an order, with optional wait time estimate.",
+  "type": "object",
+  "properties": {
+    "wait_time_in_minutes": {
+      "type": "int32",
+      "description": "Estimated number of minutes until the order will be ready for delivery or pickup.",
+      "minimum": 1
+    }
+  }
+}

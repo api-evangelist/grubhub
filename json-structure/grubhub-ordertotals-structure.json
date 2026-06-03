@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/refs/heads/main/json-structure/grubhub-ordertotals-structure.json",
+  "name": "OrderTotals",
+  "description": "Financial totals for an order.",
+  "type": "object",
+  "properties": {
+    "subtotal": {
+      "type": "double",
+      "description": "The subtotal before taxes and fees."
+    },
+    "tax": {
+      "type": "double",
+      "description": "The tax amount."
+    },
+    "delivery_fee": {
+      "type": "double",
+      "description": "The delivery fee charged."
+    },
+    "tip": {
+      "type": "double",
+      "description": "The tip amount."
+    },
+    "total": {
+      "type": "double",
+      "description": "The total amount for the order."
+    }
+  }
+}

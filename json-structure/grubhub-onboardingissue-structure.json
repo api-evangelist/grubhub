@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/refs/heads/main/json-structure/grubhub-onboardingissue-structure.json",
+  "name": "OnboardingIssue",
+  "description": "An issue report for the merchant onboarding process.",
+  "type": "object",
+  "properties": {
+    "merchant_id": {
+      "type": "string",
+      "description": "The merchant identifier experiencing the issue."
+    },
+    "issue_type": {
+      "type": "string",
+      "description": "The category of the onboarding issue."
+    },
+    "description": {
+      "type": "string",
+      "description": "Detailed description of the issue encountered."
+    }
+  },
+  "required": [
+    "merchant_id",
+    "description"
+  ]
+}

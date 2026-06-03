@@ -10,6 +10,7 @@ info:
     essential for maintaining accurate restaurant data across the Grubhub
     platform.
   version: '1.0.0'
+  x-last-validated: '2026-06-02'
   contact:
     name: Grubhub Developer Support
     url: https://grubhub-developers.zendesk.com/hc/en-us
@@ -18,35 +19,38 @@ externalDocs:
   description: Grubhub Merchant Data API Documentation
   url: https://developer.grubhub.com/api/merchant-data
 servers:
-  - url: https://api-third-party-gtm.grubhub.com
-    description: Production Server
-  - url: https://api-third-party-gtm-pp.grubhub.com
-    description: Preproduction Server
+- url: https://api-third-party-gtm.grubhub.com
+  description: Production Server
+- url: https://api-third-party-gtm-pp.grubhub.com
+  description: Preproduction Server
 tags:
-  - name: Merchant Properties
-    description: >-
-      Endpoints for updating merchant properties such as fulfillment
-      settings and tax rates.
-  - name: Merchant Status
-    description: >-
-      Endpoints for managing merchant online/offline status on Grubhub,
-      including soft and hard pauses.
-  - name: Merchants
-    description: >-
-      Endpoints for retrieving merchant information and ID mappings.
+- name: Merchant Properties
+  description: >-
+    Endpoints for updating merchant properties such as fulfillment
+    settings and tax rates.
+- name: Merchant Status
+  description: >-
+    Endpoints for managing merchant online/offline status on Grubhub,
+    including soft and hard pauses.
+- name: Merchants
+  description: >-
+    Endpoints for retrieving merchant information and ID mappings.
 security:
-  - hmacAuth: []
+- hmacAuth: []
 paths:
   /pos/v1/merchants:
     get:
       operationId: listMerchants
-      summary: List partner merchants
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+      summary: Grubhub List Partner Merchants
       description: >-
         Returns the internal and external merchant ID mappings associated
         with your partner_id. Use this endpoint to discover all Grubhub
         locations linked to your partner account.
       tags:
-        - Merchants
+      - Merchants
       responses:
         '200':
           description: List of merchant ID mappings
@@ -61,23 +65,44 @@ paths:
                       List of merchant ID mappings.
                     items:
                       $ref: '#/components/schemas/MerchantMapping'
+              examples:
+                ListMerchants200Example:
+                  summary: Default listMerchants 200 response
+                  x-microcks-default: true
+                  value:
+                    merchants:
+                    - merchant_id: ghm-1234567890
+                      external_id: id-1234567890
+                      name: Sample Name
+                      status: ONLINE
         '401':
           description: Authentication failed
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                ListMerchants401Example:
+                  summary: Default listMerchants 401 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
   /pos/v1/merchant/{merchant_id}:
     get:
       operationId: getMerchant
-      summary: Get merchant summary
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+      summary: Grubhub Get Merchant Summary
       description: >-
         Returns summary information about a merchant including store
         details, address, and configuration.
       tags:
-        - Merchants
+      - Merchants
       parameters:
-        - $ref: '#/components/parameters/MerchantId'
+      - $ref: '#/components/parameters/MerchantId'
       responses:
         '200':
           description: Merchant summary information
@@ -85,30 +110,69 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Merchant'
+              examples:
+                GetMerchant200Example:
+                  summary: Default getMerchant 200 response
+                  x-microcks-default: true
+                  value:
+                    merchant_id: ghm-1234567890
+                    external_id: id-1234567890
+                    name: Sample Name
+                    address:
+                      street_address: 111 W Washington St
+                      city: Chicago
+                      state: IL
+                      zip: '60602'
+                      latitude: 41.8781
+                      longitude: -87.6298
+                    phone: '+13125550142'
+                    status: ONLINE
+                    tax_rate: 1.25
+                    fulfillment_types:
+                    - DELIVERY
         '401':
           description: Authentication failed
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                GetMerchant401Example:
+                  summary: Default getMerchant 401 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
         '404':
           description: Merchant not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                GetMerchant404Example:
+                  summary: Default getMerchant 404 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
   /pos/v1/merchant/{merchant_id}/fulfillment:
     get:
       operationId: getMerchantFulfillment
-      summary: Get merchant fulfillment info
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+      summary: Grubhub Get Merchant Fulfillment Info
       description: >-
         Returns a merchant's fulfillment configuration including delivery
         and pickup settings, estimated preparation times, and service area
         details.
       tags:
-        - Merchant Properties
+      - Merchant Properties
       parameters:
-        - $ref: '#/components/parameters/MerchantId'
+      - $ref: '#/components/parameters/MerchantId'
       responses:
         '200':
           description: Merchant fulfillment information
@@ -116,22 +180,52 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/FulfillmentInfo'
+              examples:
+                GetMerchantFulfillment200Example:
+                  summary: Default getMerchantFulfillment 200 response
+                  x-microcks-default: true
+                  value:
+                    delivery_enabled: true
+                    pickup_enabled: true
+                    catering_enabled: true
+                    estimated_prep_time_minutes: 15
+                    delivery_radius_miles: 0.0
+                    minimum_order_amount: 0.0
         '401':
           description: Authentication failed
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                GetMerchantFulfillment401Example:
+                  summary: Default getMerchantFulfillment 401 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
         '404':
           description: Merchant not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                GetMerchantFulfillment404Example:
+                  summary: Default getMerchantFulfillment 404 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
   /pos/v1/merchants/status:
     put:
       operationId: updateMerchantStatus
-      summary: Update merchant online/offline status
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+      summary: Grubhub Update Merchant Online/offline Status
       description: >-
         Sets the status of a batch of merchants to online or offline on
         Grubhub. When offline, merchants will not be listed on the site.
@@ -139,13 +233,22 @@ paths:
         Supports both soft pauses (remainder of business day) and hard
         pauses (multiple days).
       tags:
-        - Merchant Status
+      - Merchant Status
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/MerchantStatusUpdateRequest'
+            examples:
+              UpdateMerchantStatusRequestExample:
+                summary: Default updateMerchantStatus request
+                x-microcks-default: true
+                value:
+                  merchants:
+                  - merchant_id: string
+                    status: ONLINE
+                    pause_type: SOFT
       responses:
         '202':
           description: Status update accepted for processing
@@ -153,30 +256,55 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BatchJobResponse'
+              examples:
+                UpdateMerchantStatus202Example:
+                  summary: Default updateMerchantStatus 202 response
+                  x-microcks-default: true
+                  value:
+                    batch_id: id-1234567890
         '400':
           description: Invalid status update request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                UpdateMerchantStatus400Example:
+                  summary: Default updateMerchantStatus 400 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
         '401':
           description: Authentication failed
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                UpdateMerchantStatus401Example:
+                  summary: Default updateMerchantStatus 401 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
   /pos/v1/merchants/status/{batch_id}:
     get:
       operationId: getMerchantStatusBatch
-      summary: Get merchant status batch progress
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+      summary: Grubhub Get Merchant Status Batch Progress
       description: >-
         Returns the status of a merchant online/offline batch operation
         together with the progress for each individual merchant in the
         batch.
       tags:
-        - Merchant Status
+      - Merchant Status
       parameters:
-        - $ref: '#/components/parameters/BatchId'
+      - $ref: '#/components/parameters/BatchId'
       responses:
         '200':
           description: Batch operation status
@@ -184,33 +312,75 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BatchJobStatus'
+              examples:
+                GetMerchantStatusBatch200Example:
+                  summary: Default getMerchantStatusBatch 200 response
+                  x-microcks-default: true
+                  value:
+                    batch_id: id-1234567890
+                    status: PENDING
+                    merchants:
+                    - merchant_id: string
+                      status: PENDING
+                      error: string
         '401':
           description: Authentication failed
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                GetMerchantStatusBatch401Example:
+                  summary: Default getMerchantStatusBatch 401 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
         '404':
           description: Batch not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                GetMerchantStatusBatch404Example:
+                  summary: Default getMerchantStatusBatch 404 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
   /pos/v1/merchants/properties:
     put:
       operationId: updateMerchantProperties
-      summary: Update merchant properties in batch
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+      summary: Grubhub Update Merchant Properties in Batch
       description: >-
         Updates properties for a batch of merchants, such as fulfillment
         settings, tax rates, and configuration groups.
       tags:
-        - Merchant Properties
+      - Merchant Properties
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/MerchantPropertiesUpdateRequest'
+            examples:
+              UpdateMerchantPropertiesRequestExample:
+                summary: Default updateMerchantProperties request
+                x-microcks-default: true
+                value:
+                  merchants:
+                  - merchant_id: string
+                    tax_rate: 0.0
+                    fulfillment_settings:
+                      delivery_enabled: true
+                      pickup_enabled: true
+                      estimated_prep_time_minutes: 0
       responses:
         '202':
           description: Properties update accepted for processing
@@ -218,29 +388,54 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BatchJobResponse'
+              examples:
+                UpdateMerchantProperties202Example:
+                  summary: Default updateMerchantProperties 202 response
+                  x-microcks-default: true
+                  value:
+                    batch_id: id-1234567890
         '400':
           description: Invalid properties update request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                UpdateMerchantProperties400Example:
+                  summary: Default updateMerchantProperties 400 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
         '401':
           description: Authentication failed
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                UpdateMerchantProperties401Example:
+                  summary: Default updateMerchantProperties 401 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
   /pos/v1/merchants/properties/{batch_id}:
     get:
       operationId: getMerchantPropertiesBatch
-      summary: Get merchant properties batch progress
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+      summary: Grubhub Get Merchant Properties Batch Progress
       description: >-
         Returns the status of a merchant properties update batch together
         with the progress for each individual merchant.
       tags:
-        - Merchant Properties
+      - Merchant Properties
       parameters:
-        - $ref: '#/components/parameters/BatchId'
+      - $ref: '#/components/parameters/BatchId'
       responses:
         '200':
           description: Batch operation status
@@ -248,18 +443,45 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BatchJobStatus'
+              examples:
+                GetMerchantPropertiesBatch200Example:
+                  summary: Default getMerchantPropertiesBatch 200 response
+                  x-microcks-default: true
+                  value:
+                    batch_id: id-1234567890
+                    status: PENDING
+                    merchants:
+                    - merchant_id: string
+                      status: PENDING
+                      error: string
         '401':
           description: Authentication failed
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                GetMerchantPropertiesBatch401Example:
+                  summary: Default getMerchantPropertiesBatch 401 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
         '404':
           description: Batch not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                GetMerchantPropertiesBatch404Example:
+                  summary: Default getMerchantPropertiesBatch 404 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
 components:
   securitySchemes:
     hmacAuth:
@@ -297,21 +519,25 @@ components:
           type: string
           description: >-
             The Grubhub internal merchant identifier.
+          example: ghm-1234567890
         external_id:
           type: string
           description: >-
             The partner's external merchant identifier.
+          example: id-1234567890
         name:
           type: string
           description: >-
             The merchant's display name.
+          example: Sample Name
         status:
           type: string
           description: >-
             The current status of the merchant.
           enum:
-            - ONLINE
-            - OFFLINE
+          - ONLINE
+          - OFFLINE
+          example: ONLINE
     Merchant:
       type: object
       description: >-
@@ -321,32 +547,38 @@ components:
           type: string
           description: >-
             The Grubhub internal merchant identifier.
+          example: ghm-1234567890
         external_id:
           type: string
           description: >-
             The partner's external merchant identifier.
+          example: id-1234567890
         name:
           type: string
           description: >-
             The merchant's display name.
+          example: Sample Name
         address:
           $ref: '#/components/schemas/Address'
         phone:
           type: string
           description: >-
             The merchant's phone number.
+          example: '+13125550142'
         status:
           type: string
           description: >-
             The current online/offline status.
           enum:
-            - ONLINE
-            - OFFLINE
+          - ONLINE
+          - OFFLINE
+          example: ONLINE
         tax_rate:
           type: number
           format: double
           description: >-
             The merchant's applicable tax rate.
+          example: 1.25
         fulfillment_types:
           type: array
           description: >-
@@ -354,9 +586,9 @@ components:
           items:
             type: string
             enum:
-              - DELIVERY
-              - PICKUP
-              - CATERING
+            - DELIVERY
+            - PICKUP
+            - CATERING
     FulfillmentInfo:
       type: object
       description: >-
@@ -366,35 +598,41 @@ components:
           type: boolean
           description: >-
             Whether delivery is enabled for this merchant.
+          example: true
         pickup_enabled:
           type: boolean
           description: >-
             Whether pickup is enabled for this merchant.
+          example: true
         catering_enabled:
           type: boolean
           description: >-
             Whether catering is enabled for this merchant.
+          example: true
         estimated_prep_time_minutes:
           type: integer
           description: >-
             Estimated preparation time in minutes.
           minimum: 0
+          example: 15
         delivery_radius_miles:
           type: number
           format: double
           description: >-
             The delivery radius in miles.
+          example: 0.0
         minimum_order_amount:
           type: number
           format: double
           description: >-
             The minimum order amount for delivery.
+          example: 0.0
     MerchantStatusUpdateRequest:
       type: object
       description: >-
         Request to update online/offline status for a batch of merchants.
       required:
-        - merchants
+      - merchants
       properties:
         merchants:
           type: array
@@ -403,8 +641,8 @@ components:
           items:
             type: object
             required:
-              - merchant_id
-              - status
+            - merchant_id
+            - status
             properties:
               merchant_id:
                 type: string
@@ -415,8 +653,8 @@ components:
                 description: >-
                   The desired status for the merchant.
                 enum:
-                  - ONLINE
-                  - OFFLINE
+                - ONLINE
+                - OFFLINE
               pause_type:
                 type: string
                 description: >-
@@ -425,14 +663,14 @@ components:
                   business day. A hard pause takes the merchant offline for
                   multiple days.
                 enum:
-                  - SOFT
-                  - HARD
+                - SOFT
+                - HARD
     MerchantPropertiesUpdateRequest:
       type: object
       description: >-
         Request to update properties for a batch of merchants.
       required:
-        - merchants
+      - merchants
       properties:
         merchants:
           type: array
@@ -441,7 +679,7 @@ components:
           items:
             type: object
             required:
-              - merchant_id
+            - merchant_id
             properties:
               merchant_id:
                 type: string
@@ -478,6 +716,7 @@ components:
           type: string
           description: >-
             The unique identifier for tracking the batch operation.
+          example: id-1234567890
     BatchJobStatus:
       type: object
       description: >-
@@ -487,15 +726,17 @@ components:
           type: string
           description: >-
             The unique identifier for the batch operation.
+          example: id-1234567890
         status:
           type: string
           description: >-
             The overall status of the batch.
           enum:
-            - PENDING
-            - PROCESSING
-            - COMPLETED
-            - FAILED
+          - PENDING
+          - PROCESSING
+          - COMPLETED
+          - FAILED
+          example: PENDING
         merchants:
           type: array
           description: >-
@@ -512,9 +753,9 @@ components:
                 description: >-
                   The status for this merchant's update.
                 enum:
-                  - PENDING
-                  - SUCCESS
-                  - FAILED
+                - PENDING
+                - SUCCESS
+                - FAILED
               error:
                 type: string
                 description: >-
@@ -528,28 +769,34 @@ components:
           type: string
           description: >-
             The street address line.
+          example: 111 W Washington St
         city:
           type: string
           description: >-
             The city name.
+          example: Chicago
         state:
           type: string
           description: >-
             The state abbreviation.
+          example: IL
         zip:
           type: string
           description: >-
             The ZIP code.
+          example: '60602'
         latitude:
           type: number
           format: double
           description: >-
             The latitude coordinate.
+          example: 41.8781
         longitude:
           type: number
           format: double
           description: >-
             The longitude coordinate.
+          example: -87.6298
     Error:
       type: object
       description: >-
@@ -559,11 +806,14 @@ components:
           type: string
           description: >-
             Error type identifier.
+          example: invalid_request
         message:
           type: string
           description: >-
             Human-readable error description.
+          example: Operation completed successfully.
         status:
           type: integer
           description: >-
             HTTP status code.
+          example: 0

@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/refs/heads/main/json-structure/grubhub-deliverycancelledpayload-structure.json",
+  "name": "Grubhub Delivery Cancelled Payload",
+  "description": "Webhook payload when a delivery is cancelled.",
+  "type": "object",
+  "properties": {
+    "event_type": {
+      "type": "string",
+      "description": "The type of delivery event.",
+      "const": "DELIVERY_CANCELLED",
+      "example": "STANDARD"
+    },
+    "order_uuid": {
+      "type": "uuid",
+      "description": "The UUID of the associated order.",
+      "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+    },
+    "delivery_id": {
+      "type": "string",
+      "description": "The unique identifier for the delivery.",
+      "example": "id-1234567890"
+    },
+    "reason": {
+      "type": "string",
+      "description": "The reason for cancellation.",
+      "example": "Out of an item."
+    },
+    "cancelled_at": {
+      "type": "datetime",
+      "description": "When the delivery was cancelled.",
+      "example": "2026-06-02T18:30:00Z"
+    }
+  }
+}

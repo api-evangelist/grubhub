@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/refs/heads/main/json-structure/grubhub-scheduleoverride-structure.json",
+  "name": "ScheduleOverride",
+  "description": "A schedule override with its assigned identifier.",
+  "type": "object",
+  "properties": {
+    "override_id": {
+      "type": "string",
+      "description": "The unique identifier for this override."
+    },
+    "start_date": {
+      "type": "datetime",
+      "description": "The start date and time of the override."
+    },
+    "end_date": {
+      "type": "datetime",
+      "description": "The end date and time of the override."
+    },
+    "closed": {
+      "type": "boolean",
+      "description": "Whether the merchant is closed during this override period."
+    },
+    "time_windows": {
+      "type": "array",
+      "description": "Custom operating hours during the override period.",
+      "items": {
+        "$ref": "#/components/schemas/TimeWindow"
+      }
+    },
+    "reason": {
+      "type": "string",
+      "description": "Reason for the schedule override."
+    }
+  }
+}

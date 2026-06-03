@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/refs/heads/main/json-structure/grubhub-merchantreferral-structure.json",
+  "name": "MerchantReferral",
+  "description": "Details of a new merchant being referred for onboarding.",
+  "type": "object",
+  "properties": {
+    "business_name": {
+      "type": "string",
+      "description": "The name of the merchant's business."
+    },
+    "address": {
+      "$ref": "#/components/schemas/Address"
+    },
+    "contact": {
+      "$ref": "#/components/schemas/Contact"
+    },
+    "external_id": {
+      "type": "string",
+      "description": "The partner's external identifier for this merchant."
+    },
+    "cuisine_types": {
+      "type": "array",
+      "description": "Types of cuisine offered by the merchant.",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "business_name",
+    "address",
+    "contact"
+  ]
+}

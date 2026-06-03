@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/refs/heads/main/json-structure/grubhub-sizeoption-structure.json",
+  "name": "SizeOption",
+  "description": "An individual size option within a size prompt.",
+  "type": "object",
+  "properties": {
+    "external_id": {
+      "type": "string",
+      "description": "A unique external identifier for this size option."
+    },
+    "name": {
+      "type": "string",
+      "description": "The display name of the size option."
+    },
+    "price": {
+      "type": "double",
+      "description": "The price adjustment for selecting this size."
+    }
+  }
+}

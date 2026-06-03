@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/refs/heads/main/json-structure/grubhub-deliveryrefundpayload-structure.json",
+  "name": "Grubhub Delivery Refund Payload",
+  "description": "Webhook payload for a delivery refund decision.",
+  "type": "object",
+  "properties": {
+    "event_type": {
+      "type": "string",
+      "description": "The type of delivery event.",
+      "const": "DELIVERY_REFUND_UPDATE",
+      "example": "STANDARD"
+    },
+    "order_uuid": {
+      "type": "uuid",
+      "description": "The UUID of the associated order.",
+      "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+    },
+    "delivery_id": {
+      "type": "string",
+      "description": "The unique identifier for the delivery.",
+      "example": "id-1234567890"
+    },
+    "refund_status": {
+      "type": "string",
+      "description": "Whether the refund was accepted or rejected.",
+      "enum": [
+        "ACCEPTED",
+        "REJECTED"
+      ],
+      "example": "ACCEPTED"
+    },
+    "refund_amount": {
+      "type": "double",
+      "description": "The amount of the refund.",
+      "example": 0.0
+    },
+    "decision_reason": {
+      "type": "string",
+      "description": "Explanation of the refund decision.",
+      "example": "Out of an item."
+    },
+    "decided_at": {
+      "type": "datetime",
+      "description": "When the refund decision was made.",
+      "example": "2026-06-02T18:30:00Z"
+    }
+  }
+}

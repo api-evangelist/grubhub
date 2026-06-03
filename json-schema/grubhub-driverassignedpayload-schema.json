@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developer.grubhub.com/schemas/grubhub/driverassignedpayload.json",
+  "title": "Grubhub Driver Assigned Payload",
+  "description": "Webhook payload when a driver is assigned to a delivery.",
+  "type": "object",
+  "properties": {
+    "event_type": {
+      "type": "string",
+      "description": "The type of delivery event.",
+      "const": "DRIVER_ASSIGNED",
+      "example": "STANDARD"
+    },
+    "order_uuid": {
+      "type": "string",
+      "format": "uuid",
+      "description": "The UUID of the associated order.",
+      "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+    },
+    "delivery_id": {
+      "type": "string",
+      "description": "The unique identifier for the delivery.",
+      "example": "id-1234567890"
+    },
+    "driver": {
+      "type": "object",
+      "description": "Information about the assigned driver.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The driver's display name."
+        },
+        "phone": {
+          "type": "string",
+          "description": "The driver's contact phone number."
+        },
+        "delivery_method": {
+          "type": "string",
+          "description": "The delivery method being used.",
+          "enum": [
+            "CAR",
+            "BIKE",
+            "WALKING"
+          ]
+        }
+      }
+    },
+    "pickup_eta": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Estimated time of arrival at the pickup location.",
+      "example": "2026-06-02T18:30:00Z"
+    },
+    "dropoff_eta": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Estimated time of arrival at the delivery location.",
+      "example": "2026-06-02T18:30:00Z"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When this event occurred.",
+      "example": "2026-06-02T18:30:00Z"
+    }
+  }
+}

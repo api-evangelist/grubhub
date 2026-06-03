@@ -1,0 +1,11 @@
+{
+  "external_id": "id-1234567890",
+  "name": "Margherita Pizza",
+  "description": "A classic Neapolitan-style pizza.",
+  "price": 47.28,
+  "available": false,
+  "size_prompt": null,
+  "modifier_prompts": [
+    null
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "batch_id": "id-1234567890",
+  "status": "PENDING",
+  "merchants": [
+    {
+      "merchant_id": "ghm-1234567890",
+      "status": "FAILED",
+      "error": "sample-value"
+    }
+  ]
+}

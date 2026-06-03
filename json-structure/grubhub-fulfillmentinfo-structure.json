@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/refs/heads/main/json-structure/grubhub-fulfillmentinfo-structure.json",
+  "name": "FulfillmentInfo",
+  "description": "Fulfillment configuration for a merchant.",
+  "type": "object",
+  "properties": {
+    "delivery_enabled": {
+      "type": "boolean",
+      "description": "Whether delivery is enabled for this merchant."
+    },
+    "pickup_enabled": {
+      "type": "boolean",
+      "description": "Whether pickup is enabled for this merchant."
+    },
+    "catering_enabled": {
+      "type": "boolean",
+      "description": "Whether catering is enabled for this merchant."
+    },
+    "estimated_prep_time_minutes": {
+      "type": "int32",
+      "description": "Estimated preparation time in minutes.",
+      "minimum": 0
+    },
+    "delivery_radius_miles": {
+      "type": "double",
+      "description": "The delivery radius in miles."
+    },
+    "minimum_order_amount": {
+      "type": "double",
+      "description": "The minimum order amount for delivery."
+    }
+  }
+}

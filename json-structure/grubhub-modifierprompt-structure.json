@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/refs/heads/main/json-structure/grubhub-modifierprompt-structure.json",
+  "name": "ModifierPrompt",
+  "description": "A modifier prompt for a menu item, allowing customization such as choice of dressing, extra toppings, or preparation preferences.",
+  "type": "object",
+  "properties": {
+    "external_id": {
+      "type": "string",
+      "description": "A unique external identifier for this modifier prompt."
+    },
+    "name": {
+      "type": "string",
+      "description": "The display name of the modifier prompt."
+    },
+    "required": {
+      "type": "boolean",
+      "description": "Whether a selection is required from this modifier prompt."
+    },
+    "min_selections": {
+      "type": "int32",
+      "description": "Minimum number of selections required.",
+      "minimum": 0
+    },
+    "max_selections": {
+      "type": "int32",
+      "description": "Maximum number of selections allowed.",
+      "minimum": 1
+    },
+    "options": {
+      "type": "array",
+      "description": "Available modifier options.",
+      "items": {
+        "$ref": "#/components/schemas/ModifierOption"
+      }
+    }
+  },
+  "required": [
+    "external_id",
+    "name",
+    "options"
+  ]
+}

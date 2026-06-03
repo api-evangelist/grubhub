@@ -1,0 +1,9 @@
+{
+  "merchants": [
+    {
+      "merchant_id": "ghm-1234567890",
+      "status": "ONLINE",
+      "pause_type": "SOFT"
+    }
+  ]
+}

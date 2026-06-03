@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/refs/heads/main/json-structure/grubhub-merchantdeactivationrequest-structure.json",
+  "name": "MerchantDeactivationRequest",
+  "description": "Request to deactivate a merchant and remove partner association.",
+  "type": "object",
+  "properties": {
+    "merchant_id": {
+      "type": "string",
+      "description": "The Grubhub merchant identifier to deactivate."
+    },
+    "reason": {
+      "type": "string",
+      "description": "Reason for deactivating the merchant."
+    }
+  },
+  "required": [
+    "merchant_id"
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "event_type": "STANDARD",
+  "order_uuid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "merchant_id": "ghm-1234567890",
+  "change_request_id": "id-1234567890",
+  "change_type": "STANDARD",
+  "details": "string",
+  "requested_at": "2026-06-02T18:30:00Z"
+}

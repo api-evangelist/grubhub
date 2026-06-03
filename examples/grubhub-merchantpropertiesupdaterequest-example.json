@@ -1,0 +1,13 @@
+{
+  "merchants": [
+    {
+      "merchant_id": "ghm-1234567890",
+      "tax_rate": 2.15,
+      "fulfillment_settings": {
+        "delivery_enabled": true,
+        "pickup_enabled": true,
+        "estimated_prep_time_minutes": 15
+      }
+    }
+  ]
+}

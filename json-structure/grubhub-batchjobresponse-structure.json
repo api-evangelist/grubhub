@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/refs/heads/main/json-structure/grubhub-batchjobresponse-structure.json",
+  "name": "BatchJobResponse",
+  "description": "Response returned when a batch operation is accepted for processing.",
+  "type": "object",
+  "properties": {
+    "batch_id": {
+      "type": "string",
+      "description": "The unique identifier for tracking the batch operation."
+    }
+  }
+}

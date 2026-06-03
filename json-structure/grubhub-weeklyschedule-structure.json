@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/refs/heads/main/json-structure/grubhub-weeklyschedule-structure.json",
+  "name": "WeeklySchedule",
+  "description": "A weekly schedule defining operating hours for each day of the week.",
+  "type": "object",
+  "properties": {
+    "monday": {
+      "$ref": "#/components/schemas/DaySchedule"
+    },
+    "tuesday": {
+      "$ref": "#/components/schemas/DaySchedule"
+    },
+    "wednesday": {
+      "$ref": "#/components/schemas/DaySchedule"
+    },
+    "thursday": {
+      "$ref": "#/components/schemas/DaySchedule"
+    },
+    "friday": {
+      "$ref": "#/components/schemas/DaySchedule"
+    },
+    "saturday": {
+      "$ref": "#/components/schemas/DaySchedule"
+    },
+    "sunday": {
+      "$ref": "#/components/schemas/DaySchedule"
+    }
+  }
+}

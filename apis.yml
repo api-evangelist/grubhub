@@ -168,6 +168,16 @@ common:
     url: json-schema/grubhub-menu-schema.json
   - type: JSONSchema
     url: json-schema/grubhub-merchant-schema.json
+  - type: Vocabulary
+    url: vocabulary/grubhub-vocabulary.yml
+  - type: Rules
+    url: rules/grubhub-spectral-rules.yml
+  - type: Plans
+    url: plans/grubhub-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/grubhub-rate-limits.yml
+  - type: FinOps
+    url: finops/grubhub-finops.yml
 description: Grubhub works with brands, point of sale companies, and online ordering providers to power an ordering experience
   in Grubhub Marketplace and within restaurant-branded web experiences. This documentation describes the normalized endpoints
   required for ingesting menu content and facilitating order transmission.

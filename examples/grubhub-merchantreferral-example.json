@@ -1,0 +1,9 @@
+{
+  "business_name": "sample-value",
+  "address": null,
+  "contact": null,
+  "external_id": "id-1234567890",
+  "cuisine_types": [
+    "STANDARD"
+  ]
+}

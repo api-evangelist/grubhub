@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/refs/heads/main/json-structure/grubhub-merchantassociationrequest-structure.json",
+  "name": "MerchantAssociationRequest",
+  "description": "Request to associate merchants with the partner.",
+  "type": "object",
+  "properties": {
+    "merchant_ids": {
+      "type": "array",
+      "description": "List of merchant IDs to associate with the partner.",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    }
+  },
+  "required": [
+    "merchant_ids"
+  ]
+}

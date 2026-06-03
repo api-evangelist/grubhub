@@ -1,0 +1,140 @@
+naftiko: "1.0.0-alpha2"
+
+info:
+  label: "Grubhub Merchant Schedules API — Schedule Overrides"
+  description: >-
+    Merchant Schedules — Schedule Overrides. 2 operation(s). Lead operation: Create a Schedule Override.
+    Self-contained Naftiko capability covering one Grubhub business surface.
+  tags:
+    - Grubhub
+    - Merchant Schedules
+    - Schedule Overrides
+  created: "2026-06-02"
+  modified: "2026-06-02"
+
+binds:
+  - namespace: env
+    keys:
+      GRUBHUB_API_TOKEN: GRUBHUB_API_TOKEN
+
+capability:
+
+  # Consumes — upstream Grubhub HTTP API
+  consumes:
+    - type: http
+      namespace: "merchant-schedules-schedule-overrides"
+      baseUri: "https://api-third-party-gtm.grubhub.com"
+      description: "Grubhub Merchant Schedules API — Schedule Overrides business capability. Self-contained, no shared references."
+      authentication:
+        type: apikey
+        key: Authorization
+        value: "{{env.GRUBHUB_API_TOKEN}}"
+        placement: header
+      resources:
+        - name: "merchant-merchant-id-schedules-overrides"
+          path: "/pos/v1/merchant/{merchant_id}/schedules/overrides"
+          operations:
+            - name: "createScheduleOverride"
+              method: POST
+              description: "Create a Schedule Override"
+              inputParameters:
+                - name: "merchant_id"
+                  in: path
+                  type: string
+                  required: true
+                  description: "The unique identifier for the merchant on Grubhub."
+                - name: "body"
+                  in: body
+                  type: object
+                  required: true
+                  description: "Request payload."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: "cancelScheduleOverride"
+              method: DELETE
+              description: "Cancel a Schedule Override"
+              inputParameters:
+                - name: "merchant_id"
+                  in: path
+                  type: string
+                  required: true
+                  description: "The unique identifier for the merchant on Grubhub."
+                - name: "body"
+                  in: body
+                  type: object
+                  required: true
+                  description: "Request payload."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+  # REST exposer (required default)
+  exposes:
+    - type: rest
+      namespace: "merchant-schedules-schedule-overrides-rest"
+      port: 8080
+      description: "REST adapter for Grubhub Merchant Schedules API — Schedule Overrides. One Spectral-compliant resource per consumed operation."
+      resources:
+        - path: "/v1/merchant/{merchant-id}/schedules/overrides"
+          name: "merchant-merchant-id-schedules-overrides"
+          description: "REST surface for Schedule Overrides."
+          operations:
+            - method: POST
+              name: "createScheduleOverride"
+              description: "Create a Schedule Override"
+              call: "merchant-schedules-schedule-overrides.createScheduleOverride"
+              with:
+                "merchant_id": "rest.merchant_id"
+                "body": "rest.body"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: DELETE
+              name: "cancelScheduleOverride"
+              description: "Cancel a Schedule Override"
+              call: "merchant-schedules-schedule-overrides.cancelScheduleOverride"
+              with:
+                "merchant_id": "rest.merchant_id"
+                "body": "rest.body"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+  # MCP exposer (required default)
+    - type: mcp
+      namespace: "merchant-schedules-schedule-overrides-mcp"
+      port: 9090
+      transport: http
+      description: "MCP adapter for Grubhub Merchant Schedules API — Schedule Overrides. One tool per consumed operation."
+      tools:
+        - name: "create-schedule-override"
+          description: "Create a Schedule Override"
+          hints:
+            readOnly: false
+            destructive: false
+            idempotent: false
+          call: "merchant-schedules-schedule-overrides.createScheduleOverride"
+          with:
+            "merchant_id": "tools.merchant_id"
+            "body": "tools.body"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: "cancel-schedule-override"
+          description: "Cancel a Schedule Override"
+          hints:
+            readOnly: false
+            destructive: true
+            idempotent: true
+          call: "merchant-schedules-schedule-overrides.cancelScheduleOverride"
+          with:
+            "merchant_id": "tools.merchant_id"
+            "body": "tools.body"
+          outputParameters:
+            - type: object
+              mapping: "$."

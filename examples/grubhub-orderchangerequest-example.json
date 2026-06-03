@@ -1,0 +1,7 @@
+{
+  "id": "id-1234567890",
+  "status": "PENDING",
+  "type": "STANDARD",
+  "details": "sample-value",
+  "created_at": "2026-06-02T18:30:00Z"
+}

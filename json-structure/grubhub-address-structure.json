@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/refs/heads/main/json-structure/grubhub-address-structure.json",
+  "name": "Address",
+  "description": "A physical address.",
+  "type": "object",
+  "properties": {
+    "street_address": {
+      "type": "string",
+      "description": "The street address line."
+    },
+    "city": {
+      "type": "string",
+      "description": "The city name."
+    },
+    "state": {
+      "type": "string",
+      "description": "The state abbreviation."
+    },
+    "zip": {
+      "type": "string",
+      "description": "The ZIP code."
+    },
+    "latitude": {
+      "type": "double",
+      "description": "The latitude coordinate."
+    },
+    "longitude": {
+      "type": "double",
+      "description": "The longitude coordinate."
+    }
+  }
+}

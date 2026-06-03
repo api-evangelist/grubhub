@@ -11,6 +11,7 @@ info:
     approach with external IDs to match, update, create, and remove menu
     objects.
   version: '1.0.0'
+  x-last-validated: '2026-06-02'
   contact:
     name: Grubhub Developer Support
     url: https://grubhub-developers.zendesk.com/hc/en-us
@@ -19,29 +20,32 @@ externalDocs:
   description: Grubhub Menu API Documentation
   url: https://developer.grubhub.com/api/menu
 servers:
-  - url: https://api-third-party-gtm.grubhub.com
-    description: Production Server
-  - url: https://api-third-party-gtm-pp.grubhub.com
-    description: Preproduction Server
+- url: https://api-third-party-gtm.grubhub.com
+  description: Production Server
+- url: https://api-third-party-gtm-pp.grubhub.com
+  description: Preproduction Server
 tags:
-  - name: Menu Ingestion
-    description: >-
-      Endpoints for uploading and managing normalized menus including
-      schedules, sections, items, and modifiers.
-  - name: Menu Retrieval
-    description: >-
-      Endpoints for retrieving the current menu for a merchant.
-  - name: Menu Schedule Overrides
-    description: >-
-      Endpoints for managing menu schedule overrides such as temporary
-      availability changes.
+- name: Menu Ingestion
+  description: >-
+    Endpoints for uploading and managing normalized menus including
+    schedules, sections, items, and modifiers.
+- name: Menu Retrieval
+  description: >-
+    Endpoints for retrieving the current menu for a merchant.
+- name: Menu Schedule Overrides
+  description: >-
+    Endpoints for managing menu schedule overrides such as temporary
+    availability changes.
 security:
-  - hmacAuth: []
+- hmacAuth: []
 paths:
   /pos/v1/menu/ingestion:
     post:
       operationId: ingestMenu
-      summary: Ingest a normalized menu
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+      summary: Grubhub Ingest a Normalized Menu
       description: >-
         Uploads a complete menu to Grubhub including schedules, sections,
         items, and modifiers. The API uses external IDs to perform a diff
@@ -50,13 +54,26 @@ paths:
         missing IDs will cause the associated items to be removed. Processing
         completes asynchronously after the endpoint responds.
       tags:
-        - Menu Ingestion
+      - Menu Ingestion
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/PosNormalizedMenu'
+            examples:
+              IngestMenuRequestExample:
+                summary: Default ingestMenu request
+                x-microcks-default: true
+                value:
+                  merchant_id: ghm-1234567890
+                  schedules:
+                  - external_id: id-1234567890
+                    name: Sample Name
+                    availability:
+                    - {}
+                    sections:
+                    - {}
       responses:
         '202':
           description: Menu ingestion accepted for processing
@@ -64,30 +81,55 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/IngestionJobResponse'
+              examples:
+                IngestMenu202Example:
+                  summary: Default ingestMenu 202 response
+                  x-microcks-default: true
+                  value:
+                    job_id: id-1234567890
         '400':
           description: Invalid menu payload
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                IngestMenu400Example:
+                  summary: Default ingestMenu 400 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
         '401':
           description: Authentication failed
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                IngestMenu401Example:
+                  summary: Default ingestMenu 401 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
   /pos/v1/menu/ingestion/jobs/{job_id}:
     get:
       operationId: getMenuIngestionStatus
-      summary: Get menu ingestion job status
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+      summary: Grubhub Get Menu Ingestion Job Status
       description: >-
         Returns the status of a full menu ingestion job. Use this endpoint
         to check whether a previously submitted menu ingestion has completed
         processing successfully or encountered errors.
       tags:
-        - Menu Ingestion
+      - Menu Ingestion
       parameters:
-        - $ref: '#/components/parameters/JobId'
+      - $ref: '#/components/parameters/JobId'
       responses:
         '200':
           description: Ingestion job status
@@ -95,30 +137,59 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/IngestionJobStatus'
+              examples:
+                GetMenuIngestionStatus200Example:
+                  summary: Default getMenuIngestionStatus 200 response
+                  x-microcks-default: true
+                  value:
+                    job_id: id-1234567890
+                    status: PENDING
+                    errors:
+                    - code: string
+                      message: string
         '401':
           description: Authentication failed
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                GetMenuIngestionStatus401Example:
+                  summary: Default getMenuIngestionStatus 401 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
         '404':
           description: Job not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                GetMenuIngestionStatus404Example:
+                  summary: Default getMenuIngestionStatus 404 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
   /pos/v1/merchant/{merchant_id}/ingestion/menu:
     get:
       operationId: getMerchantMenu
-      summary: Retrieve current merchant menu
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+      summary: Grubhub Retrieve Current Merchant Menu
       description: >-
         Retrieves the current menu for a merchant as a PosNormalizedMenu
         object. The returned menu can be edited and re-ingested to update
         the merchant's menu on the Grubhub platform.
       tags:
-        - Menu Retrieval
+      - Menu Retrieval
       parameters:
-        - $ref: '#/components/parameters/MerchantId'
+      - $ref: '#/components/parameters/MerchantId'
       responses:
         '200':
           description: Current merchant menu
@@ -126,36 +197,78 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PosNormalizedMenu'
+              examples:
+                GetMerchantMenu200Example:
+                  summary: Default getMerchantMenu 200 response
+                  x-microcks-default: true
+                  value:
+                    merchant_id: ghm-1234567890
+                    schedules:
+                    - external_id: id-1234567890
+                      name: Sample Name
+                      availability:
+                      - {}
+                      sections:
+                      - {}
         '401':
           description: Authentication failed
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                GetMerchantMenu401Example:
+                  summary: Default getMerchantMenu 401 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
         '404':
           description: Merchant not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                GetMerchantMenu404Example:
+                  summary: Default getMerchantMenu 404 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
   /pos/v1/merchant/{merchant_id}/menu/schedules/overrides/external:
     put:
       operationId: updateMenuScheduleOverrides
-      summary: Update menu schedule overrides
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+      summary: Grubhub Update Menu Schedule Overrides
       description: >-
         Creates or updates menu schedule overrides for a merchant. Schedule
         overrides allow temporary changes to menu availability, such as
         making certain items unavailable during specific time periods.
       tags:
-        - Menu Schedule Overrides
+      - Menu Schedule Overrides
       parameters:
-        - $ref: '#/components/parameters/MerchantId'
+      - $ref: '#/components/parameters/MerchantId'
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/MenuScheduleOverrideRequest'
+            examples:
+              UpdateMenuScheduleOverridesRequestExample:
+                summary: Default updateMenuScheduleOverrides request
+                x-microcks-default: true
+                value:
+                  overrides:
+                  - external_id: string
+                    available: true
+                    start_date: '2026-06-02T18:30:00Z'
+                    end_date: '2026-06-02T18:30:00Z'
       responses:
         '200':
           description: Schedule override updated successfully
@@ -165,29 +278,56 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                UpdateMenuScheduleOverrides400Example:
+                  summary: Default updateMenuScheduleOverrides 400 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
         '401':
           description: Authentication failed
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                UpdateMenuScheduleOverrides401Example:
+                  summary: Default updateMenuScheduleOverrides 401 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
         '404':
           description: Merchant not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                UpdateMenuScheduleOverrides404Example:
+                  summary: Default updateMenuScheduleOverrides 404 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
   /pos/v1/merchant/{merchant_id}/menu/schedules/overrides/{job_id}/status:
     get:
       operationId: getMenuScheduleOverrideStatus
-      summary: Get menu schedule override job status
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+      summary: Grubhub Get Menu Schedule Override Job Status
       description: >-
         Returns the status of a menu schedule override job for a merchant.
       tags:
-        - Menu Schedule Overrides
+      - Menu Schedule Overrides
       parameters:
-        - $ref: '#/components/parameters/MerchantId'
-        - $ref: '#/components/parameters/JobId'
+      - $ref: '#/components/parameters/MerchantId'
+      - $ref: '#/components/parameters/JobId'
       responses:
         '200':
           description: Override job status
@@ -195,18 +335,44 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/IngestionJobStatus'
+              examples:
+                GetMenuScheduleOverrideStatus200Example:
+                  summary: Default getMenuScheduleOverrideStatus 200 response
+                  x-microcks-default: true
+                  value:
+                    job_id: id-1234567890
+                    status: PENDING
+                    errors:
+                    - code: string
+                      message: string
         '401':
           description: Authentication failed
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                GetMenuScheduleOverrideStatus401Example:
+                  summary: Default getMenuScheduleOverrideStatus 401 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
         '404':
           description: Job or merchant not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                GetMenuScheduleOverrideStatus404Example:
+                  summary: Default getMenuScheduleOverrideStatus 404 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
 components:
   securitySchemes:
     hmacAuth:
@@ -246,6 +412,7 @@ components:
           type: string
           description: >-
             The Grubhub merchant identifier this menu belongs to.
+          example: ghm-1234567890
         schedules:
           type: array
           description: >-
@@ -254,8 +421,8 @@ components:
           items:
             $ref: '#/components/schemas/MenuSchedule'
       required:
-        - merchant_id
-        - schedules
+      - merchant_id
+      - schedules
     MenuSchedule:
       type: object
       description: >-
@@ -267,10 +434,12 @@ components:
           description: >-
             A unique external identifier assigned by the partner for
             diff-based menu ingestion.
+          example: id-1234567890
         name:
           type: string
           description: >-
             The display name of the schedule.
+          example: Sample Name
         availability:
           type: array
           description: >-
@@ -285,9 +454,9 @@ components:
           items:
             $ref: '#/components/schemas/MenuSection'
       required:
-        - external_id
-        - name
-        - sections
+      - external_id
+      - name
+      - sections
     Availability:
       type: object
       description: >-
@@ -298,23 +467,26 @@ components:
           description: >-
             The day of the week this availability applies to.
           enum:
-            - MONDAY
-            - TUESDAY
-            - WEDNESDAY
-            - THURSDAY
-            - FRIDAY
-            - SATURDAY
-            - SUNDAY
+          - MONDAY
+          - TUESDAY
+          - WEDNESDAY
+          - THURSDAY
+          - FRIDAY
+          - SATURDAY
+          - SUNDAY
+          example: MONDAY
         start_time:
           type: string
           description: >-
             The start time in HH:mm format.
           pattern: '^\d{2}:\d{2}$'
+          example: '2026-06-02T18:30:00Z'
         end_time:
           type: string
           description: >-
             The end time in HH:mm format.
           pattern: '^\d{2}:\d{2}$'
+          example: '2026-06-02T18:30:00Z'
     MenuSection:
       type: object
       description: >-
@@ -324,10 +496,12 @@ components:
           type: string
           description: >-
             A unique external identifier for diff-based ingestion.
+          example: id-1234567890
         name:
           type: string
           description: >-
             The display name of the section.
+          example: Sample Name
         items:
           type: array
           description: >-
@@ -335,9 +509,9 @@ components:
           items:
             $ref: '#/components/schemas/MenuItem'
       required:
-        - external_id
-        - name
-        - items
+      - external_id
+      - name
+      - items
     MenuItem:
       type: object
       description: >-
@@ -347,24 +521,29 @@ components:
           type: string
           description: >-
             A unique external identifier for diff-based ingestion.
+          example: id-1234567890
         name:
           type: string
           description: >-
             The display name of the menu item.
+          example: Sample Name
         description:
           type: string
           description: >-
             A description of the menu item.
+          example: string
         price:
           type: number
           format: double
           description: >-
             The base price of the menu item in the merchant's currency.
           minimum: 0
+          example: 9.99
         available:
           type: boolean
           description: >-
             Whether this item is currently available for ordering.
+          example: true
         size_prompt:
           $ref: '#/components/schemas/SizePrompt'
         modifier_prompts:
@@ -375,9 +554,9 @@ components:
           items:
             $ref: '#/components/schemas/ModifierPrompt'
       required:
-        - external_id
-        - name
-        - price
+      - external_id
+      - name
+      - price
     SizePrompt:
       type: object
       description: >-
@@ -388,10 +567,12 @@ components:
           type: string
           description: >-
             A unique external identifier for this size prompt.
+          example: id-1234567890
         name:
           type: string
           description: >-
             The display name for the size prompt.
+          example: Sample Name
         options:
           type: array
           description: >-
@@ -407,15 +588,18 @@ components:
           type: string
           description: >-
             A unique external identifier for this size option.
+          example: id-1234567890
         name:
           type: string
           description: >-
             The display name of the size option.
+          example: Sample Name
         price:
           type: number
           format: double
           description: >-
             The price adjustment for selecting this size.
+          example: 9.99
     ModifierPrompt:
       type: object
       description: >-
@@ -426,24 +610,29 @@ components:
           type: string
           description: >-
             A unique external identifier for this modifier prompt.
+          example: id-1234567890
         name:
           type: string
           description: >-
             The display name of the modifier prompt.
+          example: Sample Name
         required:
           type: boolean
           description: >-
             Whether a selection is required from this modifier prompt.
+          example: true
         min_selections:
           type: integer
           description: >-
             Minimum number of selections required.
           minimum: 0
+          example: 0
         max_selections:
           type: integer
           description: >-
             Maximum number of selections allowed.
           minimum: 1
+          example: 0
         options:
           type: array
           description: >-
@@ -451,9 +640,9 @@ components:
           items:
             $ref: '#/components/schemas/ModifierOption'
       required:
-        - external_id
-        - name
-        - options
+      - external_id
+      - name
+      - options
     ModifierOption:
       type: object
       description: >-
@@ -463,20 +652,24 @@ components:
           type: string
           description: >-
             A unique external identifier for this modifier option.
+          example: id-1234567890
         name:
           type: string
           description: >-
             The display name of the modifier option.
+          example: Sample Name
         price:
           type: number
           format: double
           description: >-
             The additional price for selecting this modifier.
           minimum: 0
+          example: 9.99
         available:
           type: boolean
           description: >-
             Whether this modifier option is currently available.
+          example: true
     MenuScheduleOverrideRequest:
       type: object
       description: >-
@@ -516,6 +709,7 @@ components:
           type: string
           description: >-
             The unique identifier for the ingestion job, used to check status.
+          example: id-1234567890
     IngestionJobStatus:
       type: object
       description: >-
@@ -525,15 +719,17 @@ components:
           type: string
           description: >-
             The unique identifier for the job.
+          example: id-1234567890
         status:
           type: string
           description: >-
             The current status of the job.
           enum:
-            - PENDING
-            - PROCESSING
-            - COMPLETED
-            - FAILED
+          - PENDING
+          - PROCESSING
+          - COMPLETED
+          - FAILED
+          example: PENDING
         errors:
           type: array
           description: >-
@@ -558,11 +754,14 @@ components:
           type: string
           description: >-
             Error type identifier.
+          example: invalid_request
         message:
           type: string
           description: >-
             Human-readable error description.
+          example: Operation completed successfully.
         status:
           type: integer
           description: >-
             HTTP status code.
+          example: 0

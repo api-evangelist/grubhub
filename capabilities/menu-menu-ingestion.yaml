@@ -1,0 +1,133 @@
+naftiko: "1.0.0-alpha2"
+
+info:
+  label: "Grubhub Menu API — Menu Ingestion"
+  description: >-
+    Menu — Menu Ingestion. 2 operation(s). Lead operation: Ingest a Normalized Menu.
+    Self-contained Naftiko capability covering one Grubhub business surface.
+  tags:
+    - Grubhub
+    - Menu
+    - Menu Ingestion
+  created: "2026-06-02"
+  modified: "2026-06-02"
+
+binds:
+  - namespace: env
+    keys:
+      GRUBHUB_API_TOKEN: GRUBHUB_API_TOKEN
+
+capability:
+
+  # Consumes — upstream Grubhub HTTP API
+  consumes:
+    - type: http
+      namespace: "menu-menu-ingestion"
+      baseUri: "https://api-third-party-gtm.grubhub.com"
+      description: "Grubhub Menu API — Menu Ingestion business capability. Self-contained, no shared references."
+      authentication:
+        type: apikey
+        key: Authorization
+        value: "{{env.GRUBHUB_API_TOKEN}}"
+        placement: header
+      resources:
+        - name: "menu-ingestion"
+          path: "/pos/v1/menu/ingestion"
+          operations:
+            - name: "ingestMenu"
+              method: POST
+              description: "Ingest a Normalized Menu"
+              inputParameters:
+                - name: "body"
+                  in: body
+                  type: object
+                  required: true
+                  description: "Request payload."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+        - name: "menu-ingestion-jobs-job-id"
+          path: "/pos/v1/menu/ingestion/jobs/{job_id}"
+          operations:
+            - name: "getMenuIngestionStatus"
+              method: GET
+              description: "Get Menu Ingestion Job Status"
+              inputParameters:
+                - name: "job_id"
+                  in: path
+                  type: string
+                  required: true
+                  description: "The unique identifier for the ingestion or override job."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+  # REST exposer (required default)
+  exposes:
+    - type: rest
+      namespace: "menu-menu-ingestion-rest"
+      port: 8080
+      description: "REST adapter for Grubhub Menu API — Menu Ingestion. One Spectral-compliant resource per consumed operation."
+      resources:
+        - path: "/v1/menu/ingestion"
+          name: "menu-ingestion"
+          description: "REST surface for Menu Ingestion."
+          operations:
+            - method: POST
+              name: "ingestMenu"
+              description: "Ingest a Normalized Menu"
+              call: "menu-menu-ingestion.ingestMenu"
+              with:
+                "body": "rest.body"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: "/v1/menu/ingestion/jobs/{job-id}"
+          name: "menu-ingestion-jobs-job-id"
+          description: "REST surface for Menu Ingestion."
+          operations:
+            - method: GET
+              name: "getMenuIngestionStatus"
+              description: "Get Menu Ingestion Job Status"
+              call: "menu-menu-ingestion.getMenuIngestionStatus"
+              with:
+                "job_id": "rest.job_id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+  # MCP exposer (required default)
+    - type: mcp
+      namespace: "menu-menu-ingestion-mcp"
+      port: 9090
+      transport: http
+      description: "MCP adapter for Grubhub Menu API — Menu Ingestion. One tool per consumed operation."
+      tools:
+        - name: "ingest-normalized-menu"
+          description: "Ingest a Normalized Menu"
+          hints:
+            readOnly: false
+            destructive: false
+            idempotent: false
+          call: "menu-menu-ingestion.ingestMenu"
+          with:
+            "body": "tools.body"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: "get-menu-ingestion-job-status"
+          description: "Get Menu Ingestion Job Status"
+          hints:
+            readOnly: true
+            destructive: false
+            idempotent: true
+          call: "menu-menu-ingestion.getMenuIngestionStatus"
+          with:
+            "job_id": "tools.job_id"
+          outputParameters:
+            - type: object
+              mapping: "$."

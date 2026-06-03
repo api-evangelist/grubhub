@@ -1,0 +1,10 @@
+{
+  "job_id": "id-1234567890",
+  "status": "COMPLETED",
+  "errors": [
+    {
+      "code": "sample-value",
+      "message": "Operation completed successfully."
+    }
+  ]
+}

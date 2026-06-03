@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/refs/heads/main/json-structure/grubhub-menuitem-structure.json",
+  "name": "MenuItem",
+  "description": "An individual menu item that a diner can order for delivery or pickup.",
+  "type": "object",
+  "properties": {
+    "external_id": {
+      "type": "string",
+      "description": "A unique external identifier for diff-based ingestion."
+    },
+    "name": {
+      "type": "string",
+      "description": "The display name of the menu item."
+    },
+    "description": {
+      "type": "string",
+      "description": "A description of the menu item."
+    },
+    "price": {
+      "type": "double",
+      "description": "The base price of the menu item in the merchant's currency.",
+      "minimum": 0
+    },
+    "available": {
+      "type": "boolean",
+      "description": "Whether this item is currently available for ordering."
+    },
+    "size_prompt": {
+      "$ref": "#/components/schemas/SizePrompt"
+    },
+    "modifier_prompts": {
+      "type": "array",
+      "description": "Modifier prompts for this item, such as salad dressing choice or add-on toppings.",
+      "items": {
+        "$ref": "#/components/schemas/ModifierPrompt"
+      }
+    }
+  },
+  "required": [
+    "external_id",
+    "name",
+    "price"
+  ]
+}

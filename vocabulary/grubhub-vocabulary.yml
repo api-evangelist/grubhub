@@ -1,14 +1,1075 @@
-name: Grubhub Domain Vocabulary
-provider: Grubhub
-providerId: grubhub
-description: Tag-derived vocabulary for the Grubhub API surface; sourced from openapi/ tags.
-terms:
-- term: Order Change Requests
-  description: Endpoints for managing order change requests and modifications.
-- term: Order Polling
-  description: Endpoints for polling orders across multiple merchants. Webhook subscription is the preferred method for receiving
-    new orders.
-- term: Order Status
-  description: Endpoints for confirming orders and updating order lifecycle states.
-- term: Orders
-  description: Endpoints for retrieving and managing orders placed through the Grubhub Marketplace.
+vocabulary: 1.0.0
+info:
+  provider: Grubhub
+  providerId: grubhub
+  description: Unified operational and capability vocabulary for the Grubhub Partner Integration APIs, mapping protocol-level
+    operations to customer-facing workflows and personas.
+  created: '2026-05-23'
+  modified: '2026-06-02'
+operational:
+  apis:
+  - name: Grubhub Deliveries API
+    namespace: deliveries
+    version: 1.0.0
+    baseUrl: https://api-third-party-gtm.grubhub.com
+    status: active
+  - name: Grubhub Menu API
+    namespace: menu
+    version: 1.0.0
+    baseUrl: https://api-third-party-gtm.grubhub.com
+    status: active
+  - name: Grubhub Merchant Data API
+    namespace: merchant-data
+    version: 1.0.0
+    baseUrl: https://api-third-party-gtm.grubhub.com
+    status: active
+  - name: Grubhub Merchant Schedules API
+    namespace: merchant-schedules
+    version: 1.0.0
+    baseUrl: https://api-third-party-gtm.grubhub.com
+    status: active
+  - name: Grubhub Onboarding API
+    namespace: onboarding
+    version: 1.0.0
+    baseUrl: https://api-third-party-gtm.grubhub.com
+    status: active
+  - name: Grubhub Orders API
+    namespace: orders
+    version: 1.0.0
+    baseUrl: https://api-third-party-gtm.grubhub.com
+    status: active
+  resources:
+  - resource: Delivery Status
+    api: deliveries
+    area: Deliveries
+    actions:
+    - get
+    operationCount: 1
+  - resource: Driver Communication
+    api: deliveries
+    area: Deliveries
+    actions:
+    - create
+    operationCount: 1
+  - resource: Menu Ingestion
+    api: menu
+    area: Menu
+    actions:
+    - get
+    - ingest
+    operationCount: 2
+  - resource: Menu Retrieval
+    api: menu
+    area: Menu
+    actions:
+    - get
+    operationCount: 1
+  - resource: Menu Schedule Overrides
+    api: menu
+    area: Menu
+    actions:
+    - get
+    - update
+    operationCount: 2
+  - resource: Merchants
+    api: merchant-data
+    area: Merchant Data
+    actions:
+    - get
+    - list
+    operationCount: 2
+  - resource: Merchant Properties
+    api: merchant-data
+    area: Merchant Data
+    actions:
+    - get
+    - update
+    operationCount: 3
+  - resource: Merchant Status
+    api: merchant-data
+    area: Merchant Data
+    actions:
+    - get
+    - update
+    operationCount: 2
+  - resource: Schedules
+    api: merchant-schedules
+    area: Merchant Schedules
+    actions:
+    - get
+    - update
+    operationCount: 6
+  - resource: Schedule Overrides
+    api: merchant-schedules
+    area: Merchant Schedules
+    actions:
+    - cancel
+    - create
+    operationCount: 2
+  - resource: Merchant Onboarding
+    api: onboarding
+    area: Onboarding
+    actions:
+    - activate
+    - associate
+    - create
+    - deactivate
+    operationCount: 5
+  - resource: Merchant Eligibility
+    api: onboarding
+    area: Onboarding
+    actions:
+    - get
+    operationCount: 1
+  - resource: Issue Reporting
+    api: onboarding
+    area: Onboarding
+    actions:
+    - report
+    operationCount: 1
+  - resource: Orders
+    api: orders
+    area: Orders
+    actions:
+    - get
+    - list
+    operationCount: 2
+  - resource: Order Polling
+    api: orders
+    area: Orders
+    actions:
+    - poll
+    operationCount: 1
+  - resource: Order Status
+    api: orders
+    area: Orders
+    actions:
+    - confirm
+    - update
+    operationCount: 2
+  - resource: Order Change Requests
+    api: orders
+    area: Orders
+    actions:
+    - get
+    operationCount: 1
+  actions:
+  - verb: activate
+    methods:
+    - POST
+    pattern: write
+  - verb: associate
+    methods:
+    - POST
+    pattern: write
+  - verb: cancel
+    methods:
+    - DELETE
+    pattern: destructive
+  - verb: confirm
+    methods:
+    - POST
+    pattern: write
+  - verb: create
+    methods:
+    - POST
+    pattern: write
+  - verb: deactivate
+    methods:
+    - POST
+    pattern: write
+  - verb: get
+    methods:
+    - GET
+    pattern: read
+  - verb: ingest
+    methods:
+    - POST
+    pattern: write
+  - verb: list
+    methods:
+    - GET
+    pattern: list
+  - verb: poll
+    methods:
+    - GET
+    pattern: query
+  - verb: report
+    methods:
+    - POST
+    pattern: write
+  - verb: update
+    methods:
+    - PUT
+    pattern: write
+  schemas:
+    core:
+    - name: Delivery
+      api: deliveries
+      keyProperties:
+      - order_uuid
+      - status
+      - driver
+      - pickup_eta
+      - dropoff_eta
+      - tracking_url
+      - updated_at
+    - name: Driver
+      api: deliveries
+      keyProperties:
+      - name
+      - phone
+      - delivery_method
+      - latitude
+      - longitude
+    - name: Merchant
+      api: merchant-data
+      keyProperties:
+      - merchant_id
+      - external_id
+      - name
+      - address
+      - phone
+      - status
+      - tax_rate
+      - fulfillment_types
+    - name: Order
+      api: orders
+      keyProperties:
+      - order_uuid
+      - merchant_id
+      - status
+      - placed_at
+      - estimated_delivery_at
+      - fulfillment_type
+      - customer
+      - items
+    - name: Customer
+      api: orders
+      keyProperties:
+      - first_name
+      - last_name
+      - phone
+    deliveries:
+    - name: ProxyPhone
+      api: deliveries
+      keyProperties:
+      - proxy_phone_number
+      - expires_at
+    errors:
+    - name: Error
+      api: deliveries
+      keyProperties:
+      - error
+      - message
+      - status
+    - name: Error
+      api: menu
+      keyProperties:
+      - error
+      - message
+      - status
+    - name: Error
+      api: merchant-data
+      keyProperties:
+      - error
+      - message
+      - status
+    - name: Error
+      api: merchant-schedules
+      keyProperties:
+      - error
+      - message
+      - status
+    - name: Error
+      api: onboarding
+      keyProperties:
+      - error
+      - message
+      - status
+    - name: Error
+      api: orders
+      keyProperties:
+      - error
+      - message
+      - status
+    menu:
+    - name: PosNormalizedMenu
+      api: menu
+      keyProperties:
+      - merchant_id
+      - schedules
+    - name: MenuSchedule
+      api: menu
+      keyProperties:
+      - external_id
+      - name
+      - availability
+      - sections
+    - name: Availability
+      api: menu
+      keyProperties:
+      - day_of_week
+      - start_time
+      - end_time
+    - name: MenuSection
+      api: menu
+      keyProperties:
+      - external_id
+      - name
+      - items
+    - name: MenuItem
+      api: menu
+      keyProperties:
+      - external_id
+      - name
+      - description
+      - price
+      - available
+      - size_prompt
+      - modifier_prompts
+    - name: SizePrompt
+      api: menu
+      keyProperties:
+      - external_id
+      - name
+      - options
+    - name: SizeOption
+      api: menu
+      keyProperties:
+      - external_id
+      - name
+      - price
+    - name: ModifierPrompt
+      api: menu
+      keyProperties:
+      - external_id
+      - name
+      - required
+      - min_selections
+      - max_selections
+      - options
+    - name: ModifierOption
+      api: menu
+      keyProperties:
+      - external_id
+      - name
+      - price
+      - available
+    - name: IngestionJobResponse
+      api: menu
+      keyProperties:
+      - job_id
+    - name: IngestionJobStatus
+      api: menu
+      keyProperties:
+      - job_id
+      - status
+      - errors
+    merchant-data:
+    - name: MerchantMapping
+      api: merchant-data
+      keyProperties:
+      - merchant_id
+      - external_id
+      - name
+      - status
+    - name: FulfillmentInfo
+      api: merchant-data
+      keyProperties:
+      - delivery_enabled
+      - pickup_enabled
+      - catering_enabled
+      - estimated_prep_time_minutes
+      - delivery_radius_miles
+      - minimum_order_amount
+    - name: BatchJobResponse
+      api: merchant-data
+      keyProperties:
+      - batch_id
+    - name: BatchJobStatus
+      api: merchant-data
+      keyProperties:
+      - batch_id
+      - status
+      - merchants
+    - name: Address
+      api: merchant-data
+      keyProperties:
+      - street_address
+      - city
+      - state
+      - zip
+      - latitude
+      - longitude
+    merchant-schedules:
+    - name: WeeklySchedule
+      api: merchant-schedules
+      keyProperties:
+      - monday
+      - tuesday
+      - wednesday
+      - thursday
+      - friday
+      - saturday
+      - sunday
+    - name: DaySchedule
+      api: merchant-schedules
+      keyProperties:
+      - open
+      - time_windows
+    - name: TimeWindow
+      api: merchant-schedules
+      keyProperties:
+      - start_time
+      - end_time
+    - name: ScheduleOverride
+      api: merchant-schedules
+      keyProperties:
+      - override_id
+      - start_date
+      - end_date
+      - closed
+      - time_windows
+      - reason
+    onboarding:
+    - name: MerchantReferral
+      api: onboarding
+      keyProperties:
+      - business_name
+      - address
+      - contact
+      - external_id
+      - cuisine_types
+    - name: ReferralResponse
+      api: onboarding
+      keyProperties:
+      - referral_id
+      - merchant_id
+      - status
+    - name: EligibilityResponse
+      api: onboarding
+      keyProperties:
+      - merchant_id
+      - eligible
+      - requirements
+    - name: OnboardingIssue
+      api: onboarding
+      keyProperties:
+      - merchant_id
+      - issue_type
+      - description
+    - name: Contact
+      api: onboarding
+      keyProperties:
+      - name
+      - email
+      - phone
+    - name: Address
+      api: onboarding
+      keyProperties:
+      - street_address
+      - city
+      - state
+      - zip
+    orders:
+    - name: OrderItem
+      api: orders
+      keyProperties:
+      - item_id
+      - name
+      - quantity
+      - price
+      - modifiers
+      - special_instructions
+    - name: OrderTotals
+      api: orders
+      keyProperties:
+      - subtotal
+      - tax
+      - delivery_fee
+      - tip
+      - total
+    - name: Address
+      api: orders
+      keyProperties:
+      - street_address
+      - apt_suite
+      - city
+      - state
+      - zip
+      - latitude
+      - longitude
+    - name: OrderConfirmation
+      api: orders
+      keyProperties:
+      - wait_time_in_minutes
+    requests:
+    - name: MenuScheduleOverrideRequest
+      api: menu
+      keyProperties:
+      - overrides
+    - name: MerchantStatusUpdateRequest
+      api: merchant-data
+      keyProperties:
+      - merchants
+    - name: MerchantPropertiesUpdateRequest
+      api: merchant-data
+      keyProperties:
+      - merchants
+    - name: ScheduleOverrideRequest
+      api: merchant-schedules
+      keyProperties:
+      - start_date
+      - end_date
+      - closed
+      - time_windows
+      - reason
+    - name: MerchantActivationRequest
+      api: onboarding
+      keyProperties:
+      - merchant_id
+    - name: MerchantDeactivationRequest
+      api: onboarding
+      keyProperties:
+      - merchant_id
+      - reason
+    - name: MerchantAssociationRequest
+      api: onboarding
+      keyProperties:
+      - merchant_ids
+    - name: OrderStatusUpdate
+      api: orders
+      keyProperties:
+      - status
+      - reason
+    - name: OrderChangeRequest
+      api: orders
+      keyProperties:
+      - id
+      - status
+      - type
+      - details
+      - created_at
+  parameters:
+    identifiers:
+    - name: merchant_long_id
+      in: path
+      type: string
+    - name: order_uuid
+      in: path
+      type: string
+    - name: job_id
+      in: path
+      type: string
+    - name: merchant_id
+      in: path
+      type: string
+    - name: batch_id
+      in: path
+      type: string
+    filters:
+    - name: status
+      in: query
+      type: string
+    - name: start_date
+      in: query
+      type: string
+    - name: end_date
+      in: query
+      type: string
+  enums:
+    fulfillmentType:
+    - DELIVERY
+    - PICKUP
+    orderStatus:
+    - CANCELLED
+    - COMPLETED
+    - CONFIRMED
+    - IN_PROGRESS
+    - OUT_FOR_DELIVERY
+    - PENDING
+    - READY
+    states:
+    - APPROVED
+    - ARRIVED_AT_DROPOFF
+    - ARRIVED_AT_PICKUP
+    - CANCELLED
+    - COMPLETED
+    - CONFIRMED
+    - DELIVERED
+    - DRIVER_ASSIGNED
+    - DRIVER_EN_ROUTE_TO_PICKUP
+    - FAILED
+    - IN_PROGRESS
+    - OFFLINE
+    - ONLINE
+    - OUT_FOR_DELIVERY
+    - PENDING
+    - PICKED_UP
+    - PROCESSING
+    - READY
+    - REJECTED
+    - SUCCESS
+    types:
+    - BIKE
+    - CAR
+    - CATERING
+    - DELIVERY
+    - FRIDAY
+    - HARD
+    - MONDAY
+    - PICKUP
+    - SATURDAY
+    - SOFT
+    - SUNDAY
+    - THURSDAY
+    - TUESDAY
+    - WALKING
+    - WEDNESDAY
+  authentication:
+    hmacAuth:
+      type: apiKey
+      in: header
+      headerName: Authorization
+      apis:
+      - orders
+    oauthAuth:
+      type: oauth2
+      in: null
+      headerName: null
+      apis:
+      - onboarding
+capability:
+  workflows:
+  - name: Grubhub Deliveries API — Delivery Status
+    file: capabilities/deliveries-delivery-status.yaml
+    description: Deliveries — Delivery Status.
+    domain: Deliveries
+    toolCount: 1
+    personas:
+    - POS Integration Partner
+    - Marketplace Operator
+  - name: Grubhub Deliveries API — Driver Communication
+    file: capabilities/deliveries-driver-communication.yaml
+    description: Deliveries — Driver Communication.
+    domain: Deliveries
+    toolCount: 1
+    personas:
+    - POS Integration Partner
+    - Marketplace Operator
+  - name: Grubhub Menu API — Menu Ingestion
+    file: capabilities/menu-menu-ingestion.yaml
+    description: Menu — Menu Ingestion.
+    domain: Menu
+    toolCount: 2
+    personas:
+    - POS Integration Partner
+    - Marketplace Operator
+  - name: Grubhub Menu API — Menu Retrieval
+    file: capabilities/menu-menu-retrieval.yaml
+    description: Menu — Menu Retrieval.
+    domain: Menu
+    toolCount: 1
+    personas:
+    - POS Integration Partner
+    - Marketplace Operator
+  - name: Grubhub Menu API — Menu Schedule Overrides
+    file: capabilities/menu-menu-schedule-overrides.yaml
+    description: Menu — Menu Schedule Overrides.
+    domain: Menu
+    toolCount: 2
+    personas:
+    - POS Integration Partner
+    - Marketplace Operator
+  - name: Grubhub Merchant Data API — Merchant Properties
+    file: capabilities/merchant-data-merchant-properties.yaml
+    description: Merchant Data — Merchant Properties.
+    domain: Merchant Data
+    toolCount: 3
+    personas:
+    - POS Integration Partner
+    - Marketplace Operator
+  - name: Grubhub Merchant Data API — Merchant Status
+    file: capabilities/merchant-data-merchant-status.yaml
+    description: Merchant Data — Merchant Status.
+    domain: Merchant Data
+    toolCount: 2
+    personas:
+    - POS Integration Partner
+    - Marketplace Operator
+  - name: Grubhub Merchant Data API — Merchants
+    file: capabilities/merchant-data-merchants.yaml
+    description: Merchant Data — Merchants.
+    domain: Merchant Data
+    toolCount: 2
+    personas:
+    - POS Integration Partner
+    - Marketplace Operator
+  - name: Grubhub Merchant Schedules API — Schedule Overrides
+    file: capabilities/merchant-schedules-schedule-overrides.yaml
+    description: Merchant Schedules — Schedule Overrides.
+    domain: Merchant Schedules
+    toolCount: 2
+    personas:
+    - POS Integration Partner
+    - Marketplace Operator
+  - name: Grubhub Merchant Schedules API — Schedules
+    file: capabilities/merchant-schedules-schedules.yaml
+    description: Merchant Schedules — Schedules.
+    domain: Merchant Schedules
+    toolCount: 6
+    personas:
+    - POS Integration Partner
+    - Marketplace Operator
+  - name: Grubhub Onboarding API — Issue Reporting
+    file: capabilities/onboarding-issue-reporting.yaml
+    description: Onboarding — Issue Reporting.
+    domain: Onboarding
+    toolCount: 1
+    personas:
+    - POS Integration Partner
+    - Marketplace Operator
+  - name: Grubhub Onboarding API — Merchant Eligibility
+    file: capabilities/onboarding-merchant-eligibility.yaml
+    description: Onboarding — Merchant Eligibility.
+    domain: Onboarding
+    toolCount: 1
+    personas:
+    - POS Integration Partner
+    - Marketplace Operator
+  - name: Grubhub Onboarding API — Merchant Onboarding
+    file: capabilities/onboarding-merchant-onboarding.yaml
+    description: Onboarding — Merchant Onboarding.
+    domain: Onboarding
+    toolCount: 5
+    personas:
+    - POS Integration Partner
+    - Marketplace Operator
+  - name: Grubhub Orders API — Order Change Requests
+    file: capabilities/orders-order-change-requests.yaml
+    description: Orders — Order Change Requests.
+    domain: Orders
+    toolCount: 1
+    personas:
+    - POS Integration Partner
+    - Marketplace Operator
+  - name: Grubhub Orders API — Order Polling
+    file: capabilities/orders-order-polling.yaml
+    description: Orders — Order Polling.
+    domain: Orders
+    toolCount: 1
+    personas:
+    - POS Integration Partner
+    - Marketplace Operator
+  - name: Grubhub Orders API — Order Status
+    file: capabilities/orders-order-status.yaml
+    description: Orders — Order Status.
+    domain: Orders
+    toolCount: 2
+    personas:
+    - POS Integration Partner
+    - Marketplace Operator
+  - name: Grubhub Orders API — Orders
+    file: capabilities/orders-orders.yaml
+    description: Orders — Orders.
+    domain: Orders
+    toolCount: 2
+    personas:
+    - POS Integration Partner
+    - Marketplace Operator
+  personas:
+  - id: pos-partner
+    name: POS Integration Partner
+    description: Point-of-sale or online-ordering provider integrating merchant menus, orders, and schedules with Grubhub.
+    workflows:
+    - Menu
+    - Orders
+    - Merchant Data
+    - Merchant Schedules
+    - Onboarding
+  - id: marketplace-operator
+    name: Marketplace Operator
+    description: Operator managing merchant lifecycle, availability, and delivery logistics across the Grubhub Marketplace.
+    workflows:
+    - Merchant Data
+    - Merchant Schedules
+    - Deliveries
+  - id: delivery-aggregator
+    name: Delivery Aggregator
+    description: Aggregator or enterprise merchant fulfilling orders through Grubhub's courier network via Grubhub Connect.
+    workflows:
+    - Deliveries
+    - Orders
+  domains:
+  - Deliveries
+  - Menu
+  - Merchant Data
+  - Merchant Schedules
+  - Onboarding
+  - Orders
+  namespaces:
+  - consumed: deliveries-delivery-status
+    rest: deliveries-delivery-status-rest
+    mcp: deliveries-delivery-status-mcp
+    restPort: 8080
+    mcpPort: 9090
+  - consumed: deliveries-driver-communication
+    rest: deliveries-driver-communication-rest
+    mcp: deliveries-driver-communication-mcp
+    restPort: 8080
+    mcpPort: 9090
+  - consumed: menu-menu-ingestion
+    rest: menu-menu-ingestion-rest
+    mcp: menu-menu-ingestion-mcp
+    restPort: 8080
+    mcpPort: 9090
+  - consumed: menu-menu-retrieval
+    rest: menu-menu-retrieval-rest
+    mcp: menu-menu-retrieval-mcp
+    restPort: 8080
+    mcpPort: 9090
+  - consumed: menu-menu-schedule-overrides
+    rest: menu-menu-schedule-overrides-rest
+    mcp: menu-menu-schedule-overrides-mcp
+    restPort: 8080
+    mcpPort: 9090
+  - consumed: merchant-data-merchant-properties
+    rest: merchant-data-merchant-properties-rest
+    mcp: merchant-data-merchant-properties-mcp
+    restPort: 8080
+    mcpPort: 9090
+  - consumed: merchant-data-merchant-status
+    rest: merchant-data-merchant-status-rest
+    mcp: merchant-data-merchant-status-mcp
+    restPort: 8080
+    mcpPort: 9090
+  - consumed: merchant-data-merchants
+    rest: merchant-data-merchants-rest
+    mcp: merchant-data-merchants-mcp
+    restPort: 8080
+    mcpPort: 9090
+  - consumed: merchant-schedules-schedule-overrides
+    rest: merchant-schedules-schedule-overrides-rest
+    mcp: merchant-schedules-schedule-overrides-mcp
+    restPort: 8080
+    mcpPort: 9090
+  - consumed: merchant-schedules-schedules
+    rest: merchant-schedules-schedules-rest
+    mcp: merchant-schedules-schedules-mcp
+    restPort: 8080
+    mcpPort: 9090
+  - consumed: onboarding-issue-reporting
+    rest: onboarding-issue-reporting-rest
+    mcp: onboarding-issue-reporting-mcp
+    restPort: 8080
+    mcpPort: 9090
+  - consumed: onboarding-merchant-eligibility
+    rest: onboarding-merchant-eligibility-rest
+    mcp: onboarding-merchant-eligibility-mcp
+    restPort: 8080
+    mcpPort: 9090
+  - consumed: onboarding-merchant-onboarding
+    rest: onboarding-merchant-onboarding-rest
+    mcp: onboarding-merchant-onboarding-mcp
+    restPort: 8080
+    mcpPort: 9090
+  - consumed: orders-order-change-requests
+    rest: orders-order-change-requests-rest
+    mcp: orders-order-change-requests-mcp
+    restPort: 8080
+    mcpPort: 9090
+  - consumed: orders-order-polling
+    rest: orders-order-polling-rest
+    mcp: orders-order-polling-mcp
+    restPort: 8080
+    mcpPort: 9090
+  - consumed: orders-order-status
+    rest: orders-order-status-rest
+    mcp: orders-order-status-mcp
+    restPort: 8080
+    mcpPort: 9090
+  - consumed: orders-orders
+    rest: orders-orders-rest
+    mcp: orders-orders-mcp
+    restPort: 8080
+    mcpPort: 9090
+  binds:
+  - GRUBHUB_API_TOKEN
+  - GRUBHUB_OAUTH_TOKEN
+crossReference:
+- resource: Delivery Status
+  api: deliveries
+  operations:
+  - getDeliveryStatus
+  workflows:
+  - Grubhub Deliveries API — Delivery Status
+  personas:
+  - POS Integration Partner
+  - Marketplace Operator
+- resource: Driver Communication
+  api: deliveries
+  operations:
+  - createProxyCourierPhone
+  workflows:
+  - Grubhub Deliveries API — Driver Communication
+  personas:
+  - POS Integration Partner
+  - Marketplace Operator
+- resource: Menu Ingestion
+  api: menu
+  operations:
+  - getMenuIngestionStatus
+  - ingestMenu
+  workflows:
+  - Grubhub Menu API — Menu Ingestion
+  personas:
+  - POS Integration Partner
+  - Marketplace Operator
+- resource: Menu Retrieval
+  api: menu
+  operations:
+  - getMerchantMenu
+  workflows:
+  - Grubhub Menu API — Menu Retrieval
+  personas:
+  - POS Integration Partner
+  - Marketplace Operator
+- resource: Menu Schedule Overrides
+  api: menu
+  operations:
+  - getMenuScheduleOverrideStatus
+  - updateMenuScheduleOverrides
+  workflows:
+  - Grubhub Menu API — Menu Schedule Overrides
+  personas:
+  - POS Integration Partner
+  - Marketplace Operator
+- resource: Merchants
+  api: merchant-data
+  operations:
+  - getMerchant
+  - listMerchants
+  workflows:
+  - Grubhub Merchant Data API — Merchants
+  personas:
+  - POS Integration Partner
+  - Marketplace Operator
+- resource: Merchant Properties
+  api: merchant-data
+  operations:
+  - getMerchantFulfillment
+  - getMerchantPropertiesBatch
+  - updateMerchantProperties
+  workflows:
+  - Grubhub Merchant Data API — Merchant Properties
+  personas:
+  - POS Integration Partner
+  - Marketplace Operator
+- resource: Merchant Status
+  api: merchant-data
+  operations:
+  - getMerchantStatusBatch
+  - updateMerchantStatus
+  workflows:
+  - Grubhub Merchant Data API — Merchant Status
+  personas:
+  - POS Integration Partner
+  - Marketplace Operator
+- resource: Schedules
+  api: merchant-schedules
+  operations:
+  - getCateringSchedule
+  - getDeliverySchedule
+  - getPickupSchedule
+  - updateCateringSchedule
+  - updateDeliverySchedule
+  - updatePickupSchedule
+  workflows:
+  - Grubhub Merchant Schedules API — Schedule Overrides
+  - Grubhub Merchant Schedules API — Schedules
+  personas:
+  - POS Integration Partner
+  - Marketplace Operator
+- resource: Schedule Overrides
+  api: merchant-schedules
+  operations:
+  - cancelScheduleOverride
+  - createScheduleOverride
+  workflows:
+  - Grubhub Merchant Schedules API — Schedule Overrides
+  personas:
+  - POS Integration Partner
+  - Marketplace Operator
+- resource: Merchant Onboarding
+  api: onboarding
+  operations:
+  - activateMerchant
+  - associateMerchants
+  - createMerchantReferral
+  - deactivateMerchant
+  - deactivateMerchantPartner
+  workflows:
+  - Grubhub Onboarding API — Merchant Onboarding
+  personas:
+  - POS Integration Partner
+  - Marketplace Operator
+- resource: Merchant Eligibility
+  api: onboarding
+  operations:
+  - getMerchantEligibility
+  workflows:
+  - Grubhub Onboarding API — Merchant Eligibility
+  personas:
+  - POS Integration Partner
+  - Marketplace Operator
+- resource: Issue Reporting
+  api: onboarding
+  operations:
+  - reportOnboardingIssue
+  workflows:
+  - Grubhub Onboarding API — Issue Reporting
+  personas:
+  - POS Integration Partner
+  - Marketplace Operator
+- resource: Orders
+  api: orders
+  operations:
+  - getOrder
+  - listMerchantOrders
+  workflows:
+  - Grubhub Orders API — Order Change Requests
+  - Grubhub Orders API — Order Polling
+  - Grubhub Orders API — Order Status
+  - Grubhub Orders API — Orders
+  personas:
+  - POS Integration Partner
+  - Marketplace Operator
+- resource: Order Polling
+  api: orders
+  operations:
+  - pollOrders
+  workflows:
+  - Grubhub Orders API — Order Polling
+  personas:
+  - POS Integration Partner
+  - Marketplace Operator
+- resource: Order Status
+  api: orders
+  operations:
+  - confirmOrder
+  - updateOrderStatus
+  workflows:
+  - Grubhub Orders API — Order Status
+  personas:
+  - POS Integration Partner
+  - Marketplace Operator
+- resource: Order Change Requests
+  api: orders
+  operations:
+  - getOrderChangeRequests
+  workflows:
+  - Grubhub Orders API — Order Change Requests
+  personas:
+  - POS Integration Partner
+  - Marketplace Operator

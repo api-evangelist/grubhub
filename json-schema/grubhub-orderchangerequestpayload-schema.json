@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developer.grubhub.com/schemas/grubhub/orderchangerequestpayload.json",
+  "title": "Grubhub Order Change Request Payload",
+  "description": "Webhook payload for an order change request event.",
+  "type": "object",
+  "properties": {
+    "event_type": {
+      "type": "string",
+      "description": "The type of event that triggered this webhook.",
+      "const": "ORDER_CHANGE_REQUEST",
+      "example": "STANDARD"
+    },
+    "order_uuid": {
+      "type": "string",
+      "format": "uuid",
+      "description": "The unique identifier for the order.",
+      "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+    },
+    "merchant_id": {
+      "type": "string",
+      "description": "The Grubhub merchant identifier.",
+      "example": "ghm-1234567890"
+    },
+    "change_request_id": {
+      "type": "string",
+      "description": "The unique identifier for the change request.",
+      "example": "id-1234567890"
+    },
+    "change_type": {
+      "type": "string",
+      "description": "The type of change being requested.",
+      "example": "STANDARD"
+    },
+    "details": {
+      "type": "string",
+      "description": "Details about the requested change.",
+      "example": "string"
+    },
+    "requested_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the change was requested.",
+      "example": "2026-06-02T18:30:00Z"
+    }
+  }
+}
