@@ -1,0 +1,926 @@
+"""
+Grubhub GraphQL Schema
+Conceptual schema derived from the Grubhub partner developer APIs:
+Menu API, Orders API, Merchant Data API, Merchant Schedules API,
+Deliveries API, and Onboarding API.
+https://developer.grubhub.com/
+"""
+
+# ─── Enumerations ────────────────────────────────────────────────────────────
+
+enum OrderStatusEnum {
+  PLACED
+  CONFIRMED
+  PREPARING
+  READY_FOR_PICKUP
+  OUT_FOR_DELIVERY
+  DELIVERED
+  CANCELLED
+  REFUNDED
+}
+
+enum DeliveryStatusEnum {
+  PENDING
+  DRIVER_ASSIGNED
+  PICKED_UP
+  OUT_FOR_DELIVERY
+  DELIVERED
+  FAILED
+}
+
+enum DietaryEnum {
+  VEGETARIAN
+  VEGAN
+  GLUTEN_FREE
+  HALAL
+  KOSHER
+  NUT_FREE
+  DAIRY_FREE
+}
+
+enum AllergenEnum {
+  PEANUTS
+  TREE_NUTS
+  MILK
+  EGGS
+  WHEAT
+  SOYBEAN
+  FISH
+  SHELLFISH
+  SESAME
+}
+
+enum PaymentMethodTypeEnum {
+  CREDIT_CARD
+  DEBIT_CARD
+  PAYPAL
+  APPLE_PAY
+  GOOGLE_PAY
+  GIFT_CARD
+  CORPORATE_ACCOUNT
+}
+
+enum DayOfWeekEnum {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
+}
+
+enum RatingScaleEnum {
+  ONE
+  TWO
+  THREE
+  FOUR
+  FIVE
+}
+
+# ─── Scalars ─────────────────────────────────────────────────────────────────
+
+scalar DateTime
+scalar Date
+scalar Time
+scalar Decimal
+scalar URL
+scalar GeoJSON
+
+# ─── Restaurant ──────────────────────────────────────────────────────────────
+
+"""A restaurant location listed on the Grubhub marketplace."""
+type Restaurant {
+  id: ID!
+  name: String!
+  description: String
+  address: String!
+  city: String!
+  state: String!
+  zipCode: String!
+  latitude: Float
+  longitude: Float
+  phoneNumber: String
+  website: URL
+  cuisines: [Cuisine!]
+  rating: Float
+  reviewCount: Int
+  photos: [Photo!]
+  hours: RestaurantHours
+  deliveryFee: DeliveryFee
+  estimatedDeliveryTime: EstimatedDeliveryTime
+  serviceArea: ServiceArea
+  minimumOrderAmount: Price
+  isOpen: Boolean!
+  acceptsOnlineOrders: Boolean!
+  menu: RestaurantMenu
+  reviews: [Review!]
+  promotions: [Promotion!]
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+"""Extended detail view of a restaurant including merchant configuration."""
+type RestaurantDetails {
+  id: ID!
+  restaurant: Restaurant!
+  taxRate: Decimal
+  merchantId: String
+  posIntegrationEnabled: Boolean
+  fulfillmentSettings: String
+  configurationGroups: [String!]
+  grubhubConnect: Boolean
+  onboardingStatus: String
+  activatedAt: DateTime
+}
+
+"""The full menu offering for a restaurant."""
+type RestaurantMenu {
+  id: ID!
+  restaurantId: ID!
+  name: String
+  menus: [Menu!]!
+  updatedAt: DateTime
+}
+
+"""A named menu grouping (e.g., Lunch Menu, Dinner Menu)."""
+type Menu {
+  id: ID!
+  name: String!
+  description: String
+  availableFrom: Time
+  availableUntil: Time
+  sections: [MenuSection!]!
+  isActive: Boolean!
+}
+
+"""A section within a menu (e.g., Appetizers, Entrees, Desserts)."""
+type MenuSection {
+  id: ID!
+  name: String!
+  description: String
+  sortOrder: Int
+  items: [MenuItem!]!
+}
+
+"""A menu item as it appears in a section listing."""
+type MenuItem {
+  id: ID!
+  name: String!
+  description: String
+  price: Price!
+  photo: MenuPhoto
+  isAvailable: Boolean!
+  dietaryFlags: [DietaryEnum!]
+  allergens: [AllergenEnum!]
+  details: MenuItemDetails
+}
+
+"""Full detail record for a menu item including customizations and nutrition."""
+type MenuItemDetails {
+  id: ID!
+  name: String!
+  description: String
+  basePrice: Price!
+  specialPrice: SpecialPrice
+  photos: [MenuPhoto!]
+  calories: Int
+  nutrition: Nutrition
+  dietary: [Dietary!]
+  allergens: [Allergen!]
+  customizationGroups: [CustomizationGroup!]
+  isPopular: Boolean
+  isNew: Boolean
+  sortOrder: Int
+  sku: String
+}
+
+# ─── Customizations ───────────────────────────────────────────────────────────
+
+"""A group of customization options that can be applied to a menu item."""
+type CustomizationGroup {
+  id: ID!
+  name: String!
+  description: String
+  minSelections: Int
+  maxSelections: Int
+  isRequired: Boolean!
+  options: [CustomizationOption!]!
+}
+
+"""A single selectable option within a customization group."""
+type CustomizationOption {
+  id: ID!
+  name: String!
+  priceAdjustment: Price
+  calories: Int
+  isDefault: Boolean
+  isAvailable: Boolean!
+}
+
+"""A customization applied to a cart item or order item."""
+type MenuItemCustomization {
+  groupId: ID!
+  groupName: String!
+  selectedOptions: [CustomizationOption!]!
+}
+
+# ─── Pricing ─────────────────────────────────────────────────────────────────
+
+"""A monetary amount with currency."""
+type Price {
+  amount: Decimal!
+  currency: String!
+  formatted: String
+}
+
+"""A promotional or reduced price for a menu item."""
+type SpecialPrice {
+  originalPrice: Price!
+  discountedPrice: Price!
+  label: String
+  validFrom: DateTime
+  validUntil: DateTime
+}
+
+"""A discount applied to an order."""
+type Discount {
+  id: ID!
+  type: String!
+  amount: Price
+  percentOff: Float
+  description: String
+  promoCode: PromoCode
+}
+
+"""A promotional code redeemable at checkout."""
+type PromoCode {
+  id: ID!
+  code: String!
+  description: String
+  discountAmount: Price
+  percentOff: Float
+  minimumOrderAmount: Price
+  maxUses: Int
+  usesRemaining: Int
+  expiresAt: DateTime
+  isActive: Boolean!
+}
+
+# ─── Cuisine and Food Classification ─────────────────────────────────────────
+
+"""A cuisine type tag (e.g., Italian, Mexican, Thai)."""
+type Cuisine {
+  id: ID!
+  name: String!
+  slug: String!
+  icon: URL
+}
+
+"""A food type classification for menu items."""
+type FoodType {
+  id: ID!
+  name: String!
+  description: String
+}
+
+"""Dietary attribute for a menu item."""
+type Dietary {
+  type: DietaryEnum!
+  label: String!
+  icon: URL
+}
+
+"""A dietary filter used to search or filter menu items."""
+type DietaryFilter {
+  id: ID!
+  name: String!
+  dietaryType: DietaryEnum!
+  isActive: Boolean!
+}
+
+"""An allergen present in a menu item."""
+type Allergen {
+  type: AllergenEnum!
+  label: String!
+  severity: String
+}
+
+"""Nutritional information for a menu item."""
+type Nutrition {
+  calories: Int
+  totalFat: Decimal
+  saturatedFat: Decimal
+  transFat: Decimal
+  cholesterol: Decimal
+  sodium: Decimal
+  totalCarbohydrates: Decimal
+  dietaryFiber: Decimal
+  totalSugars: Decimal
+  protein: Decimal
+  servingSize: String
+}
+
+# ─── Photos ──────────────────────────────────────────────────────────────────
+
+"""A general photo asset."""
+type Photo {
+  id: ID!
+  url: URL!
+  altText: String
+  width: Int
+  height: Int
+  isPrimary: Boolean
+}
+
+"""A photo associated with a specific menu item."""
+type MenuPhoto {
+  id: ID!
+  url: URL!
+  altText: String
+  width: Int
+  height: Int
+  menuItemId: ID!
+}
+
+# ─── Hours and Scheduling ─────────────────────────────────────────────────────
+
+"""Full hours configuration for a restaurant."""
+type RestaurantHours {
+  restaurantId: ID!
+  regularHours: [ServiceHours!]!
+  deliveryHours: [DeliveryHours!]!
+  temporaryClosures: [TemporaryClosure!]
+  holidayHours: [ServiceHours!]
+  timezone: String!
+}
+
+"""Standard service hours for a given day of the week."""
+type ServiceHours {
+  dayOfWeek: DayOfWeekEnum!
+  openTime: Time!
+  closeTime: Time!
+  isClosed: Boolean!
+}
+
+"""Delivery-specific hours that may differ from dine-in hours."""
+type DeliveryHours {
+  dayOfWeek: DayOfWeekEnum!
+  openTime: Time!
+  closeTime: Time!
+  isClosed: Boolean!
+}
+
+"""A period during which a restaurant is temporarily closed."""
+type TemporaryClosure {
+  id: ID!
+  startAt: DateTime!
+  endAt: DateTime!
+  reason: String
+}
+
+# ─── Delivery Geography ───────────────────────────────────────────────────────
+
+"""The geographic service area for a restaurant's deliveries."""
+type ServiceArea {
+  restaurantId: ID!
+  deliveryZones: [DeliveryZone!]!
+  serviceRadius: ServiceRadius
+  geoJson: GeoJSON
+}
+
+"""A defined geographic delivery zone polygon."""
+type DeliveryZone {
+  id: ID!
+  name: String
+  polygon: GeoJSON!
+  minimumOrderAmount: Price
+  deliveryFee: DeliveryFee
+}
+
+"""A circular delivery radius from the restaurant's location."""
+type ServiceRadius {
+  centerLatitude: Float!
+  centerLongitude: Float!
+  radiusMiles: Float!
+}
+
+"""Estimated time for a delivery to reach the customer."""
+type EstimatedDeliveryTime {
+  minimumMinutes: Int!
+  maximumMinutes: Int!
+  displayLabel: String
+}
+
+"""The fee charged to a customer for delivery service."""
+type DeliveryFee {
+  amount: Price!
+  isFree: Boolean!
+  freeDeliveryThreshold: Price
+}
+
+# ─── Cart and Checkout ────────────────────────────────────────────────────────
+
+"""A customer's active shopping cart before order placement."""
+type Cart {
+  id: ID!
+  customerId: ID!
+  restaurantId: ID!
+  items: [CartItem!]!
+  subtotal: Price!
+  deliveryFee: DeliveryFee!
+  taxes: Price!
+  discounts: [Discount!]
+  total: Price!
+  promoCode: PromoCode
+  deliveryAddress: CustomerAddress
+  estimatedDeliveryTime: EstimatedDeliveryTime
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""A single item within a customer's cart."""
+type CartItem {
+  id: ID!
+  menuItemId: ID!
+  menuItemName: String!
+  quantity: Int!
+  unitPrice: Price!
+  totalPrice: Price!
+  customizations: [CartCustomization!]
+  specialInstructions: String
+}
+
+"""A customization choice attached to a cart item."""
+type CartCustomization {
+  groupId: ID!
+  groupName: String!
+  selectedOptionId: ID!
+  selectedOptionName: String!
+  priceAdjustment: Price
+}
+
+"""The checkout session bridging a cart to a placed order."""
+type Checkout {
+  id: ID!
+  cartId: ID!
+  customerId: ID!
+  deliveryAddress: CustomerAddress!
+  paymentMethod: PaymentMethod!
+  subtotal: Price!
+  deliveryFee: DeliveryFee!
+  taxes: Price!
+  tip: Price
+  discounts: [Discount!]
+  total: Price!
+  estimatedDeliveryTime: EstimatedDeliveryTime
+  termsAccepted: Boolean!
+  createdAt: DateTime!
+}
+
+# ─── Orders ───────────────────────────────────────────────────────────────────
+
+"""A placed order on the Grubhub marketplace."""
+type Order {
+  id: ID!
+  restaurantId: ID!
+  customerId: ID!
+  items: [CartItem!]!
+  status: OrderStatusEnum!
+  subtotal: Price!
+  deliveryFee: DeliveryFee!
+  taxes: Price!
+  tip: Price
+  discounts: [Discount!]
+  total: Price!
+  deliveryAddress: CustomerAddress!
+  paymentMethod: PaymentMethod!
+  specialInstructions: String
+  tracking: OrderTracking
+  delivery: Delivery
+  refund: Refund
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  estimatedDeliveryTime: EstimatedDeliveryTime
+}
+
+"""Current tracking state for an active order."""
+type OrderTracking {
+  orderId: ID!
+  status: OrderStatusEnum!
+  statusLabel: String!
+  statusUpdatedAt: DateTime!
+  estimatedDeliveryTime: EstimatedDeliveryTime
+  driverLocation: DriverLocation
+  events: [OrderStatus!]!
+}
+
+"""A single order status event in the order lifecycle."""
+type OrderStatus {
+  status: OrderStatusEnum!
+  label: String!
+  occurredAt: DateTime!
+  notes: String
+}
+
+"""A summary record of a past order for a customer."""
+type OrderHistory {
+  id: ID!
+  restaurantId: ID!
+  restaurantName: String!
+  total: Price!
+  status: OrderStatusEnum!
+  itemCount: Int!
+  createdAt: DateTime!
+  canReorder: Boolean!
+}
+
+"""A refund issued for an order or order item."""
+type Refund {
+  id: ID!
+  orderId: ID!
+  amount: Price!
+  reason: String!
+  status: String!
+  issuedAt: DateTime
+  createdAt: DateTime!
+}
+
+"""A formal dispute resolution record for an order issue."""
+type DisputeResolution {
+  id: ID!
+  orderId: ID!
+  reason: String!
+  resolution: String
+  compensationAmount: Price
+  status: String!
+  openedAt: DateTime!
+  resolvedAt: DateTime
+}
+
+# ─── Delivery ─────────────────────────────────────────────────────────────────
+
+"""A delivery record linking an order to a courier."""
+type Delivery {
+  id: ID!
+  orderId: ID!
+  status: DeliveryStatusEnum!
+  driver: DeliveryDriver
+  driverLocation: DriverLocation
+  pickupAddress: String!
+  dropoffAddress: String!
+  estimatedPickupTime: DateTime
+  estimatedDeliveryTime: DateTime
+  actualDeliveredAt: DateTime
+  proof: DeliveryProof
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""A Grubhub delivery driver (courier)."""
+type DeliveryDriver {
+  id: ID!
+  firstName: String!
+  lastInitial: String
+  phoneNumber: String
+  profilePhoto: URL
+  vehicleType: String
+  rating: Float
+}
+
+"""Real-time GPS location of a delivery driver."""
+type DriverLocation {
+  driverId: ID!
+  deliveryId: ID!
+  latitude: Float!
+  longitude: Float!
+  heading: Float
+  speed: Float
+  recordedAt: DateTime!
+}
+
+"""Proof of delivery record (photo or signature)."""
+type DeliveryProof {
+  id: ID!
+  deliveryId: ID!
+  photoUrl: URL
+  signatureUrl: URL
+  deliveredAt: DateTime!
+  notes: String
+}
+
+# ─── Reviews ──────────────────────────────────────────────────────────────────
+
+"""A customer review for a restaurant or order."""
+type Review {
+  id: ID!
+  orderId: ID!
+  restaurantId: ID!
+  customerId: ID!
+  overallRating: RatingScaleEnum!
+  foodRating: RatingScaleEnum
+  deliveryRating: RatingScaleEnum
+  comment: String
+  photos: [Photo!]
+  response: ReviewResponse
+  createdAt: DateTime!
+  isVerified: Boolean!
+}
+
+"""Aggregated rating data for a restaurant."""
+type Rating {
+  restaurantId: ID!
+  averageRating: Float!
+  totalReviews: Int!
+  fiveStarCount: Int!
+  fourStarCount: Int!
+  threeStarCount: Int!
+  twoStarCount: Int!
+  oneStarCount: Int!
+}
+
+"""A merchant's public response to a customer review."""
+type ReviewResponse {
+  id: ID!
+  reviewId: ID!
+  responseText: String!
+  respondedAt: DateTime!
+  respondedBy: String
+}
+
+# ─── Promotions and Loyalty ───────────────────────────────────────────────────
+
+"""A platform-level promotional offer."""
+type Promotion {
+  id: ID!
+  title: String!
+  description: String
+  promoCode: PromoCode
+  discountType: String!
+  discountAmount: Price
+  percentOff: Float
+  minimumOrderAmount: Price
+  restaurantIds: [ID!]
+  cuisineTypes: [String!]
+  validFrom: DateTime!
+  validUntil: DateTime!
+  isActive: Boolean!
+  imageUrl: URL
+}
+
+"""A merchant-funded promotional offer on the Grubhub platform."""
+type PartnerPromotion {
+  id: ID!
+  partnerId: ID!
+  restaurantId: ID!
+  title: String!
+  description: String
+  promoCode: PromoCode
+  discountAmount: Price
+  percentOff: Float
+  maxDiscountAmount: Price
+  minimumOrderAmount: Price
+  validFrom: DateTime!
+  validUntil: DateTime!
+  isActive: Boolean!
+}
+
+"""A customer's loyalty program enrollment and balance."""
+type LoyaltyProgram {
+  id: ID!
+  customerId: ID!
+  pointsBalance: Int!
+  tier: String
+  lifetimePoints: Int!
+  nextRewardAt: Int
+  enrolledAt: DateTime!
+}
+
+"""Grubhub+ perks and membership details for a customer."""
+type GrubhubPerks {
+  customerId: ID!
+  isMember: Boolean!
+  membershipType: String
+  freeDeliveryEnabled: Boolean!
+  cashbackPercent: Float
+  exclusiveOffersEnabled: Boolean!
+  membershipExpiresAt: DateTime
+}
+
+# ─── Customer ─────────────────────────────────────────────────────────────────
+
+"""A Grubhub customer account."""
+type Customer {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  email: String!
+  phoneNumber: String
+  profilePhoto: URL
+  savedAddresses: [SavedAddress!]
+  paymentMethods: [PaymentMethod!]
+  loyaltyProgram: LoyaltyProgram
+  grubhubPerks: GrubhubPerks
+  giftCards: [GiftCard!]
+  orderHistory: [OrderHistory!]
+  preferences: CustomerPreferences
+  createdAt: DateTime!
+}
+
+"""Preferences stored for a customer."""
+type CustomerPreferences {
+  customerId: ID!
+  dietaryFilters: [DietaryFilter!]
+  cuisinePreferences: [Cuisine!]
+  defaultAddressId: ID
+  defaultPaymentMethodId: ID
+  marketingOptIn: Boolean!
+}
+
+"""A delivery address associated with a customer."""
+type CustomerAddress {
+  id: ID!
+  customerId: ID!
+  label: String
+  street: String!
+  unit: String
+  city: String!
+  state: String!
+  zipCode: String!
+  latitude: Float
+  longitude: Float
+  deliveryInstructions: String
+  isPrimary: Boolean!
+}
+
+"""A saved and labeled delivery address for quick reuse."""
+type SavedAddress {
+  id: ID!
+  customerId: ID!
+  label: String!
+  address: CustomerAddress!
+  isDefault: Boolean!
+}
+
+# ─── Payments ─────────────────────────────────────────────────────────────────
+
+"""A payment method saved to a customer's account."""
+type PaymentMethod {
+  id: ID!
+  customerId: ID!
+  type: PaymentMethodTypeEnum!
+  displayName: String!
+  last4: String
+  expiresAt: String
+  isDefault: Boolean!
+  billingAddress: CustomerAddress
+  createdAt: DateTime!
+}
+
+"""A Grubhub gift card with a redeemable balance."""
+type GiftCard {
+  id: ID!
+  code: String!
+  balance: Price!
+  originalAmount: Price!
+  isActive: Boolean!
+  expiresAt: DateTime
+  redeemedAt: DateTime
+}
+
+"""A corporate ordering account for business customers."""
+type CorporateOrder {
+  id: ID!
+  companyName: String!
+  accountId: String!
+  customerId: ID!
+  billingAddress: CustomerAddress!
+  paymentMethod: PaymentMethod!
+  budgetLimit: Price
+  requiresApproval: Boolean!
+  approverEmail: String
+  orderNotes: String
+  createdAt: DateTime!
+}
+
+# ─── Platform Integration ─────────────────────────────────────────────────────
+
+"""An API key credential for a Grubhub partner integration."""
+type APIKey {
+  id: ID!
+  partnerId: ID!
+  name: String!
+  keyPrefix: String!
+  scopes: [String!]!
+  isActive: Boolean!
+  lastUsedAt: DateTime
+  createdAt: DateTime!
+  expiresAt: DateTime
+}
+
+"""An OAuth access token for authenticated API requests."""
+type Token {
+  accessToken: String!
+  tokenType: String!
+  expiresIn: Int!
+  scope: String
+  issuedAt: DateTime!
+}
+
+"""A webhook subscription for receiving Grubhub event notifications."""
+type Webhook {
+  id: ID!
+  partnerId: ID!
+  endpoint: URL!
+  events: [String!]!
+  isActive: Boolean!
+  secret: String
+  lastTriggeredAt: DateTime
+  failureCount: Int!
+  createdAt: DateTime!
+}
+
+# ─── Input Types ──────────────────────────────────────────────────────────────
+
+input CartItemInput {
+  menuItemId: ID!
+  quantity: Int!
+  customizations: [CartCustomizationInput!]
+  specialInstructions: String
+}
+
+input CartCustomizationInput {
+  groupId: ID!
+  selectedOptionIds: [ID!]!
+}
+
+input ReviewInput {
+  orderId: ID!
+  overallRating: RatingScaleEnum!
+  foodRating: RatingScaleEnum
+  deliveryRating: RatingScaleEnum
+  comment: String
+}
+
+input PaymentMethodInput {
+  type: PaymentMethodTypeEnum!
+  token: String!
+  billingAddressId: ID
+  isDefault: Boolean
+}
+
+# ─── Root Operations ──────────────────────────────────────────────────────────
+
+type Query {
+  restaurant(id: ID!): Restaurant
+  restaurants(cuisineType: String, location: String, page: Int, pageSize: Int): [Restaurant!]
+  restaurantDetails(id: ID!): RestaurantDetails
+  menu(restaurantId: ID!): RestaurantMenu
+  menuItem(itemId: ID!): MenuItemDetails
+  order(orderId: ID!): Order
+  orderHistory(customerId: ID!, page: Int, pageSize: Int): [OrderHistory!]
+  cart(cartId: ID!): Cart
+  checkout(checkoutId: ID!): Checkout
+  delivery(deliveryId: ID!): Delivery
+  customer(customerId: ID!): Customer
+  promotion(promoCode: String!): Promotion
+  promotions(restaurantId: ID): [Promotion!]
+  partnerPromotions(partnerId: ID!): [PartnerPromotion!]
+  loyaltyProgram(customerId: ID!): LoyaltyProgram
+  grubhubPerks(customerId: ID!): GrubhubPerks
+  serviceArea(restaurantId: ID!): ServiceArea
+  rating(restaurantId: ID!): Rating
+  reviews(restaurantId: ID!, page: Int, pageSize: Int): [Review!]
+  webhooks(partnerId: ID!): [Webhook!]
+  apiKeys(partnerId: ID!): [APIKey!]
+}
+
+type Mutation {
+  addItemToCart(cartId: ID!, item: CartItemInput!): Cart
+  removeItemFromCart(cartId: ID!, cartItemId: ID!): Cart
+  updateCartItemQuantity(cartId: ID!, cartItemId: ID!, quantity: Int!): Cart
+  applyPromoCode(cartId: ID!, code: String!): Cart
+  removePromoCode(cartId: ID!): Cart
+  setDeliveryAddress(cartId: ID!, addressId: ID!): Cart
+  checkout(cartId: ID!, paymentMethodId: ID!, tip: Decimal): Order
+  cancelOrder(orderId: ID!, reason: String): Order
+  confirmOrder(orderId: ID!): Order
+  updateOrderStatus(orderId: ID!, status: OrderStatusEnum!): Order
+  submitReview(review: ReviewInput!): Review
+  respondToReview(reviewId: ID!, responseText: String!): ReviewResponse
+  addPaymentMethod(customerId: ID!, method: PaymentMethodInput!): PaymentMethod
+  removePaymentMethod(customerId: ID!, paymentMethodId: ID!): Boolean
+  redeemGiftCard(customerId: ID!, giftCardCode: String!): GiftCard
+  saveAddress(customerId: ID!, address: CustomerAddress!): SavedAddress
+  removeAddress(customerId: ID!, addressId: ID!): Boolean
+  registerWebhook(endpoint: String!, events: [String!]!, partnerId: ID!): Webhook
+  deactivateWebhook(webhookId: ID!): Webhook
+  createAPIKey(partnerId: ID!, name: String!, scopes: [String!]!): APIKey
+  revokeAPIKey(apiKeyId: ID!): Boolean
+}
+
+type Subscription {
+  orderStatusUpdated(orderId: ID!): OrderTracking
+  driverLocationUpdated(deliveryId: ID!): DriverLocation
+  newOrderReceived(restaurantId: ID!): Order
+}
