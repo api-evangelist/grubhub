@@ -1,0 +1,226 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Grubhub Orders API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Orders",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Grubhub Get a Single Order",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/merchant/:merchant_long_id/orders/:order_uuid",
+            "params": [
+              {
+                "name": "merchant_long_id",
+                "value": "",
+                "type": "path",
+                "description": "The long-form unique identifier for the merchant on Grubhub."
+              },
+              {
+                "name": "order_uuid",
+                "value": "",
+                "type": "path",
+                "description": "The UUID of the order."
+              }
+            ]
+          },
+          "docs": "Returns a single order requested by its UUID for the specified merchant. Includes complete order details such as items, totals, delivery information, and current status."
+        },
+        {
+          "info": {
+            "name": "Grubhub List Orders for a Merchant",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/merchant/:merchant_long_id/orders",
+            "params": [
+              {
+                "name": "merchant_long_id",
+                "value": "",
+                "type": "path",
+                "description": "The long-form unique identifier for the merchant on Grubhub."
+              },
+              {
+                "name": "status",
+                "value": "PENDING",
+                "type": "query",
+                "description": "Filter orders by their current status."
+              },
+              {
+                "name": "start_date",
+                "value": "2026-06-02T18:30:00Z",
+                "type": "query",
+                "description": "Start of the date range filter in ISO 8601 format."
+              },
+              {
+                "name": "end_date",
+                "value": "2026-06-02T18:30:00Z",
+                "type": "query",
+                "description": "End of the date range filter in ISO 8601 format."
+              }
+            ]
+          },
+          "docs": "Returns the list of orders for the requested merchant in a given status and date range. Useful for retrieving historical orders or checking orders in specific lifecycle states."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Order Polling",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Grubhub Poll Orders Across Merchants",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/orders/poll",
+            "params": [
+              {
+                "name": "status",
+                "value": "ACTIVE",
+                "type": "query",
+                "description": "Filter orders by their current status."
+              },
+              {
+                "name": "start_date",
+                "value": "2026-06-02T18:30:00Z",
+                "type": "query",
+                "description": "Start of the date range filter in ISO 8601 format."
+              },
+              {
+                "name": "end_date",
+                "value": "2026-06-02T18:30:00Z",
+                "type": "query",
+                "description": "End of the date range filter in ISO 8601 format."
+              }
+            ]
+          },
+          "docs": "Returns all orders for a group of merchants in a given state within the given time range. This is a fallback mechanism; new orders should primarily be received through webhook subscriptions rather than periodic polling."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Order Status",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Grubhub Confirm an Order",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/merchant/:merchant_long_id/orders/:order_uuid/confirm",
+            "params": [
+              {
+                "name": "merchant_long_id",
+                "value": "",
+                "type": "path",
+                "description": "The long-form unique identifier for the merchant on Grubhub."
+              },
+              {
+                "name": "order_uuid",
+                "value": "",
+                "type": "path",
+                "description": "The UUID of the order."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Confirms an order that has been received. All orders that can be fulfilled are required to be confirmed. Partners can optionally indicate an estimated delivery time using wait_time_in_minutes in the request body."
+        },
+        {
+          "info": {
+            "name": "Grubhub Update Order Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/merchant/:merchant_long_id/orders/:order_uuid/status",
+            "params": [
+              {
+                "name": "merchant_long_id",
+                "value": "",
+                "type": "path",
+                "description": "The long-form unique identifier for the merchant on Grubhub."
+              },
+              {
+                "name": "order_uuid",
+                "value": "",
+                "type": "path",
+                "description": "The UUID of the order."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the status of an order through its lifecycle states. Partners use this endpoint to mark orders as in progress, ready for pickup, out for delivery, or completed."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Order Change Requests",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Grubhub Get Order Change Requests",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/merchant/:merchant_long_id/orders/:order_uuid/changerequests",
+            "params": [
+              {
+                "name": "merchant_long_id",
+                "value": "",
+                "type": "path",
+                "description": "The long-form unique identifier for the merchant on Grubhub."
+              },
+              {
+                "name": "order_uuid",
+                "value": "",
+                "type": "path",
+                "description": "The UUID of the order."
+              }
+            ]
+          },
+          "docs": "Returns the status of order change requests for a specific order. Change requests may include modifications to items, quantities, or special instructions."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

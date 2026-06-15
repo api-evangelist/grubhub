@@ -1,0 +1,159 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Grubhub Merchant Data API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Merchants",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Grubhub List Partner Merchants",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/merchants"
+          },
+          "docs": "Returns the internal and external merchant ID mappings associated with your partner_id. Use this endpoint to discover all Grubhub locations linked to your partner account."
+        },
+        {
+          "info": {
+            "name": "Grubhub Get Merchant Summary",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/merchant/:merchant_id",
+            "params": [
+              {
+                "name": "merchant_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the merchant on Grubhub."
+              }
+            ]
+          },
+          "docs": "Returns summary information about a merchant including store details, address, and configuration."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Merchant Properties",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Grubhub Get Merchant Fulfillment Info",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/merchant/:merchant_id/fulfillment",
+            "params": [
+              {
+                "name": "merchant_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the merchant on Grubhub."
+              }
+            ]
+          },
+          "docs": "Returns a merchant's fulfillment configuration including delivery and pickup settings, estimated preparation times, and service area details."
+        },
+        {
+          "info": {
+            "name": "Grubhub Update Merchant Properties in Batch",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/merchants/properties",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates properties for a batch of merchants, such as fulfillment settings, tax rates, and configuration groups."
+        },
+        {
+          "info": {
+            "name": "Grubhub Get Merchant Properties Batch Progress",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/merchants/properties/:batch_id",
+            "params": [
+              {
+                "name": "batch_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for a batch operation."
+              }
+            ]
+          },
+          "docs": "Returns the status of a merchant properties update batch together with the progress for each individual merchant."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Merchant Status",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Grubhub Update Merchant Online/offline Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/merchants/status",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Sets the status of a batch of merchants to online or offline on Grubhub. When offline, merchants will not be listed on the site. When online, merchants will be listed and able to accept orders. Supports both soft pauses (remainder of business day) and hard pauses (multiple days)."
+        },
+        {
+          "info": {
+            "name": "Grubhub Get Merchant Status Batch Progress",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/merchants/status/:batch_id",
+            "params": [
+              {
+                "name": "batch_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for a batch operation."
+              }
+            ]
+          },
+          "docs": "Returns the status of a merchant online/offline batch operation together with the progress for each individual merchant in the batch."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

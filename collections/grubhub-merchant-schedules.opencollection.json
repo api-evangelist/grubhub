@@ -1,0 +1,206 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Grubhub Merchant Schedules API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Schedules",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Grubhub Get Delivery Schedule",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/merchant/:merchant_id/schedules/delivery",
+            "params": [
+              {
+                "name": "merchant_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the merchant on Grubhub."
+              }
+            ]
+          },
+          "docs": "Returns the full weekly delivery hours for a merchant. The schedule defines the hours per day of the week that the merchant can accept delivery orders."
+        },
+        {
+          "info": {
+            "name": "Grubhub Update Delivery Schedule",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/merchant/:merchant_id/schedules/delivery",
+            "params": [
+              {
+                "name": "merchant_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the merchant on Grubhub."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates or updates the weekly delivery schedule for a merchant, specifying the hours per day of the week that the merchant can accept delivery orders. If a schedule does not exist, one will be created."
+        },
+        {
+          "info": {
+            "name": "Grubhub Get Pickup Schedule",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/merchant/:merchant_id/schedules/pickup",
+            "params": [
+              {
+                "name": "merchant_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the merchant on Grubhub."
+              }
+            ]
+          },
+          "docs": "Returns the full weekly pickup hours for a merchant. The schedule defines the hours per day of the week that the merchant can accept pickup orders."
+        },
+        {
+          "info": {
+            "name": "Grubhub Update Pickup Schedule",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/merchant/:merchant_id/schedules/pickup",
+            "params": [
+              {
+                "name": "merchant_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the merchant on Grubhub."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates or updates the weekly pickup schedule for a merchant, specifying the hours per day of the week that the merchant can accept pickup orders. If a schedule does not exist, one will be created."
+        },
+        {
+          "info": {
+            "name": "Grubhub Get Catering Schedule",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/merchant/:merchant_id/schedules/catering",
+            "params": [
+              {
+                "name": "merchant_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the merchant on Grubhub."
+              }
+            ]
+          },
+          "docs": "Returns the full weekly catering hours for a merchant. The schedule defines the hours per day of the week that the merchant can accept catering orders."
+        },
+        {
+          "info": {
+            "name": "Grubhub Update Catering Schedule",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/merchant/:merchant_id/schedules/catering",
+            "params": [
+              {
+                "name": "merchant_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the merchant on Grubhub."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates or updates the weekly catering schedule for a merchant, specifying the hours per day of the week that the merchant can accept catering orders. If a schedule does not exist, one will be created."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Schedule Overrides",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Grubhub Create a Schedule Override",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/merchant/:merchant_id/schedules/overrides",
+            "params": [
+              {
+                "name": "merchant_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the merchant on Grubhub."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Adds a schedule override for a merchant, allowing temporary changes to operating hours such as closures, extended hours, or holiday schedules."
+        },
+        {
+          "info": {
+            "name": "Grubhub Cancel a Schedule Override",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/merchant/:merchant_id/schedules/overrides",
+            "params": [
+              {
+                "name": "merchant_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the merchant on Grubhub."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Cancels an existing schedule override for a merchant, restoring the regular operating hours."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

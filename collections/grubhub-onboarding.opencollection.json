@@ -1,0 +1,154 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Grubhub Onboarding API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "client_credentials",
+      "accessTokenUrl": "/oauth2/direct/auth",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Merchant Onboarding",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Grubhub Create a New Merchant Referral",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/onboarding/referral",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Sends over the details of a new merchant for onboarding them to Grubhub. This initiates the merchant onboarding process and can significantly reduce the time to get a merchant live on the platform."
+        },
+        {
+          "info": {
+            "name": "Grubhub Activate a Merchant",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/onboarding/activate",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Activates a merchant for integration with the partner, enabling the merchant to receive orders through the partner's system on the Grubhub platform."
+        },
+        {
+          "info": {
+            "name": "Grubhub Deactivate a Merchant",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/onboarding/deactivate",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Validates a merchant and removes its association with the partner. The deactivation request uses partner authentication to identify the calling partner."
+        },
+        {
+          "info": {
+            "name": "Grubhub Deactivate a Merchant (partner Auth)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/onboarding/deactivate/partner",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Deactivates a merchant using partner-level authentication. Validates the merchant and removes its association with the partner account."
+        },
+        {
+          "info": {
+            "name": "Grubhub Associate Merchants with Partner",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/onboarding/associate",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Binds provided merchants to the partner for onboarding. Associates a list of merchant IDs with the partner account, enabling the partner to manage these merchants through the API."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Merchant Eligibility",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Grubhub Get Merchant Eligibility",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/onboarding/eligibility/:merchant_id",
+            "params": [
+              {
+                "name": "merchant_id",
+                "value": "ghm-1234567890",
+                "type": "path",
+                "description": "The identifier of the merchant to check eligibility for."
+              }
+            ]
+          },
+          "docs": "Checks whether a merchant is eligible for onboarding with the partner. Returns eligibility status and any requirements that must be met before the merchant can be onboarded."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Issue Reporting",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Grubhub Report an Onboarding Issue",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/onboarding/issue",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Reports an issue encountered during the merchant onboarding process to Grubhub support for investigation and resolution."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

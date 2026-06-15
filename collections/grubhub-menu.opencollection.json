@@ -1,0 +1,143 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Grubhub Menu API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Menu Ingestion",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Grubhub Ingest a Normalized Menu",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/menu/ingestion",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Uploads a complete menu to Grubhub including schedules, sections, items, and modifiers. The API uses external IDs to perform a diff between the current and uploaded versions. Matching external IDs will have their fields updated, new IDs will create objects, and missing IDs will cause the associated items to be removed. Processing completes asynchronously after the endpoint responds."
+        },
+        {
+          "info": {
+            "name": "Grubhub Get Menu Ingestion Job Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/menu/ingestion/jobs/:job_id",
+            "params": [
+              {
+                "name": "job_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the ingestion or override job."
+              }
+            ]
+          },
+          "docs": "Returns the status of a full menu ingestion job. Use this endpoint to check whether a previously submitted menu ingestion has completed processing successfully or encountered errors."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Menu Retrieval",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Grubhub Retrieve Current Merchant Menu",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/merchant/:merchant_id/ingestion/menu",
+            "params": [
+              {
+                "name": "merchant_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the merchant on Grubhub."
+              }
+            ]
+          },
+          "docs": "Retrieves the current menu for a merchant as a PosNormalizedMenu object. The returned menu can be edited and re-ingested to update the merchant's menu on the Grubhub platform."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Menu Schedule Overrides",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Grubhub Update Menu Schedule Overrides",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/merchant/:merchant_id/menu/schedules/overrides/external",
+            "params": [
+              {
+                "name": "merchant_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the merchant on Grubhub."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates or updates menu schedule overrides for a merchant. Schedule overrides allow temporary changes to menu availability, such as making certain items unavailable during specific time periods."
+        },
+        {
+          "info": {
+            "name": "Grubhub Get Menu Schedule Override Job Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/merchant/:merchant_id/menu/schedules/overrides/:job_id/status",
+            "params": [
+              {
+                "name": "merchant_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the merchant on Grubhub."
+              },
+              {
+                "name": "job_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the ingestion or override job."
+              }
+            ]
+          },
+          "docs": "Returns the status of a menu schedule override job for a merchant."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
