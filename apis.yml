@@ -9,7 +9,7 @@ apis:
   - Menus
   - Online Ordering
   - Restaurants
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   baseURL: https://api.grubhub.com
   humanURL: https://developer.grubhub.com/api/menu
   properties:
@@ -32,7 +32,7 @@ apis:
   - Orders
   - Restaurants
   - Webhooks
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   baseURL: https://api.grubhub.com
   humanURL: https://developer.grubhub.com/api/orders
   properties:
@@ -55,7 +55,7 @@ apis:
   - Food Delivery
   - Merchants
   - Restaurants
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   baseURL: https://api.grubhub.com
   humanURL: https://developer.grubhub.com/api/merchant-data
   properties:
@@ -75,7 +75,7 @@ apis:
   - Food Delivery
   - Restaurants
   - Scheduling
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   baseURL: https://api.grubhub.com
   humanURL: https://developer.grubhub.com/docs/6uXmPesMoYmoV6jZx6lVfa/checking-merchant-availability
   properties:
@@ -95,7 +95,7 @@ apis:
   - Drivers
   - Food Delivery
   - Logistics
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   baseURL: https://api.grubhub.com
   humanURL: https://developer.grubhub.com/docs/2xRv0wZtNljuMTpizzNqD2/interacting-with-drivers
   properties:
@@ -118,7 +118,7 @@ apis:
   - Integration
   - Merchants
   - Onboarding
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   baseURL: https://api.grubhub.com
   humanURL: https://developer.grubhub.com/api/onboarding
   properties:
