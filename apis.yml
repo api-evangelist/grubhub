@@ -133,6 +133,8 @@ apis:
     time from 7-10 days down to as little as 5-10 minutes, significantly decreasing
     integration downtime.
 common:
+- type: OAuthScopes
+  url: scopes/grubhub-scopes.yml
 - type: GitHubOrganization
   url: https://github.com/GrubhubProd
 - type: LinkedIn
@@ -155,6 +157,8 @@ common:
   url: rate-limits/grubhub-rate-limits.yml
 - type: FinOps
   url: finops/grubhub-finops.yml
+- type: Blog
+  url: https://get.grubhub.com/blog/feed/
 description: Grubhub works with brands, point of sale companies, and online ordering
   providers to power an ordering experience in Grubhub Marketplace and within restaurant-branded
   web experiences. This documentation describes the normalized endpoints required

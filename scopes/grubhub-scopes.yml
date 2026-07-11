@@ -1,0 +1,30 @@
+generated: '2026-07-11'
+method: searched
+source: openapi/grubhub-onboarding-openapi.yml
+docs: https://grubhub-developers.zendesk.com/hc/en-us/articles/115004598023-Open-ID-Authentication
+schemes:
+- name: oauthAuth
+  source: openapi/grubhub-onboarding-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: /oauth2/direct/auth
+  description: OAuth 2.0 authentication for the Onboarding API. Partners use OAuth to authenticate
+    merchant onboarding operations.
+scopes:
+- scope: anonymous
+  description: Anonymous authentication via POST /oauth2/direct/auth (grant_type token). Returns
+    an access token that can be used to browse restaurant information and begin an order without
+    a logged-in diner; any call except checkout is permitted until the session is connected to
+    an authenticated diner.
+  sources:
+  - https://grubhub-developers.zendesk.com/hc/en-us/articles/115004598023-Open-ID-Authentication
+- scope: openid diner
+  description: Required scope value when authenticating a diner via POST /oauth2/direct/auth with
+    a signed OpenID token (grant_type token). Links the partner application's user to a Grubhub
+    diner record and returns an access token for making Grubhub API calls on that diner's behalf,
+    including checkout.
+  sources:
+  - https://grubhub-developers.zendesk.com/hc/en-us/articles/115004598023-Open-ID-Authentication
+note: Grubhub's partner Onboarding/Menu/Orders APIs use OAuth client credentials without published
+  named scopes; the only documented scope values ("anonymous" and "openid diner") appear in the
+  Grubhub Developers Open ID Authentication guide for diner-facing ordering integrations.
