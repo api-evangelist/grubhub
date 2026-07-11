@@ -133,6 +133,10 @@ apis:
     time from 7-10 days down to as little as 5-10 minutes, significantly decreasing
     integration downtime.
 common:
+- type: DomainSecurity
+  url: security/grubhub-domain-security.yml
+- type: Authentication
+  url: authentication/grubhub-authentication.yml
 - type: OAuthScopes
   url: scopes/grubhub-scopes.yml
 - type: GitHubOrganization

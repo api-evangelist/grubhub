@@ -1,0 +1,35 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/grubhub-deliveries-openapi.yml, openapi/grubhub-menu-openapi.yml, openapi/grubhub-merchant-data-openapi.yml,
+  openapi/grubhub-merchant-schedules-openapi.yml, openapi/grubhub-onboarding-openapi.yml, openapi/grubhub-orders-openapi.yml
+summary:
+  types:
+  - apiKey
+  - oauth2
+  api_key_in:
+  - header
+  oauth2_flows:
+  - clientCredentials
+schemes:
+- name: hmacAuth
+  type: apiKey
+  in: header
+  parameter: Authorization
+  description: HMAC-based authentication. Every request must include X-GH-PARTNER-KEY and an
+    Authorization header with MAC authentication details.
+  sources:
+  - openapi/grubhub-deliveries-openapi.yml
+  - openapi/grubhub-menu-openapi.yml
+  - openapi/grubhub-merchant-data-openapi.yml
+  - openapi/grubhub-merchant-schedules-openapi.yml
+  - openapi/grubhub-orders-openapi.yml
+- name: oauthAuth
+  type: oauth2
+  flows:
+  - flow: clientCredentials
+    tokenUrl: /oauth2/direct/auth
+    scopes: 0
+  description: OAuth 2.0 authentication for the Onboarding API. Partners use OAuth to authenticate
+    merchant onboarding operations.
+  sources:
+  - openapi/grubhub-onboarding-openapi.yml
