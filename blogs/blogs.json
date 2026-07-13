@@ -1,0 +1,13 @@
+{
+  "repo": "grubhub",
+  "feeds": [
+    {
+      "source": "https://get.grubhub.com/blog/",
+      "feed_url": "https://get.grubhub.com/blog/feed/",
+      "title": "The Feed | Blog | Grubhub for Restaurants",
+      "saved": 3
+    }
+  ],
+  "fetched": "2026-07-11T11:43:46Z",
+  "post_count": 9
+}
