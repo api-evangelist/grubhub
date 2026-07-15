@@ -133,6 +133,8 @@ apis:
     time from 7-10 days down to as little as 5-10 minutes, significantly decreasing
     integration downtime.
 common:
+- type: AgenticAccess
+  url: agentic-access/grubhub-agentic-access.yml
 - type: DomainSecurity
   url: security/grubhub-domain-security.yml
 - type: Authentication
