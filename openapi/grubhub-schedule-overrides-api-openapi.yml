@@ -1,0 +1,286 @@
+openapi: 3.1.0
+info:
+  title: Grubhub Deliveries Delivery Status Schedule Overrides API
+  description: The Grubhub Deliveries API enables partners to manage delivery logistics and interact with Grubhub's nationwide courier network. It provides delivery status tracking through key states including driver assignment, pickup ready, and out for delivery. Partners can leverage Grubhub Connect, a full-service delivery solution for delivery aggregators, marketplaces, and enterprise merchants to fulfill orders using Grubhub drivers. The API also supports driver communication through proxy phone numbers.
+  version: 1.0.0
+  x-last-validated: '2026-06-02'
+  contact:
+    name: Grubhub Developer Support
+    url: https://grubhub-developers.zendesk.com/hc/en-us
+  termsOfService: https://www.grubhub.com/legal/terms-of-use
+servers:
+- url: https://api-third-party-gtm.grubhub.com
+  description: Production Server
+- url: https://api-third-party-gtm-pp.grubhub.com
+  description: Preproduction Server
+security:
+- hmacAuth: []
+tags:
+- name: Schedule Overrides
+  description: Endpoints for creating and managing temporary schedule overrides such as closures and holiday hours.
+paths:
+  /pos/v1/merchant/{merchant_id}/schedules/overrides:
+    post:
+      operationId: createScheduleOverride
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+      summary: Grubhub Create a Schedule Override
+      description: Adds a schedule override for a merchant, allowing temporary changes to operating hours such as closures, extended hours, or holiday schedules.
+      tags:
+      - Schedule Overrides
+      parameters:
+      - $ref: '#/components/parameters/MerchantId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScheduleOverrideRequest'
+            examples:
+              CreateScheduleOverrideRequestExample:
+                summary: Default createScheduleOverride request
+                x-microcks-default: true
+                value:
+                  start_date: '2026-06-02T18:30:00Z'
+                  end_date: '2026-06-02T18:30:00Z'
+                  closed: true
+                  time_windows:
+                  - start_time: '2026-06-02T18:30:00Z'
+                    end_time: '2026-06-02T18:30:00Z'
+                  reason: Out of an item.
+      responses:
+        '201':
+          description: Schedule override created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScheduleOverride'
+              examples:
+                CreateScheduleOverride201Example:
+                  summary: Default createScheduleOverride 201 response
+                  x-microcks-default: true
+                  value:
+                    override_id: id-1234567890
+                    start_date: '2026-06-02T18:30:00Z'
+                    end_date: '2026-06-02T18:30:00Z'
+                    closed: true
+                    time_windows:
+                    - start_time: '2026-06-02T18:30:00Z'
+                      end_time: '2026-06-02T18:30:00Z'
+                    reason: Out of an item.
+        '400':
+          description: Invalid override request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                CreateScheduleOverride400Example:
+                  summary: Default createScheduleOverride 400 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                CreateScheduleOverride401Example:
+                  summary: Default createScheduleOverride 401 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+        '404':
+          description: Merchant not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                CreateScheduleOverride404Example:
+                  summary: Default createScheduleOverride 404 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+    delete:
+      operationId: cancelScheduleOverride
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+      summary: Grubhub Cancel a Schedule Override
+      description: Cancels an existing schedule override for a merchant, restoring the regular operating hours.
+      tags:
+      - Schedule Overrides
+      parameters:
+      - $ref: '#/components/parameters/MerchantId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - override_id
+              properties:
+                override_id:
+                  type: string
+                  description: The identifier of the override to cancel.
+            examples:
+              CancelScheduleOverrideRequestExample:
+                summary: Default cancelScheduleOverride request
+                x-microcks-default: true
+                value:
+                  override_id: string
+      responses:
+        '200':
+          description: Schedule override cancelled successfully
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                CancelScheduleOverride401Example:
+                  summary: Default cancelScheduleOverride 401 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+        '404':
+          description: Override or merchant not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                CancelScheduleOverride404Example:
+                  summary: Default cancelScheduleOverride 404 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+components:
+  schemas:
+    ScheduleOverrideRequest:
+      type: object
+      description: Request to create a schedule override for temporary changes to operating hours.
+      required:
+      - start_date
+      - end_date
+      properties:
+        start_date:
+          type: string
+          format: date-time
+          description: The start date and time of the override.
+          example: '2026-06-02T18:30:00Z'
+        end_date:
+          type: string
+          format: date-time
+          description: The end date and time of the override.
+          example: '2026-06-02T18:30:00Z'
+        closed:
+          type: boolean
+          description: Whether the merchant should be closed during this override period.
+          example: true
+        time_windows:
+          type: array
+          description: Custom operating hours during the override period. Only applicable when closed is false.
+          items:
+            $ref: '#/components/schemas/TimeWindow'
+        reason:
+          type: string
+          description: Reason for the schedule override.
+          example: Out of an item.
+    TimeWindow:
+      type: object
+      description: A time window defining a start and end time.
+      properties:
+        start_time:
+          type: string
+          description: The start time in HH:mm format.
+          pattern: ^\d{2}:\d{2}$
+          example: '2026-06-02T18:30:00Z'
+        end_time:
+          type: string
+          description: The end time in HH:mm format.
+          pattern: ^\d{2}:\d{2}$
+          example: '2026-06-02T18:30:00Z'
+      required:
+      - start_time
+      - end_time
+    ScheduleOverride:
+      type: object
+      description: A schedule override with its assigned identifier.
+      properties:
+        override_id:
+          type: string
+          description: The unique identifier for this override.
+          example: id-1234567890
+        start_date:
+          type: string
+          format: date-time
+          description: The start date and time of the override.
+          example: '2026-06-02T18:30:00Z'
+        end_date:
+          type: string
+          format: date-time
+          description: The end date and time of the override.
+          example: '2026-06-02T18:30:00Z'
+        closed:
+          type: boolean
+          description: Whether the merchant is closed during this override period.
+          example: true
+        time_windows:
+          type: array
+          description: Custom operating hours during the override period.
+          items:
+            $ref: '#/components/schemas/TimeWindow'
+        reason:
+          type: string
+          description: Reason for the schedule override.
+          example: Out of an item.
+    Error:
+      type: object
+      description: Standard error response from the Grubhub API.
+      properties:
+        error:
+          type: string
+          description: Error type identifier.
+          example: invalid_request
+        message:
+          type: string
+          description: Human-readable error description.
+          example: Operation completed successfully.
+        status:
+          type: integer
+          description: HTTP status code.
+          example: 0
+  parameters:
+    MerchantId:
+      name: merchant_id
+      in: path
+      required: true
+      description: The unique identifier for the merchant on Grubhub.
+      schema:
+        type: string
+  securitySchemes:
+    hmacAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: HMAC-based authentication. Every request must include X-GH-PARTNER-KEY and an Authorization header with MAC authentication details.
+externalDocs:
+  description: Grubhub Deliveries API Documentation
+  url: https://developer.grubhub.com/api/deliveries

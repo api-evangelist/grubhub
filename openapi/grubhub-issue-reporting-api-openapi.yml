@@ -1,0 +1,122 @@
+openapi: 3.1.0
+info:
+  title: Grubhub Deliveries Delivery Status Issue Reporting API
+  description: The Grubhub Deliveries API enables partners to manage delivery logistics and interact with Grubhub's nationwide courier network. It provides delivery status tracking through key states including driver assignment, pickup ready, and out for delivery. Partners can leverage Grubhub Connect, a full-service delivery solution for delivery aggregators, marketplaces, and enterprise merchants to fulfill orders using Grubhub drivers. The API also supports driver communication through proxy phone numbers.
+  version: 1.0.0
+  x-last-validated: '2026-06-02'
+  contact:
+    name: Grubhub Developer Support
+    url: https://grubhub-developers.zendesk.com/hc/en-us
+  termsOfService: https://www.grubhub.com/legal/terms-of-use
+servers:
+- url: https://api-third-party-gtm.grubhub.com
+  description: Production Server
+- url: https://api-third-party-gtm-pp.grubhub.com
+  description: Preproduction Server
+security:
+- hmacAuth: []
+tags:
+- name: Issue Reporting
+  description: Endpoints for reporting onboarding issues to Grubhub.
+paths:
+  /pos/v1/onboarding/issue:
+    post:
+      operationId: reportOnboardingIssue
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+      summary: Grubhub Report an Onboarding Issue
+      description: Reports an issue encountered during the merchant onboarding process to Grubhub support for investigation and resolution.
+      tags:
+      - Issue Reporting
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OnboardingIssue'
+            examples:
+              ReportOnboardingIssueRequestExample:
+                summary: Default reportOnboardingIssue request
+                x-microcks-default: true
+                value:
+                  merchant_id: ghm-1234567890
+                  issue_type: STANDARD
+                  description: string
+      responses:
+        '201':
+          description: Issue reported successfully
+        '400':
+          description: Invalid issue report
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                ReportOnboardingIssue400Example:
+                  summary: Default reportOnboardingIssue 400 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                ReportOnboardingIssue401Example:
+                  summary: Default reportOnboardingIssue 401 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+components:
+  schemas:
+    Error:
+      type: object
+      description: Standard error response from the Grubhub API.
+      properties:
+        error:
+          type: string
+          description: Error type identifier.
+          example: invalid_request
+        message:
+          type: string
+          description: Human-readable error description.
+          example: Operation completed successfully.
+        status:
+          type: integer
+          description: HTTP status code.
+          example: 0
+    OnboardingIssue:
+      type: object
+      description: An issue report for the merchant onboarding process.
+      required:
+      - merchant_id
+      - description
+      properties:
+        merchant_id:
+          type: string
+          description: The merchant identifier experiencing the issue.
+          example: ghm-1234567890
+        issue_type:
+          type: string
+          description: The category of the onboarding issue.
+          example: STANDARD
+        description:
+          type: string
+          description: Detailed description of the issue encountered.
+          example: string
+  securitySchemes:
+    hmacAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: HMAC-based authentication. Every request must include X-GH-PARTNER-KEY and an Authorization header with MAC authentication details.
+externalDocs:
+  description: Grubhub Deliveries API Documentation
+  url: https://developer.grubhub.com/api/deliveries

@@ -1,0 +1,319 @@
+openapi: 3.1.0
+info:
+  title: Grubhub Deliveries Delivery Status Order Polling API
+  description: The Grubhub Deliveries API enables partners to manage delivery logistics and interact with Grubhub's nationwide courier network. It provides delivery status tracking through key states including driver assignment, pickup ready, and out for delivery. Partners can leverage Grubhub Connect, a full-service delivery solution for delivery aggregators, marketplaces, and enterprise merchants to fulfill orders using Grubhub drivers. The API also supports driver communication through proxy phone numbers.
+  version: 1.0.0
+  x-last-validated: '2026-06-02'
+  contact:
+    name: Grubhub Developer Support
+    url: https://grubhub-developers.zendesk.com/hc/en-us
+  termsOfService: https://www.grubhub.com/legal/terms-of-use
+servers:
+- url: https://api-third-party-gtm.grubhub.com
+  description: Production Server
+- url: https://api-third-party-gtm-pp.grubhub.com
+  description: Preproduction Server
+security:
+- hmacAuth: []
+tags:
+- name: Order Polling
+  description: Endpoints for polling orders across multiple merchants. Webhook subscription is the preferred method for receiving new orders.
+paths:
+  /pos/v1/orders/poll:
+    get:
+      operationId: pollOrders
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+      summary: Grubhub Poll Orders Across Merchants
+      description: Returns all orders for a group of merchants in a given state within the given time range. This is a fallback mechanism; new orders should primarily be received through webhook subscriptions rather than periodic polling.
+      tags:
+      - Order Polling
+      parameters:
+      - name: status
+        in: query
+        description: Filter orders by their current status.
+        schema:
+          type: string
+        example: ACTIVE
+      - name: start_date
+        in: query
+        description: Start of the date range filter in ISO 8601 format.
+        schema:
+          type: string
+          format: date-time
+        example: '2026-06-02T18:30:00Z'
+      - name: end_date
+        in: query
+        description: End of the date range filter in ISO 8601 format.
+        schema:
+          type: string
+          format: date-time
+        example: '2026-06-02T18:30:00Z'
+      responses:
+        '200':
+          description: List of orders matching criteria
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  orders:
+                    type: array
+                    description: List of orders matching the specified criteria.
+                    items:
+                      $ref: '#/components/schemas/Order'
+              examples:
+                PollOrders200Example:
+                  summary: Default pollOrders 200 response
+                  x-microcks-default: true
+                  value:
+                    orders:
+                    - order_uuid: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+                      merchant_id: ghm-1234567890
+                      status: PENDING
+                      placed_at: '2026-06-02T18:30:00Z'
+                      estimated_delivery_at: '2026-06-02T18:30:00Z'
+                      fulfillment_type: DELIVERY
+                      customer:
+                        first_name: Jordan
+                        last_name: Rivera
+                        phone: '+13125550142'
+                      items:
+                      - item_id: {}
+                        name: {}
+                        quantity: {}
+                        price: {}
+                        modifiers: {}
+                        special_instructions: {}
+                      totals:
+                        subtotal: 18.5
+                        tax: 1.25
+                        delivery_fee: 2.99
+                        tip: 3.0
+                        total: 25.74
+                      delivery_address:
+                        street_address: 111 W Washington St
+                        apt_suite: Suite 2100
+                        city: Chicago
+                        state: IL
+                        zip: '60602'
+                        latitude: 41.8781
+                        longitude: -87.6298
+                      special_instructions: Leave at the front desk.
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                PollOrders401Example:
+                  summary: Default pollOrders 401 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+components:
+  schemas:
+    OrderTotals:
+      type: object
+      description: Financial totals for an order.
+      properties:
+        subtotal:
+          type: number
+          format: double
+          description: The subtotal before taxes and fees.
+          example: 18.5
+        tax:
+          type: number
+          format: double
+          description: The tax amount.
+          example: 1.25
+        delivery_fee:
+          type: number
+          format: double
+          description: The delivery fee charged.
+          example: 2.99
+        tip:
+          type: number
+          format: double
+          description: The tip amount.
+          example: 3.0
+        total:
+          type: number
+          format: double
+          description: The total amount for the order.
+          example: 25.74
+    OrderItem:
+      type: object
+      description: An individual item within an order.
+      properties:
+        item_id:
+          type: string
+          description: The unique identifier for the menu item.
+          example: id-1234567890
+        name:
+          type: string
+          description: The display name of the item.
+          example: Sample Name
+        quantity:
+          type: integer
+          description: The quantity ordered.
+          minimum: 1
+          example: 1
+        price:
+          type: number
+          format: double
+          description: The unit price of the item.
+          example: 9.99
+        modifiers:
+          type: array
+          description: Modifiers applied to this item.
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: The name of the modifier.
+              price:
+                type: number
+                format: double
+                description: The additional price for this modifier.
+        special_instructions:
+          type: string
+          description: Item-level special instructions.
+          example: Leave at the front desk.
+    Address:
+      type: object
+      description: A physical address.
+      properties:
+        street_address:
+          type: string
+          description: The street address line.
+          example: 111 W Washington St
+        apt_suite:
+          type: string
+          description: Apartment or suite number.
+          example: Suite 2100
+        city:
+          type: string
+          description: The city name.
+          example: Chicago
+        state:
+          type: string
+          description: The state abbreviation.
+          example: IL
+        zip:
+          type: string
+          description: The ZIP code.
+          example: '60602'
+        latitude:
+          type: number
+          format: double
+          description: The latitude coordinate.
+          example: 41.8781
+        longitude:
+          type: number
+          format: double
+          description: The longitude coordinate.
+          example: -87.6298
+    Order:
+      type: object
+      description: A complete order placed through the Grubhub Marketplace.
+      properties:
+        order_uuid:
+          type: string
+          format: uuid
+          description: The unique identifier for the order.
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+        merchant_id:
+          type: string
+          description: The merchant identifier this order was placed with.
+          example: ghm-1234567890
+        status:
+          type: string
+          description: The current lifecycle status of the order.
+          enum:
+          - PENDING
+          - CONFIRMED
+          - IN_PROGRESS
+          - READY
+          - OUT_FOR_DELIVERY
+          - COMPLETED
+          - CANCELLED
+          example: PENDING
+        placed_at:
+          type: string
+          format: date-time
+          description: The timestamp when the order was placed.
+          example: '2026-06-02T18:30:00Z'
+        estimated_delivery_at:
+          type: string
+          format: date-time
+          description: The estimated delivery time for the order.
+          example: '2026-06-02T18:30:00Z'
+        fulfillment_type:
+          type: string
+          description: The type of fulfillment for this order.
+          enum:
+          - DELIVERY
+          - PICKUP
+          example: DELIVERY
+        customer:
+          $ref: '#/components/schemas/Customer'
+        items:
+          type: array
+          description: The items included in this order.
+          items:
+            $ref: '#/components/schemas/OrderItem'
+        totals:
+          $ref: '#/components/schemas/OrderTotals'
+        delivery_address:
+          $ref: '#/components/schemas/Address'
+        special_instructions:
+          type: string
+          description: Special instructions provided by the customer.
+          example: Leave at the front desk.
+    Customer:
+      type: object
+      description: Customer information associated with an order.
+      properties:
+        first_name:
+          type: string
+          description: The customer's first name.
+          example: Jordan
+        last_name:
+          type: string
+          description: The customer's last name.
+          example: Rivera
+        phone:
+          type: string
+          description: The customer's phone number.
+          example: '+13125550142'
+    Error:
+      type: object
+      description: Standard error response from the Grubhub API.
+      properties:
+        error:
+          type: string
+          description: Error type identifier.
+          example: invalid_request
+        message:
+          type: string
+          description: Human-readable error description.
+          example: Operation completed successfully.
+        status:
+          type: integer
+          description: HTTP status code.
+          example: 0
+  securitySchemes:
+    hmacAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: HMAC-based authentication. Every request must include X-GH-PARTNER-KEY and an Authorization header with MAC authentication details.
+externalDocs:
+  description: Grubhub Deliveries API Documentation
+  url: https://developer.grubhub.com/api/deliveries

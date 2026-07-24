@@ -1,0 +1,234 @@
+openapi: 3.1.0
+info:
+  title: Grubhub Deliveries Delivery Status Order Status API
+  description: The Grubhub Deliveries API enables partners to manage delivery logistics and interact with Grubhub's nationwide courier network. It provides delivery status tracking through key states including driver assignment, pickup ready, and out for delivery. Partners can leverage Grubhub Connect, a full-service delivery solution for delivery aggregators, marketplaces, and enterprise merchants to fulfill orders using Grubhub drivers. The API also supports driver communication through proxy phone numbers.
+  version: 1.0.0
+  x-last-validated: '2026-06-02'
+  contact:
+    name: Grubhub Developer Support
+    url: https://grubhub-developers.zendesk.com/hc/en-us
+  termsOfService: https://www.grubhub.com/legal/terms-of-use
+servers:
+- url: https://api-third-party-gtm.grubhub.com
+  description: Production Server
+- url: https://api-third-party-gtm-pp.grubhub.com
+  description: Preproduction Server
+security:
+- hmacAuth: []
+tags:
+- name: Order Status
+  description: Endpoints for confirming orders and updating order lifecycle states.
+paths:
+  /pos/v1/merchant/{merchant_long_id}/orders/{order_uuid}/confirm:
+    post:
+      operationId: confirmOrder
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+      summary: Grubhub Confirm an Order
+      description: Confirms an order that has been received. All orders that can be fulfilled are required to be confirmed. Partners can optionally indicate an estimated delivery time using wait_time_in_minutes in the request body.
+      tags:
+      - Order Status
+      parameters:
+      - $ref: '#/components/parameters/MerchantLongId'
+      - $ref: '#/components/parameters/OrderUuid'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderConfirmation'
+            examples:
+              ConfirmOrderRequestExample:
+                summary: Default confirmOrder request
+                x-microcks-default: true
+                value:
+                  wait_time_in_minutes: 15
+      responses:
+        '200':
+          description: Order confirmed successfully
+        '400':
+          description: Invalid confirmation request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                ConfirmOrder400Example:
+                  summary: Default confirmOrder 400 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                ConfirmOrder401Example:
+                  summary: Default confirmOrder 401 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+        '404':
+          description: Order not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                ConfirmOrder404Example:
+                  summary: Default confirmOrder 404 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+  /pos/v1/merchant/{merchant_long_id}/orders/{order_uuid}/status:
+    put:
+      operationId: updateOrderStatus
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+      summary: Grubhub Update Order Status
+      description: Updates the status of an order through its lifecycle states. Partners use this endpoint to mark orders as in progress, ready for pickup, out for delivery, or completed.
+      tags:
+      - Order Status
+      parameters:
+      - $ref: '#/components/parameters/MerchantLongId'
+      - $ref: '#/components/parameters/OrderUuid'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderStatusUpdate'
+            examples:
+              UpdateOrderStatusRequestExample:
+                summary: Default updateOrderStatus request
+                x-microcks-default: true
+                value:
+                  status: IN_PROGRESS
+                  reason: Out of an item.
+      responses:
+        '200':
+          description: Order status updated successfully
+        '400':
+          description: Invalid status transition
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                UpdateOrderStatus400Example:
+                  summary: Default updateOrderStatus 400 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                UpdateOrderStatus401Example:
+                  summary: Default updateOrderStatus 401 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+        '404':
+          description: Order not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                UpdateOrderStatus404Example:
+                  summary: Default updateOrderStatus 404 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+components:
+  schemas:
+    OrderStatusUpdate:
+      type: object
+      description: Payload for updating an order's lifecycle status.
+      required:
+      - status
+      properties:
+        status:
+          type: string
+          description: The new status for the order.
+          enum:
+          - IN_PROGRESS
+          - READY
+          - OUT_FOR_DELIVERY
+          - COMPLETED
+          - CANCELLED
+          example: IN_PROGRESS
+        reason:
+          type: string
+          description: Reason for the status change, particularly relevant for cancellations.
+          example: Out of an item.
+    OrderConfirmation:
+      type: object
+      description: Payload for confirming an order, with optional wait time estimate.
+      properties:
+        wait_time_in_minutes:
+          type: integer
+          description: Estimated number of minutes until the order will be ready for delivery or pickup.
+          minimum: 1
+          example: 15
+    Error:
+      type: object
+      description: Standard error response from the Grubhub API.
+      properties:
+        error:
+          type: string
+          description: Error type identifier.
+          example: invalid_request
+        message:
+          type: string
+          description: Human-readable error description.
+          example: Operation completed successfully.
+        status:
+          type: integer
+          description: HTTP status code.
+          example: 0
+  parameters:
+    MerchantLongId:
+      name: merchant_long_id
+      in: path
+      required: true
+      description: The long-form unique identifier for the merchant on Grubhub.
+      schema:
+        type: string
+    OrderUuid:
+      name: order_uuid
+      in: path
+      required: true
+      description: The UUID of the order.
+      schema:
+        type: string
+        format: uuid
+  securitySchemes:
+    hmacAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: HMAC-based authentication. Every request must include X-GH-PARTNER-KEY and an Authorization header with MAC authentication details.
+externalDocs:
+  description: Grubhub Deliveries API Documentation
+  url: https://developer.grubhub.com/api/deliveries

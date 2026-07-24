@@ -1,0 +1,357 @@
+openapi: 3.1.0
+info:
+  title: Grubhub Deliveries Delivery Status Merchant Properties API
+  description: The Grubhub Deliveries API enables partners to manage delivery logistics and interact with Grubhub's nationwide courier network. It provides delivery status tracking through key states including driver assignment, pickup ready, and out for delivery. Partners can leverage Grubhub Connect, a full-service delivery solution for delivery aggregators, marketplaces, and enterprise merchants to fulfill orders using Grubhub drivers. The API also supports driver communication through proxy phone numbers.
+  version: 1.0.0
+  x-last-validated: '2026-06-02'
+  contact:
+    name: Grubhub Developer Support
+    url: https://grubhub-developers.zendesk.com/hc/en-us
+  termsOfService: https://www.grubhub.com/legal/terms-of-use
+servers:
+- url: https://api-third-party-gtm.grubhub.com
+  description: Production Server
+- url: https://api-third-party-gtm-pp.grubhub.com
+  description: Preproduction Server
+security:
+- hmacAuth: []
+tags:
+- name: Merchant Properties
+  description: Endpoints for updating merchant properties such as fulfillment settings and tax rates.
+paths:
+  /pos/v1/merchant/{merchant_id}/fulfillment:
+    get:
+      operationId: getMerchantFulfillment
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+      summary: Grubhub Get Merchant Fulfillment Info
+      description: Returns a merchant's fulfillment configuration including delivery and pickup settings, estimated preparation times, and service area details.
+      tags:
+      - Merchant Properties
+      parameters:
+      - $ref: '#/components/parameters/MerchantId'
+      responses:
+        '200':
+          description: Merchant fulfillment information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FulfillmentInfo'
+              examples:
+                GetMerchantFulfillment200Example:
+                  summary: Default getMerchantFulfillment 200 response
+                  x-microcks-default: true
+                  value:
+                    delivery_enabled: true
+                    pickup_enabled: true
+                    catering_enabled: true
+                    estimated_prep_time_minutes: 15
+                    delivery_radius_miles: 0.0
+                    minimum_order_amount: 0.0
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                GetMerchantFulfillment401Example:
+                  summary: Default getMerchantFulfillment 401 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+        '404':
+          description: Merchant not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                GetMerchantFulfillment404Example:
+                  summary: Default getMerchantFulfillment 404 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+  /pos/v1/merchants/properties:
+    put:
+      operationId: updateMerchantProperties
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+      summary: Grubhub Update Merchant Properties in Batch
+      description: Updates properties for a batch of merchants, such as fulfillment settings, tax rates, and configuration groups.
+      tags:
+      - Merchant Properties
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MerchantPropertiesUpdateRequest'
+            examples:
+              UpdateMerchantPropertiesRequestExample:
+                summary: Default updateMerchantProperties request
+                x-microcks-default: true
+                value:
+                  merchants:
+                  - merchant_id: string
+                    tax_rate: 0.0
+                    fulfillment_settings:
+                      delivery_enabled: true
+                      pickup_enabled: true
+                      estimated_prep_time_minutes: 0
+      responses:
+        '202':
+          description: Properties update accepted for processing
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchJobResponse'
+              examples:
+                UpdateMerchantProperties202Example:
+                  summary: Default updateMerchantProperties 202 response
+                  x-microcks-default: true
+                  value:
+                    batch_id: id-1234567890
+        '400':
+          description: Invalid properties update request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                UpdateMerchantProperties400Example:
+                  summary: Default updateMerchantProperties 400 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                UpdateMerchantProperties401Example:
+                  summary: Default updateMerchantProperties 401 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+  /pos/v1/merchants/properties/{batch_id}:
+    get:
+      operationId: getMerchantPropertiesBatch
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+      summary: Grubhub Get Merchant Properties Batch Progress
+      description: Returns the status of a merchant properties update batch together with the progress for each individual merchant.
+      tags:
+      - Merchant Properties
+      parameters:
+      - $ref: '#/components/parameters/BatchId'
+      responses:
+        '200':
+          description: Batch operation status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchJobStatus'
+              examples:
+                GetMerchantPropertiesBatch200Example:
+                  summary: Default getMerchantPropertiesBatch 200 response
+                  x-microcks-default: true
+                  value:
+                    batch_id: id-1234567890
+                    status: PENDING
+                    merchants:
+                    - merchant_id: string
+                      status: PENDING
+                      error: string
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                GetMerchantPropertiesBatch401Example:
+                  summary: Default getMerchantPropertiesBatch 401 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+        '404':
+          description: Batch not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                GetMerchantPropertiesBatch404Example:
+                  summary: Default getMerchantPropertiesBatch 404 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+components:
+  schemas:
+    FulfillmentInfo:
+      type: object
+      description: Fulfillment configuration for a merchant.
+      properties:
+        delivery_enabled:
+          type: boolean
+          description: Whether delivery is enabled for this merchant.
+          example: true
+        pickup_enabled:
+          type: boolean
+          description: Whether pickup is enabled for this merchant.
+          example: true
+        catering_enabled:
+          type: boolean
+          description: Whether catering is enabled for this merchant.
+          example: true
+        estimated_prep_time_minutes:
+          type: integer
+          description: Estimated preparation time in minutes.
+          minimum: 0
+          example: 15
+        delivery_radius_miles:
+          type: number
+          format: double
+          description: The delivery radius in miles.
+          example: 0.0
+        minimum_order_amount:
+          type: number
+          format: double
+          description: The minimum order amount for delivery.
+          example: 0.0
+    MerchantPropertiesUpdateRequest:
+      type: object
+      description: Request to update properties for a batch of merchants.
+      required:
+      - merchants
+      properties:
+        merchants:
+          type: array
+          description: List of merchants with properties to update.
+          items:
+            type: object
+            required:
+            - merchant_id
+            properties:
+              merchant_id:
+                type: string
+                description: The Grubhub merchant identifier.
+              tax_rate:
+                type: number
+                format: double
+                description: Updated tax rate for the merchant.
+              fulfillment_settings:
+                type: object
+                description: Updated fulfillment settings.
+                properties:
+                  delivery_enabled:
+                    type: boolean
+                    description: Whether delivery should be enabled.
+                  pickup_enabled:
+                    type: boolean
+                    description: Whether pickup should be enabled.
+                  estimated_prep_time_minutes:
+                    type: integer
+                    description: Updated estimated preparation time.
+    BatchJobStatus:
+      type: object
+      description: Status of a batch operation with per-merchant progress.
+      properties:
+        batch_id:
+          type: string
+          description: The unique identifier for the batch operation.
+          example: id-1234567890
+        status:
+          type: string
+          description: The overall status of the batch.
+          enum:
+          - PENDING
+          - PROCESSING
+          - COMPLETED
+          - FAILED
+          example: PENDING
+        merchants:
+          type: array
+          description: Progress for each individual merchant in the batch.
+          items:
+            type: object
+            properties:
+              merchant_id:
+                type: string
+                description: The merchant identifier.
+              status:
+                type: string
+                description: The status for this merchant's update.
+                enum:
+                - PENDING
+                - SUCCESS
+                - FAILED
+              error:
+                type: string
+                description: Error message if the update failed for this merchant.
+    BatchJobResponse:
+      type: object
+      description: Response returned when a batch operation is accepted for processing.
+      properties:
+        batch_id:
+          type: string
+          description: The unique identifier for tracking the batch operation.
+          example: id-1234567890
+    Error:
+      type: object
+      description: Standard error response from the Grubhub API.
+      properties:
+        error:
+          type: string
+          description: Error type identifier.
+          example: invalid_request
+        message:
+          type: string
+          description: Human-readable error description.
+          example: Operation completed successfully.
+        status:
+          type: integer
+          description: HTTP status code.
+          example: 0
+  parameters:
+    BatchId:
+      name: batch_id
+      in: path
+      required: true
+      description: The unique identifier for a batch operation.
+      schema:
+        type: string
+    MerchantId:
+      name: merchant_id
+      in: path
+      required: true
+      description: The unique identifier for the merchant on Grubhub.
+      schema:
+        type: string
+  securitySchemes:
+    hmacAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: HMAC-based authentication. Every request must include X-GH-PARTNER-KEY and an Authorization header with MAC authentication details.
+externalDocs:
+  description: Grubhub Deliveries API Documentation
+  url: https://developer.grubhub.com/api/deliveries

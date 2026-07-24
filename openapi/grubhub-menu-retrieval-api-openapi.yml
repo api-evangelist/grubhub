@@ -1,0 +1,333 @@
+openapi: 3.1.0
+info:
+  title: Grubhub Deliveries Delivery Status Menu Retrieval API
+  description: The Grubhub Deliveries API enables partners to manage delivery logistics and interact with Grubhub's nationwide courier network. It provides delivery status tracking through key states including driver assignment, pickup ready, and out for delivery. Partners can leverage Grubhub Connect, a full-service delivery solution for delivery aggregators, marketplaces, and enterprise merchants to fulfill orders using Grubhub drivers. The API also supports driver communication through proxy phone numbers.
+  version: 1.0.0
+  x-last-validated: '2026-06-02'
+  contact:
+    name: Grubhub Developer Support
+    url: https://grubhub-developers.zendesk.com/hc/en-us
+  termsOfService: https://www.grubhub.com/legal/terms-of-use
+servers:
+- url: https://api-third-party-gtm.grubhub.com
+  description: Production Server
+- url: https://api-third-party-gtm-pp.grubhub.com
+  description: Preproduction Server
+security:
+- hmacAuth: []
+tags:
+- name: Menu Retrieval
+  description: Endpoints for retrieving the current menu for a merchant.
+paths:
+  /pos/v1/merchant/{merchant_id}/ingestion/menu:
+    get:
+      operationId: getMerchantMenu
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+      summary: Grubhub Retrieve Current Merchant Menu
+      description: Retrieves the current menu for a merchant as a PosNormalizedMenu object. The returned menu can be edited and re-ingested to update the merchant's menu on the Grubhub platform.
+      tags:
+      - Menu Retrieval
+      parameters:
+      - $ref: '#/components/parameters/MerchantId'
+      responses:
+        '200':
+          description: Current merchant menu
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PosNormalizedMenu'
+              examples:
+                GetMerchantMenu200Example:
+                  summary: Default getMerchantMenu 200 response
+                  x-microcks-default: true
+                  value:
+                    merchant_id: ghm-1234567890
+                    schedules:
+                    - external_id: id-1234567890
+                      name: Sample Name
+                      availability:
+                      - {}
+                      sections:
+                      - {}
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                GetMerchantMenu401Example:
+                  summary: Default getMerchantMenu 401 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+        '404':
+          description: Merchant not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                GetMerchantMenu404Example:
+                  summary: Default getMerchantMenu 404 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+components:
+  schemas:
+    MenuSection:
+      type: object
+      description: A grouping of menu items such as appetizers, entrees, or desserts.
+      properties:
+        external_id:
+          type: string
+          description: A unique external identifier for diff-based ingestion.
+          example: id-1234567890
+        name:
+          type: string
+          description: The display name of the section.
+          example: Sample Name
+        items:
+          type: array
+          description: Menu items within this section.
+          items:
+            $ref: '#/components/schemas/MenuItem'
+      required:
+      - external_id
+      - name
+      - items
+    MenuItem:
+      type: object
+      description: An individual menu item that a diner can order for delivery or pickup.
+      properties:
+        external_id:
+          type: string
+          description: A unique external identifier for diff-based ingestion.
+          example: id-1234567890
+        name:
+          type: string
+          description: The display name of the menu item.
+          example: Sample Name
+        description:
+          type: string
+          description: A description of the menu item.
+          example: string
+        price:
+          type: number
+          format: double
+          description: The base price of the menu item in the merchant's currency.
+          minimum: 0
+          example: 9.99
+        available:
+          type: boolean
+          description: Whether this item is currently available for ordering.
+          example: true
+        size_prompt:
+          $ref: '#/components/schemas/SizePrompt'
+        modifier_prompts:
+          type: array
+          description: Modifier prompts for this item, such as salad dressing choice or add-on toppings.
+          items:
+            $ref: '#/components/schemas/ModifierPrompt'
+      required:
+      - external_id
+      - name
+      - price
+    ModifierPrompt:
+      type: object
+      description: A modifier prompt for a menu item, allowing customization such as choice of dressing, extra toppings, or preparation preferences.
+      properties:
+        external_id:
+          type: string
+          description: A unique external identifier for this modifier prompt.
+          example: id-1234567890
+        name:
+          type: string
+          description: The display name of the modifier prompt.
+          example: Sample Name
+        required:
+          type: boolean
+          description: Whether a selection is required from this modifier prompt.
+          example: true
+        min_selections:
+          type: integer
+          description: Minimum number of selections required.
+          minimum: 0
+          example: 0
+        max_selections:
+          type: integer
+          description: Maximum number of selections allowed.
+          minimum: 1
+          example: 0
+        options:
+          type: array
+          description: Available modifier options.
+          items:
+            $ref: '#/components/schemas/ModifierOption'
+      required:
+      - external_id
+      - name
+      - options
+    PosNormalizedMenu:
+      type: object
+      description: A complete normalized menu structure containing schedules, sections, items, and modifiers. Each object must have an external_id for diff-based ingestion.
+      properties:
+        merchant_id:
+          type: string
+          description: The Grubhub merchant identifier this menu belongs to.
+          example: ghm-1234567890
+        schedules:
+          type: array
+          description: Top-level menu schedules that define what items are available during specific periods of the days and week.
+          items:
+            $ref: '#/components/schemas/MenuSchedule'
+      required:
+      - merchant_id
+      - schedules
+    MenuSchedule:
+      type: object
+      description: A schedule defining availability windows and the sections of menu items available during those periods.
+      properties:
+        external_id:
+          type: string
+          description: A unique external identifier assigned by the partner for diff-based menu ingestion.
+          example: id-1234567890
+        name:
+          type: string
+          description: The display name of the schedule.
+          example: Sample Name
+        availability:
+          type: array
+          description: Time windows when this schedule is active.
+          items:
+            $ref: '#/components/schemas/Availability'
+        sections:
+          type: array
+          description: Menu sections available during this schedule, such as appetizers or entrees.
+          items:
+            $ref: '#/components/schemas/MenuSection'
+      required:
+      - external_id
+      - name
+      - sections
+    SizeOption:
+      type: object
+      description: An individual size option within a size prompt.
+      properties:
+        external_id:
+          type: string
+          description: A unique external identifier for this size option.
+          example: id-1234567890
+        name:
+          type: string
+          description: The display name of the size option.
+          example: Sample Name
+        price:
+          type: number
+          format: double
+          description: The price adjustment for selecting this size.
+          example: 9.99
+    SizePrompt:
+      type: object
+      description: A size selection prompt for a menu item. Sizes can affect the price of both the item and its modifiers.
+      properties:
+        external_id:
+          type: string
+          description: A unique external identifier for this size prompt.
+          example: id-1234567890
+        name:
+          type: string
+          description: The display name for the size prompt.
+          example: Sample Name
+        options:
+          type: array
+          description: Available size options.
+          items:
+            $ref: '#/components/schemas/SizeOption'
+    ModifierOption:
+      type: object
+      description: An individual modifier option within a modifier prompt.
+      properties:
+        external_id:
+          type: string
+          description: A unique external identifier for this modifier option.
+          example: id-1234567890
+        name:
+          type: string
+          description: The display name of the modifier option.
+          example: Sample Name
+        price:
+          type: number
+          format: double
+          description: The additional price for selecting this modifier.
+          minimum: 0
+          example: 9.99
+        available:
+          type: boolean
+          description: Whether this modifier option is currently available.
+          example: true
+    Availability:
+      type: object
+      description: A time window defining when a schedule or item is available.
+      properties:
+        day_of_week:
+          type: string
+          description: The day of the week this availability applies to.
+          enum:
+          - MONDAY
+          - TUESDAY
+          - WEDNESDAY
+          - THURSDAY
+          - FRIDAY
+          - SATURDAY
+          - SUNDAY
+          example: MONDAY
+        start_time:
+          type: string
+          description: The start time in HH:mm format.
+          pattern: ^\d{2}:\d{2}$
+          example: '2026-06-02T18:30:00Z'
+        end_time:
+          type: string
+          description: The end time in HH:mm format.
+          pattern: ^\d{2}:\d{2}$
+          example: '2026-06-02T18:30:00Z'
+    Error:
+      type: object
+      description: Standard error response from the Grubhub API.
+      properties:
+        error:
+          type: string
+          description: Error type identifier.
+          example: invalid_request
+        message:
+          type: string
+          description: Human-readable error description.
+          example: Operation completed successfully.
+        status:
+          type: integer
+          description: HTTP status code.
+          example: 0
+  parameters:
+    MerchantId:
+      name: merchant_id
+      in: path
+      required: true
+      description: The unique identifier for the merchant on Grubhub.
+      schema:
+        type: string
+  securitySchemes:
+    hmacAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: HMAC-based authentication. Every request must include X-GH-PARTNER-KEY and an Authorization header with MAC authentication details.
+externalDocs:
+  description: Grubhub Deliveries API Documentation
+  url: https://developer.grubhub.com/api/deliveries

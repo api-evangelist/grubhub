@@ -1,0 +1,132 @@
+openapi: 3.1.0
+info:
+  title: Grubhub Deliveries Delivery Status Driver Communication API
+  description: The Grubhub Deliveries API enables partners to manage delivery logistics and interact with Grubhub's nationwide courier network. It provides delivery status tracking through key states including driver assignment, pickup ready, and out for delivery. Partners can leverage Grubhub Connect, a full-service delivery solution for delivery aggregators, marketplaces, and enterprise merchants to fulfill orders using Grubhub drivers. The API also supports driver communication through proxy phone numbers.
+  version: 1.0.0
+  x-last-validated: '2026-06-02'
+  contact:
+    name: Grubhub Developer Support
+    url: https://grubhub-developers.zendesk.com/hc/en-us
+  termsOfService: https://www.grubhub.com/legal/terms-of-use
+servers:
+- url: https://api-third-party-gtm.grubhub.com
+  description: Production Server
+- url: https://api-third-party-gtm-pp.grubhub.com
+  description: Preproduction Server
+security:
+- hmacAuth: []
+tags:
+- name: Driver Communication
+  description: Endpoints for establishing communication with delivery drivers through proxy phone numbers.
+paths:
+  /pos/v1/merchant/{merchant_long_id}/orders/{order_uuid}/delivery/proxy-phone:
+    post:
+      operationId: createProxyCourierPhone
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+      summary: Grubhub Create Proxy Courier Phone Number
+      description: Generates a masked proxy phone number that creates a bridge between the merchant's phone number and the courier's phone number. This protects both parties' actual phone numbers while enabling direct communication. Best practice is to call this endpoint as needed rather than caching the result.
+      tags:
+      - Driver Communication
+      parameters:
+      - $ref: '#/components/parameters/MerchantLongId'
+      - $ref: '#/components/parameters/OrderUuid'
+      responses:
+        '200':
+          description: Proxy phone number created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProxyPhone'
+              examples:
+                CreateProxyCourierPhone200Example:
+                  summary: Default createProxyCourierPhone 200 response
+                  x-microcks-default: true
+                  value:
+                    proxy_phone_number: '+13125550142'
+                    expires_at: '2026-06-02T18:30:00Z'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                CreateProxyCourierPhone401Example:
+                  summary: Default createProxyCourierPhone 401 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+        '404':
+          description: Order or delivery not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                CreateProxyCourierPhone404Example:
+                  summary: Default createProxyCourierPhone 404 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+components:
+  parameters:
+    MerchantLongId:
+      name: merchant_long_id
+      in: path
+      required: true
+      description: The long-form unique identifier for the merchant on Grubhub.
+      schema:
+        type: string
+    OrderUuid:
+      name: order_uuid
+      in: path
+      required: true
+      description: The UUID of the order.
+      schema:
+        type: string
+        format: uuid
+  schemas:
+    ProxyPhone:
+      type: object
+      description: A masked proxy phone number for communicating with the courier.
+      properties:
+        proxy_phone_number:
+          type: string
+          description: The masked phone number that bridges communication between the merchant and the courier.
+          example: '+13125550142'
+        expires_at:
+          type: string
+          format: date-time
+          description: When this proxy phone number expires.
+          example: '2026-06-02T18:30:00Z'
+    Error:
+      type: object
+      description: Standard error response from the Grubhub API.
+      properties:
+        error:
+          type: string
+          description: Error type identifier.
+          example: invalid_request
+        message:
+          type: string
+          description: Human-readable error description.
+          example: Operation completed successfully.
+        status:
+          type: integer
+          description: HTTP status code.
+          example: 0
+  securitySchemes:
+    hmacAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: HMAC-based authentication. Every request must include X-GH-PARTNER-KEY and an Authorization header with MAC authentication details.
+externalDocs:
+  description: Grubhub Deliveries API Documentation
+  url: https://developer.grubhub.com/api/deliveries

@@ -1,0 +1,158 @@
+openapi: 3.1.0
+info:
+  title: Grubhub Deliveries Delivery Status Order Change Requests API
+  description: The Grubhub Deliveries API enables partners to manage delivery logistics and interact with Grubhub's nationwide courier network. It provides delivery status tracking through key states including driver assignment, pickup ready, and out for delivery. Partners can leverage Grubhub Connect, a full-service delivery solution for delivery aggregators, marketplaces, and enterprise merchants to fulfill orders using Grubhub drivers. The API also supports driver communication through proxy phone numbers.
+  version: 1.0.0
+  x-last-validated: '2026-06-02'
+  contact:
+    name: Grubhub Developer Support
+    url: https://grubhub-developers.zendesk.com/hc/en-us
+  termsOfService: https://www.grubhub.com/legal/terms-of-use
+servers:
+- url: https://api-third-party-gtm.grubhub.com
+  description: Production Server
+- url: https://api-third-party-gtm-pp.grubhub.com
+  description: Preproduction Server
+security:
+- hmacAuth: []
+tags:
+- name: Order Change Requests
+  description: Endpoints for managing order change requests and modifications.
+paths:
+  /pos/v1/merchant/{merchant_long_id}/orders/{order_uuid}/changerequests:
+    get:
+      operationId: getOrderChangeRequests
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+      summary: Grubhub Get Order Change Requests
+      description: Returns the status of order change requests for a specific order. Change requests may include modifications to items, quantities, or special instructions.
+      tags:
+      - Order Change Requests
+      parameters:
+      - $ref: '#/components/parameters/MerchantLongId'
+      - $ref: '#/components/parameters/OrderUuid'
+      responses:
+        '200':
+          description: List of change requests
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  change_requests:
+                    type: array
+                    description: List of change requests for this order.
+                    items:
+                      $ref: '#/components/schemas/OrderChangeRequest'
+              examples:
+                GetOrderChangeRequests200Example:
+                  summary: Default getOrderChangeRequests 200 response
+                  x-microcks-default: true
+                  value:
+                    change_requests:
+                    - id: id-1234567890
+                      status: PENDING
+                      type: STANDARD
+                      details: string
+                      created_at: '2026-06-02T18:30:00Z'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                GetOrderChangeRequests401Example:
+                  summary: Default getOrderChangeRequests 401 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+        '404':
+          description: Order not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                GetOrderChangeRequests404Example:
+                  summary: Default getOrderChangeRequests 404 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+components:
+  schemas:
+    Error:
+      type: object
+      description: Standard error response from the Grubhub API.
+      properties:
+        error:
+          type: string
+          description: Error type identifier.
+          example: invalid_request
+        message:
+          type: string
+          description: Human-readable error description.
+          example: Operation completed successfully.
+        status:
+          type: integer
+          description: HTTP status code.
+          example: 0
+    OrderChangeRequest:
+      type: object
+      description: A change request for an existing order.
+      properties:
+        id:
+          type: string
+          description: The unique identifier for the change request.
+          example: id-1234567890
+        status:
+          type: string
+          description: The current status of the change request.
+          enum:
+          - PENDING
+          - APPROVED
+          - REJECTED
+          example: PENDING
+        type:
+          type: string
+          description: The type of change being requested.
+          example: STANDARD
+        details:
+          type: string
+          description: Details about the requested change.
+          example: string
+        created_at:
+          type: string
+          format: date-time
+          description: When the change request was created.
+          example: '2026-06-02T18:30:00Z'
+  parameters:
+    MerchantLongId:
+      name: merchant_long_id
+      in: path
+      required: true
+      description: The long-form unique identifier for the merchant on Grubhub.
+      schema:
+        type: string
+    OrderUuid:
+      name: order_uuid
+      in: path
+      required: true
+      description: The UUID of the order.
+      schema:
+        type: string
+        format: uuid
+  securitySchemes:
+    hmacAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: HMAC-based authentication. Every request must include X-GH-PARTNER-KEY and an Authorization header with MAC authentication details.
+externalDocs:
+  description: Grubhub Deliveries API Documentation
+  url: https://developer.grubhub.com/api/deliveries

@@ -1,0 +1,247 @@
+openapi: 3.1.0
+info:
+  title: Grubhub Deliveries Delivery Status Menu Schedule Overrides API
+  description: The Grubhub Deliveries API enables partners to manage delivery logistics and interact with Grubhub's nationwide courier network. It provides delivery status tracking through key states including driver assignment, pickup ready, and out for delivery. Partners can leverage Grubhub Connect, a full-service delivery solution for delivery aggregators, marketplaces, and enterprise merchants to fulfill orders using Grubhub drivers. The API also supports driver communication through proxy phone numbers.
+  version: 1.0.0
+  x-last-validated: '2026-06-02'
+  contact:
+    name: Grubhub Developer Support
+    url: https://grubhub-developers.zendesk.com/hc/en-us
+  termsOfService: https://www.grubhub.com/legal/terms-of-use
+servers:
+- url: https://api-third-party-gtm.grubhub.com
+  description: Production Server
+- url: https://api-third-party-gtm-pp.grubhub.com
+  description: Preproduction Server
+security:
+- hmacAuth: []
+tags:
+- name: Menu Schedule Overrides
+  description: Endpoints for managing menu schedule overrides such as temporary availability changes.
+paths:
+  /pos/v1/merchant/{merchant_id}/menu/schedules/overrides/external:
+    put:
+      operationId: updateMenuScheduleOverrides
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+      summary: Grubhub Update Menu Schedule Overrides
+      description: Creates or updates menu schedule overrides for a merchant. Schedule overrides allow temporary changes to menu availability, such as making certain items unavailable during specific time periods.
+      tags:
+      - Menu Schedule Overrides
+      parameters:
+      - $ref: '#/components/parameters/MerchantId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MenuScheduleOverrideRequest'
+            examples:
+              UpdateMenuScheduleOverridesRequestExample:
+                summary: Default updateMenuScheduleOverrides request
+                x-microcks-default: true
+                value:
+                  overrides:
+                  - external_id: string
+                    available: true
+                    start_date: '2026-06-02T18:30:00Z'
+                    end_date: '2026-06-02T18:30:00Z'
+      responses:
+        '200':
+          description: Schedule override updated successfully
+        '400':
+          description: Invalid override request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                UpdateMenuScheduleOverrides400Example:
+                  summary: Default updateMenuScheduleOverrides 400 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                UpdateMenuScheduleOverrides401Example:
+                  summary: Default updateMenuScheduleOverrides 401 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+        '404':
+          description: Merchant not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                UpdateMenuScheduleOverrides404Example:
+                  summary: Default updateMenuScheduleOverrides 404 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+  /pos/v1/merchant/{merchant_id}/menu/schedules/overrides/{job_id}/status:
+    get:
+      operationId: getMenuScheduleOverrideStatus
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+      summary: Grubhub Get Menu Schedule Override Job Status
+      description: Returns the status of a menu schedule override job for a merchant.
+      tags:
+      - Menu Schedule Overrides
+      parameters:
+      - $ref: '#/components/parameters/MerchantId'
+      - $ref: '#/components/parameters/JobId'
+      responses:
+        '200':
+          description: Override job status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IngestionJobStatus'
+              examples:
+                GetMenuScheduleOverrideStatus200Example:
+                  summary: Default getMenuScheduleOverrideStatus 200 response
+                  x-microcks-default: true
+                  value:
+                    job_id: id-1234567890
+                    status: PENDING
+                    errors:
+                    - code: string
+                      message: string
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                GetMenuScheduleOverrideStatus401Example:
+                  summary: Default getMenuScheduleOverrideStatus 401 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+        '404':
+          description: Job or merchant not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                GetMenuScheduleOverrideStatus404Example:
+                  summary: Default getMenuScheduleOverrideStatus 404 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+components:
+  parameters:
+    JobId:
+      name: job_id
+      in: path
+      required: true
+      description: The unique identifier for the ingestion or override job.
+      schema:
+        type: string
+    MerchantId:
+      name: merchant_id
+      in: path
+      required: true
+      description: The unique identifier for the merchant on Grubhub.
+      schema:
+        type: string
+  schemas:
+    MenuScheduleOverrideRequest:
+      type: object
+      description: A request to create or update menu schedule overrides for a merchant.
+      properties:
+        overrides:
+          type: array
+          description: List of schedule overrides to apply.
+          items:
+            type: object
+            properties:
+              external_id:
+                type: string
+                description: External identifier for the schedule being overridden.
+              available:
+                type: boolean
+                description: Whether the schedule should be active or inactive.
+              start_date:
+                type: string
+                format: date-time
+                description: The start date and time of the override.
+              end_date:
+                type: string
+                format: date-time
+                description: The end date and time of the override.
+    IngestionJobStatus:
+      type: object
+      description: Status of a menu ingestion or override job.
+      properties:
+        job_id:
+          type: string
+          description: The unique identifier for the job.
+          example: id-1234567890
+        status:
+          type: string
+          description: The current status of the job.
+          enum:
+          - PENDING
+          - PROCESSING
+          - COMPLETED
+          - FAILED
+          example: PENDING
+        errors:
+          type: array
+          description: List of errors encountered during processing, if any.
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+                description: Error code.
+              message:
+                type: string
+                description: Human-readable error message.
+    Error:
+      type: object
+      description: Standard error response from the Grubhub API.
+      properties:
+        error:
+          type: string
+          description: Error type identifier.
+          example: invalid_request
+        message:
+          type: string
+          description: Human-readable error description.
+          example: Operation completed successfully.
+        status:
+          type: integer
+          description: HTTP status code.
+          example: 0
+  securitySchemes:
+    hmacAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: HMAC-based authentication. Every request must include X-GH-PARTNER-KEY and an Authorization header with MAC authentication details.
+externalDocs:
+  description: Grubhub Deliveries API Documentation
+  url: https://developer.grubhub.com/api/deliveries

@@ -1,0 +1,135 @@
+openapi: 3.1.0
+info:
+  title: Grubhub Deliveries Delivery Status Merchant Eligibility API
+  description: The Grubhub Deliveries API enables partners to manage delivery logistics and interact with Grubhub's nationwide courier network. It provides delivery status tracking through key states including driver assignment, pickup ready, and out for delivery. Partners can leverage Grubhub Connect, a full-service delivery solution for delivery aggregators, marketplaces, and enterprise merchants to fulfill orders using Grubhub drivers. The API also supports driver communication through proxy phone numbers.
+  version: 1.0.0
+  x-last-validated: '2026-06-02'
+  contact:
+    name: Grubhub Developer Support
+    url: https://grubhub-developers.zendesk.com/hc/en-us
+  termsOfService: https://www.grubhub.com/legal/terms-of-use
+servers:
+- url: https://api-third-party-gtm.grubhub.com
+  description: Production Server
+- url: https://api-third-party-gtm-pp.grubhub.com
+  description: Preproduction Server
+security:
+- hmacAuth: []
+tags:
+- name: Merchant Eligibility
+  description: Endpoints for checking merchant eligibility for onboarding.
+paths:
+  /pos/v1/onboarding/eligibility/{merchant_id}:
+    get:
+      operationId: getMerchantEligibility
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+      summary: Grubhub Get Merchant Eligibility
+      description: Checks whether a merchant is eligible for onboarding with the partner. Returns eligibility status and any requirements that must be met before the merchant can be onboarded.
+      tags:
+      - Merchant Eligibility
+      parameters:
+      - name: merchant_id
+        in: path
+        required: true
+        description: The identifier of the merchant to check eligibility for.
+        schema:
+          type: string
+        example: ghm-1234567890
+      responses:
+        '200':
+          description: Merchant eligibility status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EligibilityResponse'
+              examples:
+                GetMerchantEligibility200Example:
+                  summary: Default getMerchantEligibility 200 response
+                  x-microcks-default: true
+                  value:
+                    merchant_id: ghm-1234567890
+                    eligible: true
+                    requirements:
+                    - requirement: string
+                      met: true
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                GetMerchantEligibility401Example:
+                  summary: Default getMerchantEligibility 401 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+        '404':
+          description: Merchant not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                GetMerchantEligibility404Example:
+                  summary: Default getMerchantEligibility 404 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+components:
+  schemas:
+    EligibilityResponse:
+      type: object
+      description: Merchant eligibility status for onboarding.
+      properties:
+        merchant_id:
+          type: string
+          description: The merchant identifier.
+          example: ghm-1234567890
+        eligible:
+          type: boolean
+          description: Whether the merchant is eligible for onboarding.
+          example: true
+        requirements:
+          type: array
+          description: List of requirements that must be met for onboarding.
+          items:
+            type: object
+            properties:
+              requirement:
+                type: string
+                description: Description of the requirement.
+              met:
+                type: boolean
+                description: Whether this requirement has been met.
+    Error:
+      type: object
+      description: Standard error response from the Grubhub API.
+      properties:
+        error:
+          type: string
+          description: Error type identifier.
+          example: invalid_request
+        message:
+          type: string
+          description: Human-readable error description.
+          example: Operation completed successfully.
+        status:
+          type: integer
+          description: HTTP status code.
+          example: 0
+  securitySchemes:
+    hmacAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: HMAC-based authentication. Every request must include X-GH-PARTNER-KEY and an Authorization header with MAC authentication details.
+externalDocs:
+  description: Grubhub Deliveries API Documentation
+  url: https://developer.grubhub.com/api/deliveries

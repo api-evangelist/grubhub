@@ -1,0 +1,254 @@
+openapi: 3.1.0
+info:
+  title: Grubhub Deliveries Delivery Status Merchant Status API
+  description: The Grubhub Deliveries API enables partners to manage delivery logistics and interact with Grubhub's nationwide courier network. It provides delivery status tracking through key states including driver assignment, pickup ready, and out for delivery. Partners can leverage Grubhub Connect, a full-service delivery solution for delivery aggregators, marketplaces, and enterprise merchants to fulfill orders using Grubhub drivers. The API also supports driver communication through proxy phone numbers.
+  version: 1.0.0
+  x-last-validated: '2026-06-02'
+  contact:
+    name: Grubhub Developer Support
+    url: https://grubhub-developers.zendesk.com/hc/en-us
+  termsOfService: https://www.grubhub.com/legal/terms-of-use
+servers:
+- url: https://api-third-party-gtm.grubhub.com
+  description: Production Server
+- url: https://api-third-party-gtm-pp.grubhub.com
+  description: Preproduction Server
+security:
+- hmacAuth: []
+tags:
+- name: Merchant Status
+  description: Endpoints for managing merchant online/offline status on Grubhub, including soft and hard pauses.
+paths:
+  /pos/v1/merchants/status:
+    put:
+      operationId: updateMerchantStatus
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+      summary: Grubhub Update Merchant Online/offline Status
+      description: Sets the status of a batch of merchants to online or offline on Grubhub. When offline, merchants will not be listed on the site. When online, merchants will be listed and able to accept orders. Supports both soft pauses (remainder of business day) and hard pauses (multiple days).
+      tags:
+      - Merchant Status
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MerchantStatusUpdateRequest'
+            examples:
+              UpdateMerchantStatusRequestExample:
+                summary: Default updateMerchantStatus request
+                x-microcks-default: true
+                value:
+                  merchants:
+                  - merchant_id: string
+                    status: ONLINE
+                    pause_type: SOFT
+      responses:
+        '202':
+          description: Status update accepted for processing
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchJobResponse'
+              examples:
+                UpdateMerchantStatus202Example:
+                  summary: Default updateMerchantStatus 202 response
+                  x-microcks-default: true
+                  value:
+                    batch_id: id-1234567890
+        '400':
+          description: Invalid status update request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                UpdateMerchantStatus400Example:
+                  summary: Default updateMerchantStatus 400 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                UpdateMerchantStatus401Example:
+                  summary: Default updateMerchantStatus 401 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+  /pos/v1/merchants/status/{batch_id}:
+    get:
+      operationId: getMerchantStatusBatch
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+      summary: Grubhub Get Merchant Status Batch Progress
+      description: Returns the status of a merchant online/offline batch operation together with the progress for each individual merchant in the batch.
+      tags:
+      - Merchant Status
+      parameters:
+      - $ref: '#/components/parameters/BatchId'
+      responses:
+        '200':
+          description: Batch operation status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchJobStatus'
+              examples:
+                GetMerchantStatusBatch200Example:
+                  summary: Default getMerchantStatusBatch 200 response
+                  x-microcks-default: true
+                  value:
+                    batch_id: id-1234567890
+                    status: PENDING
+                    merchants:
+                    - merchant_id: string
+                      status: PENDING
+                      error: string
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                GetMerchantStatusBatch401Example:
+                  summary: Default getMerchantStatusBatch 401 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+        '404':
+          description: Batch not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                GetMerchantStatusBatch404Example:
+                  summary: Default getMerchantStatusBatch 404 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+components:
+  parameters:
+    BatchId:
+      name: batch_id
+      in: path
+      required: true
+      description: The unique identifier for a batch operation.
+      schema:
+        type: string
+  schemas:
+    MerchantStatusUpdateRequest:
+      type: object
+      description: Request to update online/offline status for a batch of merchants.
+      required:
+      - merchants
+      properties:
+        merchants:
+          type: array
+          description: List of merchants to update.
+          items:
+            type: object
+            required:
+            - merchant_id
+            - status
+            properties:
+              merchant_id:
+                type: string
+                description: The Grubhub merchant identifier.
+              status:
+                type: string
+                description: The desired status for the merchant.
+                enum:
+                - ONLINE
+                - OFFLINE
+              pause_type:
+                type: string
+                description: The type of pause to apply when setting offline. A soft pause takes the merchant offline for the remainder of the business day. A hard pause takes the merchant offline for multiple days.
+                enum:
+                - SOFT
+                - HARD
+    BatchJobStatus:
+      type: object
+      description: Status of a batch operation with per-merchant progress.
+      properties:
+        batch_id:
+          type: string
+          description: The unique identifier for the batch operation.
+          example: id-1234567890
+        status:
+          type: string
+          description: The overall status of the batch.
+          enum:
+          - PENDING
+          - PROCESSING
+          - COMPLETED
+          - FAILED
+          example: PENDING
+        merchants:
+          type: array
+          description: Progress for each individual merchant in the batch.
+          items:
+            type: object
+            properties:
+              merchant_id:
+                type: string
+                description: The merchant identifier.
+              status:
+                type: string
+                description: The status for this merchant's update.
+                enum:
+                - PENDING
+                - SUCCESS
+                - FAILED
+              error:
+                type: string
+                description: Error message if the update failed for this merchant.
+    BatchJobResponse:
+      type: object
+      description: Response returned when a batch operation is accepted for processing.
+      properties:
+        batch_id:
+          type: string
+          description: The unique identifier for tracking the batch operation.
+          example: id-1234567890
+    Error:
+      type: object
+      description: Standard error response from the Grubhub API.
+      properties:
+        error:
+          type: string
+          description: Error type identifier.
+          example: invalid_request
+        message:
+          type: string
+          description: Human-readable error description.
+          example: Operation completed successfully.
+        status:
+          type: integer
+          description: HTTP status code.
+          example: 0
+  securitySchemes:
+    hmacAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: HMAC-based authentication. Every request must include X-GH-PARTNER-KEY and an Authorization header with MAC authentication details.
+externalDocs:
+  description: Grubhub Deliveries API Documentation
+  url: https://developer.grubhub.com/api/deliveries
