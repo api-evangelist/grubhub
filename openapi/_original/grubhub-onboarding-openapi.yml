@@ -1,0 +1,741 @@
+openapi: 3.1.0
+info:
+  title: Grubhub Onboarding API
+  description: >-
+    The Grubhub Onboarding API enables partners to offer self-service
+    integration onboarding directly to their merchants using OAuth-based
+    authentication. It provides endpoints for new merchant referrals,
+    merchant activation and deactivation, merchant association, eligibility
+    checks, and reporting onboarding issues. The API can reduce merchant
+    onboarding time from 7-10 days down to as little as 5-10 minutes.
+  version: '1.0.0'
+  x-last-validated: '2026-06-02'
+  contact:
+    name: Grubhub Developer Support
+    url: https://grubhub-developers.zendesk.com/hc/en-us
+  termsOfService: https://www.grubhub.com/legal/terms-of-use
+externalDocs:
+  description: Grubhub Onboarding API Documentation
+  url: https://developer.grubhub.com/api/onboarding
+servers:
+- url: https://api-third-party-gtm.grubhub.com
+  description: Production Server
+- url: https://api-third-party-gtm-pp.grubhub.com
+  description: Preproduction Server
+tags:
+- name: Issue Reporting
+  description: >-
+    Endpoints for reporting onboarding issues to Grubhub.
+- name: Merchant Eligibility
+  description: >-
+    Endpoints for checking merchant eligibility for onboarding.
+- name: Merchant Onboarding
+  description: >-
+    Endpoints for onboarding merchants to the Grubhub platform,
+    including referrals, activation, and association.
+security:
+- oauthAuth: []
+paths:
+  /pos/v1/onboarding/referral:
+    post:
+      operationId: createMerchantReferral
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+      summary: Grubhub Create a New Merchant Referral
+      description: >-
+        Sends over the details of a new merchant for onboarding them to
+        Grubhub. This initiates the merchant onboarding process and can
+        significantly reduce the time to get a merchant live on the
+        platform.
+      tags:
+      - Merchant Onboarding
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MerchantReferral'
+            examples:
+              CreateMerchantReferralRequestExample:
+                summary: Default createMerchantReferral request
+                x-microcks-default: true
+                value:
+                  business_name: string
+                  address:
+                    street_address: 111 W Washington St
+                    city: Chicago
+                    state: IL
+                    zip: '60602'
+                  contact:
+                    name: Sample Name
+                    email: partner@example.com
+                    phone: '+13125550142'
+                  external_id: id-1234567890
+                  cuisine_types:
+                  - string
+      responses:
+        '201':
+          description: Merchant referral created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReferralResponse'
+              examples:
+                CreateMerchantReferral201Example:
+                  summary: Default createMerchantReferral 201 response
+                  x-microcks-default: true
+                  value:
+                    referral_id: id-1234567890
+                    merchant_id: ghm-1234567890
+                    status: PENDING
+        '400':
+          description: Invalid referral data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                CreateMerchantReferral400Example:
+                  summary: Default createMerchantReferral 400 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                CreateMerchantReferral401Example:
+                  summary: Default createMerchantReferral 401 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+  /pos/v1/onboarding/activate:
+    post:
+      operationId: activateMerchant
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+      summary: Grubhub Activate a Merchant
+      description: >-
+        Activates a merchant for integration with the partner, enabling
+        the merchant to receive orders through the partner's system on
+        the Grubhub platform.
+      tags:
+      - Merchant Onboarding
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MerchantActivationRequest'
+            examples:
+              ActivateMerchantRequestExample:
+                summary: Default activateMerchant request
+                x-microcks-default: true
+                value:
+                  merchant_id: ghm-1234567890
+      responses:
+        '200':
+          description: Merchant activated successfully
+        '400':
+          description: Invalid activation request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                ActivateMerchant400Example:
+                  summary: Default activateMerchant 400 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                ActivateMerchant401Example:
+                  summary: Default activateMerchant 401 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+        '404':
+          description: Merchant not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                ActivateMerchant404Example:
+                  summary: Default activateMerchant 404 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+  /pos/v1/onboarding/deactivate:
+    post:
+      operationId: deactivateMerchant
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+      summary: Grubhub Deactivate a Merchant
+      description: >-
+        Validates a merchant and removes its association with the partner.
+        The deactivation request uses partner authentication to identify
+        the calling partner.
+      tags:
+      - Merchant Onboarding
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MerchantDeactivationRequest'
+            examples:
+              DeactivateMerchantRequestExample:
+                summary: Default deactivateMerchant request
+                x-microcks-default: true
+                value:
+                  merchant_id: ghm-1234567890
+                  reason: Out of an item.
+      responses:
+        '200':
+          description: Merchant deactivated successfully
+        '400':
+          description: Invalid deactivation request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                DeactivateMerchant400Example:
+                  summary: Default deactivateMerchant 400 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                DeactivateMerchant401Example:
+                  summary: Default deactivateMerchant 401 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+        '404':
+          description: Merchant not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                DeactivateMerchant404Example:
+                  summary: Default deactivateMerchant 404 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+  /pos/v1/onboarding/deactivate/partner:
+    post:
+      operationId: deactivateMerchantPartner
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+      summary: Grubhub Deactivate a Merchant (partner Auth)
+      description: >-
+        Deactivates a merchant using partner-level authentication.
+        Validates the merchant and removes its association with the
+        partner account.
+      tags:
+      - Merchant Onboarding
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MerchantDeactivationRequest'
+            examples:
+              DeactivateMerchantPartnerRequestExample:
+                summary: Default deactivateMerchantPartner request
+                x-microcks-default: true
+                value:
+                  merchant_id: ghm-1234567890
+                  reason: Out of an item.
+      responses:
+        '200':
+          description: Merchant deactivated successfully
+        '400':
+          description: Invalid deactivation request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                DeactivateMerchantPartner400Example:
+                  summary: Default deactivateMerchantPartner 400 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                DeactivateMerchantPartner401Example:
+                  summary: Default deactivateMerchantPartner 401 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+        '404':
+          description: Merchant not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                DeactivateMerchantPartner404Example:
+                  summary: Default deactivateMerchantPartner 404 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+  /pos/v1/onboarding/associate:
+    post:
+      operationId: associateMerchants
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+      summary: Grubhub Associate Merchants with Partner
+      description: >-
+        Binds provided merchants to the partner for onboarding. Associates
+        a list of merchant IDs with the partner account, enabling the
+        partner to manage these merchants through the API.
+      tags:
+      - Merchant Onboarding
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MerchantAssociationRequest'
+            examples:
+              AssociateMerchantsRequestExample:
+                summary: Default associateMerchants request
+                x-microcks-default: true
+                value:
+                  merchant_ids:
+                  - string
+      responses:
+        '200':
+          description: Merchants associated successfully
+        '400':
+          description: Invalid association request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                AssociateMerchants400Example:
+                  summary: Default associateMerchants 400 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                AssociateMerchants401Example:
+                  summary: Default associateMerchants 401 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+  /pos/v1/onboarding/eligibility/{merchant_id}:
+    get:
+      operationId: getMerchantEligibility
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+      summary: Grubhub Get Merchant Eligibility
+      description: >-
+        Checks whether a merchant is eligible for onboarding with the
+        partner. Returns eligibility status and any requirements that
+        must be met before the merchant can be onboarded.
+      tags:
+      - Merchant Eligibility
+      parameters:
+      - name: merchant_id
+        in: path
+        required: true
+        description: >-
+          The identifier of the merchant to check eligibility for.
+        schema:
+          type: string
+        example: ghm-1234567890
+      responses:
+        '200':
+          description: Merchant eligibility status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EligibilityResponse'
+              examples:
+                GetMerchantEligibility200Example:
+                  summary: Default getMerchantEligibility 200 response
+                  x-microcks-default: true
+                  value:
+                    merchant_id: ghm-1234567890
+                    eligible: true
+                    requirements:
+                    - requirement: string
+                      met: true
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                GetMerchantEligibility401Example:
+                  summary: Default getMerchantEligibility 401 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+        '404':
+          description: Merchant not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                GetMerchantEligibility404Example:
+                  summary: Default getMerchantEligibility 404 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+  /pos/v1/onboarding/issue:
+    post:
+      operationId: reportOnboardingIssue
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+      summary: Grubhub Report an Onboarding Issue
+      description: >-
+        Reports an issue encountered during the merchant onboarding
+        process to Grubhub support for investigation and resolution.
+      tags:
+      - Issue Reporting
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OnboardingIssue'
+            examples:
+              ReportOnboardingIssueRequestExample:
+                summary: Default reportOnboardingIssue request
+                x-microcks-default: true
+                value:
+                  merchant_id: ghm-1234567890
+                  issue_type: STANDARD
+                  description: string
+      responses:
+        '201':
+          description: Issue reported successfully
+        '400':
+          description: Invalid issue report
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                ReportOnboardingIssue400Example:
+                  summary: Default reportOnboardingIssue 400 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                ReportOnboardingIssue401Example:
+                  summary: Default reportOnboardingIssue 401 response
+                  x-microcks-default: true
+                  value:
+                    error: invalid_request
+                    message: Operation completed successfully.
+                    status: 0
+components:
+  securitySchemes:
+    oauthAuth:
+      type: oauth2
+      description: >-
+        OAuth 2.0 authentication for the Onboarding API. Partners use
+        OAuth to authenticate merchant onboarding operations.
+      flows:
+        clientCredentials:
+          tokenUrl: /oauth2/direct/auth
+          scopes: {}
+  schemas:
+    MerchantReferral:
+      type: object
+      description: >-
+        Details of a new merchant being referred for onboarding.
+      required:
+      - business_name
+      - address
+      - contact
+      properties:
+        business_name:
+          type: string
+          description: >-
+            The name of the merchant's business.
+          example: string
+        address:
+          $ref: '#/components/schemas/Address'
+        contact:
+          $ref: '#/components/schemas/Contact'
+        external_id:
+          type: string
+          description: >-
+            The partner's external identifier for this merchant.
+          example: id-1234567890
+        cuisine_types:
+          type: array
+          description: >-
+            Types of cuisine offered by the merchant.
+          items:
+            type: string
+    ReferralResponse:
+      type: object
+      description: >-
+        Response after successfully creating a merchant referral.
+      properties:
+        referral_id:
+          type: string
+          description: >-
+            The unique identifier for this referral.
+          example: id-1234567890
+        merchant_id:
+          type: string
+          description: >-
+            The assigned Grubhub merchant identifier.
+          example: ghm-1234567890
+        status:
+          type: string
+          description: >-
+            The current status of the referral.
+          enum:
+          - PENDING
+          - APPROVED
+          - REJECTED
+          example: PENDING
+    MerchantActivationRequest:
+      type: object
+      description: >-
+        Request to activate a merchant for partner integration.
+      required:
+      - merchant_id
+      properties:
+        merchant_id:
+          type: string
+          description: >-
+            The Grubhub merchant identifier to activate.
+          example: ghm-1234567890
+    MerchantDeactivationRequest:
+      type: object
+      description: >-
+        Request to deactivate a merchant and remove partner association.
+      required:
+      - merchant_id
+      properties:
+        merchant_id:
+          type: string
+          description: >-
+            The Grubhub merchant identifier to deactivate.
+          example: ghm-1234567890
+        reason:
+          type: string
+          description: >-
+            Reason for deactivating the merchant.
+          example: Out of an item.
+    MerchantAssociationRequest:
+      type: object
+      description: >-
+        Request to associate merchants with the partner.
+      required:
+      - merchant_ids
+      properties:
+        merchant_ids:
+          type: array
+          description: >-
+            List of merchant IDs to associate with the partner.
+          items:
+            type: string
+          minItems: 1
+    EligibilityResponse:
+      type: object
+      description: >-
+        Merchant eligibility status for onboarding.
+      properties:
+        merchant_id:
+          type: string
+          description: >-
+            The merchant identifier.
+          example: ghm-1234567890
+        eligible:
+          type: boolean
+          description: >-
+            Whether the merchant is eligible for onboarding.
+          example: true
+        requirements:
+          type: array
+          description: >-
+            List of requirements that must be met for onboarding.
+          items:
+            type: object
+            properties:
+              requirement:
+                type: string
+                description: >-
+                  Description of the requirement.
+              met:
+                type: boolean
+                description: >-
+                  Whether this requirement has been met.
+    OnboardingIssue:
+      type: object
+      description: >-
+        An issue report for the merchant onboarding process.
+      required:
+      - merchant_id
+      - description
+      properties:
+        merchant_id:
+          type: string
+          description: >-
+            The merchant identifier experiencing the issue.
+          example: ghm-1234567890
+        issue_type:
+          type: string
+          description: >-
+            The category of the onboarding issue.
+          example: STANDARD
+        description:
+          type: string
+          description: >-
+            Detailed description of the issue encountered.
+          example: string
+    Contact:
+      type: object
+      description: >-
+        Contact information for a merchant.
+      properties:
+        name:
+          type: string
+          description: >-
+            The contact person's name.
+          example: Sample Name
+        email:
+          type: string
+          format: email
+          description: >-
+            The contact email address.
+          example: partner@example.com
+        phone:
+          type: string
+          description: >-
+            The contact phone number.
+          example: '+13125550142'
+    Address:
+      type: object
+      description: >-
+        A physical address.
+      properties:
+        street_address:
+          type: string
+          description: >-
+            The street address line.
+          example: 111 W Washington St
+        city:
+          type: string
+          description: >-
+            The city name.
+          example: Chicago
+        state:
+          type: string
+          description: >-
+            The state abbreviation.
+          maxLength: 2
+          example: IL
+        zip:
+          type: string
+          description: >-
+            The ZIP code.
+          pattern: '^\d{5}(-\d{4})?$'
+          example: '60602'
+    Error:
+      type: object
+      description: >-
+        Standard error response from the Grubhub API.
+      properties:
+        error:
+          type: string
+          description: >-
+            Error type identifier.
+          example: invalid_request
+        message:
+          type: string
+          description: >-
+            Human-readable error description.
+          example: Operation completed successfully.
+        status:
+          type: integer
+          description: >-
+            HTTP status code.
+          example: 0
