@@ -1,0 +1,384 @@
+{
+  "item": [
+    {
+      "id": "3b04d488-a8a5-4c76-8894-38f3769a527f",
+      "name": "Merchants",
+      "description": {
+        "content": "Endpoints for retrieving merchant information and ID mappings.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "75e3dd4a-923e-46c5-8fb1-7f1c1b0db321",
+          "name": "Grubhub List Partner Merchants",
+          "request": {
+            "name": "Grubhub List Partner Merchants",
+            "description": {
+              "content": "Returns the internal and external merchant ID mappings associated with your partner_id. Use this endpoint to discover all Grubhub locations linked to your partner account.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "pos",
+                "v1",
+                "merchants"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "583148d6-7e0c-4945-b801-34920e42240a",
+              "name": "List of merchant ID mappings",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pos",
+                    "v1",
+                    "merchants"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"merchants\": [\n    {\n      \"merchant_id\": \"ghm-1234567890\",\n      \"external_id\": \"id-1234567890\",\n      \"name\": \"Sample Name\",\n      \"status\": \"ONLINE\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d512bcaf-7061-48ef-968f-888218cf2f0a",
+              "name": "Authentication failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pos",
+                    "v1",
+                    "merchants"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"invalid_request\",\n  \"message\": \"Operation completed successfully.\",\n  \"status\": 0\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f47eb89a-805c-44d0-a8f6-ad159e0542e6",
+          "name": "Grubhub Get Merchant Summary",
+          "request": {
+            "name": "Grubhub Get Merchant Summary",
+            "description": {
+              "content": "Returns summary information about a merchant including store details, address, and configuration.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "pos",
+                "v1",
+                "merchant",
+                ":merchant_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "merchant_id",
+                  "description": "(Required) The unique identifier for the merchant on Grubhub."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9e3891aa-448c-4b38-b0a7-d8ce11e1ea53",
+              "name": "Merchant summary information",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pos",
+                    "v1",
+                    "merchant",
+                    ":merchant_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "merchant_id",
+                      "description": "(Required) The unique identifier for the merchant on Grubhub."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"merchant_id\": \"ghm-1234567890\",\n  \"external_id\": \"id-1234567890\",\n  \"name\": \"Sample Name\",\n  \"address\": {\n    \"street_address\": \"111 W Washington St\",\n    \"city\": \"Chicago\",\n    \"state\": \"IL\",\n    \"zip\": \"60602\",\n    \"latitude\": 41.8781,\n    \"longitude\": -87.6298\n  },\n  \"phone\": \"+13125550142\",\n  \"status\": \"ONLINE\",\n  \"tax_rate\": 1.25,\n  \"fulfillment_types\": [\n    \"DELIVERY\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "785c1982-7840-4359-9330-e6c4c3f95e75",
+              "name": "Authentication failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pos",
+                    "v1",
+                    "merchant",
+                    ":merchant_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "merchant_id",
+                      "description": "(Required) The unique identifier for the merchant on Grubhub."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"invalid_request\",\n  \"message\": \"Operation completed successfully.\",\n  \"status\": 0\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9a95ce7e-138c-48bb-93d4-e5f3f895c003",
+              "name": "Merchant not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pos",
+                    "v1",
+                    "merchant",
+                    ":merchant_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "merchant_id",
+                      "description": "(Required) The unique identifier for the merchant on Grubhub."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"invalid_request\",\n  \"message\": \"Operation completed successfully.\",\n  \"status\": 0\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-third-party-gtm.grubhub.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "f5e95610-4258-49b1-92c2-e7b4810c97f7",
+    "name": "Grubhub Deliveries Delivery Status Merchants API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Grubhub Deliveries API enables partners to manage delivery logistics and interact with Grubhub's nationwide courier network. It provides delivery status tracking through key states including driver assignment, pickup ready, and out for delivery. Partners can leverage Grubhub Connect, a full-service delivery solution for delivery aggregators, marketplaces, and enterprise merchants to fulfill orders using Grubhub drivers. The API also supports driver communication through proxy phone numbers.\n\nContact Support:\n Name: Grubhub Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

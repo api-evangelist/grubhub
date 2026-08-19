@@ -1,0 +1,51 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Grubhub Deliveries Delivery Status Driver Communication API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Driver Communication",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Grubhub Create Proxy Courier Phone Number",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/merchant/:merchant_long_id/orders/:order_uuid/delivery/proxy-phone",
+            "params": [
+              {
+                "name": "merchant_long_id",
+                "value": "",
+                "type": "path",
+                "description": "The long-form unique identifier for the merchant on Grubhub."
+              },
+              {
+                "name": "order_uuid",
+                "value": "",
+                "type": "path",
+                "description": "The UUID of the order."
+              }
+            ]
+          },
+          "docs": "Generates a masked proxy phone number that creates a bridge between the merchant's phone number and the courier's phone number. This protects both parties' actual phone numbers while enabling direct communication. Best practice is to call this endpoint as needed rather than caching the result."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

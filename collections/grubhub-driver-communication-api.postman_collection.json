@@ -1,0 +1,301 @@
+{
+  "item": [
+    {
+      "id": "bb2ab793-0469-40b5-9d9e-efeed9706757",
+      "name": "Driver Communication",
+      "description": {
+        "content": "Endpoints for establishing communication with delivery drivers through proxy phone numbers.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "2a681761-8817-47df-a911-2dbe80fe36c3",
+          "name": "Grubhub Create Proxy Courier Phone Number",
+          "request": {
+            "name": "Grubhub Create Proxy Courier Phone Number",
+            "description": {
+              "content": "Generates a masked proxy phone number that creates a bridge between the merchant's phone number and the courier's phone number. This protects both parties' actual phone numbers while enabling direct communication. Best practice is to call this endpoint as needed rather than caching the result.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "pos",
+                "v1",
+                "merchant",
+                ":merchant_long_id",
+                "orders",
+                ":order_uuid",
+                "delivery",
+                "proxy-phone"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "merchant_long_id",
+                  "description": "(Required) The long-form unique identifier for the merchant on Grubhub."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "order_uuid",
+                  "description": "(Required) The UUID of the order."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b8c4771e-371e-406f-bd38-7b7d2a16624d",
+              "name": "Proxy phone number created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pos",
+                    "v1",
+                    "merchant",
+                    ":merchant_long_id",
+                    "orders",
+                    ":order_uuid",
+                    "delivery",
+                    "proxy-phone"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "merchant_long_id",
+                      "description": "(Required) The long-form unique identifier for the merchant on Grubhub."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "order_uuid",
+                      "description": "(Required) The UUID of the order."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"proxy_phone_number\": \"+13125550142\",\n  \"expires_at\": \"2026-06-02T18:30:00Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8a13477f-059a-408b-b0e3-2a776e6ad4db",
+              "name": "Authentication failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pos",
+                    "v1",
+                    "merchant",
+                    ":merchant_long_id",
+                    "orders",
+                    ":order_uuid",
+                    "delivery",
+                    "proxy-phone"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "merchant_long_id",
+                      "description": "(Required) The long-form unique identifier for the merchant on Grubhub."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "order_uuid",
+                      "description": "(Required) The UUID of the order."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"invalid_request\",\n  \"message\": \"Operation completed successfully.\",\n  \"status\": 0\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3568bf1c-b31f-4180-87aa-e391d0c530d4",
+              "name": "Order or delivery not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pos",
+                    "v1",
+                    "merchant",
+                    ":merchant_long_id",
+                    "orders",
+                    ":order_uuid",
+                    "delivery",
+                    "proxy-phone"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "merchant_long_id",
+                      "description": "(Required) The long-form unique identifier for the merchant on Grubhub."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "order_uuid",
+                      "description": "(Required) The UUID of the order."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"invalid_request\",\n  \"message\": \"Operation completed successfully.\",\n  \"status\": 0\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-third-party-gtm.grubhub.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "a2f08310-cda7-4a67-ae50-a14cf7b7ab2b",
+    "name": "Grubhub Deliveries Delivery Status Driver Communication API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Grubhub Deliveries API enables partners to manage delivery logistics and interact with Grubhub's nationwide courier network. It provides delivery status tracking through key states including driver assignment, pickup ready, and out for delivery. Partners can leverage Grubhub Connect, a full-service delivery solution for delivery aggregators, marketplaces, and enterprise merchants to fulfill orders using Grubhub drivers. The API also supports driver communication through proxy phone numbers.\n\nContact Support:\n Name: Grubhub Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

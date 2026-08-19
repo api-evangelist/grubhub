@@ -1,0 +1,297 @@
+{
+  "item": [
+    {
+      "id": "78f5356a-4c3d-4cce-97eb-ba01bb289366",
+      "name": "Delivery Status",
+      "description": {
+        "content": "Endpoints for tracking delivery status, driver information, and estimated arrival times.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e312a1a4-7bbf-40a9-8a0a-3b5f24e44441",
+          "name": "Grubhub Get Delivery Status for an Order",
+          "request": {
+            "name": "Grubhub Get Delivery Status for an Order",
+            "description": {
+              "content": "Retrieves the current state of a delivery for an order, including driver contact information, driver arrival ETAs, driver latitude and longitude coordinates, and delivery lifecycle state. Partners can use this to provide real-time delivery tracking to merchants.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "pos",
+                "v1",
+                "merchant",
+                ":merchant_long_id",
+                "orders",
+                ":order_uuid",
+                "delivery"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "merchant_long_id",
+                  "description": "(Required) The long-form unique identifier for the merchant on Grubhub."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "order_uuid",
+                  "description": "(Required) The UUID of the order."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1946a582-3aad-4c78-afc3-608479512c85",
+              "name": "Current delivery status",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pos",
+                    "v1",
+                    "merchant",
+                    ":merchant_long_id",
+                    "orders",
+                    ":order_uuid",
+                    "delivery"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "merchant_long_id",
+                      "description": "(Required) The long-form unique identifier for the merchant on Grubhub."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "order_uuid",
+                      "description": "(Required) The UUID of the order."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"order_uuid\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n  \"status\": \"PENDING\",\n  \"driver\": {\n    \"name\": \"Sample Name\",\n    \"phone\": \"+13125550142\",\n    \"delivery_method\": \"CAR\",\n    \"latitude\": 41.8781,\n    \"longitude\": -87.6298\n  },\n  \"pickup_eta\": \"2026-06-02T18:30:00Z\",\n  \"dropoff_eta\": \"2026-06-02T18:30:00Z\",\n  \"tracking_url\": \"https://developer.grubhub.com\",\n  \"updated_at\": \"2026-06-02T18:30:00Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3e36ae86-931d-450b-9496-dbcffb1b8fd1",
+              "name": "Authentication failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pos",
+                    "v1",
+                    "merchant",
+                    ":merchant_long_id",
+                    "orders",
+                    ":order_uuid",
+                    "delivery"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "merchant_long_id",
+                      "description": "(Required) The long-form unique identifier for the merchant on Grubhub."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "order_uuid",
+                      "description": "(Required) The UUID of the order."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"invalid_request\",\n  \"message\": \"Operation completed successfully.\",\n  \"status\": 0\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d66a3694-adf6-43a4-89aa-006115d4d31e",
+              "name": "Order or delivery not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pos",
+                    "v1",
+                    "merchant",
+                    ":merchant_long_id",
+                    "orders",
+                    ":order_uuid",
+                    "delivery"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "merchant_long_id",
+                      "description": "(Required) The long-form unique identifier for the merchant on Grubhub."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "order_uuid",
+                      "description": "(Required) The UUID of the order."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"invalid_request\",\n  \"message\": \"Operation completed successfully.\",\n  \"status\": 0\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-third-party-gtm.grubhub.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "926ed7c5-7fb5-4c68-bc47-d6f307057922",
+    "name": "Grubhub Deliveries Delivery Status API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Grubhub Deliveries API enables partners to manage delivery logistics and interact with Grubhub's nationwide courier network. It provides delivery status tracking through key states including driver assignment, pickup ready, and out for delivery. Partners can leverage Grubhub Connect, a full-service delivery solution for delivery aggregators, marketplaces, and enterprise merchants to fulfill orders using Grubhub drivers. The API also supports driver communication through proxy phone numbers.\n\nContact Support:\n Name: Grubhub Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

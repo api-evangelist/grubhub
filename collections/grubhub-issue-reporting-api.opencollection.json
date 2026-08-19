@@ -1,0 +1,41 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Grubhub Deliveries Delivery Status Issue Reporting API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Issue Reporting",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Grubhub Report an Onboarding Issue",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/onboarding/issue",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Reports an issue encountered during the merchant onboarding process to Grubhub support for investigation and resolution."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

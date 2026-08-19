@@ -1,0 +1,79 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Grubhub Deliveries Delivery Status Merchant Properties API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Merchant Properties",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Grubhub Get Merchant Fulfillment Info",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/merchant/:merchant_id/fulfillment",
+            "params": [
+              {
+                "name": "merchant_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the merchant on Grubhub."
+              }
+            ]
+          },
+          "docs": "Returns a merchant's fulfillment configuration including delivery and pickup settings, estimated preparation times, and service area details."
+        },
+        {
+          "info": {
+            "name": "Grubhub Update Merchant Properties in Batch",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/merchants/properties",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates properties for a batch of merchants, such as fulfillment settings, tax rates, and configuration groups."
+        },
+        {
+          "info": {
+            "name": "Grubhub Get Merchant Properties Batch Progress",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/merchants/properties/:batch_id",
+            "params": [
+              {
+                "name": "batch_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for a batch operation."
+              }
+            ]
+          },
+          "docs": "Returns the status of a merchant properties update batch together with the progress for each individual merchant."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,60 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Grubhub Deliveries Delivery Status Menu Ingestion API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Menu Ingestion",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Grubhub Ingest a Normalized Menu",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/menu/ingestion",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Uploads a complete menu to Grubhub including schedules, sections, items, and modifiers. The API uses external IDs to perform a diff between the current and uploaded versions. Matching external IDs will have their fields updated, new IDs will create objects, and missing IDs will cause the associated items to be removed. Processing completes asynchronously after the endpoint responds."
+        },
+        {
+          "info": {
+            "name": "Grubhub Get Menu Ingestion Job Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/menu/ingestion/jobs/:job_id",
+            "params": [
+              {
+                "name": "job_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the ingestion or override job."
+              }
+            ]
+          },
+          "docs": "Returns the status of a full menu ingestion job. Use this endpoint to check whether a previously submitted menu ingestion has completed processing successfully or encountered errors."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

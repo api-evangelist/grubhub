@@ -1,0 +1,51 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Grubhub Deliveries Delivery Status API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Delivery Status",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Grubhub Get Delivery Status for an Order",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/merchant/:merchant_long_id/orders/:order_uuid/delivery",
+            "params": [
+              {
+                "name": "merchant_long_id",
+                "value": "",
+                "type": "path",
+                "description": "The long-form unique identifier for the merchant on Grubhub."
+              },
+              {
+                "name": "order_uuid",
+                "value": "",
+                "type": "path",
+                "description": "The UUID of the order."
+              }
+            ]
+          },
+          "docs": "Retrieves the current state of a delivery for an order, including driver contact information, driver arrival ETAs, driver latitude and longitude coordinates, and delivery lifecycle state. Partners can use this to provide real-time delivery tracking to merchants."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

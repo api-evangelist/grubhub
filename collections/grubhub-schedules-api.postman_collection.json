@@ -1,0 +1,1636 @@
+{
+  "item": [
+    {
+      "id": "384167a7-be37-4a1c-a3f8-ac965fea47f2",
+      "name": "Schedules",
+      "description": {
+        "content": "Endpoints for retrieving and managing merchant operating hours for delivery, pickup, and catering.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "87b10038-c5ec-441a-a412-0f5e8d256376",
+          "name": "Grubhub Get Delivery Schedule",
+          "request": {
+            "name": "Grubhub Get Delivery Schedule",
+            "description": {
+              "content": "Returns the full weekly delivery hours for a merchant. The schedule defines the hours per day of the week that the merchant can accept delivery orders.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "pos",
+                "v1",
+                "merchant",
+                ":merchant_id",
+                "schedules",
+                "delivery"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "merchant_id",
+                  "description": "(Required) The unique identifier for the merchant on Grubhub."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "55be0205-7e54-4ad3-9f0d-bdca1282df0c",
+              "name": "Weekly delivery schedule",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pos",
+                    "v1",
+                    "merchant",
+                    ":merchant_id",
+                    "schedules",
+                    "delivery"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "merchant_id",
+                      "description": "(Required) The unique identifier for the merchant on Grubhub."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"monday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"tuesday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"wednesday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"thursday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"friday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"saturday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"sunday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "aa897dbb-023c-43ff-a0a8-23514aa3cf3f",
+              "name": "Authentication failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pos",
+                    "v1",
+                    "merchant",
+                    ":merchant_id",
+                    "schedules",
+                    "delivery"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "merchant_id",
+                      "description": "(Required) The unique identifier for the merchant on Grubhub."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"invalid_request\",\n  \"message\": \"Operation completed successfully.\",\n  \"status\": 0\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8947575d-f898-4509-9f5a-591386128503",
+              "name": "Merchant not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pos",
+                    "v1",
+                    "merchant",
+                    ":merchant_id",
+                    "schedules",
+                    "delivery"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "merchant_id",
+                      "description": "(Required) The unique identifier for the merchant on Grubhub."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"invalid_request\",\n  \"message\": \"Operation completed successfully.\",\n  \"status\": 0\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1c738c3c-050a-4d7e-8262-de61fe1d1acb",
+          "name": "Grubhub Update Delivery Schedule",
+          "request": {
+            "name": "Grubhub Update Delivery Schedule",
+            "description": {
+              "content": "Creates or updates the weekly delivery schedule for a merchant, specifying the hours per day of the week that the merchant can accept delivery orders. If a schedule does not exist, one will be created.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "pos",
+                "v1",
+                "merchant",
+                ":merchant_id",
+                "schedules",
+                "delivery"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "merchant_id",
+                  "description": "(Required) The unique identifier for the merchant on Grubhub."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"monday\": {\n    \"open\": \"<boolean>\",\n    \"time_windows\": [\n      {\n        \"start_time\": \"<string>\",\n        \"end_time\": \"<string>\"\n      },\n      {\n        \"start_time\": \"<string>\",\n        \"end_time\": \"<string>\"\n      }\n    ]\n  },\n  \"tuesday\": {\n    \"open\": \"<boolean>\",\n    \"time_windows\": [\n      {\n        \"start_time\": \"<string>\",\n        \"end_time\": \"<string>\"\n      },\n      {\n        \"start_time\": \"<string>\",\n        \"end_time\": \"<string>\"\n      }\n    ]\n  },\n  \"wednesday\": {\n    \"open\": \"<boolean>\",\n    \"time_windows\": [\n      {\n        \"start_time\": \"<string>\",\n        \"end_time\": \"<string>\"\n      },\n      {\n        \"start_time\": \"<string>\",\n        \"end_time\": \"<string>\"\n      }\n    ]\n  },\n  \"thursday\": {\n    \"open\": \"<boolean>\",\n    \"time_windows\": [\n      {\n        \"start_time\": \"<string>\",\n        \"end_time\": \"<string>\"\n      },\n      {\n        \"start_time\": \"<string>\",\n        \"end_time\": \"<string>\"\n      }\n    ]\n  },\n  \"friday\": {\n    \"open\": \"<boolean>\",\n    \"time_windows\": [\n      {\n        \"start_time\": \"<string>\",\n        \"end_time\": \"<string>\"\n      },\n      {\n        \"start_time\": \"<string>\",\n        \"end_time\": \"<string>\"\n      }\n    ]\n  },\n  \"saturday\": {\n    \"open\": \"<boolean>\",\n    \"time_windows\": [\n      {\n        \"start_time\": \"<string>\",\n        \"end_time\": \"<string>\"\n      },\n      {\n        \"start_time\": \"<string>\",\n        \"end_time\": \"<string>\"\n      }\n    ]\n  },\n  \"sunday\": {\n    \"open\": \"<boolean>\",\n    \"time_windows\": [\n      {\n        \"start_time\": \"<string>\",\n        \"end_time\": \"<string>\"\n      },\n      {\n        \"start_time\": \"<string>\",\n        \"end_time\": \"<string>\"\n      }\n    ]\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "98080e27-5009-4b63-9a58-b6a6f042ee26",
+              "name": "Delivery schedule updated successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pos",
+                    "v1",
+                    "merchant",
+                    ":merchant_id",
+                    "schedules",
+                    "delivery"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "merchant_id",
+                      "description": "(Required) The unique identifier for the merchant on Grubhub."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"monday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"tuesday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"wednesday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"thursday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"friday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"saturday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"sunday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "04f0deb9-a633-4e0a-bef2-94c9f09d450f",
+              "name": "Invalid schedule data",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pos",
+                    "v1",
+                    "merchant",
+                    ":merchant_id",
+                    "schedules",
+                    "delivery"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "merchant_id",
+                      "description": "(Required) The unique identifier for the merchant on Grubhub."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"monday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"tuesday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"wednesday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"thursday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"friday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"saturday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"sunday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"invalid_request\",\n  \"message\": \"Operation completed successfully.\",\n  \"status\": 0\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0d703a90-78c4-4d9d-953a-ae6df7b41fb7",
+              "name": "Authentication failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pos",
+                    "v1",
+                    "merchant",
+                    ":merchant_id",
+                    "schedules",
+                    "delivery"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "merchant_id",
+                      "description": "(Required) The unique identifier for the merchant on Grubhub."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"monday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"tuesday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"wednesday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"thursday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"friday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"saturday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"sunday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"invalid_request\",\n  \"message\": \"Operation completed successfully.\",\n  \"status\": 0\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "15ea8f7f-df67-4699-b154-ef7a214b789c",
+              "name": "Merchant not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pos",
+                    "v1",
+                    "merchant",
+                    ":merchant_id",
+                    "schedules",
+                    "delivery"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "merchant_id",
+                      "description": "(Required) The unique identifier for the merchant on Grubhub."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"monday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"tuesday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"wednesday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"thursday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"friday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"saturday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"sunday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"invalid_request\",\n  \"message\": \"Operation completed successfully.\",\n  \"status\": 0\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ba50c440-fafa-43d0-bb2f-50c8720465cf",
+          "name": "Grubhub Get Pickup Schedule",
+          "request": {
+            "name": "Grubhub Get Pickup Schedule",
+            "description": {
+              "content": "Returns the full weekly pickup hours for a merchant. The schedule defines the hours per day of the week that the merchant can accept pickup orders.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "pos",
+                "v1",
+                "merchant",
+                ":merchant_id",
+                "schedules",
+                "pickup"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "merchant_id",
+                  "description": "(Required) The unique identifier for the merchant on Grubhub."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e55d573e-77af-42b0-80ed-e8fd0e4c396f",
+              "name": "Weekly pickup schedule",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pos",
+                    "v1",
+                    "merchant",
+                    ":merchant_id",
+                    "schedules",
+                    "pickup"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "merchant_id",
+                      "description": "(Required) The unique identifier for the merchant on Grubhub."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"monday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"tuesday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"wednesday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"thursday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"friday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"saturday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"sunday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3f2642de-71fe-425c-93f1-545fc11915f6",
+              "name": "Authentication failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pos",
+                    "v1",
+                    "merchant",
+                    ":merchant_id",
+                    "schedules",
+                    "pickup"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "merchant_id",
+                      "description": "(Required) The unique identifier for the merchant on Grubhub."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"invalid_request\",\n  \"message\": \"Operation completed successfully.\",\n  \"status\": 0\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "95337987-388c-4b6f-8f32-3f711ecc05e1",
+              "name": "Merchant not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pos",
+                    "v1",
+                    "merchant",
+                    ":merchant_id",
+                    "schedules",
+                    "pickup"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "merchant_id",
+                      "description": "(Required) The unique identifier for the merchant on Grubhub."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"invalid_request\",\n  \"message\": \"Operation completed successfully.\",\n  \"status\": 0\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "deff3304-48d1-4320-a42d-d5cb075d165a",
+          "name": "Grubhub Update Pickup Schedule",
+          "request": {
+            "name": "Grubhub Update Pickup Schedule",
+            "description": {
+              "content": "Creates or updates the weekly pickup schedule for a merchant, specifying the hours per day of the week that the merchant can accept pickup orders. If a schedule does not exist, one will be created.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "pos",
+                "v1",
+                "merchant",
+                ":merchant_id",
+                "schedules",
+                "pickup"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "merchant_id",
+                  "description": "(Required) The unique identifier for the merchant on Grubhub."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"monday\": {\n    \"open\": \"<boolean>\",\n    \"time_windows\": [\n      {\n        \"start_time\": \"<string>\",\n        \"end_time\": \"<string>\"\n      },\n      {\n        \"start_time\": \"<string>\",\n        \"end_time\": \"<string>\"\n      }\n    ]\n  },\n  \"tuesday\": {\n    \"open\": \"<boolean>\",\n    \"time_windows\": [\n      {\n        \"start_time\": \"<string>\",\n        \"end_time\": \"<string>\"\n      },\n      {\n        \"start_time\": \"<string>\",\n        \"end_time\": \"<string>\"\n      }\n    ]\n  },\n  \"wednesday\": {\n    \"open\": \"<boolean>\",\n    \"time_windows\": [\n      {\n        \"start_time\": \"<string>\",\n        \"end_time\": \"<string>\"\n      },\n      {\n        \"start_time\": \"<string>\",\n        \"end_time\": \"<string>\"\n      }\n    ]\n  },\n  \"thursday\": {\n    \"open\": \"<boolean>\",\n    \"time_windows\": [\n      {\n        \"start_time\": \"<string>\",\n        \"end_time\": \"<string>\"\n      },\n      {\n        \"start_time\": \"<string>\",\n        \"end_time\": \"<string>\"\n      }\n    ]\n  },\n  \"friday\": {\n    \"open\": \"<boolean>\",\n    \"time_windows\": [\n      {\n        \"start_time\": \"<string>\",\n        \"end_time\": \"<string>\"\n      },\n      {\n        \"start_time\": \"<string>\",\n        \"end_time\": \"<string>\"\n      }\n    ]\n  },\n  \"saturday\": {\n    \"open\": \"<boolean>\",\n    \"time_windows\": [\n      {\n        \"start_time\": \"<string>\",\n        \"end_time\": \"<string>\"\n      },\n      {\n        \"start_time\": \"<string>\",\n        \"end_time\": \"<string>\"\n      }\n    ]\n  },\n  \"sunday\": {\n    \"open\": \"<boolean>\",\n    \"time_windows\": [\n      {\n        \"start_time\": \"<string>\",\n        \"end_time\": \"<string>\"\n      },\n      {\n        \"start_time\": \"<string>\",\n        \"end_time\": \"<string>\"\n      }\n    ]\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "385eb6e7-de06-4a84-8fbe-52315bba419a",
+              "name": "Pickup schedule updated successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pos",
+                    "v1",
+                    "merchant",
+                    ":merchant_id",
+                    "schedules",
+                    "pickup"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "merchant_id",
+                      "description": "(Required) The unique identifier for the merchant on Grubhub."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"monday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"tuesday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"wednesday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"thursday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"friday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"saturday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"sunday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ba13771e-8e09-48d3-8787-a09254d7ea38",
+              "name": "Invalid schedule data",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pos",
+                    "v1",
+                    "merchant",
+                    ":merchant_id",
+                    "schedules",
+                    "pickup"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "merchant_id",
+                      "description": "(Required) The unique identifier for the merchant on Grubhub."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"monday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"tuesday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"wednesday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"thursday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"friday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"saturday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"sunday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"invalid_request\",\n  \"message\": \"Operation completed successfully.\",\n  \"status\": 0\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "89523f75-145a-4837-9fcf-bcc25a19c69e",
+              "name": "Authentication failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pos",
+                    "v1",
+                    "merchant",
+                    ":merchant_id",
+                    "schedules",
+                    "pickup"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "merchant_id",
+                      "description": "(Required) The unique identifier for the merchant on Grubhub."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"monday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"tuesday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"wednesday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"thursday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"friday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"saturday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"sunday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"invalid_request\",\n  \"message\": \"Operation completed successfully.\",\n  \"status\": 0\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ba1f3ac3-88c4-4c76-ab9f-4faa6b62ef74",
+              "name": "Merchant not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pos",
+                    "v1",
+                    "merchant",
+                    ":merchant_id",
+                    "schedules",
+                    "pickup"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "merchant_id",
+                      "description": "(Required) The unique identifier for the merchant on Grubhub."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"monday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"tuesday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"wednesday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"thursday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"friday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"saturday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"sunday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"invalid_request\",\n  \"message\": \"Operation completed successfully.\",\n  \"status\": 0\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "73d5b221-9f39-42da-81bd-7d06aa00346e",
+          "name": "Grubhub Get Catering Schedule",
+          "request": {
+            "name": "Grubhub Get Catering Schedule",
+            "description": {
+              "content": "Returns the full weekly catering hours for a merchant. The schedule defines the hours per day of the week that the merchant can accept catering orders.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "pos",
+                "v1",
+                "merchant",
+                ":merchant_id",
+                "schedules",
+                "catering"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "merchant_id",
+                  "description": "(Required) The unique identifier for the merchant on Grubhub."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "47c842a0-0328-4a2e-8aa5-9c6a27981f05",
+              "name": "Weekly catering schedule",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pos",
+                    "v1",
+                    "merchant",
+                    ":merchant_id",
+                    "schedules",
+                    "catering"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "merchant_id",
+                      "description": "(Required) The unique identifier for the merchant on Grubhub."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"monday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"tuesday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"wednesday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"thursday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"friday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"saturday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"sunday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f6967780-9005-4f2e-ba22-77e925381a05",
+              "name": "Authentication failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pos",
+                    "v1",
+                    "merchant",
+                    ":merchant_id",
+                    "schedules",
+                    "catering"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "merchant_id",
+                      "description": "(Required) The unique identifier for the merchant on Grubhub."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"invalid_request\",\n  \"message\": \"Operation completed successfully.\",\n  \"status\": 0\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a56a4fae-1cb5-49c9-a9c1-a5bb08f32220",
+              "name": "Merchant not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pos",
+                    "v1",
+                    "merchant",
+                    ":merchant_id",
+                    "schedules",
+                    "catering"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "merchant_id",
+                      "description": "(Required) The unique identifier for the merchant on Grubhub."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"invalid_request\",\n  \"message\": \"Operation completed successfully.\",\n  \"status\": 0\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "60456aea-649a-4a32-a289-6b88466b5f46",
+          "name": "Grubhub Update Catering Schedule",
+          "request": {
+            "name": "Grubhub Update Catering Schedule",
+            "description": {
+              "content": "Creates or updates the weekly catering schedule for a merchant, specifying the hours per day of the week that the merchant can accept catering orders. If a schedule does not exist, one will be created.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "pos",
+                "v1",
+                "merchant",
+                ":merchant_id",
+                "schedules",
+                "catering"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "merchant_id",
+                  "description": "(Required) The unique identifier for the merchant on Grubhub."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"monday\": {\n    \"open\": \"<boolean>\",\n    \"time_windows\": [\n      {\n        \"start_time\": \"<string>\",\n        \"end_time\": \"<string>\"\n      },\n      {\n        \"start_time\": \"<string>\",\n        \"end_time\": \"<string>\"\n      }\n    ]\n  },\n  \"tuesday\": {\n    \"open\": \"<boolean>\",\n    \"time_windows\": [\n      {\n        \"start_time\": \"<string>\",\n        \"end_time\": \"<string>\"\n      },\n      {\n        \"start_time\": \"<string>\",\n        \"end_time\": \"<string>\"\n      }\n    ]\n  },\n  \"wednesday\": {\n    \"open\": \"<boolean>\",\n    \"time_windows\": [\n      {\n        \"start_time\": \"<string>\",\n        \"end_time\": \"<string>\"\n      },\n      {\n        \"start_time\": \"<string>\",\n        \"end_time\": \"<string>\"\n      }\n    ]\n  },\n  \"thursday\": {\n    \"open\": \"<boolean>\",\n    \"time_windows\": [\n      {\n        \"start_time\": \"<string>\",\n        \"end_time\": \"<string>\"\n      },\n      {\n        \"start_time\": \"<string>\",\n        \"end_time\": \"<string>\"\n      }\n    ]\n  },\n  \"friday\": {\n    \"open\": \"<boolean>\",\n    \"time_windows\": [\n      {\n        \"start_time\": \"<string>\",\n        \"end_time\": \"<string>\"\n      },\n      {\n        \"start_time\": \"<string>\",\n        \"end_time\": \"<string>\"\n      }\n    ]\n  },\n  \"saturday\": {\n    \"open\": \"<boolean>\",\n    \"time_windows\": [\n      {\n        \"start_time\": \"<string>\",\n        \"end_time\": \"<string>\"\n      },\n      {\n        \"start_time\": \"<string>\",\n        \"end_time\": \"<string>\"\n      }\n    ]\n  },\n  \"sunday\": {\n    \"open\": \"<boolean>\",\n    \"time_windows\": [\n      {\n        \"start_time\": \"<string>\",\n        \"end_time\": \"<string>\"\n      },\n      {\n        \"start_time\": \"<string>\",\n        \"end_time\": \"<string>\"\n      }\n    ]\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e17d8dee-02b5-446b-8a51-bc4cb4f0d281",
+              "name": "Catering schedule updated successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pos",
+                    "v1",
+                    "merchant",
+                    ":merchant_id",
+                    "schedules",
+                    "catering"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "merchant_id",
+                      "description": "(Required) The unique identifier for the merchant on Grubhub."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"monday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"tuesday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"wednesday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"thursday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"friday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"saturday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"sunday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "1225d0ab-87dc-4fc6-a0c7-3fcd235d71a2",
+              "name": "Invalid schedule data",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pos",
+                    "v1",
+                    "merchant",
+                    ":merchant_id",
+                    "schedules",
+                    "catering"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "merchant_id",
+                      "description": "(Required) The unique identifier for the merchant on Grubhub."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"monday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"tuesday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"wednesday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"thursday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"friday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"saturday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"sunday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"invalid_request\",\n  \"message\": \"Operation completed successfully.\",\n  \"status\": 0\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c9222d60-0ab1-4320-b4b7-5e5a281b4f59",
+              "name": "Authentication failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pos",
+                    "v1",
+                    "merchant",
+                    ":merchant_id",
+                    "schedules",
+                    "catering"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "merchant_id",
+                      "description": "(Required) The unique identifier for the merchant on Grubhub."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"monday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"tuesday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"wednesday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"thursday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"friday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"saturday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"sunday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"invalid_request\",\n  \"message\": \"Operation completed successfully.\",\n  \"status\": 0\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "af4b570c-88bf-488f-9fa1-6e3a068acadd",
+              "name": "Merchant not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pos",
+                    "v1",
+                    "merchant",
+                    ":merchant_id",
+                    "schedules",
+                    "catering"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "merchant_id",
+                      "description": "(Required) The unique identifier for the merchant on Grubhub."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"monday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"tuesday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"wednesday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"thursday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"friday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"saturday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  },\n  \"sunday\": {\n    \"open\": true,\n    \"time_windows\": [\n      {\n        \"start_time\": {},\n        \"end_time\": {}\n      }\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"invalid_request\",\n  \"message\": \"Operation completed successfully.\",\n  \"status\": 0\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-third-party-gtm.grubhub.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "f8c192fc-1997-409e-aec2-ec4592a3a03a",
+    "name": "Grubhub Deliveries Delivery Status Schedules API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Grubhub Deliveries API enables partners to manage delivery logistics and interact with Grubhub's nationwide courier network. It provides delivery status tracking through key states including driver assignment, pickup ready, and out for delivery. Partners can leverage Grubhub Connect, a full-service delivery solution for delivery aggregators, marketplaces, and enterprise merchants to fulfill orders using Grubhub drivers. The API also supports driver communication through proxy phone numbers.\n\nContact Support:\n Name: Grubhub Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

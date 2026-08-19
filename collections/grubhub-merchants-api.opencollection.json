@@ -1,0 +1,56 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Grubhub Deliveries Delivery Status Merchants API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Merchants",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Grubhub List Partner Merchants",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/merchants"
+          },
+          "docs": "Returns the internal and external merchant ID mappings associated with your partner_id. Use this endpoint to discover all Grubhub locations linked to your partner account."
+        },
+        {
+          "info": {
+            "name": "Grubhub Get Merchant Summary",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/merchant/:merchant_id",
+            "params": [
+              {
+                "name": "merchant_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the merchant on Grubhub."
+              }
+            ]
+          },
+          "docs": "Returns summary information about a merchant including store details, address, and configuration."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

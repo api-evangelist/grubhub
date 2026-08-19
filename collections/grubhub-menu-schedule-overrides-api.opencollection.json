@@ -1,0 +1,74 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Grubhub Deliveries Delivery Status Menu Schedule Overrides API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Menu Schedule Overrides",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Grubhub Update Menu Schedule Overrides",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/merchant/:merchant_id/menu/schedules/overrides/external",
+            "params": [
+              {
+                "name": "merchant_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the merchant on Grubhub."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates or updates menu schedule overrides for a merchant. Schedule overrides allow temporary changes to menu availability, such as making certain items unavailable during specific time periods."
+        },
+        {
+          "info": {
+            "name": "Grubhub Get Menu Schedule Override Job Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/merchant/:merchant_id/menu/schedules/overrides/:job_id/status",
+            "params": [
+              {
+                "name": "merchant_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the merchant on Grubhub."
+              },
+              {
+                "name": "job_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the ingestion or override job."
+              }
+            ]
+          },
+          "docs": "Returns the status of a menu schedule override job for a merchant."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

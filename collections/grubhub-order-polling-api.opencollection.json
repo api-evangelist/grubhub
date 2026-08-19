@@ -1,0 +1,57 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Grubhub Deliveries Delivery Status Order Polling API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Order Polling",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Grubhub Poll Orders Across Merchants",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/orders/poll",
+            "params": [
+              {
+                "name": "status",
+                "value": "ACTIVE",
+                "type": "query",
+                "description": "Filter orders by their current status."
+              },
+              {
+                "name": "start_date",
+                "value": "2026-06-02T18:30:00Z",
+                "type": "query",
+                "description": "Start of the date range filter in ISO 8601 format."
+              },
+              {
+                "name": "end_date",
+                "value": "2026-06-02T18:30:00Z",
+                "type": "query",
+                "description": "End of the date range filter in ISO 8601 format."
+              }
+            ]
+          },
+          "docs": "Returns all orders for a group of merchants in a given state within the given time range. This is a fallback mechanism; new orders should primarily be received through webhook subscriptions rather than periodic polling."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

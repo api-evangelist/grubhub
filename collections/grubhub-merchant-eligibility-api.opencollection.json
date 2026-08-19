@@ -1,0 +1,45 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Grubhub Deliveries Delivery Status Merchant Eligibility API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Merchant Eligibility",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Grubhub Get Merchant Eligibility",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/onboarding/eligibility/:merchant_id",
+            "params": [
+              {
+                "name": "merchant_id",
+                "value": "ghm-1234567890",
+                "type": "path",
+                "description": "The identifier of the merchant to check eligibility for."
+              }
+            ]
+          },
+          "docs": "Checks whether a merchant is eligible for onboarding with the partner. Returns eligibility status and any requirements that must be met before the merchant can be onboarded."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

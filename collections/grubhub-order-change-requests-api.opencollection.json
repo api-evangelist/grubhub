@@ -1,0 +1,51 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Grubhub Deliveries Delivery Status Order Change Requests API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Order Change Requests",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Grubhub Get Order Change Requests",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/merchant/:merchant_long_id/orders/:order_uuid/changerequests",
+            "params": [
+              {
+                "name": "merchant_long_id",
+                "value": "",
+                "type": "path",
+                "description": "The long-form unique identifier for the merchant on Grubhub."
+              },
+              {
+                "name": "order_uuid",
+                "value": "",
+                "type": "path",
+                "description": "The UUID of the order."
+              }
+            ]
+          },
+          "docs": "Returns the status of order change requests for a specific order. Change requests may include modifications to items, quantities, or special instructions."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

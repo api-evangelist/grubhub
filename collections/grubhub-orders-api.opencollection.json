@@ -1,0 +1,88 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Grubhub Deliveries Delivery Status Orders API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Orders",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Grubhub Get a Single Order",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/merchant/:merchant_long_id/orders/:order_uuid",
+            "params": [
+              {
+                "name": "merchant_long_id",
+                "value": "",
+                "type": "path",
+                "description": "The long-form unique identifier for the merchant on Grubhub."
+              },
+              {
+                "name": "order_uuid",
+                "value": "",
+                "type": "path",
+                "description": "The UUID of the order."
+              }
+            ]
+          },
+          "docs": "Returns a single order requested by its UUID for the specified merchant. Includes complete order details such as items, totals, delivery information, and current status."
+        },
+        {
+          "info": {
+            "name": "Grubhub List Orders for a Merchant",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-third-party-gtm.grubhub.com/pos/v1/merchant/:merchant_long_id/orders",
+            "params": [
+              {
+                "name": "merchant_long_id",
+                "value": "",
+                "type": "path",
+                "description": "The long-form unique identifier for the merchant on Grubhub."
+              },
+              {
+                "name": "status",
+                "value": "PENDING",
+                "type": "query",
+                "description": "Filter orders by their current status."
+              },
+              {
+                "name": "start_date",
+                "value": "2026-06-02T18:30:00Z",
+                "type": "query",
+                "description": "Start of the date range filter in ISO 8601 format."
+              },
+              {
+                "name": "end_date",
+                "value": "2026-06-02T18:30:00Z",
+                "type": "query",
+                "description": "End of the date range filter in ISO 8601 format."
+              }
+            ]
+          },
+          "docs": "Returns the list of orders for the requested merchant in a given status and date range. Useful for retrieving historical orders or checking orders in specific lifecycle states."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

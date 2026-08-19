@@ -1,0 +1,224 @@
+{
+  "item": [
+    {
+      "id": "d24bd64a-1c42-4cc1-8fb8-208329bbbd86",
+      "name": "Order Polling",
+      "description": {
+        "content": "Endpoints for polling orders across multiple merchants. Webhook subscription is the preferred method for receiving new orders.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f0dd23a3-616a-4ebf-b969-f6b9040b42bd",
+          "name": "Grubhub Poll Orders Across Merchants",
+          "request": {
+            "name": "Grubhub Poll Orders Across Merchants",
+            "description": {
+              "content": "Returns all orders for a group of merchants in a given state within the given time range. This is a fallback mechanism; new orders should primarily be received through webhook subscriptions rather than periodic polling.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "pos",
+                "v1",
+                "orders",
+                "poll"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>",
+                  "description": "Filter orders by their current status."
+                },
+                {
+                  "disabled": false,
+                  "key": "start_date",
+                  "value": "<dateTime>",
+                  "description": "Start of the date range filter in ISO 8601 format."
+                },
+                {
+                  "disabled": false,
+                  "key": "end_date",
+                  "value": "<dateTime>",
+                  "description": "End of the date range filter in ISO 8601 format."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ffd69866-5280-4b2b-bc5a-8eb1af9e7ac7",
+              "name": "List of orders matching criteria",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pos",
+                    "v1",
+                    "orders",
+                    "poll"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "status",
+                      "value": "ACTIVE"
+                    },
+                    {
+                      "key": "start_date",
+                      "value": "2026-06-02T18:30:00Z"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "2026-06-02T18:30:00Z"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"orders\": [\n    {\n      \"order_uuid\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n      \"merchant_id\": \"ghm-1234567890\",\n      \"status\": \"PENDING\",\n      \"placed_at\": \"2026-06-02T18:30:00Z\",\n      \"estimated_delivery_at\": \"2026-06-02T18:30:00Z\",\n      \"fulfillment_type\": \"DELIVERY\",\n      \"customer\": {\n        \"first_name\": \"Jordan\",\n        \"last_name\": \"Rivera\",\n        \"phone\": \"+13125550142\"\n      },\n      \"items\": [\n        {\n          \"item_id\": {},\n          \"name\": {},\n          \"quantity\": {},\n          \"price\": {},\n          \"modifiers\": {},\n          \"special_instructions\": {}\n        }\n      ],\n      \"totals\": {\n        \"subtotal\": 18.5,\n        \"tax\": 1.25,\n        \"delivery_fee\": 2.99,\n        \"tip\": 3,\n        \"total\": 25.74\n      },\n      \"delivery_address\": {\n        \"street_address\": \"111 W Washington St\",\n        \"apt_suite\": \"Suite 2100\",\n        \"city\": \"Chicago\",\n        \"state\": \"IL\",\n        \"zip\": \"60602\",\n        \"latitude\": 41.8781,\n        \"longitude\": -87.6298\n      },\n      \"special_instructions\": \"Leave at the front desk.\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2b71c8e5-1efb-4274-ab66-cc3f50c34d34",
+              "name": "Authentication failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pos",
+                    "v1",
+                    "orders",
+                    "poll"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "status",
+                      "value": "ACTIVE"
+                    },
+                    {
+                      "key": "start_date",
+                      "value": "2026-06-02T18:30:00Z"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "2026-06-02T18:30:00Z"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"invalid_request\",\n  \"message\": \"Operation completed successfully.\",\n  \"status\": 0\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-third-party-gtm.grubhub.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "2ccc3ecf-4907-4ca8-b568-b87382bd8da3",
+    "name": "Grubhub Deliveries Delivery Status Order Polling API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Grubhub Deliveries API enables partners to manage delivery logistics and interact with Grubhub's nationwide courier network. It provides delivery status tracking through key states including driver assignment, pickup ready, and out for delivery. Partners can leverage Grubhub Connect, a full-service delivery solution for delivery aggregators, marketplaces, and enterprise merchants to fulfill orders using Grubhub drivers. The API also supports driver communication through proxy phone numbers.\n\nContact Support:\n Name: Grubhub Developer Support",
+      "type": "text/plain"
+    }
+  }
+}
