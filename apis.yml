@@ -1,4 +1,5 @@
 aid: grubhub
+specificationVersion: '0.23'
 accessModel:
   pricing: paid
   onboarding: self-serve
