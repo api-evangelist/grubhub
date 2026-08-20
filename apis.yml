@@ -421,6 +421,8 @@ apis:
   humanURL: https://developer.grubhub.com/api/menu
   baseURL: https://api.grubhub.com
   tags:
+  - Order
+  tags_raw:
   - Orders
   properties:
   - type: OpenAPI
