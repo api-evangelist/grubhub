@@ -516,6 +516,9 @@ apis:
   - type: Documentation
     url: https://developer.grubhub.com/api/onboarding
 common:
+- type: CapabilityMap
+  url: capabilities/grubhub-capability-edges.yml
+  name: grubhub Business Capability Map
 - type: AgenticAccess
   url: agentic-access/grubhub-agentic-access.yml
 - type: DomainSecurity
