@@ -28,7 +28,7 @@ accessModel:
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/grubhub.png
 url: https://raw.githubusercontent.com/api-evangelist/grubhub/refs/heads/main/apis.yml
-modified: '2026-05-19'
+modified: '2026-09-16'
 apis:
 - aid: grubhub:grubhub-delivery-status-api
   name: grubhub Delivery Status API
@@ -60,8 +60,7 @@ apis:
     url: https://developer.grubhub.com/api/onboarding
 - aid: grubhub:grubhub-driver-communication-api
   name: grubhub Driver Communication API
-  description: >-
-    Endpoints for establishing communication with delivery drivers through proxy phone numbers.
+  description: Endpoints for establishing communication with delivery drivers through proxy phone numbers.
   humanURL: https://developer.grubhub.com/api/menu
   baseURL: https://api.grubhub.com
   tags:
@@ -117,8 +116,8 @@ apis:
     url: https://developer.grubhub.com/api/onboarding
 - aid: grubhub:grubhub-menu-ingestion-api
   name: grubhub Menu Ingestion API
-  description: >-
-    Endpoints for uploading and managing normalized menus including schedules, sections, items, and modifiers.
+  description: Endpoints for uploading and managing normalized menus including schedules, sections, items,
+    and modifiers.
   humanURL: https://developer.grubhub.com/api/menu
   baseURL: https://api.grubhub.com
   tags:
@@ -230,8 +229,8 @@ apis:
     url: https://developer.grubhub.com/api/onboarding
 - aid: grubhub:grubhub-merchant-onboarding-api
   name: grubhub Merchant Onboarding API
-  description: >-
-    Endpoints for onboarding merchants to the Grubhub platform, including referrals, activation, and association.
+  description: Endpoints for onboarding merchants to the Grubhub platform, including referrals, activation,
+    and association.
   humanURL: https://developer.grubhub.com/api/menu
   baseURL: https://api.grubhub.com
   tags:
@@ -287,8 +286,8 @@ apis:
     url: https://developer.grubhub.com/api/onboarding
 - aid: grubhub:grubhub-merchant-status-api
   name: grubhub Merchant Status API
-  description: >-
-    Endpoints for managing merchant online/offline status on Grubhub, including soft and hard pauses.
+  description: Endpoints for managing merchant online/offline status on Grubhub, including soft and hard
+    pauses.
   humanURL: https://developer.grubhub.com/api/menu
   baseURL: https://api.grubhub.com
   tags:
@@ -372,9 +371,8 @@ apis:
     url: https://developer.grubhub.com/api/onboarding
 - aid: grubhub:grubhub-order-polling-api
   name: grubhub Order Polling API
-  description: >-
-    Endpoints for polling orders across multiple merchants. Webhook subscription is the preferred method
-    for receiving new orders.
+  description: Endpoints for polling orders across multiple merchants. Webhook subscription is the preferred
+    method for receiving new orders.
   humanURL: https://developer.grubhub.com/api/menu
   baseURL: https://api.grubhub.com
   tags:
@@ -460,8 +458,8 @@ apis:
     url: https://developer.grubhub.com/api/onboarding
 - aid: grubhub:grubhub-schedule-overrides-api
   name: grubhub Schedule Overrides API
-  description: >-
-    Endpoints for creating and managing temporary schedule overrides such as closures and holiday hours.
+  description: Endpoints for creating and managing temporary schedule overrides such as closures and holiday
+    hours.
   humanURL: https://developer.grubhub.com/api/menu
   baseURL: https://api.grubhub.com
   tags:
@@ -489,8 +487,8 @@ apis:
     url: https://developer.grubhub.com/api/onboarding
 - aid: grubhub:grubhub-schedules-api
   name: grubhub Schedules API
-  description: >-
-    Endpoints for retrieving and managing merchant operating hours for delivery, pickup, and catering.
+  description: Endpoints for retrieving and managing merchant operating hours for delivery, pickup, and
+    catering.
   humanURL: https://developer.grubhub.com/api/menu
   baseURL: https://api.grubhub.com
   tags:
@@ -517,6 +515,8 @@ apis:
   - type: Documentation
     url: https://developer.grubhub.com/api/onboarding
 common:
+- type: Website
+  url: https://grubhub.com
 - type: CapabilityMap
   url: capabilities/grubhub-capability-edges.yml
   name: grubhub Business Capability Map
@@ -552,7 +552,6 @@ common:
   url: finops/grubhub-finops.yml
 - type: Blog
   url: https://get.grubhub.com/blog/feed/
-description: Grubhub works with brands, point of sale companies, and online ordering
-  providers to power an ordering experience in Grubhub Marketplace and within restaurant-branded
-  web experiences. This documentation describes the normalized endpoints required
-  for ingesting menu content and facilitating order transmission.
+description: Grubhub works with brands, point of sale companies, and online ordering providers to power
+  an ordering experience in Grubhub Marketplace and within restaurant-branded web experiences. This documentation
+  describes the normalized endpoints required for ingesting menu content and facilitating order transmission.
