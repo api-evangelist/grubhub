@@ -2,16 +2,16 @@
 kin_checks:
   slug: grubhub
   schema_version: 0.22.0
-  scored_at: '2026-09-18'
-  run_ts: 2026-09-18T231945
+  scored_at: '2026-09-19'
+  run_ts: 2026-09-19T193153
   note: Actionable checks (missed + partial) in `checks`, plus the ids that did not
     apply in `na`. Everything else in rubric/scoring-0.22.0.yml was earned; counts
     below let you verify that.
   counts:
     total: 136
-    earned: 51
+    earned: 47
     partial: 21
-    missed: 39
+    missed: 43
     na: 25
   checks:
   - id: well_known_published
@@ -58,7 +58,16 @@ kin_checks:
     status: missed
   - id: examples_published
     status: missed
+  - id: portal_present
+    status: missed
+    detail: pointer liveness 0.0
   - id: documentation_present
+    status: missed
+    detail: pointer liveness 0.0
+  - id: api_reference_present
+    status: missed
+    detail: pointer liveness 0.0
+  - id: getting_started_present
     status: missed
     detail: pointer liveness 0.0
   - id: sdk_count_1
@@ -69,6 +78,9 @@ kin_checks:
     status: missed
   - id: postman_present
     status: missed
+  - id: sign_up_present
+    status: missed
+    detail: pointer liveness 0.0
   - id: compliance_published
     status: missed
   - id: trust_center

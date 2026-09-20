@@ -4,13 +4,26 @@
     {
       "source": "https://get.grubhub.com/blog/",
       "feed_url": "https://get.grubhub.com/blog/feed/",
-      "title": "The Feed | Blog | Grubhub for Restaurants",
+      "title": "",
       "saved": 0,
-      "nature": "vendor-blog",
-      "nature_basis": "path_blog"
+      "method": "discovered"
+    },
+    {
+      "source": "https://www.linkedin.com/company/grubhub-seamless",
+      "feed_url": "https://www.linkedin.com/company/grubhub-seamless",
+      "title": "",
+      "saved": 0,
+      "method": "none"
+    },
+    {
+      "source": "https://get.grubhub.com/blog/feed/",
+      "feed_url": "https://get.grubhub.com/blog/feed/",
+      "title": "",
+      "saved": 0,
+      "method": "feed"
     }
   ],
-  "fetched": "2026-09-13T12:41:53Z",
+  "fetched": "2026-09-19T20:17:39Z",
   "post_count": 9,
   "feed_nature": "vendor-blog",
   "feed_nature_basis": "path_blog",
