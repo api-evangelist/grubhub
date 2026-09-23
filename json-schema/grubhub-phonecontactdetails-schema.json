@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-phonecontactdetails-schema.json",
+  "title": "PhoneContactDetails",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/PhoneContactDetails",
+  "required": [
+    "phone_number"
+  ],
+  "type": "object",
+  "properties": {
+    "phone_number": {
+      "pattern": "^\\+\\d{11}$",
+      "type": "string",
+      "description": "A E.164 formatted phone number. Only 11-digits are supported.",
+      "example": "+16145552332"
+    }
+  },
+  "description": "The phone contact details."
+}

@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-postaxtotal-schema.json",
+  "title": "PosTaxTotal",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-orders-openapi.yml#/components/schemas/PosTaxTotal",
+  "type": "object",
+  "properties": {
+    "tax": {
+      "type": "integer",
+      "description": "The value of the tax. Depending on the type, this is either the updated tax amount in cents or the amount, in cents, that the Grubhub-calculated tax is off by.",
+      "format": "int32"
+    },
+    "type": {
+      "type": "string",
+      "description": "Type of tax. Whether to set the tax using an ABSOLUTE value - the tax will be set to the amount specified - or RELATIVE - the tax will be adjusted by the tax value.",
+      "enum": [
+        "ABSOLUTE",
+        "RELATIVE",
+        "ABSOLUTE",
+        "RELATIVE"
+      ]
+    },
+    "null": {
+      "type": "boolean"
+    }
+  },
+  "description": "Corrected tax for an order."
+}

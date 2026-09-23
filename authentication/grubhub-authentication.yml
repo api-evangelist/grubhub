@@ -1,7 +1,16 @@
-generated: '2026-07-11'
-method: derived
-source: openapi/grubhub-deliveries-openapi.yml, openapi/grubhub-menu-openapi.yml, openapi/grubhub-merchant-data-openapi.yml,
-  openapi/grubhub-merchant-schedules-openapi.yml, openapi/grubhub-onboarding-openapi.yml, openapi/grubhub-orders-openapi.yml
+generated: '2026-09-17'
+method: searched
+source: >-
+  openapi/_harvested/*.json (Grubhub's own twelve OpenAPI documents, fetched 2026-09-17 from
+  https://developer.grubhub.com/resource/partner-docs/api-docs/) plus the live RFC 8414 document
+  at https://api-third-party-gtm.grubhub.com/.well-known/oauth-authorization-server
+note: >-
+  Grubhub's partner OpenAPI documents declare NO components.securitySchemes. Authentication is
+  expressed instead as an explicit X-GH-PARTNER-KEY request header on 31 operations across the
+  Connect (DaaS), Menu, Orders, Onboarding and Reporting documents, and the Onboarding document
+  states in prose that merchant association/deactivation is validated "using Oauth2". The
+  OAuth authorization server is real and discoverable: it publishes RFC 8414 metadata
+  anonymously on both partner hosts.
 summary:
   types:
   - apiKey
@@ -9,27 +18,68 @@ summary:
   api_key_in:
   - header
   oauth2_flows:
-  - clientCredentials
+  - authorization_code
+  securityschemes_declared_in_spec: false
+  mfa_or_signing: unknown
 schemes:
-- name: hmacAuth
+- name: partnerKey
   type: apiKey
   in: header
-  parameter: Authorization
-  description: HMAC-based authentication. Every request must include X-GH-PARTNER-KEY and an
-    Authorization header with MAC authentication details.
-  sources:
-  - openapi/grubhub-deliveries-openapi.yml
-  - openapi/grubhub-menu-openapi.yml
-  - openapi/grubhub-merchant-data-openapi.yml
-  - openapi/grubhub-merchant-schedules-openapi.yml
-  - openapi/grubhub-orders-openapi.yml
-- name: oauthAuth
-  type: oauth2
-  flows:
-  - flow: clientCredentials
-    tokenUrl: /oauth2/direct/auth
-    scopes: 0
-  description: OAuth 2.0 authentication for the Onboarding API. Partners use OAuth to authenticate
-    merchant onboarding operations.
-  sources:
+  parameter: X-GH-PARTNER-KEY
+  format: uuid
+  required_in_spec: mixed
+  description: >-
+    Partner identity key issued by Grubhub during partner onboarding. Declared as a header
+    parameter on 31 operations. It is required:true on the eight Onboarding operations (schema
+    type string, format uuid) and required:false on the Connect (DaaS), Orders, Menu and
+    Reporting operations that declare it.
+  operations: 31
+  evidence:
+  - openapi/grubhub-connect-endpoints-openapi.yml
   - openapi/grubhub-onboarding-openapi.yml
+  - openapi/grubhub-orders-openapi.yml
+  - openapi/grubhub-menu-openapi.yml
+  - openapi/grubhub-reporting-endpoints-openapi.yml
+- name: grubhubOAuth
+  type: oauth2
+  description: >-
+    Grubhub runs an RFC 8414 OAuth 2.0 authorization server whose metadata is served
+    anonymously from the partner API hosts. It advertises dynamic client registration
+    (RFC 7591), PKCE with S256 and plain, client_secret_post token endpoint authentication,
+    and the scopes openid and diner.
+  discovery: well-known/grubhub-oauth-authorization-server.json
+  issuer: https://api-gtm.grubhub.com
+  authorization_endpoint: https://api-gtm.grubhub.com/oauth2/authorize
+  token_endpoint: https://api-gtm.grubhub.com/oauth2/token
+  registration_endpoint: https://api-gtm.grubhub.com/oauth/register
+  token_endpoint_auth_methods_supported:
+  - client_secret_post
+  code_challenge_methods_supported:
+  - S256
+  - plain
+  scopes_supported:
+  - openid
+  - diner
+  service_documentation: https://developer.grubhub.com
+  evidence:
+  - url: https://api-third-party-gtm.grubhub.com/.well-known/oauth-authorization-server
+    status: 200
+    fetched: '2026-09-17'
+environments:
+- name: production
+  base_url: https://api-third-party-gtm.grubhub.com
+  issuer: https://api-gtm.grubhub.com
+- name: preproduction
+  base_url: https://api-third-party-gtm-pp.grubhub.com
+  issuer: https://api-order-taking-pp.grubhub.com
+  evidence:
+  - url: https://api-third-party-gtm-pp.grubhub.com/.well-known/oauth-authorization-server
+    status: 200
+    fetched: '2026-09-17'
+gaps:
+- No securitySchemes block in any published OpenAPI document, so no operation carries a machine-readable
+  security requirement; a client cannot tell from the contract which credential an operation needs.
+- No /.well-known/openid-configuration and no jwks_uri published on any host probed.
+- No /.well-known/oauth-protected-resource, so the resource-server side of RFC 9728 is undiscoverable.
+- The prose auth guide lives on developer.grubhub.com, which renders client-side from Contentful and
+  is not machine-readable.

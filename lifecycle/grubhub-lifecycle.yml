@@ -1,0 +1,82 @@
+generated: '2026-09-17'
+method: derived
+source: >-
+  openapi/_harvested/*.json (path-segment versions, deprecation flags) plus live probes of
+  status.grubhub.com, grubhub.statuspage.io, developer.grubhub.com/changelog and
+  developer.grubhub.com/release-notes on 2026-09-17
+versioning:
+  style: uri-path
+  note: >-
+    Every operation carries its version in the path segment. Four independent version lines run in
+    parallel and they are NOT synchronised with each other.
+  lines:
+  - prefix: /pos/v1
+    surface: Marketplace - Menu, Orders, Merchant Data, Merchant Schedules, Deliveries, Busy Intervals, Testing
+    operations: 62
+  - prefix: /pos/v2
+    surface: Merchant Data - order-type-aware merchant status
+    operations: 3
+    note: >-
+      v2 runs alongside v1 for merchant status. PUT /pos/v2/merchant/{merchant_id}/pos-status
+      supersedes PUT /pos/v1/merchant/{merchant_id}/pos-status, but the v1 operation is still
+      published and is NOT marked deprecated.
+  - prefix: /delivery/daas/v1
+    surface: Grubhub Connect (delivery-as-a-service)
+    operations: 15
+  - prefix: /merchant/onboarding/v1
+    surface: Onboarding
+    operations: 8
+  - prefix: /merchant/reporting/v1
+    surface: Reporting
+    operations: 3
+  info_version_declared: false
+  info_version_note: >-
+    None of the twelve documents carries an info.version. A consumer cannot tell one published
+    revision of the contract from another, and there is no ETag, date or build stamp in the JSON.
+deprecation:
+  policy_published: false
+  deprecated_operations: 0
+  sunset_header: false
+  note: >-
+    No operation in any of the twelve documents sets deprecated:true, no Sunset or Deprecation
+    response header (RFC 8594) is declared anywhere, and no deprecation-policy page exists on the
+    developer portal route table (the portal's router exposes only Browse, /api/:apiDocParam and
+    /docs/:articleId/:slug).
+  observable_succession:
+  - superseded: PUT /pos/v1/merchant/{merchant_id}/pos-status (heartbeatStatusChangeTriggered)
+    by: PUT /pos/v2/merchant/{merchant_id}/pos-status (updateMerchantStatusByOrderType)
+    signalled_in_contract: false
+  - superseded: PUT /pos/v1/merchant/pos-status (heartbeatStatusChangeTriggeredBatch)
+    by: PUT /pos/v2/merchant/pos-status (updateMerchantStatusByOrderTypeBatch)
+    signalled_in_contract: false
+status_page:
+  published: false
+  evidence:
+  - url: https://status.grubhub.com/
+    status: 500
+  - url: https://grubhub.statuspage.io/
+    status: 200
+    note: >-
+      Redirects to https://grubhub.statuspage.io/inactive - the Statuspage tenant exists but has
+      been deactivated. There is no live status page for the partner APIs.
+changelog:
+  published: false
+  evidence:
+  - url: https://developer.grubhub.com/changelog
+    status: 200
+    note: >-
+      Soft 404. developer.grubhub.com returns the 6,223-byte single-page-app shell for every
+      extensionless path; the app's own router (PagePath enum in the published bundle) defines
+      only Browse, /api/:apiDocParam and /docs/:articleId/:slug. No changelog route exists.
+  - url: https://developer.grubhub.com/release-notes
+    status: 200
+    note: Same soft 404.
+sla:
+  published: false
+  note: No public SLA. Partner terms are negotiated through the Grubhub partner program.
+environments:
+- name: production
+  base_url: https://api-third-party-gtm.grubhub.com
+- name: preproduction
+  base_url: https://api-third-party-gtm-pp.grubhub.com
+  note: Declared in servers[] of all twelve documents; see sandbox/grubhub-sandbox.yml.

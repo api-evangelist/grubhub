@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-repeatingschedule-schema.json",
+  "title": "RepeatingSchedule",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-menu-openapi.yml#/components/schemas/RepeatingSchedule",
+  "required": [
+    "external_id",
+    "name",
+    "rules"
+  ],
+  "type": "object",
+  "properties": {
+    "external_id": {
+      "type": "string",
+      "description": "The merchant-set ID for this schedule, which can be used to link it in the `PosNormalizedMenu`."
+    },
+    "name": {
+      "type": "string",
+      "description": "The display name for this schedule, e.g. \"Sunday Brunch\""
+    },
+    "type": {
+      "type": "string",
+      "description": "How often this schedule repeats. Currently the only valid value is \"WEEKLY\".",
+      "enum": [
+        "WEEKLY"
+      ]
+    },
+    "rules": {
+      "type": "array",
+      "description": "A set of non-overlapping time periods.",
+      "items": {
+        "$ref": "#/$defs/RepeatingScheduleRule"
+      }
+    }
+  },
+  "description": "Information about a weekly schedule during which a menu item may be made available. Typical usages include Breakfast, Lunch, Dinner, Weekend Brunch, etc.",
+  "$defs": {
+    "RepeatingScheduleRule": {
+      "required": [
+        "end_time",
+        "start_time"
+      ],
+      "type": "object",
+      "properties": {
+        "days": {
+          "uniqueItems": true,
+          "type": "array",
+          "description": "Days of the week for which the time period applies. Must be one of [MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY]",
+          "items": {
+            "type": "string",
+            "description": "Days of the week for which the time period applies. Must be one of [MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY]",
+            "enum": [
+              "MONDAY",
+              "TUESDAY",
+              "WEDNESDAY",
+              "THURSDAY",
+              "FRIDAY",
+              "SATURDAY",
+              "SUNDAY"
+            ]
+          }
+        },
+        "start_time": {
+          "type": "string",
+          "description": "The time when this schedule begins on the days listed, in the merchant's local time. Must conform to ISO date and time format",
+          "example": "09:30:00.000"
+        },
+        "end_time": {
+          "type": "string",
+          "description": "The time when this schedule ends on the days listed, in the merchant's local time. Must conform to ISO date and time format",
+          "example": "22:30:00.000"
+        }
+      },
+      "description": "A time period and repetition rule."
+    }
+  }
+}

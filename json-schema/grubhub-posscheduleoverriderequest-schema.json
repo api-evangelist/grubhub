@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-posscheduleoverriderequest-schema.json",
+  "title": "PosScheduleOverrideRequest",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-merchant-schedules-openapi.yml#/components/schemas/PosScheduleOverrideRequest",
+  "required": [
+    "type"
+  ],
+  "type": "object",
+  "properties": {
+    "start": {
+      "type": "string",
+      "description": "Start time of the override duration in the merchant's local time. If you do not specify a start and end, then the override will take effect immediately.",
+      "format": "date-time"
+    },
+    "end": {
+      "type": "string",
+      "description": "End time of the override duration in the merchant's local time. If you do not specify a start and end, then the override will take effect immediately.",
+      "format": "date-time"
+    },
+    "type": {
+      "type": "string",
+      "description": "Type of schedule override. \"UNAVAILABLE\" is a duration when the merchant should be closed, when normally they would be open. \"AVAILABLE\" is a duration when the merchant should be open, when normally they would be closed.",
+      "enum": [
+        "WHITEIN",
+        "BLACKOUT",
+        "UNPAUSE",
+        "AVAILABLE",
+        "UNAVAILABLE",
+        "AVAILABLE",
+        "UNAVAILABLE"
+      ]
+    },
+    "schedule_name": {
+      "type": "string",
+      "description": "Type of schedule. If not specified, defaults to \"DELIVERY\"",
+      "enum": [
+        "DELIVERY",
+        "PICKUP",
+        "CATERING",
+        "GROUP"
+      ]
+    }
+  },
+  "description": "Request body for creating a new schedule override. You must specify both a start or end, or neither. You must include the field schedule_name or by default it will be set to DELIVERY."
+}

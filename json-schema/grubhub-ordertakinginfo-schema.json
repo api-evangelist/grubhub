@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-ordertakinginfo-schema.json",
+  "title": "OrderTakingInfo",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-merchant-data-openapi.yml#/components/schemas/OrderTakingInfo",
+  "type": "object",
+  "properties": {
+    "managed_delivery": {
+      "type": "boolean",
+      "description": "Whether or not the merchant is managed delivery enabled."
+    },
+    "special_instructions_disabled": {
+      "type": "boolean",
+      "description": "Describes whether this merchant has disabled special ordering instructions or not."
+    },
+    "driver_pickup_instructions": {
+      "type": "string",
+      "description": "Describes how a delivery driver should pick up orders from merchant."
+    }
+  },
+  "description": "Contains order taking info for a merchant."
+}

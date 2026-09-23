@@ -1,0 +1,762 @@
+generated: '2026-09-17'
+method: derived
+source: openapi/_harvested/*.json - the twelve first-party Grubhub OpenAPI documents fetched 2026-09-17
+status: candidate
+note: 'Grubhub publishes NO MCP server. Searched the npm registry, PyPI, the developer portal and both
+  GitHub organizations on 2026-09-17: the only result is @striderlabs/mcp-grubhub, a third-party package
+  from Strider Labs that wraps the consumer ordering surface and is not referenced anywhere by Grubhub.
+  The tool list below is a CANDIDATE derived mechanically from the 91 operations of Grubhub''s own OpenAPI
+  documents. No endpoint is asserted and none was guessed. No MCPServer pointer is wired into apis.yml,
+  because a candidate is not a surface the provider serves.'
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: api-key
+  verified: derived
+  note: Nobody ships an MCP server for the Grubhub partner APIs. mode:none records a derived candidate.
+third_party_servers:
+- name: '@striderlabs/mcp-grubhub'
+  registry: npm
+  version: 0.2.1
+  published: '2026-06-17'
+  publisher: Strider Labs
+  official: false
+  url: https://www.npmjs.com/package/@striderlabs/mcp-grubhub
+  note: Third-party. Targets the consumer ordering experience, not the partner APIs in openapi/.
+auth:
+  style: api-key-header
+  header: X-GH-PARTNER-KEY
+  note: Any real server would need a partner key issued through Grubhub partner onboarding; there is no
+    self-serve credential.
+tool_count: 91
+tools:
+- name: update_busy_mode
+  description: Update an active busy interval
+  rest:
+    method: PUT
+    path: /pos/v1/merchant/{merchant_id}/busy/{busy_interval_id}
+  operationId: updateBusyMode
+  spec: openapi/grubhub-busy-intervals-openapi.yml
+  mutating: true
+- name: get_busy_mode
+  description: Get the current busy interval
+  rest:
+    method: GET
+    path: /pos/v1/merchant/{merchant_id}/busy
+  operationId: getBusyMode
+  spec: openapi/grubhub-busy-intervals-openapi.yml
+  mutating: false
+- name: set_busy_mode
+  description: Mark restaurant as busy
+  rest:
+    method: POST
+    path: /pos/v1/merchant/{merchant_id}/busy
+  operationId: setBusyMode
+  spec: openapi/grubhub-busy-intervals-openapi.yml
+  mutating: true
+- name: delete_active_busy_mode
+  description: Clear the active busy interval
+  rest:
+    method: DELETE
+    path: /pos/v1/merchant/{merchant_id}/busy
+  operationId: deleteActiveBusyMode
+  spec: openapi/grubhub-busy-intervals-openapi.yml
+  mutating: true
+- name: update_courier_tip
+  description: Increase courier tip
+  rest:
+    method: POST
+    path: /delivery/daas/v1/{deliveryId}/tip
+  operationId: updateCourierTip
+  spec: openapi/grubhub-connect-endpoints-openapi.yml
+  mutating: true
+- name: request_refund
+  description: Request a delivery refund
+  rest:
+    method: POST
+    path: /delivery/daas/v1/{deliveryId}/refund
+  operationId: requestRefund
+  spec: openapi/grubhub-connect-endpoints-openapi.yml
+  mutating: true
+- name: create_proxy_phone_number
+  description: Create proxy courier phone number
+  rest:
+    method: POST
+    path: /delivery/daas/v1/{deliveryId}/proxy
+  operationId: createProxyPhoneNumber
+  spec: openapi/grubhub-connect-endpoints-openapi.yml
+  mutating: true
+- name: update_pickup_verification
+  description: Update pickup verification
+  rest:
+    method: POST
+    path: /delivery/daas/v1/{deliveryId}/pickupVerification
+  operationId: updatePickupVerification
+  spec: openapi/grubhub-connect-endpoints-openapi.yml
+  mutating: true
+- name: pickup_ready
+  description: Update delivery to pickup ready
+  rest:
+    method: POST
+    path: /delivery/daas/v1/{deliveryId}/pickupReady
+  operationId: pickupReady
+  spec: openapi/grubhub-connect-endpoints-openapi.yml
+  mutating: true
+- name: update_delivery_dropoff_location
+  description: Update delivery information
+  rest:
+    method: POST
+    path: /delivery/daas/v1/{deliveryId}/dropoff
+  operationId: updateDeliveryDropoffLocation
+  spec: openapi/grubhub-connect-endpoints-openapi.yml
+  mutating: true
+- name: cancel_delivery
+  description: Cancel a delivery
+  rest:
+    method: POST
+    path: /delivery/daas/v1/{deliveryId}/cancel
+  operationId: cancelDelivery
+  spec: openapi/grubhub-connect-endpoints-openapi.yml
+  mutating: true
+- name: progress_refund
+  description: Progress a test refund
+  rest:
+    method: POST
+    path: /delivery/daas/v1/test/{deliveryId}/refund
+  operationId: progressRefund
+  spec: openapi/grubhub-connect-endpoints-openapi.yml
+  mutating: true
+- name: progress_delivery
+  description: Progress a test delivery
+  rest:
+    method: POST
+    path: /delivery/daas/v1/test/{deliveryId}/deliveryState
+  operationId: progressDelivery
+  spec: openapi/grubhub-connect-endpoints-openapi.yml
+  mutating: true
+- name: emulate_status_update_webhook
+  description: Emulate a delivery status update webhook
+  rest:
+    method: POST
+    path: /delivery/daas/v1/test/webhook/emulateStatusUpdateWebhook
+  operationId: emulateStatusUpdateWebhook
+  spec: openapi/grubhub-connect-endpoints-openapi.yml
+  mutating: true
+- name: emulate_refund_update_webhook
+  description: Emulate a delivery refund update webhook
+  rest:
+    method: POST
+    path: /delivery/daas/v1/test/webhook/emulateRefundUpdateWebhook
+  operationId: emulateRefundUpdateWebhook
+  spec: openapi/grubhub-connect-endpoints-openapi.yml
+  mutating: true
+- name: accept_delivery_quote
+  description: Accept delivery quote
+  rest:
+    method: POST
+    path: /delivery/daas/v1/quote/{quoteId}/accept
+  operationId: acceptDeliveryQuote
+  spec: openapi/grubhub-connect-endpoints-openapi.yml
+  mutating: true
+- name: request_delivery_quote
+  description: Request delivery quotes
+  rest:
+    method: POST
+    path: /delivery/daas/v1/quote
+  operationId: requestDeliveryQuote
+  spec: openapi/grubhub-connect-endpoints-openapi.yml
+  mutating: true
+- name: get_status
+  description: Get delivery status
+  rest:
+    method: GET
+    path: /delivery/daas/v1/{deliveryId}
+  operationId: getStatus
+  spec: openapi/grubhub-connect-endpoints-openapi.yml
+  mutating: false
+- name: get_service_areas
+  description: Get delivery service areas
+  rest:
+    method: GET
+    path: /delivery/daas/v1/servicearea
+  operationId: getServiceAreas
+  spec: openapi/grubhub-connect-endpoints-openapi.yml
+  mutating: false
+- name: get_external_delivery_by_order_uuid
+  description: Get delivery by order ID
+  rest:
+    method: GET
+    path: /pos/v1/merchant/{merchant_long_id}/orders/{order_uuid}/delivery
+  operationId: getExternalDeliveryByOrderUuid
+  spec: openapi/grubhub-deliveries-openapi.yml
+  mutating: false
+- name: get_external_delivery_by_delivery_id
+  description: Get delivery by delivery ID
+  rest:
+    method: GET
+    path: /pos/v1/deliveries/{delivery_id}
+  operationId: getExternalDeliveryByDeliveryId
+  spec: openapi/grubhub-deliveries-openapi.yml
+  mutating: false
+- name: validate_pos_menu
+  description: Validate a normalized menu
+  rest:
+    method: POST
+    path: /pos/v1/menu/ingestion/validate
+  operationId: validatePosMenu
+  spec: openapi/grubhub-menu-openapi.yml
+  mutating: true
+- name: add_or_update_pos_full_menu
+  description: Add or update a normalized menu
+  rest:
+    method: POST
+    path: /pos/v1/menu/ingestion
+  operationId: addOrUpdatePosFullMenu
+  spec: openapi/grubhub-menu-openapi.yml
+  mutating: true
+- name: bulk_add_or_update_schedules_overrides_by_external_ids
+  description: Bulk menu item schedule override operation by external IDs
+  rest:
+    method: PATCH
+    path: /pos/v1/merchant/{merchant_id}/menu/schedules/overrides/external
+  operationId: bulkAddOrUpdateSchedulesOverridesByExternalIds
+  spec: openapi/grubhub-menu-openapi.yml
+  mutating: true
+- name: get_schedules_overrides_for_merchant
+  description: Get schedule overrides for a merchant
+  rest:
+    method: GET
+    path: /pos/v1/merchant/{merchant_id}/menu/schedules/overrides
+  operationId: getSchedulesOverridesForMerchant
+  spec: openapi/grubhub-menu-openapi.yml
+  mutating: false
+- name: bulk_add_or_update_schedules_overrides_by_internal_ids
+  description: Bulk menu item schedule override operation by Grubhub internal IDs
+  rest:
+    method: PATCH
+    path: /pos/v1/merchant/{merchant_id}/menu/schedules/overrides
+  operationId: bulkAddOrUpdateSchedulesOverridesByInternalIds
+  spec: openapi/grubhub-menu-openapi.yml
+  mutating: true
+- name: tag_products_as_alcoholic
+  description: Mark items/modifiers as alcoholic
+  rest:
+    method: PATCH
+    path: /pos/v1/merchant/{merchant_id}/menu/entities/tags/alcohol
+  operationId: tagProductsAsAlcoholic
+  spec: openapi/grubhub-menu-openapi.yml
+  mutating: true
+- name: get_bulk_schedule_override_status
+  description: Get bulk schedule override job status
+  rest:
+    method: GET
+    path: /pos/v1/merchant/{merchant_id}/menu/schedules/overrides/{job_id}/status
+  operationId: getBulkScheduleOverrideStatus
+  spec: openapi/grubhub-menu-openapi.yml
+  mutating: false
+- name: find_normalized_menu
+  description: Retrieve a normalized menu for a given merchant ID
+  rest:
+    method: GET
+    path: /pos/v1/merchant/{merchant_id}/menu/normalized
+  operationId: findNormalizedMenu
+  spec: openapi/grubhub-menu-openapi.yml
+  mutating: false
+- name: get_bulk_supplemental_tag_status
+  description: Check supplemental tag job status
+  rest:
+    method: GET
+    path: /pos/v1/merchant/{merchant_id}/menu/entities/tags/{job_id}/status
+  operationId: getBulkSupplementalTagStatus
+  spec: openapi/grubhub-menu-openapi.yml
+  mutating: false
+- name: get_menu_ingestion_status
+  description: Check ingestion job status
+  rest:
+    method: GET
+    path: /pos/v1/menu/ingestion/jobs/{job_id}
+  operationId: getMenuIngestionStatus
+  spec: openapi/grubhub-menu-openapi.yml
+  mutating: false
+- name: update_merchant_status_by_order_type
+  description: Set the status of a merchant to online or offline for specific order types
+  rest:
+    method: PUT
+    path: /pos/v2/merchant/{merchant_id}/pos-status
+  operationId: updateMerchantStatusByOrderType
+  spec: openapi/grubhub-merchant-data-openapi.yml
+  mutating: true
+- name: update_merchant_status_by_order_type_batch
+  description: Set the status of a batch of merchants to online or offline by order type
+  rest:
+    method: PUT
+    path: /pos/v2/merchant/pos-status
+  operationId: updateMerchantStatusByOrderTypeBatch
+  spec: openapi/grubhub-merchant-data-openapi.yml
+  mutating: true
+- name: get_merchant_tax_rate
+  description: Get a merchant's tax rate
+  rest:
+    method: GET
+    path: /pos/v1/merchant/{merchant_id}/taxrate
+  operationId: getMerchantTaxRate
+  spec: openapi/grubhub-merchant-data-openapi.yml
+  mutating: false
+- name: update_merchant_tax_rate
+  description: Update a merchant's tax rate
+  rest:
+    method: PUT
+    path: /pos/v1/merchant/{merchant_id}/taxrate
+  operationId: updateMerchantTaxRate
+  spec: openapi/grubhub-merchant-data-openapi.yml
+  mutating: true
+- name: update_opt_in_or_out_scheduled_orders_by_legacy_id
+  description: Toggle a merchant's scheduled ordering capability
+  rest:
+    method: PUT
+    path: /pos/v1/merchant/{merchant_id}/scheduledorders
+  operationId: updateOptInOrOutScheduledOrdersByLegacyId
+  spec: openapi/grubhub-merchant-data-openapi.yml
+  mutating: true
+- name: update_merchant_pre_order_in_minutes
+  description: Update a merchant's pre-order confirmable window (in minutes)
+  rest:
+    method: PUT
+    path: /pos/v1/merchant/{merchant_id}/preorderwindow
+  operationId: updateMerchantPreOrderInMinutes
+  spec: openapi/grubhub-merchant-data-openapi.yml
+  mutating: true
+- name: heartbeat_status_change_triggered
+  description: Set a merchant's status to online or offline
+  rest:
+    method: PUT
+    path: /pos/v1/merchant/{merchant_id}/pos-status
+  operationId: heartbeatStatusChangeTriggered
+  spec: openapi/grubhub-merchant-data-openapi.yml
+  mutating: true
+- name: get_merchant_delivery_area_fee_by_legacy_id
+  description: Get a merchant's delivery area fee
+  rest:
+    method: GET
+    path: /pos/v1/merchant/{merchant_id}/fulfillment/{delivery_area_id}/deliveryfee
+  operationId: getMerchantDeliveryAreaFeeByLegacyId
+  spec: openapi/grubhub-merchant-data-openapi.yml
+  mutating: false
+- name: update_merchant_delivery_area_fee_by_legacy_id
+  description: Update a merchant's delivery area fee
+  rest:
+    method: PUT
+    path: /pos/v1/merchant/{merchant_id}/fulfillment/{delivery_area_id}/deliveryfee
+  operationId: updateMerchantDeliveryAreaFeeByLegacyId
+  spec: openapi/grubhub-merchant-data-openapi.yml
+  mutating: true
+- name: get_fulfillment_estimates_by_legacy_id
+  description: Get a merchant's fulfillment estimates
+  rest:
+    method: GET
+    path: /pos/v1/merchant/{merchant_id}/fulfillment/estimates
+  operationId: getFulfillmentEstimatesByLegacyId
+  spec: openapi/grubhub-merchant-data-openapi.yml
+  mutating: false
+- name: update_fulfillment_estimates_by_legacy_id
+  description: Update a merchant's fulfillment estimates
+  rest:
+    method: PUT
+    path: /pos/v1/merchant/{merchant_id}/fulfillment/estimates
+  operationId: updateFulfillmentEstimatesByLegacyId
+  spec: openapi/grubhub-merchant-data-openapi.yml
+  mutating: true
+- name: get_delivery_boundaries
+  description: Gets a merchant's delivery boundaries
+  rest:
+    method: GET
+    path: /pos/v1/merchant/{merchant_id}/fulfillment/deliveryboundaries
+  operationId: getDeliveryBoundaries
+  spec: openapi/grubhub-merchant-data-openapi.yml
+  mutating: false
+- name: update_delivery_boundaries
+  description: Update a merchant's delivery boundaries
+  rest:
+    method: PUT
+    path: /pos/v1/merchant/{merchant_id}/fulfillment/deliveryboundaries
+  operationId: updateDeliveryBoundaries
+  spec: openapi/grubhub-merchant-data-openapi.yml
+  mutating: true
+- name: get_delivery_minimum_for_merchant
+  description: Get a merchant's delivery minimum
+  rest:
+    method: GET
+    path: /pos/v1/merchant/{merchant_id}/deliveryminimum
+  operationId: getDeliveryMinimumForMerchant
+  spec: openapi/grubhub-merchant-data-openapi.yml
+  mutating: false
+- name: update_delivery_minimum_for_merchant
+  description: Update a merchant's delivery minimum
+  rest:
+    method: PUT
+    path: /pos/v1/merchant/{merchant_id}/deliveryminimum
+  operationId: updateDeliveryMinimumForMerchant
+  spec: openapi/grubhub-merchant-data-openapi.yml
+  mutating: true
+- name: update_merchant_properties
+  description: Update the properties of a batch of merchants
+  rest:
+    method: PUT
+    path: /pos/v1/merchant/properties
+  operationId: updateMerchantProperties
+  spec: openapi/grubhub-merchant-data-openapi.yml
+  mutating: true
+- name: heartbeat_status_change_triggered_batch
+  description: Set the status of a batch of merchants to online or offline
+  rest:
+    method: PUT
+    path: /pos/v1/merchant/pos-status
+  operationId: heartbeatStatusChangeTriggeredBatch
+  spec: openapi/grubhub-merchant-data-openapi.yml
+  mutating: true
+- name: update_pos_merchant_integration
+  description: Update the live integration status of a batch of merchants
+  rest:
+    method: PUT
+    path: /pos/v1/merchant/integrationlive
+  operationId: updatePosMerchantIntegration
+  spec: openapi/grubhub-merchant-data-openapi.yml
+  mutating: true
+- name: get_merchant_status_by_order_type_batch_status
+  description: Get the online or offline status of a batch of merchants by order type
+  rest:
+    method: GET
+    path: /pos/v2/merchant/pos-status/{batch_id}/status
+  operationId: getMerchantStatusByOrderTypeBatchStatus
+  spec: openapi/grubhub-merchant-data-openapi.yml
+  mutating: false
+- name: get_id_mappings_by_partner_and_external_ids
+  description: Get internal / external ID mappings
+  rest:
+    method: GET
+    path: /pos/v1/merchant/{partner_id}/idmappings
+  operationId: getIdMappingsByPartnerAndExternalIds
+  spec: openapi/grubhub-merchant-data-openapi.yml
+  mutating: false
+- name: get_fulfillment_info_by_legacy_id
+  description: Get a merchant's fulfillment info
+  rest:
+    method: GET
+    path: /pos/v1/merchant/{merchant_id}/fulfillment
+  operationId: getFulfillmentInfoByLegacyId
+  spec: openapi/grubhub-merchant-data-openapi.yml
+  mutating: false
+- name: get_merchant_by_legacy_id
+  description: Get a merchant
+  rest:
+    method: GET
+    path: /pos/v1/merchant/{merchant_id}
+  operationId: getMerchantByLegacyId
+  spec: openapi/grubhub-merchant-data-openapi.yml
+  mutating: false
+- name: get_merchant_properties_batch_status
+  description: Get merchant properties batch update status
+  rest:
+    method: GET
+    path: /pos/v1/merchant/properties/{batch_id}/status
+  operationId: getMerchantPropertiesBatchStatus
+  spec: openapi/grubhub-merchant-data-openapi.yml
+  mutating: false
+- name: get_heartbeat_status_change_triggered_batch_status
+  description: Get the online or offline status of a batch of merchants
+  rest:
+    method: GET
+    path: /pos/v1/merchant/pos-status/{batch_id}/status
+  operationId: getHeartbeatStatusChangeTriggeredBatchStatus
+  spec: openapi/grubhub-merchant-data-openapi.yml
+  mutating: false
+- name: get_pos_merchant_integration_batch_status
+  description: Get the live integration status of a batch of merchants
+  rest:
+    method: GET
+    path: /pos/v1/merchant/integrationlive/{batch_id}/status
+  operationId: getPosMerchantIntegrationBatchStatus
+  spec: openapi/grubhub-merchant-data-openapi.yml
+  mutating: false
+- name: get_merchants_by_group
+  description: Get a configuration group
+  rest:
+    method: GET
+    path: /pos/v1/config/groups/{group_key}
+  operationId: getMerchantsByGroup
+  spec: openapi/grubhub-merchant-data-openapi.yml
+  mutating: false
+- name: get_repeating_schedule
+  description: Get merchant schedules
+  rest:
+    method: GET
+    path: /pos/v1/merchant/{merchant_id}/schedules/repeating
+  operationId: getRepeatingSchedule
+  spec: openapi/grubhub-merchant-schedules-openapi.yml
+  mutating: false
+- name: put_repeating_schedule
+  description: Create/Update merchant schedule
+  rest:
+    method: PUT
+    path: /pos/v1/merchant/{merchant_id}/schedules/repeating
+  operationId: putRepeatingSchedule
+  spec: openapi/grubhub-merchant-schedules-openapi.yml
+  mutating: true
+- name: update_pickup_schedule
+  description: Update a pickup schedule
+  rest:
+    method: PUT
+    path: /pos/v1/merchant/{merchant_id}/schedules/pickup/{schedule_version}
+  operationId: updatePickupSchedule
+  spec: openapi/grubhub-merchant-schedules-openapi.yml
+  mutating: true
+- name: update_delivery_schedule
+  description: Update a delivery schedule
+  rest:
+    method: PUT
+    path: /pos/v1/merchant/{merchant_id}/schedules/delivery/{schedule_version}
+  operationId: updateDeliverySchedule
+  spec: openapi/grubhub-merchant-schedules-openapi.yml
+  mutating: true
+- name: update_catering_schedule
+  description: Update a catering schedule
+  rest:
+    method: PUT
+    path: /pos/v1/merchant/{merchant_id}/schedules/catering/{schedule_version}
+  operationId: updateCateringSchedule
+  spec: openapi/grubhub-merchant-schedules-openapi.yml
+  mutating: true
+- name: get_scheduled_overrides
+  description: Get schedule overrides
+  rest:
+    method: GET
+    path: /pos/v1/merchant/{merchant_id}/schedules/overrides
+  operationId: getScheduledOverrides
+  spec: openapi/grubhub-merchant-schedules-openapi.yml
+  mutating: false
+- name: override_schedule
+  description: Add schedule override
+  rest:
+    method: POST
+    path: /pos/v1/merchant/{merchant_id}/schedules/overrides
+  operationId: overrideSchedule
+  spec: openapi/grubhub-merchant-schedules-openapi.yml
+  mutating: true
+- name: delete_schedule_override
+  description: Delete schedule override
+  rest:
+    method: DELETE
+    path: /pos/v1/merchant/{merchant_id}/schedules/overrides
+  operationId: deleteScheduleOverride
+  spec: openapi/grubhub-merchant-schedules-openapi.yml
+  mutating: true
+- name: open_now
+  description: Start receiving online orders
+  rest:
+    method: POST
+    path: /pos/v1/merchant/{merchant_id}/schedules/opennow
+  operationId: openNow
+  spec: openapi/grubhub-merchant-schedules-openapi.yml
+  mutating: true
+- name: close_now
+  description: Stop online orders
+  rest:
+    method: POST
+    path: /pos/v1/merchant/{merchant_id}/schedules/closenow
+  operationId: closeNow
+  spec: openapi/grubhub-merchant-schedules-openapi.yml
+  mutating: true
+- name: get_pickup_schedule
+  description: Get the pickup schedule
+  rest:
+    method: GET
+    path: /pos/v1/merchant/{merchant_id}/schedules/pickup
+  operationId: getPickupSchedule
+  spec: openapi/grubhub-merchant-schedules-openapi.yml
+  mutating: false
+- name: get_delivery_schedule
+  description: Get the delivery schedule
+  rest:
+    method: GET
+    path: /pos/v1/merchant/{merchant_id}/schedules/delivery
+  operationId: getDeliverySchedule
+  spec: openapi/grubhub-merchant-schedules-openapi.yml
+  mutating: false
+- name: get_catering_schedule
+  description: Get the catering schedule
+  rest:
+    method: GET
+    path: /pos/v1/merchant/{merchant_id}/schedules/catering
+  operationId: getCateringSchedule
+  spec: openapi/grubhub-merchant-schedules-openapi.yml
+  mutating: false
+- name: triage
+  description: Report Onboarding Issue
+  rest:
+    method: POST
+    path: /merchant/onboarding/v1/triage
+  operationId: triage
+  spec: openapi/grubhub-onboarding-openapi.yml
+  mutating: true
+- name: referral_signup
+  description: New Merchant Referral
+  rest:
+    method: POST
+    path: /merchant/onboarding/v1/referral
+  operationId: referralSignup
+  spec: openapi/grubhub-onboarding-openapi.yml
+  mutating: true
+- name: partner_deactivate
+  description: Deactivate Merchant (Partner)
+  rest:
+    method: POST
+    path: /merchant/onboarding/v1/partner/deactivate
+  operationId: partnerDeactivate
+  spec: openapi/grubhub-onboarding-openapi.yml
+  mutating: true
+- name: partner_activate_merchants
+  description: Activate Merchant (Partner)
+  rest:
+    method: POST
+    path: /merchant/onboarding/v1/partner/activate
+  operationId: partnerActivateMerchants
+  spec: openapi/grubhub-onboarding-openapi.yml
+  mutating: true
+- name: deactivate
+  description: Deactivate Merchant
+  rest:
+    method: POST
+    path: /merchant/onboarding/v1/deactivate
+  operationId: deactivate
+  spec: openapi/grubhub-onboarding-openapi.yml
+  mutating: true
+- name: associate_merchants
+  description: Associate Merchants
+  rest:
+    method: POST
+    path: /merchant/onboarding/v1/associate
+  operationId: associateMerchants
+  spec: openapi/grubhub-onboarding-openapi.yml
+  mutating: true
+- name: activate_merchants
+  description: Activate Merchant
+  rest:
+    method: POST
+    path: /merchant/onboarding/v1/activate
+  operationId: activateMerchants
+  spec: openapi/grubhub-onboarding-openapi.yml
+  mutating: true
+- name: get_eligible_merchants
+  description: Get Merchant Eligibility
+  rest:
+    method: GET
+    path: /merchant/onboarding/v1/merchants
+  operationId: getEligibleMerchants
+  spec: openapi/grubhub-onboarding-openapi.yml
+  mutating: false
+- name: update_external_order_status_by_order_uuid
+  description: Update order status
+  rest:
+    method: PUT
+    path: /pos/v1/merchant/{merchant_long_id}/orders/{order_uuid}/status
+  operationId: updateExternalOrderStatusByOrderUuid
+  spec: openapi/grubhub-orders-openapi.yml
+  mutating: true
+- name: get_change_requests
+  description: Get status of order change request
+  rest:
+    method: GET
+    path: /pos/v1/merchant/{merchant_long_id}/orders/{order_uuid}/changerequests
+  operationId: getChangeRequests
+  spec: openapi/grubhub-orders-openapi.yml
+  mutating: false
+- name: change_external_order
+  description: Request change to order
+  rest:
+    method: POST
+    path: /pos/v1/merchant/{merchant_long_id}/orders/{order_uuid}/changerequests
+  operationId: changeExternalOrder
+  spec: openapi/grubhub-orders-openapi.yml
+  mutating: true
+- name: add_pickup_instructions_to_order
+  description: Add Pickup Instructions
+  rest:
+    method: POST
+    path: /pos/v1/merchant/{merchant_id}/orders/{order_uuid}/addpickupinstructions
+  operationId: addPickupInstructionsToOrder
+  spec: openapi/grubhub-orders-openapi.yml
+  mutating: true
+- name: get_pos_order_by_order_uuid
+  description: Get order by order ID
+  rest:
+    method: GET
+    path: /pos/v1/merchant/{merchant_long_id}/orders/{order_uuid}
+  operationId: getPosOrderByOrderUuid
+  spec: openapi/grubhub-orders-openapi.yml
+  mutating: false
+- name: get_pos_orders_by_merchant_status_date_range
+  description: Get orders by merchant ID, status and date range
+  rest:
+    method: GET
+    path: /pos/v1/merchant/{merchant_long_id}/orders
+  operationId: getPosOrdersByMerchantStatusDateRange
+  spec: openapi/grubhub-orders-openapi.yml
+  mutating: false
+- name: get_pos_orders_by_group_status_date_range
+  description: Get orders by group, status and date range
+  rest:
+    method: GET
+    path: /pos/v1/group/{group_key}/orders
+  operationId: getPosOrdersByGroupStatusDateRange
+  spec: openapi/grubhub-orders-openapi.yml
+  mutating: false
+- name: create_export_report
+  description: Create a report
+  rest:
+    method: POST
+    path: /merchant/reporting/v1/reports
+  operationId: createExportReport
+  spec: openapi/grubhub-reporting-endpoints-openapi.yml
+  mutating: true
+- name: get_download_url
+  description: Get download URL for report.
+  rest:
+    method: GET
+    path: /merchant/reporting/v1/reports/{reportUuid}
+  operationId: getDownloadUrl
+  spec: openapi/grubhub-reporting-endpoints-openapi.yml
+  mutating: false
+- name: get_enabled_merchants
+  description: Get all merchant IDs enabled for reporting
+  rest:
+    method: GET
+    path: /merchant/reporting/v1/merchants
+  operationId: getEnabledMerchants
+  spec: openapi/grubhub-reporting-endpoints-openapi.yml
+  mutating: false
+- name: post_test_order_request
+  description: Create transmission test
+  rest:
+    method: POST
+    path: /pos/v1/merchant/{merchant_long_id}/test/transmission
+  operationId: postTestOrderRequest
+  spec: openapi/grubhub-testing-openapi.yml
+  mutating: true
+- name: simulate_jit_order_event
+  description: Create order with JIT flag triggered
+  rest:
+    method: POST
+    path: /pos/v1/merchant/{merchant_long_id}/test/jitevent
+  operationId: simulateJitOrderEvent
+  spec: openapi/grubhub-testing-openapi.yml
+  mutating: true
+- name: post_test_delivery_request
+  description: Create test delivery
+  rest:
+    method: POST
+    path: /pos/v1/merchant/{merchant_long_id}/test/delivery
+  operationId: postTestDeliveryRequest
+  spec: openapi/grubhub-testing-openapi.yml
+  mutating: true

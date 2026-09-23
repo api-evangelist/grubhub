@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-physicalinfo-schema.json",
+  "title": "PhysicalInfo",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-orders-openapi.yml#/components/schemas/PhysicalInfo",
+  "type": "object",
+  "properties": {
+    "dimensions": {
+      "$ref": "#/$defs/Dimensions"
+    },
+    "weight_in_pounds": {
+      "type": "number",
+      "format": "float"
+    },
+    "location_in_store": {
+      "type": "string"
+    }
+  },
+  "$defs": {
+    "Dimensions": {
+      "type": "object",
+      "properties": {
+        "depth_in_inches": {
+          "type": "number",
+          "format": "float"
+        },
+        "width_in_inches": {
+          "type": "number",
+          "format": "float"
+        },
+        "height_in_inches": {
+          "type": "number",
+          "format": "float"
+        }
+      }
+    }
+  }
+}

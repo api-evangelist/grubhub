@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-courier-schema.json",
+  "title": "Courier",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/Courier",
+  "required": [
+    "delivery_method",
+    "location",
+    "name"
+  ],
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The display name of the courier assigned to a delivery.",
+      "example": "Nick"
+    },
+    "delivery_method": {
+      "type": "string",
+      "description": "Means of transportation by which a courier may be delivering.",
+      "example": "CAR",
+      "enum": [
+        "CAR",
+        "BIKE",
+        "SCOOTER",
+        "WALK",
+        "UNKNOWN"
+      ]
+    },
+    "location": {
+      "$ref": "#/$defs/GeoLocation"
+    }
+  },
+  "description": "A courier.",
+  "$defs": {
+    "GeoLocation": {
+      "required": [
+        "lat",
+        "lng"
+      ],
+      "type": "object",
+      "properties": {
+        "lat": {
+          "type": "number",
+          "description": "The latitude of the location.",
+          "format": "double",
+          "example": 41.88320791307697
+        },
+        "lng": {
+          "type": "number",
+          "description": "The longitude of the location.",
+          "format": "double",
+          "example": -87.63142796027925
+        }
+      },
+      "description": "The last known location of the courier."
+    }
+  }
+}

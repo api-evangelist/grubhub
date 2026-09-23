@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-dinerpickupinstructions-schema.json",
+  "title": "DinerPickUpInstructions",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-merchant-data-openapi.yml#/components/schemas/DinerPickUpInstructions",
+  "type": "object",
+  "properties": {
+    "offers_curbside_pickup": {
+      "type": "boolean",
+      "description": "Describes whether merchant is opted in to curbside pickup or not."
+    },
+    "contact_phone": {
+      "type": "string",
+      "description": "Means of contacting a merchant when picking up curbside."
+    },
+    "curbside_instructions": {
+      "type": "string",
+      "description": "An additional information a merchant can optionally provide to curbside pickup diners."
+    }
+  },
+  "description": "Contains diner pickup instructions for a merchant."
+}

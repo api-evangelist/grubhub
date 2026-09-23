@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-mediavalidationerrordto-schema.json",
+  "title": "MediaValidationErrorDTO",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-menu-openapi.yml#/components/schemas/MediaValidationErrorDTO",
+  "type": "object",
+  "properties": {
+    "media_validation_error_message": {
+      "type": "string",
+      "description": "The message including error details.",
+      "example": "Precondition Failed : User request invalid, could not upload media."
+    },
+    "entity_id": {
+      "type": "string",
+      "description": "The entity id of the item with media validation error.",
+      "example": "123452933468"
+    },
+    "external_id": {
+      "type": "string",
+      "description": "The external id of the item with media validation error.",
+      "example": "ededebf898ebd89ebd9e8bd9b3"
+    },
+    "url": {
+      "type": "string",
+      "description": "The url of the invalid media.",
+      "example": "https://mediahost.example/bacon.jpg"
+    },
+    "menu_item_name": {
+      "type": "string",
+      "description": "The name of the item with media validation error.",
+      "example": "Bacon"
+    }
+  },
+  "description": "A media validation error that occurred during ingestion."
+}

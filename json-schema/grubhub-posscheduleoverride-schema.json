@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-posscheduleoverride-schema.json",
+  "title": "PosScheduleOverride",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-merchant-schedules-openapi.yml#/components/schemas/PosScheduleOverride",
+  "required": [
+    "end_time_utc",
+    "local_end_time",
+    "local_start_time",
+    "merchant_id",
+    "name",
+    "start_time_utc",
+    "type"
+  ],
+  "type": "object",
+  "properties": {
+    "schedule_id": {
+      "type": "string",
+      "description": "The ID of this schedule",
+      "format": "uuid"
+    },
+    "merchant_id": {
+      "type": "string",
+      "description": "The Grubhub or third-party provided external ID for the merchant."
+    },
+    "name": {
+      "type": "string",
+      "description": "Type of schedule. If not specified, defaults to \"DELIVERY\"",
+      "enum": [
+        "DELIVERY",
+        "PICKUP",
+        "CATERING",
+        "GROUP"
+      ]
+    },
+    "type": {
+      "type": "string",
+      "description": "Type of schedule override. \"UNAVAILABLE\" is a duration when the merchant should be closed, when normally they would be open. \"AVAILABLE\" is a duration when the merchant should be open, when normally they would be closed.",
+      "enum": [
+        "WHITEIN",
+        "BLACKOUT",
+        "UNPAUSE",
+        "AVAILABLE",
+        "UNAVAILABLE",
+        "AVAILABLE",
+        "UNAVAILABLE"
+      ]
+    },
+    "metadata": {
+      "$ref": "#/$defs/ScheduleOverrideMetadata"
+    },
+    "local_start_time": {
+      "type": "string",
+      "description": "The time in the merchant's timezone when the override duration starts.",
+      "format": "date-time"
+    },
+    "local_end_time": {
+      "type": "string",
+      "description": "The time in the merchant's timezone when the override duration ends.",
+      "format": "date-time"
+    },
+    "start_time_utc": {
+      "type": "string",
+      "description": "The UTC time when the override duration starts.",
+      "format": "date-time"
+    },
+    "end_time_utc": {
+      "type": "string",
+      "description": "The UTC time when the override duration ends.",
+      "format": "date-time"
+    }
+  },
+  "description": "Schedule Override for a merchant. Schedule overrides are ad hoc modifications to a merchant's normal hours of operation on Grubhub.",
+  "$defs": {
+    "ScheduleOverrideMetadata": {
+      "required": [
+        "source"
+      ],
+      "type": "object",
+      "properties": {
+        "created_by": {
+          "type": "string",
+          "description": "The creator of the schedule"
+        },
+        "updated_by": {
+          "type": "string",
+          "description": "The last credential to update the schedule"
+        },
+        "created_date": {
+          "type": "string",
+          "description": "The creation date of the schedule",
+          "format": "date-time"
+        },
+        "updated_date": {
+          "type": "string",
+          "description": "The last update date of the schedule",
+          "format": "date-time"
+        },
+        "legacy_id": {
+          "type": "string",
+          "description": "The legacy ID of the schedule in MySQL"
+        },
+        "description": {
+          "type": "string",
+          "description": "The description for the schedule"
+        },
+        "source": {
+          "type": "string",
+          "description": "The source of the creation or update of the schedule override"
+        }
+      },
+      "description": "The metadata associated to a specific schedule override"
+    }
+  }
+}

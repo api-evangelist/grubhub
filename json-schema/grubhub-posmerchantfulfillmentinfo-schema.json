@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-posmerchantfulfillmentinfo-schema.json",
+  "title": "PosMerchantFulfillmentInfo",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-merchant-data-openapi.yml#/components/schemas/PosMerchantFulfillmentInfo",
+  "type": "object",
+  "properties": {
+    "pos_estimates": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/PosEstimates"
+      },
+      "description": "The merchant's pickup and delivery estimates."
+    },
+    "delivery_fee": {
+      "$ref": "#/$defs/PosDeliveryFee"
+    },
+    "delivery_minimum": {
+      "type": "number",
+      "description": "The minimum dollar value a merchant requires for an order to be eligible for delivery.",
+      "format": "double"
+    },
+    "active_delivery_areas": {
+      "type": "array",
+      "description": "A list of delivery areas including the delivery fee for each zone.",
+      "items": {
+        "$ref": "#/$defs/DeliveryArea"
+      }
+    }
+  },
+  "description": "Contains pickup and delivery info for a merchant.",
+  "$defs": {
+    "DeliveryArea": {
+      "required": [
+        "fee_cents",
+        "geometry",
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The id for this DeliveryArea (Zone)",
+          "format": "uuid"
+        },
+        "name": {
+          "type": "string",
+          "description": "A name for the delivery zone"
+        },
+        "fee_cents": {
+          "minimum": 0,
+          "type": "integer",
+          "description": "The delivery cost for this delivery zone, in cents",
+          "format": "int32"
+        },
+        "zone_type": {
+          "type": "string",
+          "description": "They type of delivery zone (i.e. Diner or Catering). Defaults to Diner",
+          "deprecated": true,
+          "enum": [
+            "CATERING",
+            "DINER"
+          ]
+        },
+        "geometry": {
+          "type": "string",
+          "description": "GeoJSON String representing the geometry of the delivery area"
+        },
+        "stats": {
+          "$ref": "#/$defs/DeliveryAreaStats"
+        }
+      },
+      "description": "Delivery area configuration settings."
+    },
+    "DeliveryAreaStats": {
+      "type": "object",
+      "properties": {
+        "area": {
+          "type": "number",
+          "description": "Area in square miles. READ_ONLY",
+          "readOnly": true
+        },
+        "approximate_radius": {
+          "type": "number",
+          "description": "Approximate Radius in miles. READ_ONLY",
+          "readOnly": true
+        },
+        "height": {
+          "type": "number",
+          "description": "Height in miles. READ_ONLY",
+          "readOnly": true
+        },
+        "width": {
+          "type": "number",
+          "description": "Width in miles. READ_ONLY",
+          "readOnly": true
+        }
+      },
+      "description": "Various Calculations about a DeliveryArea, Filled automatically. All units are in miles/square miles."
+    },
+    "PosDeliveryFee": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "integer",
+          "description": "The value of the fee applied for a service, in percentage of total order value or US dollars.",
+          "format": "int32"
+        },
+        "type": {
+          "type": "string",
+          "description": "Whether or not a fee value is applied as a percentage of order value or a whole amount of US dollars. Possible values are FLAT or PERCENT",
+          "enum": [
+            "FLAT",
+            "PERCENT"
+          ]
+        }
+      },
+      "description": "A fee that is applied to a merchant for the delivery service."
+    },
+    "PosEstimates": {
+      "type": "object",
+      "properties": {
+        "pickup_estimate_minutes": {
+          "type": "integer",
+          "description": "Default number of minutes that this merchant requires between confirming an order and it being ready for pickup, if applicable.",
+          "format": "int32"
+        },
+        "delivery_estimate_minutes": {
+          "type": "integer",
+          "description": "Default number of minutes that this merchant requires between confirming an order and completion of delivery, if applicable.",
+          "format": "int32"
+        }
+      },
+      "description": "Pickup and delivery estimates."
+    }
+  }
+}

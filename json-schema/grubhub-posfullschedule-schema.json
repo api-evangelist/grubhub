@@ -1,0 +1,720 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-posfullschedule-schema.json",
+  "title": "PosFullSchedule",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-merchant-schedules-openapi.yml#/components/schemas/PosFullSchedule",
+  "type": "object",
+  "properties": {
+    "statuses": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "description": "The status of a merchant as related to the schedule.",
+        "enum": [
+          "PAUSED",
+          "ONBOARDING",
+          "OPEN",
+          "CLOSED",
+          "WHITED_IN",
+          "BLACKED_OUT",
+          "GHD_BLACKED_OUT",
+          "MASS_BLACKED_OUT"
+        ]
+      },
+      "description": "A map of all schedule types (`DELIVERY`, `PICKUP`, etc.) and their current open/close status."
+    },
+    "today_schedule": {
+      "type": "object",
+      "properties": {
+        "empty": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/PeriodSchedule"
+      },
+      "description": "A collection of the types of schedules for a merchant, the date on which they begin, and the number of days in each schedule's period. Together, this collection defines the outlines of a merchant's pickup and delivery schedules.<br />Note that the first field, name, is used as the index of the collection."
+    },
+    "overrides_in_effect": {
+      "type": "array",
+      "description": "The schedules overrides that currently apply to the various schedule types in effect for this merchant.",
+      "items": {
+        "$ref": "#/$defs/PosScheduleOverride"
+      }
+    },
+    "mass_overrides_in_effect": {
+      "type": "array",
+      "description": "The schedule overrides that apply to this and several other merchants, usually of the same merchant group.",
+      "items": {
+        "$ref": "#/$defs/PosMassScheduleOverride"
+      }
+    },
+    "repeating_schedules_in_effect": {
+      "type": "array",
+      "description": "Any repeating weekly schedules in effect for this merchant.",
+      "items": {
+        "$ref": "#/$defs/PosMerchantRepeatingSchedule"
+      }
+    },
+    "custom_schedules_in_effect": {
+      "type": "array",
+      "description": "Any custom, temporary schedules currently in place. These will take precedence over a repeating schedule of the same type.",
+      "items": {
+        "$ref": "#/$defs/PosCustomSchedule"
+      }
+    },
+    "all_schedule_overrides": {
+      "type": "array",
+      "description": "All previous, current, and future schedule overrides associated with this merchant.",
+      "items": {
+        "$ref": "#/$defs/PosScheduleOverride"
+      }
+    },
+    "all_mass_overrides": {
+      "type": "array",
+      "description": "All mass schedule overrides that have or could affect this merchant's schedule.",
+      "items": {
+        "$ref": "#/$defs/PosMassScheduleOverride"
+      }
+    },
+    "all_repeating_schedules": {
+      "type": "array",
+      "description": "All weekly repeating schedules associated with this merchant. These are used as the default schedule when no custom schedules, or unavailable/available overrides are in effect.",
+      "items": {
+        "$ref": "#/$defs/PosMerchantRepeatingSchedule"
+      }
+    },
+    "all_custom_schedules": {
+      "type": "array",
+      "description": "All custom schedules associated with this merchant. These are temporary schedules that change the working hours for the merchant for things like holiday or summer hours.",
+      "items": {
+        "$ref": "#/$defs/PosCustomSchedule"
+      }
+    },
+    "managed_delivery_schedules": {
+      "type": "array",
+      "description": "The managed delivery schedules for the region that includes this merchant's address.",
+      "items": {
+        "$ref": "#/$defs/RepeatingSchedule"
+      }
+    }
+  },
+  "description": "Complete schedule information about the merchant, including the status of any alternate schedules or overrides.",
+  "$defs": {
+    "Chronology": {
+      "type": "object",
+      "properties": {
+        "zone": {
+          "$ref": "#/$defs/DateTimeZone"
+        }
+      }
+    },
+    "CustomScheduleMetadata": {
+      "required": [
+        "intervals",
+        "source"
+      ],
+      "type": "object",
+      "properties": {
+        "created_by": {
+          "type": "string",
+          "description": "The creator of the schedule"
+        },
+        "updated_by": {
+          "type": "string",
+          "description": "The last credential to update the schedule"
+        },
+        "created_date": {
+          "type": "string",
+          "description": "The creation date of the schedule",
+          "format": "date-time"
+        },
+        "updated_date": {
+          "type": "string",
+          "description": "The last update date of the schedule",
+          "format": "date-time"
+        },
+        "legacy_id": {
+          "type": "string",
+          "description": "The legacy ID of the schedule in MySQL"
+        },
+        "description": {
+          "type": "string",
+          "description": "The description for the schedule"
+        },
+        "source": {
+          "type": "string",
+          "description": "The source of the creation or update of the custom schedule"
+        },
+        "intervals": {
+          "type": "array",
+          "description": "A set of non-overlapping time periods",
+          "items": {
+            "$ref": "#/$defs/RepeatingScheduleRuleInterval"
+          }
+        }
+      },
+      "description": "The metadata associated to a specific custom schedule"
+    },
+    "DateTimeField": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/$defs/DateTimeFieldType"
+        },
+        "supported": {
+          "type": "boolean"
+        },
+        "lenient": {
+          "type": "boolean"
+        },
+        "duration_field": {
+          "$ref": "#/$defs/DurationField"
+        },
+        "range_duration_field": {
+          "$ref": "#/$defs/DurationField"
+        },
+        "leap_duration_field": {
+          "$ref": "#/$defs/DurationField"
+        },
+        "minimum_value": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "maximum_value": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "DateTimeFieldType": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "duration_type": {
+          "$ref": "#/$defs/DurationFieldType"
+        },
+        "range_duration_type": {
+          "$ref": "#/$defs/DurationFieldType"
+        }
+      }
+    },
+    "DateTimeZone": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "fixed": {
+          "type": "boolean"
+        }
+      }
+    },
+    "DurationField": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/$defs/DurationFieldType"
+        },
+        "supported": {
+          "type": "boolean"
+        },
+        "unit_millis": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "precise": {
+          "type": "boolean"
+        }
+      }
+    },
+    "DurationFieldType": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "LocalTime": {
+      "type": "object",
+      "properties": {
+        "chronology": {
+          "$ref": "#/$defs/Chronology"
+        },
+        "millis_of_day": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "hour_of_day": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "minute_of_hour": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "second_of_minute": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "millis_of_second": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/DateTimeField"
+          }
+        },
+        "values": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "field_types": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/DateTimeFieldType"
+          }
+        }
+      }
+    },
+    "MassScheduleOverrideMetadata": {
+      "type": "object",
+      "properties": {
+        "name_filter": {
+          "type": "string",
+          "description": "Optional Java Regular Expression used to target specific RepeatingSchedules by name"
+        },
+        "override_type": {
+          "type": "string",
+          "description": "The type of a schedule override.  Describes whether the deviation is to open or close unexpectedly.",
+          "enum": [
+            "BLACKOUT",
+            "WHITEIN"
+          ]
+        },
+        "schedule_type": {
+          "type": "string",
+          "description": "The type of mass schedule override, whether timezones are applied",
+          "enum": [
+            "LOCAL",
+            "ZONED"
+          ]
+        },
+        "created_by": {
+          "type": "string",
+          "description": "The creator of the schedule"
+        },
+        "updated_by": {
+          "type": "string",
+          "description": "The last credential to update the schedule"
+        },
+        "created_date": {
+          "type": "string",
+          "description": "The creation date of the schedule",
+          "format": "date-time"
+        },
+        "updated_date": {
+          "type": "string",
+          "description": "The last update date of the schedule",
+          "format": "date-time"
+        },
+        "legacy_id": {
+          "type": "string",
+          "description": "The legacy ID of the schedule in MySQL"
+        },
+        "description": {
+          "type": "string",
+          "description": "The description for the schedule"
+        }
+      },
+      "description": "Metadata associated to a merchant mass schedule override"
+    },
+    "PeriodSchedule": {
+      "type": "object",
+      "properties": {
+        "empty": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": {
+        "type": "array",
+        "properties": {
+          "empty": {
+            "type": "boolean"
+          }
+        },
+        "description": "A collection of the types of schedules for a merchant, the date on which they begin, and the number of days in each schedule's period. Together, this collection defines the outlines of a merchant's pickup and delivery schedules.<br />Note that the first field, name, is used as the index of the collection.",
+        "items": {
+          "$ref": "#/$defs/RepeatingScheduleRuleInterval"
+        }
+      },
+      "description": "A collection of the types of schedules for a merchant, the date on which they begin, and the number of days in each schedule's period. Together, this collection defines the outlines of a merchant's pickup and delivery schedules.<br />Note that the first field, name, is used as the index of the collection."
+    },
+    "PosCustomSchedule": {
+      "required": [
+        "date",
+        "metadata",
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "merchant_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string",
+          "description": "Type of schedule. If not specified, defaults to \"DELIVERY\"",
+          "enum": [
+            "DELIVERY",
+            "PICKUP",
+            "CATERING",
+            "GROUP"
+          ]
+        },
+        "date": {
+          "type": "string",
+          "format": "date"
+        },
+        "metadata": {
+          "$ref": "#/$defs/CustomScheduleMetadata"
+        }
+      },
+      "description": "All custom schedules associated with this merchant. These are temporary schedules that change the working hours for the merchant for things like holiday or summer hours."
+    },
+    "PosMassScheduleOverride": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The identifier of the mass override itself.",
+          "format": "uuid"
+        },
+        "merchant_ids": {
+          "uniqueItems": true,
+          "type": "array",
+          "description": "The IDs of the merchants affected by this mass blackout.",
+          "items": {
+            "type": "string",
+            "description": "The IDs of the merchants affected by this mass blackout."
+          }
+        },
+        "metadata": {
+          "$ref": "#/$defs/MassScheduleOverrideMetadata"
+        },
+        "start_time_utc": {
+          "type": "string",
+          "description": "The date and time when this mass override begins in the UTC (Coordinated Universal Time) time zone.",
+          "format": "date-time"
+        },
+        "end_time_utc": {
+          "type": "string",
+          "description": "The date and time when this mass override ends in the UTC (Coordinated Universal Time) time zone.",
+          "format": "date-time"
+        },
+        "start_time_local": {
+          "type": "string",
+          "description": "The date and time when this mass override begins in the merchant's local time zone.",
+          "format": "date-time"
+        },
+        "end_time_local": {
+          "type": "string",
+          "description": "The date and time when this mass override ends in the merchant's local time zone.",
+          "format": "date-time"
+        }
+      },
+      "description": "Information about a blackout that applies to multiple merchants; used for groups of merchants to halt online orders or pause ordering during a disaster (Grubhub administrative use only)."
+    },
+    "PosMerchantRepeatingSchedule": {
+      "required": [
+        "merchant_id",
+        "name",
+        "repeating_schedule_content",
+        "schedule_id"
+      ],
+      "type": "object",
+      "properties": {
+        "merchant_id": {
+          "type": "string",
+          "description": "The Grubhub or third-party provided external ID for the merchant."
+        },
+        "schedule_id": {
+          "type": "string",
+          "description": "The ID of this schedule.",
+          "format": "uuid"
+        },
+        "name": {
+          "type": "string",
+          "description": "Type of schedule. If not specified, defaults to \"DELIVERY\"",
+          "enum": [
+            "DELIVERY",
+            "PICKUP",
+            "CATERING",
+            "GROUP"
+          ]
+        },
+        "version_id": {
+          "type": "string",
+          "description": "The ID of the version of this schedule which changes upon updates to the schedule.",
+          "format": "uuid"
+        },
+        "repeating_schedule_content": {
+          "$ref": "#/$defs/RepeatingSchedule"
+        },
+        "metadata": {
+          "$ref": "#/$defs/RepeatingScheduleMetadata"
+        }
+      },
+      "description": "The repeating weekly schedule of a merchant."
+    },
+    "PosScheduleOverride": {
+      "required": [
+        "end_time_utc",
+        "local_end_time",
+        "local_start_time",
+        "merchant_id",
+        "name",
+        "start_time_utc",
+        "type"
+      ],
+      "type": "object",
+      "properties": {
+        "schedule_id": {
+          "type": "string",
+          "description": "The ID of this schedule",
+          "format": "uuid"
+        },
+        "merchant_id": {
+          "type": "string",
+          "description": "The Grubhub or third-party provided external ID for the merchant."
+        },
+        "name": {
+          "type": "string",
+          "description": "Type of schedule. If not specified, defaults to \"DELIVERY\"",
+          "enum": [
+            "DELIVERY",
+            "PICKUP",
+            "CATERING",
+            "GROUP"
+          ]
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of schedule override. \"UNAVAILABLE\" is a duration when the merchant should be closed, when normally they would be open. \"AVAILABLE\" is a duration when the merchant should be open, when normally they would be closed.",
+          "enum": [
+            "WHITEIN",
+            "BLACKOUT",
+            "UNPAUSE",
+            "AVAILABLE",
+            "UNAVAILABLE",
+            "AVAILABLE",
+            "UNAVAILABLE"
+          ]
+        },
+        "metadata": {
+          "$ref": "#/$defs/ScheduleOverrideMetadata"
+        },
+        "local_start_time": {
+          "type": "string",
+          "description": "The time in the merchant's timezone when the override duration starts.",
+          "format": "date-time"
+        },
+        "local_end_time": {
+          "type": "string",
+          "description": "The time in the merchant's timezone when the override duration ends.",
+          "format": "date-time"
+        },
+        "start_time_utc": {
+          "type": "string",
+          "description": "The UTC time when the override duration starts.",
+          "format": "date-time"
+        },
+        "end_time_utc": {
+          "type": "string",
+          "description": "The UTC time when the override duration ends.",
+          "format": "date-time"
+        }
+      },
+      "description": "Schedule Override for a merchant. Schedule overrides are ad hoc modifications to a merchant's normal hours of operation on Grubhub."
+    },
+    "RepeatingSchedule": {
+      "required": [
+        "external_id",
+        "name",
+        "rules"
+      ],
+      "type": "object",
+      "properties": {
+        "external_id": {
+          "type": "string",
+          "description": "The merchant-set ID for this schedule, which can be used to link it in the `PosNormalizedMenu`."
+        },
+        "name": {
+          "type": "string",
+          "description": "The display name for this schedule, e.g. \"Sunday Brunch\""
+        },
+        "type": {
+          "type": "string",
+          "description": "How often this schedule repeats. Currently the only valid value is \"WEEKLY\".",
+          "enum": [
+            "WEEKLY"
+          ]
+        },
+        "rules": {
+          "type": "array",
+          "description": "A set of non-overlapping time periods.",
+          "items": {
+            "$ref": "#/$defs/RepeatingScheduleRule"
+          }
+        }
+      },
+      "description": "Information about a weekly schedule during which a menu item may be made available. Typical usages include Breakfast, Lunch, Dinner, Weekend Brunch, etc."
+    },
+    "RepeatingScheduleMetadata": {
+      "required": [
+        "source"
+      ],
+      "type": "object",
+      "properties": {
+        "created_by": {
+          "type": "string",
+          "description": "The creator of the schedule"
+        },
+        "updated_by": {
+          "type": "string",
+          "description": "The last credential to update the schedule"
+        },
+        "created_date": {
+          "type": "string",
+          "description": "The creation date of the schedule",
+          "format": "date-time"
+        },
+        "updated_date": {
+          "type": "string",
+          "description": "The last update date of the schedule",
+          "format": "date-time"
+        },
+        "legacy_id": {
+          "type": "string",
+          "description": "The legacy ID of the schedule in MySQL"
+        },
+        "description": {
+          "type": "string",
+          "description": "The description for the schedule"
+        },
+        "source": {
+          "type": "string",
+          "description": "The source of the creation or update of the repeating schedule"
+        }
+      },
+      "description": "The metadata associated to a specific repeating schedule"
+    },
+    "RepeatingScheduleRule": {
+      "required": [
+        "end_time",
+        "start_time"
+      ],
+      "type": "object",
+      "properties": {
+        "days": {
+          "uniqueItems": true,
+          "type": "array",
+          "description": "Days of the week for which the time period applies. Must be one of [MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY]",
+          "items": {
+            "type": "string",
+            "description": "Days of the week for which the time period applies. Must be one of [MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY]",
+            "enum": [
+              "MONDAY",
+              "TUESDAY",
+              "WEDNESDAY",
+              "THURSDAY",
+              "FRIDAY",
+              "SATURDAY",
+              "SUNDAY"
+            ]
+          }
+        },
+        "start_time": {
+          "type": "string",
+          "description": "The time when this schedule begins on the days listed, in the merchant's local time. Must conform to ISO date and time format",
+          "example": "09:30:00.000"
+        },
+        "end_time": {
+          "type": "string",
+          "description": "The time when this schedule ends on the days listed, in the merchant's local time. Must conform to ISO date and time format",
+          "example": "22:30:00.000"
+        }
+      },
+      "description": "A time period and repetition rule."
+    },
+    "RepeatingScheduleRuleInterval": {
+      "required": [
+        "end_time",
+        "start_time"
+      ],
+      "type": "object",
+      "properties": {
+        "start_time": {
+          "$ref": "#/$defs/LocalTime"
+        },
+        "end_time": {
+          "$ref": "#/$defs/LocalTime"
+        }
+      }
+    },
+    "ScheduleOverrideMetadata": {
+      "required": [
+        "source"
+      ],
+      "type": "object",
+      "properties": {
+        "created_by": {
+          "type": "string",
+          "description": "The creator of the schedule"
+        },
+        "updated_by": {
+          "type": "string",
+          "description": "The last credential to update the schedule"
+        },
+        "created_date": {
+          "type": "string",
+          "description": "The creation date of the schedule",
+          "format": "date-time"
+        },
+        "updated_date": {
+          "type": "string",
+          "description": "The last update date of the schedule",
+          "format": "date-time"
+        },
+        "legacy_id": {
+          "type": "string",
+          "description": "The legacy ID of the schedule in MySQL"
+        },
+        "description": {
+          "type": "string",
+          "description": "The description for the schedule"
+        },
+        "source": {
+          "type": "string",
+          "description": "The source of the creation or update of the schedule override"
+        }
+      },
+      "description": "The metadata associated to a specific schedule override"
+    }
+  }
+}

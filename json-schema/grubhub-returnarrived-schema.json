@@ -1,0 +1,459 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-returnarrived-schema.json",
+  "title": "ReturnArrived",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/ReturnArrived",
+  "required": [
+    "timestamp",
+    "type"
+  ],
+  "type": "object",
+  "description": "An event indicating the courier has arrived back at the pickup location with the portion of the delivery's contents being returned.",
+  "allOf": [
+    {
+      "$ref": "#/$defs/DeliveryEvent"
+    }
+  ],
+  "$defs": {
+    "Assigned": {
+      "required": [
+        "timestamp",
+        "type"
+      ],
+      "type": "object",
+      "description": "An event indicating the delivery has been assigned.",
+      "allOf": [
+        {
+          "$ref": "#/$defs/DeliveryEvent"
+        }
+      ]
+    },
+    "Canceled": {
+      "required": [
+        "timestamp",
+        "type"
+      ],
+      "type": "object",
+      "description": "An event indicating that the delivery was canceled.",
+      "allOf": [
+        {
+          "$ref": "#/$defs/DeliveryEvent"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "source": {
+              "type": "string",
+              "description": "Types of actors who may update a delivery.",
+              "example": "CLIENT",
+              "enum": [
+                "CLIENT",
+                "GRUBHUB"
+              ]
+            },
+            "reason_code": {
+              "type": "string",
+              "description": "Codes for reasons why a delivery was canceled.",
+              "example": "CUSTOMER_OTHER_REASON",
+              "enum": [
+                "MERCHANT_NOT_READY_FOR_PICKUP",
+                "MERCHANT_UNABLE_TO_FULFILL_ORDER",
+                "MERCHANT_CLOSED",
+                "MERCHANT_PICKUP_DELAYED",
+                "MERCHANT_ITEM_MISSING",
+                "MERCHANT_OTHER_REASON",
+                "EXTERNAL_SYSTEM_FAILURE",
+                "CUSTOMER_CONTENTS_ISSUE",
+                "CUSTOMER_ORDER_CHANGED",
+                "CUSTOMER_REFUSED_DELIVERY",
+                "CUSTOMER_DELIVERY_DELAYED",
+                "CUSTOMER_OTHER_REASON",
+                "ORDER_PICKED_UP_BY_ANOTHER_DRIVER",
+                "DRIVER_UNABLE_TO_FINISH_DELIVERY",
+                "UNABLE_TO_ASSIGN_DRIVER",
+                "EXTERNAL_PARTNER_OTHER_REASON",
+                "DELIVERY_CANCELLATION_OTHER_REASON",
+                "UNKNOWN"
+              ]
+            },
+            "reason_comment": {
+              "type": "string",
+              "description": "Additional detail about the cancellation.",
+              "example": "Customer no longer wants delivery."
+            }
+          }
+        }
+      ]
+    },
+    "CourierAtDropoff": {
+      "required": [
+        "timestamp",
+        "type"
+      ],
+      "type": "object",
+      "description": "An event indicating the assigned courier has arrived at the delivery's dropoff location.",
+      "allOf": [
+        {
+          "$ref": "#/$defs/DeliveryEvent"
+        }
+      ]
+    },
+    "CourierAtPickup": {
+      "required": [
+        "timestamp",
+        "type"
+      ],
+      "type": "object",
+      "description": "An event indicating the assigned courier has arrived at the delivery's pickup location.",
+      "allOf": [
+        {
+          "$ref": "#/$defs/DeliveryEvent"
+        }
+      ]
+    },
+    "Created": {
+      "required": [
+        "timestamp",
+        "type"
+      ],
+      "type": "object",
+      "description": "An event representing the creation of a delivery.",
+      "allOf": [
+        {
+          "$ref": "#/$defs/DeliveryEvent"
+        }
+      ]
+    },
+    "Delivered": {
+      "required": [
+        "timestamp",
+        "type"
+      ],
+      "type": "object",
+      "description": "An event indicating the delivery has been successfully delivered.",
+      "allOf": [
+        {
+          "$ref": "#/$defs/DeliveryEvent"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "dropoff_image_details": {
+              "description": "Use `dropoff_image_details` in the `ProofOfDelivery` event instead.",
+              "deprecated": true,
+              "allOf": [
+                {
+                  "$ref": "#/$defs/DropoffImageDetails"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "DeliveryEvent": {
+      "required": [
+        "timestamp",
+        "type"
+      ],
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The type of this event.",
+          "example": "PICKED_UP",
+          "enum": [
+            "CREATED",
+            "ASSIGNED",
+            "UNASSIGNED",
+            "COURIER_AT_PICKUP",
+            "PICKED_UP",
+            "IN_TRANSIT",
+            "COURIER_AT_DROPOFF",
+            "DELIVERED",
+            "PROOF_OF_DELIVERY",
+            "RETURN_INITIATED",
+            "RETURN_ARRIVED",
+            "RETURN_COMPLETED",
+            "PICKUP_VERIFICATION",
+            "CANCELED"
+          ]
+        },
+        "timestamp": {
+          "type": "string",
+          "description": "The time at which this event occurred. Formatted as an ISO-8601 timestamp.",
+          "format": "date-time",
+          "example": "2024-05-28T00:00:00Z"
+        }
+      },
+      "description": "An event during the course of a single delivery's lifecycle.",
+      "discriminator": {
+        "propertyName": "type"
+      },
+      "oneOf": [
+        {
+          "$ref": "#/$defs/Created"
+        },
+        {
+          "$ref": "#/$defs/Assigned"
+        },
+        {
+          "$ref": "#/$defs/Unassigned"
+        },
+        {
+          "$ref": "#/$defs/CourierAtPickup"
+        },
+        {
+          "$ref": "#/$defs/PickedUp"
+        },
+        {
+          "$ref": "#/$defs/InTransit"
+        },
+        {
+          "$ref": "#/$defs/CourierAtDropoff"
+        },
+        {
+          "$ref": "#/$defs/Delivered"
+        },
+        {
+          "$ref": "#/$defs/ProofOfDelivery"
+        },
+        {
+          "$ref": "#/$defs/PickupVerification"
+        },
+        {
+          "$ref": "#/$defs/ReturnInitiated"
+        },
+        {
+          "$ref": "#/$defs/ReturnArrived"
+        },
+        {
+          "$ref": "#/$defs/ReturnCompleted"
+        },
+        {
+          "$ref": "#/$defs/Canceled"
+        }
+      ]
+    },
+    "DropoffImageDetails": {
+      "required": [
+        "photo_capture_location",
+        "photo_capture_time",
+        "photo_expiration_time",
+        "photo_url"
+      ],
+      "type": "object",
+      "properties": {
+        "photo_url": {
+          "type": "string",
+          "description": "A URL to the dropoff photo taken by the driver upon completing the delivery.",
+          "example": "http://www.grubhub.com/example.png"
+        },
+        "photo_capture_time": {
+          "type": "string",
+          "description": "The timestamp at which the dropoff photo was captured. Formatted as an ISO-8601 timestamp.",
+          "format": "date-time",
+          "example": "2024-05-28T00:00:00Z"
+        },
+        "photo_capture_location": {
+          "$ref": "#/$defs/GeoLocation"
+        },
+        "photo_expiration_time": {
+          "type": "string",
+          "description": "The timestamp when the dropoff photo will expire. Formatted as an ISO-8601 timestamp.",
+          "format": "date-time",
+          "example": "2024-05-28T00:00:00Z"
+        }
+      }
+    },
+    "GeoLocation": {
+      "required": [
+        "lat",
+        "lng"
+      ],
+      "type": "object",
+      "properties": {
+        "lat": {
+          "type": "number",
+          "description": "The latitude of the location.",
+          "format": "double",
+          "example": 41.88320791307697
+        },
+        "lng": {
+          "type": "number",
+          "description": "The longitude of the location.",
+          "format": "double",
+          "example": -87.63142796027925
+        }
+      },
+      "description": "The last known location of the courier."
+    },
+    "InTransit": {
+      "required": [
+        "timestamp",
+        "type"
+      ],
+      "type": "object",
+      "description": "An event indicating the assigned courier has departed the restaurant with the delivery.",
+      "allOf": [
+        {
+          "$ref": "#/$defs/DeliveryEvent"
+        }
+      ]
+    },
+    "PickedUp": {
+      "required": [
+        "timestamp",
+        "type"
+      ],
+      "type": "object",
+      "description": "An event indicating the delivery has been picked up by the assigned courier.",
+      "allOf": [
+        {
+          "$ref": "#/$defs/DeliveryEvent"
+        }
+      ]
+    },
+    "PickupVerification": {
+      "required": [
+        "timestamp",
+        "type"
+      ],
+      "type": "object",
+      "description": "An event containing pickup verification information.",
+      "allOf": [
+        {
+          "$ref": "#/$defs/DeliveryEvent"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "pickup_verification_details": {
+              "$ref": "#/$defs/PickupVerificationDetails"
+            }
+          }
+        }
+      ]
+    },
+    "PickupVerificationDetails": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "string",
+          "description": "The result of pickup verification process.",
+          "enum": [
+            "SUCCESS",
+            "FAILURE",
+            "UNKNOWN"
+          ]
+        },
+        "capture_method": {
+          "type": "string",
+          "description": "The method used to capture the pickup verification code.",
+          "enum": [
+            "QR_SCAN",
+            "PHOTO"
+          ]
+        },
+        "failure_reason": {
+          "type": "string",
+          "description": "The reason for the verification failure, if applicable."
+        },
+        "attempts_count": {
+          "type": "integer",
+          "description": "The number of verification attempts made.",
+          "format": "int32"
+        },
+        "photo_url": {
+          "type": "string",
+          "description": "A URL to the pickup verification photo, if applicable."
+        }
+      }
+    },
+    "ProofOfDelivery": {
+      "required": [
+        "timestamp",
+        "type"
+      ],
+      "type": "object",
+      "description": "An event containing proof of delivery information.",
+      "allOf": [
+        {
+          "$ref": "#/$defs/DeliveryEvent"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "dropoff_image_details": {
+              "$ref": "#/$defs/DropoffImageDetails"
+            }
+          }
+        }
+      ]
+    },
+    "ReturnArrived": {
+      "required": [
+        "timestamp",
+        "type"
+      ],
+      "type": "object",
+      "description": "An event indicating the courier has arrived back at the pickup location with the portion of the delivery's contents being returned.",
+      "allOf": [
+        {
+          "$ref": "#/$defs/DeliveryEvent"
+        }
+      ]
+    },
+    "ReturnCompleted": {
+      "required": [
+        "timestamp",
+        "type"
+      ],
+      "type": "object",
+      "description": "An event indicating that the necessary portion of the delivery's contents have been successfully returned to the pickup location.",
+      "allOf": [
+        {
+          "$ref": "#/$defs/DeliveryEvent"
+        }
+      ]
+    },
+    "ReturnInitiated": {
+      "required": [
+        "timestamp",
+        "type"
+      ],
+      "type": "object",
+      "description": "An event indicating the delivery is in-transit back to the pickup location in order to return some portion of the delivery's contents.",
+      "allOf": [
+        {
+          "$ref": "#/$defs/DeliveryEvent"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "return_reason": {
+              "type": "string",
+              "description": "The reason the delivery's contents are being returned.",
+              "example": "DINER_MISSING_ID"
+            }
+          }
+        }
+      ]
+    },
+    "Unassigned": {
+      "required": [
+        "timestamp",
+        "type"
+      ],
+      "type": "object",
+      "description": "An event indicating the delivery has been unassigned. An unassigned delivery may still be reassigned to another driver later.",
+      "allOf": [
+        {
+          "$ref": "#/$defs/DeliveryEvent"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-posmerchantbatchoperationstatus-schema.json",
+  "title": "PosMerchantBatchOperationStatus",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-merchant-data-openapi.yml#/components/schemas/PosMerchantBatchOperationStatus",
+  "type": "object",
+  "properties": {
+    "batch_id": {
+      "type": "string",
+      "description": "A value that identifies a batch of merchant operation requests.",
+      "format": "uuid"
+    },
+    "processing_complete": {
+      "type": "boolean",
+      "description": "True if all requests in this batch have been processed (successful or not), false otherwise."
+    },
+    "merchant_status": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "description": "Deprecated - will be replaced by merchant_statuses array. Associations of merchant IDs and their processing status.",
+        "deprecated": true
+      },
+      "description": "Deprecated - will be replaced by merchant_statuses array. Associations of merchant IDs and their processing status.",
+      "deprecated": true
+    },
+    "merchant_statuses": {
+      "type": "array",
+      "description": "List containing the processing status for each merchant ID, including additional information in case of a NOT_FOUND / INVALID status.",
+      "items": {
+        "$ref": "#/$defs/MerchantStatus"
+      }
+    }
+  },
+  "description": "Describes the state (completed or not) of an entire batch of merchant operation requests together with the status of each individual request associated to this batch.",
+  "$defs": {
+    "MerchantStatus": {
+      "type": "object",
+      "properties": {
+        "merchant_id": {
+          "type": "string",
+          "description": "The Grubhub(internal) or Partner(external) merchant ID."
+        },
+        "status": {
+          "type": "string",
+          "description": "Status of the bulk processing operation, one of SUCCESSFUL, NOT_FOUND, INVALID, FAILED, FAILED_TO_QUEUE, IN_PROGRESS, REQUESTED."
+        },
+        "details": {
+          "type": "string",
+          "description": "Additional details present in case of a NOT_FOUND / INVALID status."
+        }
+      },
+      "description": "Merchant ID and their bulk processing status, including additional information in case of NOT_FOUND / INVALID statuses."
+    }
+  }
+}

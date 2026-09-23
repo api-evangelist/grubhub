@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-catering-schema.json",
+  "title": "Catering",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-orders-openapi.yml#/components/schemas/Catering",
+  "type": "object",
+  "properties": {
+    "estimated_attendees": {
+      "type": "integer",
+      "description": "Number of attendees",
+      "format": "int32"
+    },
+    "budget": {
+      "type": "integer",
+      "description": "The budget they had for this order",
+      "format": "int32"
+    },
+    "alternate_name": {
+      "type": "string",
+      "description": "Alternative contact info for the order"
+    },
+    "alternate_phone": {
+      "type": "string",
+      "description": "Alternative contact info for the order"
+    },
+    "green_indicated": {
+      "type": "boolean",
+      "description": "If set to true, the restaurant should not include napkins, utensils and other items that would just become waste as the diner has access to their own dishes and utensils"
+    },
+    "setup_food": {
+      "type": "boolean",
+      "description": "If true, the driver should setup the food before leaving"
+    },
+    "setup_instructions": {
+      "type": "string",
+      "description": "Instructions on how to setup the order"
+    }
+  },
+  "description": "Catering details for an order"
+}

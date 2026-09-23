@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-statusupdate-schema.json",
+  "title": "StatusUpdate",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-orders-openapi.yml#/components/schemas/StatusUpdate",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string",
+      "description": "The status of an order as it passes through the Grubhub fulfillment flow.<br /><br />ANTICIPATED: denotes a future order, which may be cancelled by diner.<br />RESTAURANT_CONFIRMABLE: pending confirmation of receipt by the restaurant. These are effectively new ASAP orders. ANTICIPATED orders will automatically become RESTAURANT_CONFIRMABLE at the promise time, less the restaurant's configured pickup or delivery prep time.<br />DINER_CONFIRMABLE: a status held for future use.<br />CONFIRMED: denotes that the order was received by restaurant, even if the restaurant is unable to fulfill it.<br />REJECTED: an error status. For example, if an order is unable to be inserted to the POS, due to menu item mismatch, restaurant offline, etc., the status should be updated to REJECTED. This is not to be used when the order was successfully transmitted, but the restaurant is unable to fulfill it for operational reasons. In that scenario, a Change Request should be submitted to cancel the order.<br />CANCELLED: a cancellation request by the diner or restaurant has been processed by Grubhub Customer Care.<br />PICKUP_READY: indicates that the food is prepared and ready for pickup by the diner or a Grubhub delivery courier.<br />OUT_FOR_DELIVERY: the food is on the way to the diner.<br />FULFILLED: denotes that the food has been delivered to or picked up by the diner.<br />UNKNOWN: provided for error handling of strings unmappable to known enumeration values.",
+      "enum": [
+        "REJECTED",
+        "READY_FOR_PICKUP",
+        "ANTICIPATED",
+        "RESTAURANT_CONFIRMABLE",
+        "CONFIRMED",
+        "CANCELLED",
+        "DELIVERY_CONFIRMABLE",
+        "DINER_CONFIRMABLE",
+        "UNKNOWN",
+        "PICKUP_READY",
+        "OUT_FOR_DELIVERY",
+        "FULFILLED",
+        "POS_VALIDATING",
+        "POS_VALIDATED",
+        "POS_VALIDATION_REJECTED"
+      ]
+    },
+    "timestamp": {
+      "$ref": "#/$defs/Instant"
+    },
+    "update_source": {
+      "type": "string",
+      "description": "The source of the update.",
+      "enum": [
+        "DINER",
+        "RESTAURANT",
+        "GRUBHUB",
+        "GRUBHUB_ADMIN",
+        "GRUBHUB_CARE",
+        "GRUBHUB_CORE",
+        "GRUBHUB_DAPI",
+        "GRUBHUB_ORDERS_REAPER",
+        "CONFIRMATION_EMAIL_SERVICE",
+        "FAX_RING",
+        "MERCHANT_ORDERS",
+        "CONFIRMATION_AUTOMATION",
+        "POS_MICROS",
+        "POS_GENERIC",
+        "POS_ALOHA",
+        "POS_XENIAL",
+        "POS_POSITOUCH",
+        "TX",
+        "TXS",
+        "GRUBHUB_ORDERS_ANTICIPATED_REAPER",
+        "GRUBHUB_ORDERS_DAPI_SUPERVISOR",
+        "GRUBHUB_ORDERS_AUTOCONFIRM_SUPERVISOR",
+        "GRUBHUB_ORDERS_AUTOBUMP",
+        "GRUBHUB_ORDERS_NOTIFICATION_SUPERVISOR",
+        "GRUBHUB_ORDERS_FULFILLMENT_SUPERVISOR",
+        "GRUBHUB_ORDERS_TRANSMISSION_SUPERVISOR",
+        "UNKNOWN"
+      ]
+    },
+    "reason": {
+      "type": "string",
+      "description": "An optional reason for the update."
+    },
+    "segment_index": {
+      "type": "integer",
+      "description": "A number denoting the order of the status. Higher numbers correspond to more recent order statuses",
+      "format": "int32"
+    }
+  },
+  "description": "A status update reflects each successive change in the status of an order.",
+  "$defs": {
+    "Chronology": {
+      "type": "object",
+      "properties": {
+        "zone": {
+          "$ref": "#/$defs/DateTimeZone"
+        }
+      }
+    },
+    "DateTimeZone": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "fixed": {
+          "type": "boolean"
+        }
+      },
+      "description": "The timezone of the restaurant"
+    },
+    "Instant": {
+      "type": "object",
+      "properties": {
+        "chronology": {
+          "$ref": "#/$defs/Chronology"
+        },
+        "millis": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "zone": {
+          "$ref": "#/$defs/DateTimeZone"
+        },
+        "after_now": {
+          "type": "boolean"
+        },
+        "before_now": {
+          "type": "boolean"
+        },
+        "equal_now": {
+          "type": "boolean"
+        }
+      },
+      "description": "The time that the diner placed the order"
+    }
+  }
+}

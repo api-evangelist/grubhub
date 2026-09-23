@@ -1,0 +1,101 @@
+generated: '2026-09-17'
+method: generated
+source: openapi/*.yml - Grubhub's twelve first-party OpenAPI documents. Every operationId referenced in
+  every skill was grepped out of the published contract; none is invented.
+note: Grubhub publishes no skills/ or AGENTS.md of its own. These are packaged Agent Skills generated
+  by API Evangelist from the provider's real contract plus conventions/, errors/ and lifecycle/.
+skills:
+- file: grubhub-connect-delivery.md
+  name: grubhub-connect-delivery
+  description: Quote, dispatch, track, amend and cancel a last-mile delivery on Grubhub's courier network
+    (Grubhub Connect / DaaS), including the test path.
+  api: Grubhub Connect (Delivery as a Service)
+  operations:
+  - getServiceAreas
+  - requestDeliveryQuote
+  - acceptDeliveryQuote
+  - getStatus
+  - createProxyPhoneNumber
+  - updateDeliveryDropoffLocation
+  - updatePickupVerification
+  - pickupReady
+  - updateCourierTip
+  - cancelDelivery
+  - requestRefund
+  - progressDelivery
+  - progressRefund
+  - emulateStatusUpdateWebhook
+  - emulateRefundUpdateWebhook
+  operation_count: 15
+- file: grubhub-menu-ingestion.md
+  name: grubhub-menu-ingestion
+  description: Validate and ingest a normalized restaurant menu into the Grubhub Marketplace, then poll
+    the ingestion job to completion.
+  api: Grubhub Menu API
+  operations:
+  - validatePosMenu
+  - addOrUpdatePosFullMenu
+  - getMenuIngestionStatus
+  - findNormalizedMenu
+  operation_count: 4
+- file: grubhub-merchant-availability.md
+  name: grubhub-merchant-availability
+  description: Control whether a Grubhub merchant is taking orders — busy intervals, open/close now, schedule
+    overrides, repeating schedules, and batch online/offline status with job polling.
+  api: Grubhub Merchant Schedules, Busy Intervals and Merchant Data APIs
+  operations:
+  - getBusyMode
+  - setBusyMode
+  - updateBusyMode
+  - deleteActiveBusyMode
+  - openNow
+  - closeNow
+  - getRepeatingSchedule
+  - putRepeatingSchedule
+  - getScheduledOverrides
+  - overrideSchedule
+  - deleteScheduleOverride
+  - updateMerchantStatusByOrderType
+  - updateMerchantStatusByOrderTypeBatch
+  - getMerchantStatusByOrderTypeBatchStatus
+  operation_count: 14
+- file: grubhub-merchant-onboarding.md
+  name: grubhub-merchant-onboarding
+  description: Refer, check eligibility for, activate, associate and deactivate merchants on Grubhub through
+    the partner Onboarding API, and report an onboarding issue.
+  api: Grubhub Onboarding API
+  operations:
+  - getEligibleMerchants
+  - referralSignup
+  - activateMerchants
+  - partnerActivateMerchants
+  - associateMerchants
+  - deactivate
+  - partnerDeactivate
+  - triage
+  operation_count: 8
+- file: grubhub-merchant-reporting.md
+  name: grubhub-merchant-reporting
+  description: Request a merchant export report from Grubhub, wait for the report-status webhook, and
+    fetch the download URL.
+  api: Grubhub Merchant Reporting API
+  operations:
+  - getEnabledMerchants
+  - createExportReport
+  - getDownloadUrl
+  operation_count: 3
+- file: grubhub-order-fulfillment.md
+  name: grubhub-order-fulfillment
+  description: Receive a Grubhub Marketplace order, move it through its status lifecycle, request a change,
+    and add pickup instructions.
+  api: Grubhub Orders API
+  operations:
+  - getPosOrdersByMerchantStatusDateRange
+  - getPosOrdersByGroupStatusDateRange
+  - getPosOrderByOrderUuid
+  - updateExternalOrderStatusByOrderUuid
+  - changeExternalOrder
+  - getChangeRequests
+  - addPickupInstructionsToOrder
+  operation_count: 7
+skill_count: 6

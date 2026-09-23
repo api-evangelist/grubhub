@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-progressdeliveryresponse-schema.json",
+  "title": "ProgressDeliveryResponse",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/ProgressDeliveryResponse",
+  "required": [
+    "expected_progression_time"
+  ],
+  "type": "object",
+  "properties": {
+    "expected_progression_time": {
+      "type": "string",
+      "description": "The expected timestamp at which the delivery will be progressed to the requested state. Formatted as an ISO-8601 timestamp.",
+      "format": "date-time",
+      "example": "2024-05-28T00:00:00Z"
+    }
+  },
+  "description": "The response information of a delivery progression request."
+}

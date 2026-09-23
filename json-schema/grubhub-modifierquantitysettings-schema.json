@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-modifierquantitysettings-schema.json",
+  "title": "ModifierQuantitySettings",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-menu-openapi.yml#/components/schemas/ModifierQuantitySettings",
+  "type": "object",
+  "properties": {
+    "default_units": {
+      "type": "integer",
+      "description": "The number of units of this modifier already entered into the interface when the diner first selects these associated menu item. Applies only to default_modifiers.",
+      "format": "int32"
+    },
+    "maximum_units": {
+      "type": "integer",
+      "description": "The maximum number of units that the diner can add of this modifier. Do not use zero as a maximum integer or the modifiers will not be selectable. *DO NOT use -1 as an integer for unlimited quantity. Instead use a high number, ie 99.*",
+      "format": "int32"
+    },
+    "unit_increment": {
+      "type": "integer",
+      "description": "The number of units added per incremental or decremental action.",
+      "format": "int32"
+    }
+  },
+  "description": "Contains default, maximum, and custom increments for a single modifier. The properties below will be contained in a sub-object identified by the external_id of the modifier in question."
+}

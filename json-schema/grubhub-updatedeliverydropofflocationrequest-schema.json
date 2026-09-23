@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-updatedeliverydropofflocationrequest-schema.json",
+  "title": "UpdateDeliveryDropoffLocationRequest",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/UpdateDeliveryDropoffLocationRequest",
+  "type": "object",
+  "properties": {
+    "instructions": {
+      "maxLength": 500,
+      "minLength": 0,
+      "type": "string",
+      "description": "Dropoff instructions to apply to delivery",
+      "example": "Leave at door - ring doorbell."
+    },
+    "phone": {
+      "pattern": "^\\+\\d{11}$",
+      "type": "string",
+      "description": "A E.164 formatted dropoff contact phone number.",
+      "example": "+16145552332"
+    }
+  },
+  "description": "A request for when a diner decides to update dropoff location information for a delivery. Only allowed before the courier has left the pickup location."
+}

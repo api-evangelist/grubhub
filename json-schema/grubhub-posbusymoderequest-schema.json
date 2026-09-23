@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-posbusymoderequest-schema.json",
+  "title": "PosBusyModeRequest",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-busy-intervals-openapi.yml#/components/schemas/PosBusyModeRequest",
+  "type": "object",
+  "properties": {
+    "eta_increase_seconds": {
+      "type": "integer",
+      "description": "Additional time, in seconds, to add to the displayed delivery ETA while the restaurant is busy. Must be non-negative; defaults to 0 if omitted.",
+      "format": "int64"
+    },
+    "start_time": {
+      "type": "string",
+      "description": "When the busy interval begins, as an RFC-3339 / ISO-8601 UTC timestamp.",
+      "format": "date-time"
+    },
+    "end_time": {
+      "type": "string",
+      "description": "When the busy interval ends, as an RFC-3339 / ISO-8601 UTC timestamp. Must be after start_time.",
+      "format": "date-time"
+    }
+  }
+}

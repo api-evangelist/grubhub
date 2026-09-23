@@ -1,0 +1,70 @@
+generated: '2026-09-17'
+method: searched
+source: >-
+  registry.npmjs.org search + package metadata, pypi.org/pypi/<pkg>/json, rubygems.org,
+  crates.io, api.nuget.org, repo1.maven.org, proxy.golang.org, api.github.com/orgs/GrubhubProd
+  and /orgs/grubhub, and the Grubhub partner developer portal (developer.grubhub.com)
+finding: >-
+  Grubhub publishes NO first-party client SDK on any public package registry, and neither of its
+  GitHub organizations carries one. github.com/GrubhubProd (the org apis.yml points at) has zero
+  public repositories; github.com/grubhub has two, both operations-research datasets (mdrplib,
+  tsppdlib) and neither an API client. The partner APIs are consumed directly over HTTPS with the
+  X-GH-PARTNER-KEY header; the developer portal ships reference documentation and OpenAPI, not
+  libraries. Everything listed below is third-party and is recorded as such.
+official_sdk_count: 0
+package_count: 4
+packages:
+- name: '@striderlabs/mcp-grubhub'
+  registry: npm
+  official: false
+  url: https://www.npmjs.com/package/@striderlabs/mcp-grubhub
+  repository: https://github.com/markswendsen-code/mcp-grubhub
+  publisher: Strider Labs (hello@striderlabs.ai)
+  description: MCP server for Grubhub - let AI agents order food delivery.
+  version: 0.2.1
+  published: '2026-06-17'
+  note: >-
+    Third-party. Not published by Grubhub and not referenced anywhere on developer.grubhub.com;
+    it wraps the consumer ordering surface, not the partner APIs documented in openapi/.
+- name: grubhub
+  registry: pypi
+  official: false
+  url: https://pypi.org/project/grubhub/
+  repository: https://github.com/jlumbroso/grubhub
+  publisher: "J\xE9r\xE9mie Lumbroso"
+  description: A quick wrapper around GrubHub's API, to fetch account and order information.
+  version: 0.1.0
+  published: '2021-12-12'
+  note: Third-party community wrapper, last released 2021-12-12 - nearly five years stale.
+- name: grubhub-api
+  registry: npm
+  official: false
+  url: https://www.npmjs.com/package/grubhub-api
+  description: Scraper for finding the grub.
+  version: 0.0.2
+  published: '2014-09-02'
+  note: Third-party scraper, abandoned since 2014. Not an API client.
+- name: dsh-grubhub
+  registry: npm
+  official: false
+  url: https://www.npmjs.com/package/dsh-grubhub
+  repository: https://github.com/dushaobindoudou/dsh-plugin
+  description: Grubhub bridge for dsh agents - name reserved; first release in development.
+  version: 0.0.1
+  published: '2026-09-09'
+  note: Third-party placeholder release; the package itself says the name is reserved.
+registries_checked:
+- registry: npm
+  result: no first-party package
+- registry: pypi
+  result: no first-party package
+- registry: rubygems
+  result: 404 on grubhub
+- registry: crates.io
+  result: 404 on grubhub
+- registry: nuget
+  result: 404 on grubhub
+- registry: maven-central
+  result: 404 on com/grubhub
+- registry: pkg.go.dev
+  result: 404 on github.com/grubhub

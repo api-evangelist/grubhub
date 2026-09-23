@@ -1,26 +1,60 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "#/components/schemas/ReferralResponse",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-referralresponse-schema.json",
   "title": "ReferralResponse",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-onboarding-openapi.yml#/components/schemas/ReferralResponse",
   "type": "object",
-  "description": "Response after successfully creating a merchant referral.",
   "properties": {
-    "referral_id": {
-      "type": "string",
-      "description": "The unique identifier for this referral."
+    "referral": {
+      "$ref": "#/$defs/ReferralSignup"
     },
-    "merchant_id": {
-      "type": "string",
-      "description": "The assigned Grubhub merchant identifier."
-    },
-    "status": {
-      "type": "string",
-      "description": "The current status of the referral.",
-      "enum": [
-        "PENDING",
-        "APPROVED",
-        "REJECTED"
-      ]
+    "message": {
+      "type": "string"
+    }
+  },
+  "$defs": {
+    "ReferralSignup": {
+      "type": "object",
+      "properties": {
+        "partner_id": {
+          "type": "string"
+        },
+        "external_id": {
+          "type": "string"
+        },
+        "merchant_name": {
+          "type": "string"
+        },
+        "street_address": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "postal_code": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "first_name": {
+          "type": "string"
+        },
+        "last_name": {
+          "type": "string"
+        }
+      }
     }
   }
 }

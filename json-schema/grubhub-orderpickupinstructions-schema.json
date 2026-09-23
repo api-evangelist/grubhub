@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-orderpickupinstructions-schema.json",
+  "title": "OrderPickupInstructions",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-orders-openapi.yml#/components/schemas/OrderPickupInstructions",
+  "required": [
+    "updated_at"
+  ],
+  "type": "object",
+  "properties": {
+    "order_pickup_instructions": {
+      "type": "string",
+      "description": "Free-form text field with a 250-character limit. Pickup instructions are only for delivery drivers  when they pick up the order. Grubhub will not parse or interpret the content of this field beyond transmitting it."
+    },
+    "updated_at": {
+      "type": "string",
+      "description": "timestamp in UTC.",
+      "format": "date-time"
+    },
+    "pickup_verification": {
+      "$ref": "#/$defs/OrderPickupVerification"
+    }
+  },
+  "description": "Payload to add dynamic pickup instructions",
+  "$defs": {
+    "OrderPickupVerification": {
+      "required": [
+        "verification_code"
+      ],
+      "type": "object",
+      "properties": {
+        "verification_code": {
+          "type": "string",
+          "description": "The code to be used at pickup verification step to validate that the driver is picking up the correct order. Drivers would be required to input/scan the correct verification code in order to complete the pickup via Driver App"
+        },
+        "capture_method": {
+          "type": "string",
+          "description": "The verification method required for the merchant-to-driver handoff during order pickup",
+          "default": "MANUAL_ENTRY",
+          "enum": [
+            "QR_SCAN",
+            "MANUAL_ENTRY"
+          ]
+        }
+      },
+      "description": "Payload to for pickup verification instructions"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-tagproductsrequest-schema.json",
+  "title": "TagProductsRequest",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-menu-openapi.yml#/components/schemas/TagProductsRequest",
+  "required": [
+    "external_ids"
+  ],
+  "type": "object",
+  "properties": {
+    "external_ids": {
+      "uniqueItems": true,
+      "type": "array",
+      "description": "A list of external IDs to which to apply the tag(s)",
+      "items": {
+        "type": "string",
+        "description": "A list of external IDs to which to apply the tag(s)"
+      }
+    }
+  },
+  "description": "Operation to tag a specified list of item/modifier IDs."
+}

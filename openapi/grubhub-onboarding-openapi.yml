@@ -1,0 +1,752 @@
+openapi: 3.0.1
+info:
+  title: Onboarding
+servers:
+- url: https://api-third-party-gtm-pp.grubhub.com
+  description: preprod
+- url: https://api-third-party-gtm.grubhub.com
+  description: prod
+tags:
+- name: Models
+  description: "# Triage \n <SchemaDefinition schemaRef=\"#/components/schemas/Triage\"/>\n\n# ReferralSignup \n\
+    \ <SchemaDefinition schemaRef=\"#/components/schemas/ReferralSignup\"/>\n\n# ReferralResponse \n <SchemaDefinition\
+    \ schemaRef=\"#/components/schemas/ReferralResponse\"/>\n\n# PartnerDeactivateRequest \n <SchemaDefinition schemaRef=\"\
+    #/components/schemas/PartnerDeactivateRequest\"/>\n\n# PartnerDeactivateResponse \n <SchemaDefinition schemaRef=\"\
+    #/components/schemas/PartnerDeactivateResponse\"/>\n\n# ActivateRequest \n <SchemaDefinition schemaRef=\"#/components/schemas/ActivateRequest\"\
+    />\n\n# MerchantActivationEnablementResponse \n <SchemaDefinition schemaRef=\"#/components/schemas/MerchantActivationEnablementResponse\"\
+    />\n\n# MerchantActivationResponse \n <SchemaDefinition schemaRef=\"#/components/schemas/MerchantActivationResponse\"\
+    />\n\n# DeactivateRequest \n <SchemaDefinition schemaRef=\"#/components/schemas/DeactivateRequest\"/>\n\n# DeactivateResponse\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/DeactivateResponse\"/>\n\n# AssociationResponse \n <SchemaDefinition\
+    \ schemaRef=\"#/components/schemas/AssociationResponse\"/>\n\n# MerchantAssociationResponse \n <SchemaDefinition\
+    \ schemaRef=\"#/components/schemas/MerchantAssociationResponse\"/>\n\n# Address \n <SchemaDefinition schemaRef=\"\
+    #/components/schemas/Address\"/>\n\n# MerchantEligibilityResponse \n <SchemaDefinition schemaRef=\"#/components/schemas/MerchantEligibilityResponse\"\
+    />\n\n"
+paths:
+  /merchant/onboarding/v1/triage:
+    post:
+      tags:
+      - Endpoints
+      summary: Report Onboarding Issue
+      description: Raise an issue with the onboarding process for a merchant that requires manual intervention.
+      operationId: triage
+      parameters:
+      - name: X-GH-PARTNER-KEY
+        in: header
+        description: Partners grubhub provided UUID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+        example: 97f6eca-6276-4993-bfeb-53cbbbba6f08
+      requestBody:
+        description: Triage request containing merchant IDs and the message for the issue they're having
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Triage'
+            examples:
+              Triage Request Example:
+                description: Triage Request Example
+                value:
+                  cust_id:
+                  - 12345
+                  - 67890
+                  reason: Need assistance with menu configuration
+        required: true
+      responses:
+        '422':
+          description: Unprocessable Entity - Malformed Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Triage'
+        '200':
+          description: Successfully reported the issue for manual intervention
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Triage'
+              examples:
+                Triage request example:
+                  description: Triage request example
+                  value:
+                    cust_id:
+                    - 12345
+                    - 67890
+                    reason: Need assistance with menu configuration
+  /merchant/onboarding/v1/referral:
+    post:
+      tags:
+      - Endpoints
+      summary: New Merchant Referral
+      description: Sends over the details of a new merchant for onboarding them to Grubhub.
+      operationId: referralSignup
+      parameters:
+      - name: X-GH-PARTNER-KEY
+        in: header
+        description: Partners grubhub provided UUID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+        example: 97f6eca-6276-4993-bfeb-53cbbbba6f08
+      requestBody:
+        description: Referral signup request containing merchant details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReferralSignup'
+            examples:
+              Referral Example:
+                description: Referral Example
+                value:
+                  partner_id: partner-abc
+                  external_id: 123ABC
+                  merchant_name: Example Restaurant
+                  street_address: 123 Main St
+                  city: Anytown
+                  state: CA
+                  postal_code: '90210'
+                  email: merchant@example.com
+                  country: US
+                  phone: 555-123-4567
+                  first_name: John
+                  last_name: Doe
+        required: true
+      responses:
+        '200':
+          description: Successfully requested merchant for onboarding
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReferralResponse'
+              example:
+                referral:
+                  partner_id: partner-abc
+                  external_id: 123ABC
+                  merchant_name: Example Restaurant
+                  street_address: 123 Main St
+                  city: Anytown
+                  state: CA
+                  postal_code: '90210'
+                  email: merchant@example.com
+                  country: US
+                  phone: 555-123-4567
+                  first_name: John
+                  last_name: Doe
+                message: We've successfully received the merchant referral, a Grubhub representative will be in
+                  touch within a week.
+        '400':
+          description: Bad Request - Input validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReferralResponse'
+  /merchant/onboarding/v1/partner/deactivate:
+    post:
+      tags:
+      - Endpoints
+      summary: Deactivate Merchant (Partner)
+      description: 'Validates merchant and removes its association with the partner using partner authentication. '
+      operationId: partnerDeactivate
+      parameters:
+      - name: X-GH-PARTNER-KEY
+        in: header
+        description: Partners grubhub provided UUID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+        example: 97f6eca-6276-4993-bfeb-53cbbbba6f08
+      requestBody:
+        description: Deactivation request containing merchant ID to deactivate
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PartnerDeactivateRequest'
+            examples:
+              Partner deactivate request example:
+                description: Partner deactivate request example
+                value:
+                  merchant_id: external-merchant-123
+        required: true
+      responses:
+        '400':
+          description: Bad Request - Invalid input or merchant not eligible
+          content:
+            application/json: {}
+        '200':
+          description: Successfully deactivated the merchant from the partner
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PartnerDeactivateResponse'
+              examples:
+                Partner deactivate response example:
+                  description: Partner deactivate response example
+                  value:
+                    merchant_id: external-merchant-123
+                    status: SUCCESS
+  /merchant/onboarding/v1/partner/activate:
+    post:
+      tags:
+      - Endpoints
+      summary: Activate Merchant (Partner)
+      description: Validates the menu ingestion and partner association statuses, reports merchants not ready for
+        manual intervention. Kicks off the process for setting the integration live, using partner authentication.
+      operationId: partnerActivateMerchants
+      parameters:
+      - name: X-GH-PARTNER-KEY
+        in: header
+        description: Partners grubhub provided UUID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+        example: 97f6eca-6276-4993-bfeb-53cbbbba6f08
+      requestBody:
+        description: Activation request containing job ID retrieved from menu ingestion response
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActivateRequest'
+            examples:
+              Activate request example:
+                description: Activate request example
+                value:
+                  job_id: 123e4567-e89b-12d3-a456-426614174000
+        required: true
+      responses:
+        '400':
+          description: Bad Request - Invalid input or merchant not eligible
+          content:
+            application/json: {}
+        '200':
+          description: Successfully kicked off merchant activation process
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MerchantActivationResponse'
+              examples:
+                Activation request example:
+                  description: Activation request example
+                  value:
+                    batch_id: 123e4567-e89b-12d3-a456-426614174000
+                    merchant_activation_enablement_response:
+                    - cust_id: 12345
+                      kicked_off_enablement: true
+                      reason: []
+                    - cust_id: 67890
+                      kicked_off_enablement: false
+                      reason:
+                      - User needs to wait until end of christmas
+                    - cust_id: 24680
+                      kicked_off_enablement: false
+                      reason:
+                      - Need assistance about updating payment info before proceeding
+  /merchant/onboarding/v1/deactivate:
+    post:
+      tags:
+      - Endpoints
+      summary: Deactivate Merchant
+      description: Validates merchant and removes its association with the partner using Oauth2.
+      operationId: deactivate
+      parameters:
+      - name: X-GH-PARTNER-KEY
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        description: Deactivation request containing merchant ID to deactivate
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeactivateRequest'
+            examples:
+              Deactivate request example:
+                description: Deactivate request example
+                value:
+                  merchant_id: 12345
+        required: true
+      responses:
+        '400':
+          description: Bad Request - Invalid input or merchant not eligible
+          content:
+            application/json: {}
+        '200':
+          description: Successfully deactivated the merchant from the partner
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeactivateResponse'
+              examples:
+                Deactivate response example:
+                  description: Deactivate response example
+                  value:
+                    merchant_id: 12345
+                    status: SUCCESS
+  /merchant/onboarding/v1/associate:
+    post:
+      tags:
+      - Endpoints
+      summary: Associate Merchants
+      description: Binds provided merchants to the partner for onboarding.
+      operationId: associateMerchants
+      parameters:
+      - name: X-GH-PARTNER-KEY
+        in: header
+        description: Partners grubhub provided UUID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+        example: 97f6eca-6276-4993-bfeb-53cbbbba6f08
+      requestBody:
+        description: List of merchant IDs to associate with the partner
+        content:
+          application/json:
+            schema:
+              type: string
+            examples:
+              Associate merchants example, externalId is optional.:
+                description: Associate merchants example, externalId is optional.
+                value:
+                - cust_id: 12234455311
+                  external_id: external123
+                - cust_id: 12342124452
+                  external_id: external789
+                - cust_id: 86535334323
+                  external_id: external456
+        required: true
+      responses:
+        '422':
+          description: Unprocessable Entity - Malformed Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MerchantAssociationResponse'
+        '404':
+          description: Not Found - Merchant not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MerchantAssociationResponse'
+        '200':
+          description: Successfully associated merchants with the partner
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MerchantAssociationResponse'
+              example:
+                associationResponses:
+                - cust_id: 123456
+                  associated: true
+                  status: SUCCESS
+                - cust_id: 789012
+                  associated: false
+                  status: FAILURE
+                - cust_id: 345678
+                  associated: false
+                  status: NOT_FOUND
+                - cust_id: 543212
+                  associated: false
+                  status: ALREADY_INTEGRATED
+  /merchant/onboarding/v1/activate:
+    post:
+      tags:
+      - Endpoints
+      summary: Activate Merchant
+      description: Validates the menu ingestion and partner association statuses, reports merchants not ready for
+        manual intervention. Kicks off the process for setting the integration live
+      operationId: activateMerchants
+      parameters:
+      - name: X-GH-PARTNER-KEY
+        in: header
+        description: Partners grubhub provided UUID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+        example: 97f6eca-6276-4993-bfeb-53cbbbba6f08
+      requestBody:
+        description: Activation request containing job ID retrieved from menu ingestion response
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActivateRequest'
+            examples:
+              Activate request example:
+                description: Activate request example
+                value:
+                  job_id: 123e4567-e89b-12d3-a456-426614174000
+        required: true
+      responses:
+        '400':
+          description: Bad Request - Invalid input or merchant not eligible
+          content:
+            application/json: {}
+        '200':
+          description: Successfully kicked off merchant activation process
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MerchantActivationResponse'
+              examples:
+                Activation request example:
+                  description: Activation request example
+                  value:
+                    batch_id: 123e4567-e89b-12d3-a456-426614174000
+                    merchant_activation_enablement_response:
+                    - cust_id: 12345
+                      kicked_off_enablement: true
+                      reason: []
+                    - cust_id: 67890
+                      kicked_off_enablement: false
+                      reason:
+                      - User needs to wait until end of christmas
+                    - cust_id: 24680
+                      kicked_off_enablement: false
+                      reason:
+                      - Need assistance about updating payment info before proceeding
+  /merchant/onboarding/v1/merchants:
+    get:
+      tags:
+      - Endpoints
+      summary: Get Merchant Eligibility
+      description: Returns the list of merchants under the Grubhub user and their eligibility status for onboarding
+        to the partner. Optionally accepts a list of merchantIds as a query parameter to filter results to a specific
+        subset. Optionally accepts page and size query parameters; when either is supplied, results are sorted in
+        ascending merchant ID order, the response contains only the requested page, and pagination metadata is returned
+        in the X-Total-Count, X-Page, X-Page-Size and X-Total-Pages response headers. An RFC 8288 Link response
+        header provides first, prev, next and last page URLs; follow the next relation until it is absent to walk
+        all pages. Requesting a page beyond X-Total-Pages returns 200 with an empty list. Without page and size
+        the full list is returned as before.
+      operationId: getEligibleMerchants
+      parameters:
+      - name: X-GH-PARTNER-KEY
+        in: header
+        description: Partners grubhub provided UUID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+        example: 97f6eca-6276-4993-bfeb-53cbbbba6f08
+      - name: custIds
+        in: query
+        description: Optional list of customer IDs to filter eligibility check
+        required: false
+        style: form
+        explode: true
+        schema:
+          uniqueItems: true
+          type: array
+          items:
+            type: integer
+            format: int64
+      - name: page
+        in: query
+        description: Optional 1-based page number. Supplying page or size enables paginated mode. Defaults to 1
+          when only size is given.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+        example: 1
+      - name: size
+        in: query
+        description: Optional page size. Hard-capped at 100, defaults to 50 when only page is given.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+        example: 10
+      responses:
+        '400':
+          description: Bad Request - page or size is not a valid number
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MerchantEligibilityResponse'
+        '200':
+          description: Successfully retrieved merchant eligibility status
+          headers:
+            X-Total-Count:
+              description: Total number of merchants across all pages (paginated requests only)
+              style: simple
+              explode: false
+              schema:
+                type: integer
+                format: int64
+            X-Page-Size:
+              description: Page size applied to this response (paginated requests only)
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            X-Total-Pages:
+              description: Total number of pages (paginated requests only)
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            X-Page:
+              description: Current page number, 1-based (paginated requests only)
+              style: simple
+              explode: false
+              schema:
+                type: integer
+            Link:
+              description: RFC 8288 pagination links with first, prev, next and last relations (paginated requests
+                only). The next relation is absent on the last page.
+              style: simple
+              explode: false
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MerchantEligibilityResponse'
+              example:
+              - cust_id: 12345
+                name: Joe's Pizza Palace
+                address:
+                  street_address: 123 Main St
+                  street_address2: Suite 100
+                  locality: New York
+                  region: NY
+                  postal_code: '10001'
+                pos_eligibility: true
+                reasons: []
+              - cust_id: 67890
+                name: Maria's Tacos
+                address:
+                  street_address: 456 Oak Ave
+                  locality: Los Angeles
+                  region: CA
+                  postal_code: '90210'
+                pos_eligibility: false
+                reasons:
+                - Not eligible for POS integration.
+              - cust_id: 24680
+                name: Bob's Burgers
+                address:
+                  street_address: 789 Pine St
+                  street_address2: Unit B
+                  locality: Chicago
+                  region: IL
+                  postal_code: '60601'
+                pos_eligibility: false
+                reasons:
+                - Missing required configuration.
+                - Invalid menu format.
+        '422':
+          description: Unprocessable Entity - Merchant has too many or no merchants to process, or invalid pagination
+            parameters (page < 1, size < 1, or size above the maximum)
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MerchantEligibilityResponse'
+components:
+  schemas:
+    Triage:
+      type: object
+      properties:
+        cust_id:
+          uniqueItems: true
+          type: array
+          items:
+            type: integer
+            format: int64
+        reason:
+          type: string
+    ReferralSignup:
+      type: object
+      properties:
+        partner_id:
+          type: string
+        external_id:
+          type: string
+        merchant_name:
+          type: string
+        street_address:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        postal_code:
+          type: string
+        email:
+          type: string
+        country:
+          type: string
+        phone:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+    ReferralResponse:
+      type: object
+      properties:
+        referral:
+          $ref: '#/components/schemas/ReferralSignup'
+        message:
+          type: string
+    PartnerDeactivateRequest:
+      type: object
+      properties:
+        merchant_id:
+          type: string
+    PartnerDeactivateResponse:
+      type: object
+      properties:
+        merchant_id:
+          type: string
+        status:
+          type: string
+    ActivateRequest:
+      type: object
+      properties:
+        job_id:
+          type: string
+          format: uuid
+    MerchantActivationEnablementResponse:
+      type: object
+      properties:
+        cust_id:
+          type: integer
+          format: int64
+        kicked_off_enablement:
+          type: boolean
+        reason:
+          type: array
+          items:
+            type: string
+    MerchantActivationResponse:
+      type: object
+      properties:
+        batch_id:
+          type: string
+          format: uuid
+        merchant_activation_enablement_response:
+          type: array
+          items:
+            $ref: '#/components/schemas/MerchantActivationEnablementResponse'
+    DeactivateRequest:
+      type: object
+      properties:
+        merchant_id:
+          type: integer
+          format: int64
+    DeactivateResponse:
+      type: object
+      properties:
+        merchant_id:
+          type: integer
+          format: int64
+        status:
+          type: string
+    AssociationResponse:
+      type: object
+      properties:
+        cust_id:
+          type: integer
+          format: int64
+        external_id:
+          type: string
+        associated:
+          type: boolean
+        status:
+          type: string
+          enum:
+          - SUCCESS
+          - NOT_FOUND
+          - ALREADY_INTEGRATED
+          - FAILURE
+    MerchantAssociationResponse:
+      type: object
+      properties:
+        association_responses:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/AssociationResponse'
+    Address:
+      type: object
+      properties:
+        street_address:
+          maxLength: 255
+          minLength: 0
+          type: string
+          description: Street address line 1
+          example: 123 Main St
+        street_address2:
+          maxLength: 255
+          minLength: 0
+          type: string
+          description: Street address line 2 (optional)
+          example: Suite 100
+        locality:
+          maxLength: 100
+          minLength: 0
+          type: string
+          description: City or locality
+          example: New York
+        region:
+          maxLength: 50
+          minLength: 0
+          type: string
+          description: State, province, or region
+          example: NY
+        postal_code:
+          maxLength: 20
+          minLength: 0
+          type: string
+          description: Postal or ZIP code
+          example: '10001'
+      description: Address information for the merchant
+    MerchantEligibilityResponse:
+      type: object
+      properties:
+        cust_id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        address:
+          $ref: '#/components/schemas/Address'
+        pos_eligibility:
+          type: boolean
+        reasons:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+      description: Merchant eligibility response containing merchant details and POS eligibility status

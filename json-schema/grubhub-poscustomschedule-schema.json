@@ -1,0 +1,244 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-poscustomschedule-schema.json",
+  "title": "PosCustomSchedule",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-merchant-schedules-openapi.yml#/components/schemas/PosCustomSchedule",
+  "required": [
+    "date",
+    "metadata",
+    "name"
+  ],
+  "type": "object",
+  "properties": {
+    "merchant_id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string",
+      "description": "Type of schedule. If not specified, defaults to \"DELIVERY\"",
+      "enum": [
+        "DELIVERY",
+        "PICKUP",
+        "CATERING",
+        "GROUP"
+      ]
+    },
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "metadata": {
+      "$ref": "#/$defs/CustomScheduleMetadata"
+    }
+  },
+  "description": "All custom schedules associated with this merchant. These are temporary schedules that change the working hours for the merchant for things like holiday or summer hours.",
+  "$defs": {
+    "Chronology": {
+      "type": "object",
+      "properties": {
+        "zone": {
+          "$ref": "#/$defs/DateTimeZone"
+        }
+      }
+    },
+    "CustomScheduleMetadata": {
+      "required": [
+        "intervals",
+        "source"
+      ],
+      "type": "object",
+      "properties": {
+        "created_by": {
+          "type": "string",
+          "description": "The creator of the schedule"
+        },
+        "updated_by": {
+          "type": "string",
+          "description": "The last credential to update the schedule"
+        },
+        "created_date": {
+          "type": "string",
+          "description": "The creation date of the schedule",
+          "format": "date-time"
+        },
+        "updated_date": {
+          "type": "string",
+          "description": "The last update date of the schedule",
+          "format": "date-time"
+        },
+        "legacy_id": {
+          "type": "string",
+          "description": "The legacy ID of the schedule in MySQL"
+        },
+        "description": {
+          "type": "string",
+          "description": "The description for the schedule"
+        },
+        "source": {
+          "type": "string",
+          "description": "The source of the creation or update of the custom schedule"
+        },
+        "intervals": {
+          "type": "array",
+          "description": "A set of non-overlapping time periods",
+          "items": {
+            "$ref": "#/$defs/RepeatingScheduleRuleInterval"
+          }
+        }
+      },
+      "description": "The metadata associated to a specific custom schedule"
+    },
+    "DateTimeField": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/$defs/DateTimeFieldType"
+        },
+        "supported": {
+          "type": "boolean"
+        },
+        "lenient": {
+          "type": "boolean"
+        },
+        "duration_field": {
+          "$ref": "#/$defs/DurationField"
+        },
+        "range_duration_field": {
+          "$ref": "#/$defs/DurationField"
+        },
+        "leap_duration_field": {
+          "$ref": "#/$defs/DurationField"
+        },
+        "minimum_value": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "maximum_value": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "DateTimeFieldType": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "duration_type": {
+          "$ref": "#/$defs/DurationFieldType"
+        },
+        "range_duration_type": {
+          "$ref": "#/$defs/DurationFieldType"
+        }
+      }
+    },
+    "DateTimeZone": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "fixed": {
+          "type": "boolean"
+        }
+      }
+    },
+    "DurationField": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/$defs/DurationFieldType"
+        },
+        "supported": {
+          "type": "boolean"
+        },
+        "unit_millis": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "precise": {
+          "type": "boolean"
+        }
+      }
+    },
+    "DurationFieldType": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "LocalTime": {
+      "type": "object",
+      "properties": {
+        "chronology": {
+          "$ref": "#/$defs/Chronology"
+        },
+        "millis_of_day": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "hour_of_day": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "minute_of_hour": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "second_of_minute": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "millis_of_second": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/DateTimeField"
+          }
+        },
+        "values": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "field_types": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/DateTimeFieldType"
+          }
+        }
+      }
+    },
+    "RepeatingScheduleRuleInterval": {
+      "required": [
+        "end_time",
+        "start_time"
+      ],
+      "type": "object",
+      "properties": {
+        "start_time": {
+          "$ref": "#/$defs/LocalTime"
+        },
+        "end_time": {
+          "$ref": "#/$defs/LocalTime"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-vehicle-schema.json",
+  "title": "Vehicle",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-deliveries-openapi.yml#/components/schemas/Vehicle",
+  "required": [
+    "type"
+  ],
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "Describes the mode of transportation (car, bike, etc.)",
+      "example": "car",
+      "enum": [
+        "car, bike, robot, drone"
+      ]
+    },
+    "description": {
+      "type": "string",
+      "description": "The make, model and color of the vehicle where applicable",
+      "example": "Ford Explorer, black"
+    }
+  },
+  "description": "A vehicle used by a courier."
+}

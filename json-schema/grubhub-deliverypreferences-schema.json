@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-deliverypreferences-schema.json",
+  "title": "DeliveryPreferences",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-deliveries-openapi.yml#/components/schemas/DeliveryPreferences",
+  "type": "object",
+  "properties": {
+    "pickup_time": {
+      "type": "string",
+      "description": "The desired time for a driver to arrive at the pickup location",
+      "format": "date-time",
+      "example": "2019-08-24T14:15:22Z"
+    },
+    "delivery_time": {
+      "type": "string",
+      "description": "The desired time for a driver to arrive at the dropoff location",
+      "format": "date-time",
+      "example": "2019-08-24T14:45:22Z"
+    }
+  },
+  "description": "A set of preferred details about a delivery"
+}

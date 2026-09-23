@@ -1,0 +1,158 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-pickuplocation-schema.json",
+  "title": "PickupLocation",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/PickupLocation",
+  "required": [
+    "address",
+    "brand_name",
+    "name",
+    "phone"
+  ],
+  "type": "object",
+  "properties": {
+    "name": {
+      "maxLength": 128,
+      "minLength": 0,
+      "type": "string",
+      "description": "The name of the merchant or individual at the location.",
+      "example": "Bob's Burgers"
+    },
+    "address": {
+      "$ref": "#/$defs/DeliveryAddress"
+    },
+    "phone": {
+      "pattern": "^\\+\\d{11}$",
+      "type": "string",
+      "description": "A E.164 formatted phone number. Only 11-digits are supported.",
+      "example": "+16145552332"
+    },
+    "instructions": {
+      "maxLength": 500,
+      "minLength": 0,
+      "type": "string",
+      "description": "Instructions for the courier while at the location.",
+      "example": "Leave at front door."
+    },
+    "geo_location": {
+      "$ref": "#/$defs/GeoLocation"
+    },
+    "brand_name": {
+      "maxLength": 128,
+      "minLength": 0,
+      "type": "string",
+      "description": "The name of the requesting brand. This must be consistent across all deliveries for the same brand.",
+      "example": "Inspire"
+    },
+    "sub_brand_name": {
+      "maxLength": 128,
+      "minLength": 0,
+      "type": "string",
+      "description": "The name of the requesting individual brand, NOT the aggregator. This must be consistent across all deliveries for the same brand.",
+      "example": "Dunkin Donuts"
+    },
+    "location_grouping_id": {
+      "maxLength": 128,
+      "minLength": 0,
+      "type": "string",
+      "description": "A reference identifier for grouping locations.",
+      "example": "loc-group-123"
+    },
+    "location_grouping_name": {
+      "maxLength": 128,
+      "minLength": 0,
+      "type": "string",
+      "description": "A reference name for grouping locations.",
+      "example": "All NY Stores"
+    }
+  },
+  "description": "The information associated with a pickup location.",
+  "$defs": {
+    "DeliveryAddress": {
+      "required": [
+        "city",
+        "country_area",
+        "country_code",
+        "postal_code",
+        "street_address"
+      ],
+      "type": "object",
+      "properties": {
+        "country_code": {
+          "maxLength": 8,
+          "minLength": 0,
+          "type": "string",
+          "description": "The ISO-3166 country code of the address.",
+          "example": "US"
+        },
+        "country_area": {
+          "maxLength": 64,
+          "minLength": 0,
+          "type": "string",
+          "description": "The country area or state of the address.",
+          "example": "IL"
+        },
+        "city": {
+          "maxLength": 64,
+          "minLength": 0,
+          "type": "string",
+          "description": "The city of the address.",
+          "example": "Chicago"
+        },
+        "street_address": {
+          "maxItems": 5,
+          "minItems": 1,
+          "type": "array",
+          "description": "The street address details of the address.",
+          "example": [
+            "123 Washington Lane"
+          ],
+          "items": {
+            "maxLength": 128,
+            "minLength": 0,
+            "type": "string"
+          }
+        },
+        "postal_code": {
+          "maxLength": 16,
+          "minLength": 0,
+          "type": "string",
+          "description": "The postal code of the address.",
+          "example": "60642"
+        },
+        "company_name": {
+          "maxLength": 128,
+          "minLength": 0,
+          "type": "string",
+          "description": "The company name of the address.",
+          "example": "Fake Savings and Loans Co."
+        }
+      },
+      "description": "The information associated with an address."
+    },
+    "GeoLocation": {
+      "required": [
+        "lat",
+        "lng"
+      ],
+      "type": "object",
+      "properties": {
+        "lat": {
+          "type": "number",
+          "description": "The latitude of the location.",
+          "format": "double",
+          "example": 41.88320791307697
+        },
+        "lng": {
+          "type": "number",
+          "description": "The longitude of the location.",
+          "format": "double",
+          "example": -87.63142796027925
+        }
+      },
+      "description": "The last known location of the courier."
+    }
+  }
+}

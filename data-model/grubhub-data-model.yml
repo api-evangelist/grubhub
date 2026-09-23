@@ -1,0 +1,3233 @@
+generated: '2026-09-17'
+method: derived
+source: openapi/_harvested/*.json - $ref graph and id-reference fields of the twelve first-party Grubhub
+  OpenAPI documents
+note: Entity graph derived mechanically from components.schemas $ref links. Grubhub publishes no object
+  reference page in machine-readable form (developer.grubhub.com renders client-side from Contentful),
+  so id-prefix conventions could not be searched; the identifier fields below are the ones the contract
+  itself declares.
+entity_count: 248
+relationship_count: 212
+core_entities:
+- PosNormalizedMenu
+- PosOrder
+- PosMerchantData
+- Delivery
+- PosFullSchedule
+- MenuSection
+- Item
+- Line
+- Courier
+- Quote
+identifier_conventions:
+- name: merchant_id
+  note: Legacy numeric Grubhub merchant identifier. Used by the pos/v1 Merchant Data, Merchant Schedules,
+    Menu and Busy Intervals paths.
+- name: merchant_long_id
+  note: Long-form merchant identifier. Used by the pos/v1 Orders and Testing paths - the two identifier
+    spaces are NOT interchangeable and the path segment name is the only signal of which one an operation
+    expects.
+- name: order_uuid
+  note: UUID identifying a Grubhub Marketplace order.
+- name: deliveryId
+  note: Identifier for a Grubhub Connect (DaaS) delivery, distinct from the Marketplace delivery returned
+    by the Deliveries API.
+- name: X-GH-PARTNER-KEY
+  note: UUID-formatted partner identity, carried as a header rather than a path identifier.
+entities:
+- name: AcceptQuoteResponse
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-acceptquoteresponse-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/AcceptQuoteResponse
+  property_count: 1
+  required: null
+- name: ActivateRequest
+  domain: Onboarding
+  schema: json-schema/grubhub-activaterequest-schema.json
+  source: openapi/grubhub-onboarding-openapi.yml#/components/schemas/ActivateRequest
+  property_count: 1
+  required: null
+  identifiers:
+  - field: job_id
+    type: string
+    format: uuid
+    description: null
+- name: AddLineSubstitution
+  domain: Orders
+  schema: json-schema/grubhub-addlinesubstitution-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/AddLineSubstitution
+  property_count: 0
+  required: null
+- name: Address
+  domain: Deliveries
+  schema: json-schema/grubhub-address-schema.json
+  source: openapi/grubhub-deliveries-openapi.yml#/components/schemas/Address
+  property_count: 12
+  required: null
+- name: Affiliate
+  domain: Orders
+  schema: json-schema/grubhub-affiliate-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/Affiliate
+  property_count: 3
+  required: null
+  identifiers:
+  - field: affiliate_id
+    type: string
+    format: null
+    description: null
+- name: Assigned
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-assigned-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/Assigned
+  property_count: 0
+  required:
+  - timestamp
+  - type
+- name: AssociationResponse
+  domain: Onboarding
+  schema: json-schema/grubhub-associationresponse-schema.json
+  source: openapi/grubhub-onboarding-openapi.yml#/components/schemas/AssociationResponse
+  property_count: 4
+  required: null
+  identifiers:
+  - field: cust_id
+    type: integer
+    format: int64
+    description: null
+  - field: external_id
+    type: string
+    format: null
+    description: null
+- name: AvailabilityOverride
+  domain: Menu
+  schema: json-schema/grubhub-availabilityoverride-schema.json
+  source: openapi/grubhub-menu-openapi.yml#/components/schemas/AvailabilityOverride
+  property_count: 5
+  required:
+  - end_date
+  - external_id
+  - name
+  - override_type
+  - start_date
+  identifiers:
+  - field: external_id
+    type: string
+    format: null
+    description: 'A user-configured identifier for this object within the menu. External IDs must be unique
+      across all menu entities of this type. Any availability override that '
+- name: AvailabilityRange
+  domain: Menu
+  schema: json-schema/grubhub-availabilityrange-schema.json
+  source: openapi/grubhub-menu-openapi.yml#/components/schemas/AvailabilityRange
+  property_count: 4
+  required:
+  - external_id
+  - name
+  - start_date
+  identifiers:
+  - field: external_id
+    type: string
+    format: null
+    description: A user-configured identifier for this object within the menu. External IDs must be unique
+      across all menu entities of this type. Any availability range that sha
+- name: BulkProcessingItemEntityStatus
+  domain: Menu
+  schema: json-schema/grubhub-bulkprocessingitementitystatus-schema.json
+  source: openapi/grubhub-menu-openapi.yml#/components/schemas/BulkProcessingItemEntityStatus
+  property_count: 4
+  required: null
+  identifiers:
+  - field: entity_id
+    type: string
+    format: null
+    description: Either the menu entity internal (Grubhub) OR external (Partner) IDs.
+- name: CancelDeliveryRequest
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-canceldeliveryrequest-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/CancelDeliveryRequest
+  property_count: 2
+  required:
+  - cancel_code
+- name: Canceled
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-canceled-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/Canceled
+  property_count: 0
+  required:
+  - timestamp
+  - type
+- name: CatalogVersion
+  domain: Orders
+  schema: json-schema/grubhub-catalogversion-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/CatalogVersion
+  property_count: 1
+  required: null
+  identifiers:
+  - field: version_id
+    type: string
+    format: null
+    description: null
+- name: Catering
+  domain: Orders
+  schema: json-schema/grubhub-catering-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/Catering
+  property_count: 7
+  required: null
+- name: Charges
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-charges-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/Charges
+  property_count: 2
+  required:
+  - contents_value
+  - tip
+- name: Chronology
+  domain: Merchant Schedules
+  schema: json-schema/grubhub-chronology-schema.json
+  source: openapi/grubhub-merchant-schedules-openapi.yml#/components/schemas/Chronology
+  property_count: 1
+  required: null
+- name: ClientData
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-clientdata-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/ClientData
+  property_count: 4
+  required: null
+  identifiers:
+  - field: external_id
+    type: string
+    format: null
+    description: A stored correlation id that isn't used by Grubhub's platform.
+  - field: external_merchant_id
+    type: string
+    format: null
+    description: A client-provided merchant identifier.
+- name: ConfigGroup
+  domain: Merchant Data
+  schema: json-schema/grubhub-configgroup-schema.json
+  source: openapi/grubhub-merchant-data-openapi.yml#/components/schemas/ConfigGroup
+  property_count: 2
+  required:
+  - merchant_ids
+- name: ContactInfo
+  domain: Orders
+  schema: json-schema/grubhub-contactinfo-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/ContactInfo
+  property_count: 3
+  required: null
+- name: Coordinates
+  domain: Deliveries
+  schema: json-schema/grubhub-coordinates-schema.json
+  source: openapi/grubhub-deliveries-openapi.yml#/components/schemas/Coordinates
+  property_count: 2
+  required: null
+- name: Courier
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-courier-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/Courier
+  property_count: 3
+  required:
+  - delivery_method
+  - location
+  - name
+- name: CourierAtDropoff
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-courieratdropoff-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/CourierAtDropoff
+  property_count: 0
+  required:
+  - timestamp
+  - type
+- name: CourierAtPickup
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-courieratpickup-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/CourierAtPickup
+  property_count: 0
+  required:
+  - timestamp
+  - type
+- name: CreateExportReportRequestByPartner
+  domain: Reporting
+  schema: json-schema/grubhub-createexportreportrequestbypartner-schema.json
+  source: openapi/grubhub-reporting-endpoints-openapi.yml#/components/schemas/CreateExportReportRequestByPartner
+  property_count: 5
+  required:
+  - merchant_ids
+  - report_columns
+  - report_parameters
+  - report_type
+- name: CreateExportReportResponseByPartner
+  domain: Reporting
+  schema: json-schema/grubhub-createexportreportresponsebypartner-schema.json
+  source: openapi/grubhub-reporting-endpoints-openapi.yml#/components/schemas/CreateExportReportResponseByPartner
+  property_count: 1
+  required: null
+  identifiers:
+  - field: report_uuid
+    type: string
+    format: null
+    description: UUID for the requested report.
+- name: Created
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-created-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/Created
+  property_count: 0
+  required:
+  - timestamp
+  - type
+- name: CustomScheduleMetadata
+  domain: Merchant Schedules
+  schema: json-schema/grubhub-customschedulemetadata-schema.json
+  source: openapi/grubhub-merchant-schedules-openapi.yml#/components/schemas/CustomScheduleMetadata
+  property_count: 8
+  required:
+  - intervals
+  - source
+  identifiers:
+  - field: legacy_id
+    type: string
+    format: null
+    description: The legacy ID of the schedule in MySQL
+- name: DateRange
+  domain: Reporting
+  schema: json-schema/grubhub-daterange-schema.json
+  source: openapi/grubhub-reporting-endpoints-openapi.yml#/components/schemas/DateRange
+  property_count: 2
+  required:
+  - end_date
+  - start_date
+- name: DateTimeField
+  domain: Merchant Schedules
+  schema: json-schema/grubhub-datetimefield-schema.json
+  source: openapi/grubhub-merchant-schedules-openapi.yml#/components/schemas/DateTimeField
+  property_count: 9
+  required: null
+- name: DateTimeFieldType
+  domain: Merchant Schedules
+  schema: json-schema/grubhub-datetimefieldtype-schema.json
+  source: openapi/grubhub-merchant-schedules-openapi.yml#/components/schemas/DateTimeFieldType
+  property_count: 3
+  required: null
+- name: DateTimeZone
+  domain: Merchant Schedules
+  schema: json-schema/grubhub-datetimezone-schema.json
+  source: openapi/grubhub-merchant-schedules-openapi.yml#/components/schemas/DateTimeZone
+  property_count: 2
+  required: null
+  identifiers:
+  - field: id
+    type: string
+    format: null
+    description: null
+- name: DeactivateRequest
+  domain: Onboarding
+  schema: json-schema/grubhub-deactivaterequest-schema.json
+  source: openapi/grubhub-onboarding-openapi.yml#/components/schemas/DeactivateRequest
+  property_count: 1
+  required: null
+  identifiers:
+  - field: merchant_id
+    type: integer
+    format: int64
+    description: null
+- name: DeactivateResponse
+  domain: Onboarding
+  schema: json-schema/grubhub-deactivateresponse-schema.json
+  source: openapi/grubhub-onboarding-openapi.yml#/components/schemas/DeactivateResponse
+  property_count: 2
+  required: null
+  identifiers:
+  - field: merchant_id
+    type: integer
+    format: int64
+    description: null
+- name: DefaultContext
+  domain: Orders
+  schema: json-schema/grubhub-defaultcontext-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/DefaultContext
+  property_count: 3
+  required: null
+- name: Delivered
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-delivered-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/Delivered
+  property_count: 0
+  required:
+  - timestamp
+  - type
+- name: Delivery
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-delivery-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/Delivery
+  property_count: 4
+  required:
+  - delivery_id
+  - estimated_event_times
+  - events
+  identifiers:
+  - field: delivery_id
+    type: string
+    format: uuid
+    description: A unique identifier of this delivery.
+- name: DeliveryAddress
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-deliveryaddress-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/DeliveryAddress
+  property_count: 6
+  required:
+  - city
+  - country_area
+  - country_code
+  - postal_code
+  - street_address
+- name: DeliveryArea
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-deliveryarea-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/DeliveryArea
+  property_count: 2
+  required:
+  - features
+  - type
+- name: DeliveryAreaStats
+  domain: Merchant Data
+  schema: json-schema/grubhub-deliveryareastats-schema.json
+  source: openapi/grubhub-merchant-data-openapi.yml#/components/schemas/DeliveryAreaStats
+  property_count: 4
+  required: null
+- name: DeliveryEvent
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-deliveryevent-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/DeliveryEvent
+  property_count: 2
+  required:
+  - timestamp
+  - type
+- name: DeliveryInfo
+  domain: Orders
+  schema: json-schema/grubhub-deliveryinfo-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/DeliveryInfo
+  property_count: 12
+  required: null
+  identifiers:
+  - field: id
+    type: string
+    format: null
+    description: An id for this delivery
+- name: DeliveryItem
+  domain: Deliveries
+  schema: json-schema/grubhub-deliveryitem-schema.json
+  source: openapi/grubhub-deliveries-openapi.yml#/components/schemas/DeliveryItem
+  property_count: 8
+  required:
+  - description
+  - diner_id
+  identifiers:
+  - field: diner_id
+    type: string
+    format: uuid
+    description: UUID of the diner ordering this item
+- name: DeliveryItemOption
+  domain: Deliveries
+  schema: json-schema/grubhub-deliveryitemoption-schema.json
+  source: openapi/grubhub-deliveries-openapi.yml#/components/schemas/DeliveryItemOption
+  property_count: 4
+  required:
+  - description
+- name: DeliveryPreferences
+  domain: Deliveries
+  schema: json-schema/grubhub-deliverypreferences-schema.json
+  source: openapi/grubhub-deliveries-openapi.yml#/components/schemas/DeliveryPreferences
+  property_count: 2
+  required: null
+- name: DeliveryRefundUpdate
+  domain: Grubhub Connect Webhooks
+  schema: json-schema/grubhub-deliveryrefundupdate-schema.json
+  source: openapi/grubhub-connect-webhooks-openapi.yml#/components/schemas/DeliveryRefundUpdate
+  property_count: 5
+  required:
+  - accepted
+  - delivery_id
+  - reason
+  identifiers:
+  - field: delivery_id
+    type: string
+    format: uuid
+    description: The UUID associated with the delivery.
+- name: DeliverySizing
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-deliverysizing-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/DeliverySizing
+  property_count: 2
+  required: null
+- name: DeliveryStatusResponse
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-deliverystatusresponse-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/DeliveryStatusResponse
+  property_count: 3
+  required:
+  - delivery
+- name: DeliveryStatusUpdate
+  domain: Grubhub Connect Webhooks
+  schema: json-schema/grubhub-deliverystatusupdate-schema.json
+  source: openapi/grubhub-connect-webhooks-openapi.yml#/components/schemas/DeliveryStatusUpdate
+  property_count: 4
+  required:
+  - delivery
+  - update_type
+- name: DeliveryTestRequest
+  domain: Testing
+  schema: json-schema/grubhub-deliverytestrequest-schema.json
+  source: openapi/grubhub-testing-openapi.yml#/components/schemas/DeliveryTestRequest
+  property_count: 2
+  required: null
+  identifiers:
+  - field: order_id
+    type: string
+    format: uuid
+    description: The UUID of the order for which you want to create a test delivery event. This must be
+      a real order, as the test will pull diner and order information from that
+- name: DeliveryTime
+  domain: Deliveries
+  schema: json-schema/grubhub-deliverytime-schema.json
+  source: openapi/grubhub-deliveries-openapi.yml#/components/schemas/DeliveryTime
+  property_count: 2
+  required:
+  - timestamp
+  - type
+- name: DeliveryTimes
+  domain: Deliveries
+  schema: json-schema/grubhub-deliverytimes-schema.json
+  source: openapi/grubhub-deliveries-openapi.yml#/components/schemas/DeliveryTimes
+  property_count: 10
+  required:
+  - dropoff
+  - dropoff_arrival
+  - pickup
+  - pickup_arrival
+- name: Dimensions
+  domain: Menu
+  schema: json-schema/grubhub-dimensions-schema.json
+  source: openapi/grubhub-menu-openapi.yml#/components/schemas/Dimensions
+  property_count: 3
+  required: null
+- name: Diner
+  domain: Orders
+  schema: json-schema/grubhub-diner-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/Diner
+  property_count: 7
+  required: null
+  identifiers:
+  - field: cart_uuid
+    type: string
+    format: uuid
+    description: null
+- name: DinerPickUpInstructions
+  domain: Merchant Data
+  schema: json-schema/grubhub-dinerpickupinstructions-schema.json
+  source: openapi/grubhub-merchant-data-openapi.yml#/components/schemas/DinerPickUpInstructions
+  property_count: 3
+  required: null
+- name: DropoffImageDetails
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-dropoffimagedetails-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/DropoffImageDetails
+  property_count: 4
+  required:
+  - photo_capture_location
+  - photo_capture_time
+  - photo_expiration_time
+  - photo_url
+- name: DropoffLocation
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-dropofflocation-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/DropoffLocation
+  property_count: 5
+  required:
+  - address
+  - name
+  - phone
+- name: DropoffPreferences
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-dropoffpreferences-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/DropoffPreferences
+  property_count: 1
+  required: null
+- name: DurationField
+  domain: Merchant Schedules
+  schema: json-schema/grubhub-durationfield-schema.json
+  source: openapi/grubhub-merchant-schedules-openapi.yml#/components/schemas/DurationField
+  property_count: 5
+  required: null
+- name: DurationFieldType
+  domain: Merchant Schedules
+  schema: json-schema/grubhub-durationfieldtype-schema.json
+  source: openapi/grubhub-merchant-schedules-openapi.yml#/components/schemas/DurationFieldType
+  property_count: 1
+  required: null
+- name: EmulateDeliveryStatusUpdateWebhookRequest
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-emulatedeliverystatusupdatewebhookrequest-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/EmulateDeliveryStatusUpdateWebhookRequest
+  property_count: 1
+  required: null
+  identifiers:
+  - field: external_delivery_id
+    type: string
+    format: null
+    description: The external ID of the delivery to trigger the webhook for
+- name: EstimatedEventTimes
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-estimatedeventtimes-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/EstimatedEventTimes
+  property_count: 2
+  required:
+  - dropped_off
+  - picked_up
+- name: ExternalId
+  domain: Merchant Data
+  schema: json-schema/grubhub-externalid-schema.json
+  source: openapi/grubhub-merchant-data-openapi.yml#/components/schemas/ExternalId
+  property_count: 4
+  required: null
+  identifiers:
+  - field: partner_id
+    type: string
+    format: uuid
+    description: null
+  - field: internal_id
+    type: string
+    format: null
+    description: null
+  - field: external_id
+    type: string
+    format: null
+    description: null
+- name: Feature
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-feature-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/Feature
+  property_count: 3
+  required:
+  - geometry
+  - properties
+  - type
+- name: Fees
+  domain: Orders
+  schema: json-schema/grubhub-fees-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/Fees
+  property_count: 2
+  required: null
+- name: FulfillmentInfo
+  domain: Orders
+  schema: json-schema/grubhub-fulfillmentinfo-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/FulfillmentInfo
+  property_count: 2
+  required: null
+- name: GeoLocation
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-geolocation-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/GeoLocation
+  property_count: 2
+  required:
+  - lat
+  - lng
+- name: Geometry
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-geometry-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/Geometry
+  property_count: 2
+  required:
+  - coordinates
+  - type
+- name: GetDownloadUrlResponseByPartner
+  domain: Reporting
+  schema: json-schema/grubhub-getdownloadurlresponsebypartner-schema.json
+  source: openapi/grubhub-reporting-endpoints-openapi.yml#/components/schemas/GetDownloadUrlResponseByPartner
+  property_count: 1
+  required: null
+- name: GetEnabledMerchantsResponse
+  domain: Reporting
+  schema: json-schema/grubhub-getenabledmerchantsresponse-schema.json
+  source: openapi/grubhub-reporting-endpoints-openapi.yml#/components/schemas/GetEnabledMerchantsResponse
+  property_count: 1
+  required: null
+- name: HeartbeatTriggeredPayload
+  domain: Merchant Data
+  schema: json-schema/grubhub-heartbeattriggeredpayload-schema.json
+  source: openapi/grubhub-merchant-data-openapi.yml#/components/schemas/HeartbeatTriggeredPayload
+  property_count: 2
+  required:
+  - new_pos_status
+- name: InTransit
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-intransit-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/InTransit
+  property_count: 0
+  required:
+  - timestamp
+  - type
+- name: IncreaseTipRequest
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-increasetiprequest-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/IncreaseTipRequest
+  property_count: 1
+  required:
+  - tip
+- name: Instant
+  domain: Orders
+  schema: json-schema/grubhub-instant-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/Instant
+  property_count: 6
+  required: null
+- name: InvalidCodeAndEntityIds
+  domain: Menu
+  schema: json-schema/grubhub-invalidcodeandentityids-schema.json
+  source: openapi/grubhub-menu-openapi.yml#/components/schemas/InvalidCodeAndEntityIds
+  property_count: 3
+  required:
+  - code
+  - entity_ids
+- name: Item
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-item-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/Item
+  property_count: 5
+  required:
+  - name
+- name: ItemDimensions
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-itemdimensions-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/ItemDimensions
+  property_count: 4
+  required:
+  - depth
+  - height
+  - unit
+  - width
+- name: ItemSizing
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-itemsizing-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/ItemSizing
+  property_count: 2
+  required: null
+- name: ItemWeight
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-itemweight-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/ItemWeight
+  property_count: 2
+  required:
+  - unit
+  - weight
+- name: JitTestOrder
+  domain: Testing
+  schema: json-schema/grubhub-jittestorder-schema.json
+  source: openapi/grubhub-testing-openapi.yml#/components/schemas/JitTestOrder
+  property_count: 4
+  required: null
+  identifiers:
+  - field: order_id
+    type: string
+    format: uuid
+    description: The UUID of the order for which you want to create a test JIT order event. This can be
+      a a real or fake order ID. If it's a real order, then it will pull use th
+  - field: order_merchant_id
+    type: string
+    format: uuid
+    description: Order merchant id.
+- name: JsonNode
+  domain: Merchant Data
+  schema: json-schema/grubhub-jsonnode-schema.json
+  source: openapi/grubhub-merchant-data-openapi.yml#/components/schemas/JsonNode
+  property_count: 0
+  required: null
+- name: LeadTimeSettings
+  domain: Orders
+  schema: json-schema/grubhub-leadtimesettings-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/LeadTimeSettings
+  property_count: 4
+  required: null
+- name: LeadTimeSettingsTier
+  domain: Orders
+  schema: json-schema/grubhub-leadtimesettingstier-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/LeadTimeSettingsTier
+  property_count: 3
+  required:
+  - additional_prep_time
+  - threshold
+  - threshold_type
+- name: Line
+  domain: Orders
+  schema: json-schema/grubhub-line-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/Line
+  property_count: 31
+  required: null
+  identifiers:
+  - field: id
+    type: string
+    format: null
+    description: The Grubhub ID for this line item, may be null.
+  - field: menu_item_id
+    type: string
+    format: null
+    description: The Grubhub menu item ID (legacy_id).
+  - field: menu_item_uuid
+    type: string
+    format: uuid
+    description: Grubhub menu item uuid.
+  - field: variation_id
+    type: string
+    format: null
+    description: Deprecated. A Grubhub Id for a specific variation of this line item.
+  - field: external_id
+    type: string
+    format: null
+    description: The external ID that was stored in Grubhub for this menu item id.
+  - field: line_uuid
+    type: string
+    format: uuid
+    description: Unique line item id for this order instance (i.e. 2 lines of Hamburger will have the
+      same line Id, but will have different line item Ids).
+- name: LineGroup
+  domain: Orders
+  schema: json-schema/grubhub-linegroup-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/LineGroup
+  property_count: 2
+  required:
+  - lines
+- name: LineOption
+  domain: Orders
+  schema: json-schema/grubhub-lineoption-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/LineOption
+  property_count: 11
+  required: null
+  identifiers:
+  - field: id
+    type: string
+    format: null
+    description: A Grubhub id (legacy_id) for this option.
+  - field: uuid
+    type: string
+    format: uuid
+    description: Unique line option id for this order instance.
+  - field: external_id
+    type: string
+    format: null
+    description: The external ID that was stored in Grubhub for this option.
+- name: LineOptionSubstitution
+  domain: Orders
+  schema: json-schema/grubhub-lineoptionsubstitution-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/LineOptionSubstitution
+  property_count: 7
+  required: null
+  identifiers:
+  - field: option_id
+    type: string
+    format: null
+    description: ID of the replacement option
+- name: LineSubOption
+  domain: Orders
+  schema: json-schema/grubhub-linesuboption-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/LineSubOption
+  property_count: 13
+  required: null
+  identifiers:
+  - field: id
+    type: string
+    format: null
+    description: The Grubhub ID of the sub option.
+  - field: choice_category_id
+    type: string
+    format: null
+    description: The category Id the choice belongs to.
+  - field: external_id
+    type: string
+    format: null
+    description: The external ID that was stored in Grubhub for this menu suboption.
+- name: LineSubstitutionAdjustment
+  domain: Orders
+  schema: json-schema/grubhub-linesubstitutionadjustment-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/LineSubstitutionAdjustment
+  property_count: 0
+  required:
+  - line_substitution_type
+  - line_uuid
+  - menu_item_id
+  - merchant_id
+  - name
+  - quantity
+  - type
+- name: LineSubstitutionReplacement
+  domain: Orders
+  schema: json-schema/grubhub-linesubstitutionreplacement-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/LineSubstitutionReplacement
+  property_count: 10
+  required: null
+  identifiers:
+  - field: replacement_id
+    type: string
+    format: null
+    description: ID for replacement item
+  - field: merchant_id
+    type: string
+    format: null
+    description: ID of the merchant that this item belongs to
+- name: LineSubstitutionType
+  domain: Orders
+  schema: json-schema/grubhub-linesubstitutiontype-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/LineSubstitutionType
+  property_count: 1
+  required:
+  - type
+- name: LineTag
+  domain: Orders
+  schema: json-schema/grubhub-linetag-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/LineTag
+  property_count: 2
+  required: null
+  identifiers:
+  - field: ghc_tag_id
+    type: integer
+    format: int64
+    description: The Grubhub Id for the tag.
+- name: LocalTime
+  domain: Merchant Schedules
+  schema: json-schema/grubhub-localtime-schema.json
+  source: openapi/grubhub-merchant-schedules-openapi.yml#/components/schemas/LocalTime
+  property_count: 9
+  required: null
+- name: Location
+  domain: Deliveries
+  schema: json-schema/grubhub-location-schema.json
+  source: openapi/grubhub-deliveries-openapi.yml#/components/schemas/Location
+  property_count: 8
+  required:
+  - location_address
+  - name
+  - phone
+  identifiers:
+  - field: id
+    type: string
+    format: null
+    description: A unique identifier that the requesting party can send to help identify where deliveries
+      can be batched
+- name: MassScheduleOverrideMetadata
+  domain: Merchant Schedules
+  schema: json-schema/grubhub-massscheduleoverridemetadata-schema.json
+  source: openapi/grubhub-merchant-schedules-openapi.yml#/components/schemas/MassScheduleOverrideMetadata
+  property_count: 9
+  required: null
+  identifiers:
+  - field: legacy_id
+    type: string
+    format: null
+    description: The legacy ID of the schedule in MySQL
+- name: MeasuredPrice
+  domain: Menu
+  schema: json-schema/grubhub-measuredprice-schema.json
+  source: openapi/grubhub-menu-openapi.yml#/components/schemas/MeasuredPrice
+  property_count: 2
+  required: null
+- name: MediaValidationErrorDTO
+  domain: Menu
+  schema: json-schema/grubhub-mediavalidationerrordto-schema.json
+  source: openapi/grubhub-menu-openapi.yml#/components/schemas/MediaValidationErrorDTO
+  property_count: 5
+  required: null
+  identifiers:
+  - field: entity_id
+    type: string
+    format: null
+    description: The entity id of the item with media validation error.
+  - field: external_id
+    type: string
+    format: null
+    description: The external id of the item with media validation error.
+- name: MenuInfo
+  domain: Menu
+  schema: json-schema/grubhub-menuinfo-schema.json
+  source: openapi/grubhub-menu-openapi.yml#/components/schemas/MenuInfo
+  property_count: 5
+  required:
+  - currency
+- name: MenuMerchantStatus
+  domain: Menu
+  schema: json-schema/grubhub-menumerchantstatus-schema.json
+  source: openapi/grubhub-menu-openapi.yml#/components/schemas/MenuMerchantStatus
+  property_count: 8
+  required:
+  - merchant_id
+  - status
+  identifiers:
+  - field: merchant_id
+    type: string
+    format: null
+    description: The partner resource ID of the merchant whose specific menu ingestion job this status
+      applies to.
+- name: MenuSection
+  domain: Menu
+  schema: json-schema/grubhub-menusection-schema.json
+  source: openapi/grubhub-menu-openapi.yml#/components/schemas/MenuSection
+  property_count: 11
+  required:
+  - external_id
+  - name
+  identifiers:
+  - field: external_id
+    type: string
+    format: null
+    description: The merchant-set ID for this schedule, which can be used to link it in the `PosNormalizedMenu`.
+- name: MerchantActivationEnablementResponse
+  domain: Onboarding
+  schema: json-schema/grubhub-merchantactivationenablementresponse-schema.json
+  source: openapi/grubhub-onboarding-openapi.yml#/components/schemas/MerchantActivationEnablementResponse
+  property_count: 3
+  required: null
+  identifiers:
+  - field: cust_id
+    type: integer
+    format: int64
+    description: null
+- name: MerchantActivationResponse
+  domain: Onboarding
+  schema: json-schema/grubhub-merchantactivationresponse-schema.json
+  source: openapi/grubhub-onboarding-openapi.yml#/components/schemas/MerchantActivationResponse
+  property_count: 2
+  required: null
+  identifiers:
+  - field: batch_id
+    type: string
+    format: uuid
+    description: null
+- name: MerchantAssociationResponse
+  domain: Onboarding
+  schema: json-schema/grubhub-merchantassociationresponse-schema.json
+  source: openapi/grubhub-onboarding-openapi.yml#/components/schemas/MerchantAssociationResponse
+  property_count: 1
+  required: null
+- name: MerchantEligibilityResponse
+  domain: Onboarding
+  schema: json-schema/grubhub-merchanteligibilityresponse-schema.json
+  source: openapi/grubhub-onboarding-openapi.yml#/components/schemas/MerchantEligibilityResponse
+  property_count: 5
+  required: null
+  identifiers:
+  - field: cust_id
+    type: integer
+    format: int64
+    description: null
+- name: MerchantHeartbeatTriggeredPayload
+  domain: Merchant Data
+  schema: json-schema/grubhub-merchantheartbeattriggeredpayload-schema.json
+  source: openapi/grubhub-merchant-data-openapi.yml#/components/schemas/MerchantHeartbeatTriggeredPayload
+  property_count: 3
+  required:
+  - merchant_id
+  - new_pos_status
+  identifiers:
+  - field: merchant_id
+    type: string
+    format: null
+    description: The short Grubhub ID for the merchant OR the Partner merchant ID.
+- name: MerchantOrderTypeHeartbeatPayload
+  domain: Merchant Data
+  schema: json-schema/grubhub-merchantordertypeheartbeatpayload-schema.json
+  source: openapi/grubhub-merchant-data-openapi.yml#/components/schemas/MerchantOrderTypeHeartbeatPayload
+  property_count: 2
+  required:
+  - merchant_id
+  - order_type_statuses
+  identifiers:
+  - field: merchant_id
+    type: string
+    format: null
+    description: The short Grubhub ID for the merchant OR the Partner merchant ID.
+- name: MerchantPropertyUpdateRequest
+  domain: Merchant Data
+  schema: json-schema/grubhub-merchantpropertyupdaterequest-schema.json
+  source: openapi/grubhub-merchant-data-openapi.yml#/components/schemas/MerchantPropertyUpdateRequest
+  property_count: 2
+  required:
+  - merchant_ids
+  - property_updates
+- name: MerchantReportStatusWebhook
+  domain: Reporting Webhooks
+  schema: json-schema/grubhub-merchantreportstatuswebhook-schema.json
+  source: openapi/grubhub-reporting-webhooks-openapi.yml#/components/schemas/MerchantReportStatusWebhook
+  property_count: 4
+  required:
+  - download_report_request_url
+  - message
+  - report_status
+  - report_uuid
+  identifiers:
+  - field: report_uuid
+    type: string
+    format: uuid
+    description: A unique identifier for the report.
+- name: MerchantReportingErrorResponse
+  domain: Reporting
+  schema: json-schema/grubhub-merchantreportingerrorresponse-schema.json
+  source: openapi/grubhub-reporting-endpoints-openapi.yml#/components/schemas/MerchantReportingErrorResponse
+  property_count: 1
+  required: null
+- name: MerchantStatus
+  domain: Merchant Data
+  schema: json-schema/grubhub-merchantstatus-schema.json
+  source: openapi/grubhub-merchant-data-openapi.yml#/components/schemas/MerchantStatus
+  property_count: 3
+  required: null
+  identifiers:
+  - field: merchant_id
+    type: string
+    format: null
+    description: The Grubhub(internal) or Partner(external) merchant ID.
+- name: Modifier
+  domain: Menu
+  schema: json-schema/grubhub-modifier-schema.json
+  source: openapi/grubhub-menu-openapi.yml#/components/schemas/Modifier
+  property_count: 20
+  required:
+  - default_price
+  - external_id
+  - name
+  identifiers:
+  - field: external_id
+    type: string
+    format: null
+    description: The merchant-set ID for this modifier, which can be used to link it in the `PosNormalizedMenu`.
+- name: ModifierList
+  domain: Menu
+  schema: json-schema/grubhub-modifierlist-schema.json
+  source: openapi/grubhub-menu-openapi.yml#/components/schemas/ModifierList
+  property_count: 3
+  required:
+  - external_id
+  - name
+  identifiers:
+  - field: external_id
+    type: string
+    format: null
+    description: A user-configured identifier for this object within the menu. External IDs must be unique
+      across all menu entities of this type. Any modifier list that shares t
+- name: ModifierPrompt
+  domain: Menu
+  schema: json-schema/grubhub-modifierprompt-schema.json
+  source: openapi/grubhub-menu-openapi.yml#/components/schemas/ModifierPrompt
+  property_count: 9
+  required:
+  - external_id
+  - modifier_list
+  - name
+  identifiers:
+  - field: external_id
+    type: string
+    format: null
+    description: A user-configured identifier for this object within the menu. External IDs must be unique
+      across all menu entities of this type. Any modifier prompt that shares
+- name: ModifierPromptFreeSettings
+  domain: Menu
+  schema: json-schema/grubhub-modifierpromptfreesettings-schema.json
+  source: openapi/grubhub-menu-openapi.yml#/components/schemas/ModifierPromptFreeSettings
+  property_count: 1
+  required: null
+- name: ModifierPromptQuantitySettings
+  domain: Menu
+  schema: json-schema/grubhub-modifierpromptquantitysettings-schema.json
+  source: openapi/grubhub-menu-openapi.yml#/components/schemas/ModifierPromptQuantitySettings
+  property_count: 2
+  required: null
+- name: ModifierPromptSelectionSettings
+  domain: Menu
+  schema: json-schema/grubhub-modifierpromptselectionsettings-schema.json
+  source: openapi/grubhub-menu-openapi.yml#/components/schemas/ModifierPromptSelectionSettings
+  property_count: 2
+  required: null
+- name: ModifierQuantitySettings
+  domain: Menu
+  schema: json-schema/grubhub-modifierquantitysettings-schema.json
+  source: openapi/grubhub-menu-openapi.yml#/components/schemas/ModifierQuantitySettings
+  property_count: 3
+  required: null
+- name: NormalizedItemFulfillmentTypeSettings
+  domain: Menu
+  schema: json-schema/grubhub-normalizeditemfulfillmenttypesettings-schema.json
+  source: openapi/grubhub-menu-openapi.yml#/components/schemas/NormalizedItemFulfillmentTypeSettings
+  property_count: 1
+  required: null
+- name: NormalizedModifierFulfillmentTypeSettings
+  domain: Menu
+  schema: json-schema/grubhub-normalizedmodifierfulfillmenttypesettings-schema.json
+  source: openapi/grubhub-menu-openapi.yml#/components/schemas/NormalizedModifierFulfillmentTypeSettings
+  property_count: 1
+  required: null
+- name: NormalizedSizeFulfillmentTypeSettings
+  domain: Menu
+  schema: json-schema/grubhub-normalizedsizefulfillmenttypesettings-schema.json
+  source: openapi/grubhub-menu-openapi.yml#/components/schemas/NormalizedSizeFulfillmentTypeSettings
+  property_count: 1
+  required: null
+- name: NormalizedSizedPriceFulfillmentTypeSettings
+  domain: Menu
+  schema: json-schema/grubhub-normalizedsizedpricefulfillmenttypesettings-schema.json
+  source: openapi/grubhub-menu-openapi.yml#/components/schemas/NormalizedSizedPriceFulfillmentTypeSettings
+  property_count: 1
+  required: null
+- name: NotificationPreferences
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-notificationpreferences-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/NotificationPreferences
+  property_count: 1
+  required: null
+- name: OrderChangeRequest
+  domain: Orders
+  schema: json-schema/grubhub-orderchangerequest-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/OrderChangeRequest
+  property_count: 10
+  required:
+  - change_action
+  - requestor_email
+  - requestor_first_name
+  - requestor_last_name
+  - restaurant_agent_name
+- name: OrderChangeRequestStatus
+  domain: Orders
+  schema: json-schema/grubhub-orderchangerequeststatus-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/OrderChangeRequestStatus
+  property_count: 6
+  required:
+  - change_request_id
+  - order_id
+  - request
+  - status
+  identifiers:
+  - field: order_id
+    type: string
+    format: uuid
+    description: Order Id for which the change request was submitted.
+  - field: change_request_id
+    type: string
+    format: uuid
+    description: Change Request Id that was created.
+  - field: ticket_id
+    type: integer
+    format: int64
+    description: Ticket ID of the change request
+- name: OrderFacetData
+  domain: Orders
+  schema: json-schema/grubhub-orderfacetdata-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/OrderFacetData
+  property_count: 2
+  required: null
+- name: OrderPickupInstructions
+  domain: Orders
+  schema: json-schema/grubhub-orderpickupinstructions-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/OrderPickupInstructions
+  property_count: 3
+  required:
+  - updated_at
+- name: OrderPickupVerification
+  domain: Orders
+  schema: json-schema/grubhub-orderpickupverification-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/OrderPickupVerification
+  property_count: 2
+  required:
+  - verification_code
+- name: OrderProcessingInfo
+  domain: Merchant Data
+  schema: json-schema/grubhub-orderprocessinginfo-schema.json
+  source: openapi/grubhub-merchant-data-openapi.yml#/components/schemas/OrderProcessingInfo
+  property_count: 2
+  required: null
+- name: OrderTakingInfo
+  domain: Merchant Data
+  schema: json-schema/grubhub-ordertakinginfo-schema.json
+  source: openapi/grubhub-merchant-data-openapi.yml#/components/schemas/OrderTakingInfo
+  property_count: 3
+  required: null
+- name: OrderTypeHeartbeatPayload
+  domain: Merchant Data
+  schema: json-schema/grubhub-ordertypeheartbeatpayload-schema.json
+  source: openapi/grubhub-merchant-data-openapi.yml#/components/schemas/OrderTypeHeartbeatPayload
+  property_count: 1
+  required:
+  - order_type_statuses
+- name: PartnerDeactivateRequest
+  domain: Onboarding
+  schema: json-schema/grubhub-partnerdeactivaterequest-schema.json
+  source: openapi/grubhub-onboarding-openapi.yml#/components/schemas/PartnerDeactivateRequest
+  property_count: 1
+  required: null
+  identifiers:
+  - field: merchant_id
+    type: string
+    format: null
+    description: null
+- name: PartnerDeactivateResponse
+  domain: Onboarding
+  schema: json-schema/grubhub-partnerdeactivateresponse-schema.json
+  source: openapi/grubhub-onboarding-openapi.yml#/components/schemas/PartnerDeactivateResponse
+  property_count: 2
+  required: null
+  identifiers:
+  - field: merchant_id
+    type: string
+    format: null
+    description: null
+- name: Payment
+  domain: Orders
+  schema: json-schema/grubhub-payment-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/Payment
+  property_count: 6
+  required: null
+  identifiers:
+  - field: external_promotion_id
+    type: string
+    format: null
+    description: The external ID that the partner uses to reference the applied promotion
+- name: Payments
+  domain: Orders
+  schema: json-schema/grubhub-payments-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/Payments
+  property_count: 6
+  required: null
+- name: PeriodSchedule
+  domain: Merchant Schedules
+  schema: json-schema/grubhub-periodschedule-schema.json
+  source: openapi/grubhub-merchant-schedules-openapi.yml#/components/schemas/PeriodSchedule
+  property_count: 1
+  required: null
+- name: PhoneBridge
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-phonebridge-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/PhoneBridge
+  property_count: 3
+  required:
+  - caller
+  - courier_phone_proxy
+  - expiration_time
+- name: PhoneContactDetails
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-phonecontactdetails-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/PhoneContactDetails
+  property_count: 1
+  required:
+  - phone_number
+- name: PhysicalInfo
+  domain: Orders
+  schema: json-schema/grubhub-physicalinfo-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/PhysicalInfo
+  property_count: 3
+  required: null
+- name: PickedUp
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-pickedup-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/PickedUp
+  property_count: 0
+  required:
+  - timestamp
+  - type
+- name: PickupInfo
+  domain: Orders
+  schema: json-schema/grubhub-pickupinfo-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/PickupInfo
+  property_count: 5
+  required: null
+- name: PickupLocation
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-pickuplocation-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/PickupLocation
+  property_count: 9
+  required:
+  - address
+  - brand_name
+  - name
+  - phone
+  identifiers:
+  - field: location_grouping_id
+    type: string
+    format: null
+    description: A reference identifier for grouping locations.
+- name: PickupVerification
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-pickupverification-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/PickupVerification
+  property_count: 0
+  required:
+  - timestamp
+  - type
+- name: PickupVerificationDetails
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-pickupverificationdetails-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/PickupVerificationDetails
+  property_count: 5
+  required: null
+- name: PosAccountStatus
+  domain: Merchant Data
+  schema: json-schema/grubhub-posaccountstatus-schema.json
+  source: openapi/grubhub-merchant-data-openapi.yml#/components/schemas/PosAccountStatus
+  property_count: 8
+  required: null
+- name: PosBulkScheduleOverrideStatus
+  domain: Menu
+  schema: json-schema/grubhub-posbulkscheduleoverridestatus-schema.json
+  source: openapi/grubhub-menu-openapi.yml#/components/schemas/PosBulkScheduleOverrideStatus
+  property_count: 6
+  required: null
+  identifiers:
+  - field: job_id
+    type: string
+    format: uuid
+    description: A value that identifies a bulk schedule override request.
+  - field: merchant_id
+    type: string
+    format: null
+    description: This field can either be the Grubhub ID for the merchant, or if an external ID is provided,
+      it represents the external ID of the merchant.
+- name: PosBulkSupplementalTagStatus
+  domain: Menu
+  schema: json-schema/grubhub-posbulksupplementaltagstatus-schema.json
+  source: openapi/grubhub-menu-openapi.yml#/components/schemas/PosBulkSupplementalTagStatus
+  property_count: 6
+  required: null
+  identifiers:
+  - field: job_id
+    type: string
+    format: uuid
+    description: A value that identifies a bulk supplemental tag request.
+  - field: merchant_id
+    type: string
+    format: null
+    description: This field can either be the Grubhub ID for the merchant, or if an external ID is provided,
+      it represents the external ID of the merchant.
+- name: PosBusyInterval
+  domain: Busy Intervals
+  schema: json-schema/grubhub-posbusyinterval-schema.json
+  source: openapi/grubhub-busy-intervals-openapi.yml#/components/schemas/PosBusyInterval
+  property_count: 5
+  required: null
+  identifiers:
+  - field: busy_interval_id
+    type: string
+    format: uuid
+    description: Unique identifier of the busy interval.
+- name: PosBusyModeRequest
+  domain: Busy Intervals
+  schema: json-schema/grubhub-posbusymoderequest-schema.json
+  source: openapi/grubhub-busy-intervals-openapi.yml#/components/schemas/PosBusyModeRequest
+  property_count: 3
+  required: null
+- name: PosBusyModeResponse
+  domain: Busy Intervals
+  schema: json-schema/grubhub-posbusymoderesponse-schema.json
+  source: openapi/grubhub-busy-intervals-openapi.yml#/components/schemas/PosBusyModeResponse
+  property_count: 5
+  required: null
+  identifiers:
+  - field: restaurant_id
+    type: string
+    format: null
+    description: The short Grubhub ID for the merchant the busy interval applies to.
+  - field: busy_interval_id
+    type: string
+    format: uuid
+    description: Unique identifier of the created busy interval.
+- name: PosCustomSchedule
+  domain: Merchant Schedules
+  schema: json-schema/grubhub-poscustomschedule-schema.json
+  source: openapi/grubhub-merchant-schedules-openapi.yml#/components/schemas/PosCustomSchedule
+  property_count: 4
+  required:
+  - date
+  - metadata
+  - name
+  identifiers:
+  - field: merchant_id
+    type: string
+    format: null
+    description: null
+- name: PosDeleteScheduleOverride
+  domain: Merchant Schedules
+  schema: json-schema/grubhub-posdeletescheduleoverride-schema.json
+  source: openapi/grubhub-merchant-schedules-openapi.yml#/components/schemas/PosDeleteScheduleOverride
+  property_count: 2
+  required:
+  - current_end_time
+  - type
+- name: PosDelivery
+  domain: Deliveries
+  schema: json-schema/grubhub-posdelivery-schema.json
+  source: openapi/grubhub-deliveries-openapi.yml#/components/schemas/PosDelivery
+  property_count: 20
+  required: null
+  identifiers:
+  - field: id
+    type: string
+    format: uuid
+    description: A unique Grubhub ID for the delivery.
+  - field: account_id
+    type: string
+    format: uuid
+    description: The business account ID that was used to create the delivery.
+  - field: region_id
+    type: string
+    format: uuid
+    description: Region Id
+- name: PosDeliveryFee
+  domain: Merchant Data
+  schema: json-schema/grubhub-posdeliveryfee-schema.json
+  source: openapi/grubhub-merchant-data-openapi.yml#/components/schemas/PosDeliveryFee
+  property_count: 2
+  required: null
+- name: PosEstimates
+  domain: Merchant Data
+  schema: json-schema/grubhub-posestimates-schema.json
+  source: openapi/grubhub-merchant-data-openapi.yml#/components/schemas/PosEstimates
+  property_count: 2
+  required: null
+- name: PosEstimatesUpdateRequest
+  domain: Merchant Data
+  schema: json-schema/grubhub-posestimatesupdaterequest-schema.json
+  source: openapi/grubhub-merchant-data-openapi.yml#/components/schemas/PosEstimatesUpdateRequest
+  property_count: 3
+  required: null
+- name: PosFullSchedule
+  domain: Merchant Schedules
+  schema: json-schema/grubhub-posfullschedule-schema.json
+  source: openapi/grubhub-merchant-schedules-openapi.yml#/components/schemas/PosFullSchedule
+  property_count: 11
+  required: null
+- name: PosGetBusyModeResponse
+  domain: Busy Intervals
+  schema: json-schema/grubhub-posgetbusymoderesponse-schema.json
+  source: openapi/grubhub-busy-intervals-openapi.yml#/components/schemas/PosGetBusyModeResponse
+  property_count: 2
+  required: null
+- name: PosItemScheduleOverrides
+  domain: Menu
+  schema: json-schema/grubhub-positemscheduleoverrides-schema.json
+  source: openapi/grubhub-menu-openapi.yml#/components/schemas/PosItemScheduleOverrides
+  property_count: 4
+  required:
+  - intervals
+  - item_id
+  - merchant_id
+  identifiers:
+  - field: merchant_id
+    type: string
+    format: null
+    description: The Grubhub or third-party provided external ID for the merchant. Corresponds to a single
+      location.
+  - field: item_id
+    type: string
+    format: null
+    description: The ID of the item.
+  - field: external_id
+    type: string
+    format: null
+    description: The external ID of the item.
+- name: PosMassScheduleOverride
+  domain: Merchant Schedules
+  schema: json-schema/grubhub-posmassscheduleoverride-schema.json
+  source: openapi/grubhub-merchant-schedules-openapi.yml#/components/schemas/PosMassScheduleOverride
+  property_count: 7
+  required: null
+  identifiers:
+  - field: id
+    type: string
+    format: uuid
+    description: The identifier of the mass override itself.
+- name: PosMerchantBatchOperationResponse
+  domain: Merchant Data
+  schema: json-schema/grubhub-posmerchantbatchoperationresponse-schema.json
+  source: openapi/grubhub-merchant-data-openapi.yml#/components/schemas/PosMerchantBatchOperationResponse
+  property_count: 2
+  required: null
+  identifiers:
+  - field: batch_id
+    type: string
+    format: uuid
+    description: A value that identifies a batch of merchant operation requests.
+- name: PosMerchantBatchOperationStatus
+  domain: Merchant Data
+  schema: json-schema/grubhub-posmerchantbatchoperationstatus-schema.json
+  source: openapi/grubhub-merchant-data-openapi.yml#/components/schemas/PosMerchantBatchOperationStatus
+  property_count: 4
+  required: null
+  identifiers:
+  - field: batch_id
+    type: string
+    format: uuid
+    description: A value that identifies a batch of merchant operation requests.
+- name: PosMerchantData
+  domain: Merchant Data
+  schema: json-schema/grubhub-posmerchantdata-schema.json
+  source: openapi/grubhub-merchant-data-openapi.yml#/components/schemas/PosMerchantData
+  property_count: 11
+  required: null
+  identifiers:
+  - field: merchant_id
+    type: string
+    format: null
+    description: The Grubhub or third-party provided external ID for the merchant. Corresponds to a single
+      location.
+  - field: merchant_uuid
+    type: string
+    format: uuid
+    description: The UUID of the merchant.
+- name: PosMerchantFulfillmentInfo
+  domain: Merchant Data
+  schema: json-schema/grubhub-posmerchantfulfillmentinfo-schema.json
+  source: openapi/grubhub-merchant-data-openapi.yml#/components/schemas/PosMerchantFulfillmentInfo
+  property_count: 4
+  required: null
+- name: PosMerchantIntegrationStatus
+  domain: Merchant Data
+  schema: json-schema/grubhub-posmerchantintegrationstatus-schema.json
+  source: openapi/grubhub-merchant-data-openapi.yml#/components/schemas/PosMerchantIntegrationStatus
+  property_count: 2
+  required:
+  - enabled
+  - merchant_id
+  identifiers:
+  - field: merchant_id
+    type: string
+    format: null
+    description: The short Grubhub ID for the merchant OR the Partner merchant ID.
+- name: PosMerchantRepeatingIntervalRequest
+  domain: Merchant Schedules
+  schema: json-schema/grubhub-posmerchantrepeatingintervalrequest-schema.json
+  source: openapi/grubhub-merchant-schedules-openapi.yml#/components/schemas/PosMerchantRepeatingIntervalRequest
+  property_count: 3
+  required:
+  - end
+  - repeating_schedule_rule
+  - start
+- name: PosMerchantRepeatingSchedule
+  domain: Merchant Schedules
+  schema: json-schema/grubhub-posmerchantrepeatingschedule-schema.json
+  source: openapi/grubhub-merchant-schedules-openapi.yml#/components/schemas/PosMerchantRepeatingSchedule
+  property_count: 6
+  required:
+  - merchant_id
+  - name
+  - repeating_schedule_content
+  - schedule_id
+  identifiers:
+  - field: merchant_id
+    type: string
+    format: null
+    description: The Grubhub or third-party provided external ID for the merchant.
+  - field: schedule_id
+    type: string
+    format: uuid
+    description: The ID of this schedule.
+  - field: version_id
+    type: string
+    format: uuid
+    description: The ID of the version of this schedule which changes upon updates to the schedule.
+- name: PosModifierScheduleOverrides
+  domain: Menu
+  schema: json-schema/grubhub-posmodifierscheduleoverrides-schema.json
+  source: openapi/grubhub-menu-openapi.yml#/components/schemas/PosModifierScheduleOverrides
+  property_count: 4
+  required:
+  - intervals
+  - merchant_id
+  - modifier_id
+  identifiers:
+  - field: merchant_id
+    type: string
+    format: null
+    description: The Grubhub or third-party provided external ID for the merchant. Corresponds to a single
+      location.
+  - field: modifier_id
+    type: string
+    format: null
+    description: The ID of the modifier.
+  - field: external_id
+    type: string
+    format: null
+    description: The external ID of the item.
+- name: PosNormalizedMenu
+  domain: Menu
+  schema: json-schema/grubhub-posnormalizedmenu-schema.json
+  source: openapi/grubhub-menu-openapi.yml#/components/schemas/PosNormalizedMenu
+  property_count: 12
+  required:
+  - menu_info
+- name: PosNormalizedMenuMedia
+  domain: Menu
+  schema: json-schema/grubhub-posnormalizedmenumedia-schema.json
+  source: openapi/grubhub-menu-openapi.yml#/components/schemas/PosNormalizedMenuMedia
+  property_count: 1
+  required: null
+- name: PosNormalizedMenuUpdateRequest
+  domain: Menu
+  schema: json-schema/grubhub-posnormalizedmenuupdaterequest-schema.json
+  source: openapi/grubhub-menu-openapi.yml#/components/schemas/PosNormalizedMenuUpdateRequest
+  property_count: 4
+  required:
+  - menu_url
+  - merchant_ids
+- name: PosNormalizedMenuUpdateResult
+  domain: Menu
+  schema: json-schema/grubhub-posnormalizedmenuupdateresult-schema.json
+  source: openapi/grubhub-menu-openapi.yml#/components/schemas/PosNormalizedMenuUpdateResult
+  property_count: 1
+  required:
+  - job_id
+  identifiers:
+  - field: job_id
+    type: string
+    format: null
+    description: An identifier that you can use to check the status of this update job.
+- name: PosNormalizedMenuUpdateStatus
+  domain: Menu
+  schema: json-schema/grubhub-posnormalizedmenuupdatestatus-schema.json
+  source: openapi/grubhub-menu-openapi.yml#/components/schemas/PosNormalizedMenuUpdateStatus
+  property_count: 3
+  required:
+  - details
+  - job_id
+  - merchant_statuses
+  identifiers:
+  - field: job_id
+    type: string
+    format: null
+    description: The identifier of the job that the status messages come from.
+- name: PosNormalizedMenuValidationResult
+  domain: Menu
+  schema: json-schema/grubhub-posnormalizedmenuvalidationresult-schema.json
+  source: openapi/grubhub-menu-openapi.yml#/components/schemas/PosNormalizedMenuValidationResult
+  property_count: 2
+  required: null
+- name: PosOrder
+  domain: Orders
+  schema: json-schema/grubhub-posorder-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/PosOrder
+  property_count: 41
+  required: null
+  identifiers:
+  - field: uuid
+    type: string
+    format: uuid
+    description: The globally unique identity of the order. This is the primary and only guaranteed unique
+      identity.
+  - field: order_merchant_uuid
+    type: string
+    format: uuid
+    description: null
+  - field: merchant_uuid
+    type: string
+    format: uuid
+    description: Grubhub UUID for the merchant.
+  - field: merchant_id
+    type: string
+    format: null
+    description: This field can either be the Grubhub ID for the merchant, or if an external ID is provided,
+      it represents the external ID of the merchant.
+  - field: diner_uuid
+    type: array
+    format: null
+    description: A Grubhub UUID identifying the diner
+  - field: cart_version_id
+    type: string
+    format: uuid
+    description: The Cart Version Id associate with the PosOrder
+  - field: transmission_id
+    type: string
+    format: uuid
+    description: The Transmission Id associated with the PosOrder.
+  - field: external_order_id
+    type: string
+    format: null
+    description: null
+  - field: chain_id
+    type: string
+    format: uuid
+    description: null
+  - field: order_merchant_id
+    type: string
+    format: uuid
+    description: Used within grouped orders to identify a portion of an order associated with a single
+      merchant. Grouped orders can have menu items from multiple merchants assoc
+- name: PosOrderCoupon
+  domain: Orders
+  schema: json-schema/grubhub-posordercoupon-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/PosOrderCoupon
+  property_count: 2
+  required: null
+- name: PosOrderMerchantData
+  domain: Orders
+  schema: json-schema/grubhub-posordermerchantdata-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/PosOrderMerchantData
+  property_count: 4
+  required: null
+- name: PosScheduleOverride
+  domain: Merchant Schedules
+  schema: json-schema/grubhub-posscheduleoverride-schema.json
+  source: openapi/grubhub-merchant-schedules-openapi.yml#/components/schemas/PosScheduleOverride
+  property_count: 9
+  required:
+  - end_time_utc
+  - local_end_time
+  - local_start_time
+  - merchant_id
+  - name
+  - start_time_utc
+  - type
+  identifiers:
+  - field: schedule_id
+    type: string
+    format: uuid
+    description: The ID of this schedule
+  - field: merchant_id
+    type: string
+    format: null
+    description: The Grubhub or third-party provided external ID for the merchant.
+- name: PosScheduleOverrideBaseRequest
+  domain: Menu
+  schema: json-schema/grubhub-posscheduleoverridebaserequest-schema.json
+  source: openapi/grubhub-menu-openapi.yml#/components/schemas/PosScheduleOverrideBaseRequest
+  property_count: 5
+  required:
+  - end
+  - op
+  - show_or_hide
+  - start
+- name: PosScheduleOverrideBulkRequest
+  domain: Menu
+  schema: json-schema/grubhub-posscheduleoverridebulkrequest-schema.json
+  source: openapi/grubhub-menu-openapi.yml#/components/schemas/PosScheduleOverrideBulkRequest
+  property_count: 2
+  required:
+  - entity_ids
+  - schedule_override
+- name: PosScheduleOverrideMultiOperationResult
+  domain: Menu
+  schema: json-schema/grubhub-posscheduleoverridemultioperationresult-schema.json
+  source: openapi/grubhub-menu-openapi.yml#/components/schemas/PosScheduleOverrideMultiOperationResult
+  property_count: 4
+  required: null
+  identifiers:
+  - field: job_id
+    type: string
+    format: uuid
+    description: A unique reference used to identify the status of this operation.
+- name: PosScheduleOverrideRequest
+  domain: Merchant Schedules
+  schema: json-schema/grubhub-posscheduleoverriderequest-schema.json
+  source: openapi/grubhub-merchant-schedules-openapi.yml#/components/schemas/PosScheduleOverrideRequest
+  property_count: 4
+  required:
+  - type
+- name: PosScheduleOverrides
+  domain: Menu
+  schema: json-schema/grubhub-posscheduleoverrides-schema.json
+  source: openapi/grubhub-menu-openapi.yml#/components/schemas/PosScheduleOverrides
+  property_count: 3
+  required:
+  - item_overrides
+  - merchant_id
+  - modifier_overrides
+  identifiers:
+  - field: merchant_id
+    type: string
+    format: null
+    description: The Grubhub or third-party provided external ID for the merchant. Corresponds to a single
+      location.
+- name: PosSupplementalTagMultiOperationResult
+  domain: Menu
+  schema: json-schema/grubhub-possupplementaltagmultioperationresult-schema.json
+  source: openapi/grubhub-menu-openapi.yml#/components/schemas/PosSupplementalTagMultiOperationResult
+  property_count: 4
+  required: null
+  identifiers:
+  - field: job_id
+    type: string
+    format: uuid
+    description: A unique reference used to identify the status of this operation.
+- name: PosTaxTotal
+  domain: Orders
+  schema: json-schema/grubhub-postaxtotal-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/PosTaxTotal
+  property_count: 3
+  required: null
+- name: PosTestOrderRequest
+  domain: Testing
+  schema: json-schema/grubhub-postestorderrequest-schema.json
+  source: openapi/grubhub-testing-openapi.yml#/components/schemas/PosTestOrderRequest
+  property_count: 3
+  required: null
+- name: PosUpdateRepeatingScheduleRequest
+  domain: Merchant Schedules
+  schema: json-schema/grubhub-posupdaterepeatingschedulerequest-schema.json
+  source: openapi/grubhub-merchant-schedules-openapi.yml#/components/schemas/PosUpdateRepeatingScheduleRequest
+  property_count: 2
+  required:
+  - intervals
+  - schedule_type
+- name: ProgressDeliveryRequest
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-progressdeliveryrequest-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/ProgressDeliveryRequest
+  property_count: 2
+  required:
+  - delivery_state
+- name: ProgressDeliveryResponse
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-progressdeliveryresponse-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/ProgressDeliveryResponse
+  property_count: 1
+  required:
+  - expected_progression_time
+- name: ProgressRefundRequest
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-progressrefundrequest-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/ProgressRefundRequest
+  property_count: 4
+  required:
+  - decision
+- name: Promotion
+  domain: Orders
+  schema: json-schema/grubhub-promotion-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/Promotion
+  property_count: 3
+  required: null
+- name: ProofOfDelivery
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-proofofdelivery-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/ProofOfDelivery
+  property_count: 0
+  required:
+  - timestamp
+  - type
+- name: Properties
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-properties-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/Properties
+  property_count: 1
+  required:
+  - name
+- name: ProxyPhoneNumberRequest
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-proxyphonenumberrequest-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/ProxyPhoneNumberRequest
+  property_count: 1
+  required:
+  - caller
+- name: ProxyPhoneNumberResponse
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-proxyphonenumberresponse-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/ProxyPhoneNumberResponse
+  property_count: 1
+  required:
+  - phone_bridge
+- name: PublicApiError
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-publicapierror-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/PublicApiError
+  property_count: 2
+  required:
+  - code
+  - message
+- name: QuantityAndWeightLineSubstitution
+  domain: Orders
+  schema: json-schema/grubhub-quantityandweightlinesubstitution-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/QuantityAndWeightLineSubstitution
+  property_count: 0
+  required:
+  - new_quantity
+  - new_weight
+  - old_quantity
+  - old_weight
+- name: QuantityLineSubstitution
+  domain: Orders
+  schema: json-schema/grubhub-quantitylinesubstitution-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/QuantityLineSubstitution
+  property_count: 0
+  required:
+  - new_quantity
+  - old_quantity
+- name: Quote
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-quote-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/Quote
+  property_count: 6
+  required:
+  - cost_amount
+  - estimated_dropoff_time
+  - estimated_pickup_time
+  - expiration
+  - quote_id
+  - return_fee
+  identifiers:
+  - field: quote_id
+    type: string
+    format: uuid
+    description: The unique identifier for this quote. This must be referenced when accepting the quote.
+- name: QuoteRequest
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-quoterequest-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/QuoteRequest
+  property_count: 11
+  required:
+  - charges
+  - dropoff
+  - pickup
+  - time_preferences
+- name: QuoteResponse
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-quoteresponse-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/QuoteResponse
+  property_count: 1
+  required: null
+- name: ReferralResponse
+  domain: Onboarding
+  schema: json-schema/grubhub-referralresponse-schema.json
+  source: openapi/grubhub-onboarding-openapi.yml#/components/schemas/ReferralResponse
+  property_count: 2
+  required: null
+- name: ReferralSignup
+  domain: Onboarding
+  schema: json-schema/grubhub-referralsignup-schema.json
+  source: openapi/grubhub-onboarding-openapi.yml#/components/schemas/ReferralSignup
+  property_count: 12
+  required: null
+  identifiers:
+  - field: partner_id
+    type: string
+    format: null
+    description: null
+  - field: external_id
+    type: string
+    format: null
+    description: null
+- name: RefundAmount
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-refundamount-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/RefundAmount
+  property_count: 4
+  required:
+  - contents_value
+  - delivery_fee
+  - tip
+- name: RefundRequest
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-refundrequest-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/RefundRequest
+  property_count: 3
+  required:
+  - refund_code
+- name: RemoveLineSubstitution
+  domain: Orders
+  schema: json-schema/grubhub-removelinesubstitution-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/RemoveLineSubstitution
+  property_count: 0
+  required:
+  - old_quantity
+- name: RepeatingSchedule
+  domain: Menu
+  schema: json-schema/grubhub-repeatingschedule-schema.json
+  source: openapi/grubhub-menu-openapi.yml#/components/schemas/RepeatingSchedule
+  property_count: 4
+  required:
+  - external_id
+  - name
+  - rules
+  identifiers:
+  - field: external_id
+    type: string
+    format: null
+    description: The merchant-set ID for this schedule, which can be used to link it in the `PosNormalizedMenu`.
+- name: RepeatingScheduleMetadata
+  domain: Merchant Schedules
+  schema: json-schema/grubhub-repeatingschedulemetadata-schema.json
+  source: openapi/grubhub-merchant-schedules-openapi.yml#/components/schemas/RepeatingScheduleMetadata
+  property_count: 7
+  required:
+  - source
+  identifiers:
+  - field: legacy_id
+    type: string
+    format: null
+    description: The legacy ID of the schedule in MySQL
+- name: RepeatingScheduleRule
+  domain: Menu
+  schema: json-schema/grubhub-repeatingschedulerule-schema.json
+  source: openapi/grubhub-menu-openapi.yml#/components/schemas/RepeatingScheduleRule
+  property_count: 3
+  required:
+  - end_time
+  - start_time
+- name: RepeatingScheduleRuleInterval
+  domain: Merchant Schedules
+  schema: json-schema/grubhub-repeatingscheduleruleinterval-schema.json
+  source: openapi/grubhub-merchant-schedules-openapi.yml#/components/schemas/RepeatingScheduleRuleInterval
+  property_count: 2
+  required:
+  - end_time
+  - start_time
+- name: ReplaceLineSubstitution
+  domain: Orders
+  schema: json-schema/grubhub-replacelinesubstitution-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/ReplaceLineSubstitution
+  property_count: 0
+  required: null
+- name: ReportRequestParametersByPartner
+  domain: Reporting
+  schema: json-schema/grubhub-reportrequestparametersbypartner-schema.json
+  source: openapi/grubhub-reporting-endpoints-openapi.yml#/components/schemas/ReportRequestParametersByPartner
+  property_count: 1
+  required:
+  - date_range
+- name: ResponseWrapperAcceptQuoteResponse
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-responsewrapperacceptquoteresponse-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/ResponseWrapperAcceptQuoteResponse
+  property_count: 2
+  required: null
+- name: ResponseWrapperDeliveryStatusResponse
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-responsewrapperdeliverystatusresponse-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/ResponseWrapperDeliveryStatusResponse
+  property_count: 2
+  required: null
+- name: ResponseWrapperProgressDeliveryResponse
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-responsewrapperprogressdeliveryresponse-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/ResponseWrapperProgressDeliveryResponse
+  property_count: 2
+  required: null
+- name: ResponseWrapperProxyPhoneNumberResponse
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-responsewrapperproxyphonenumberresponse-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/ResponseWrapperProxyPhoneNumberResponse
+  property_count: 2
+  required: null
+- name: ResponseWrapperQuoteResponse
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-responsewrapperquoteresponse-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/ResponseWrapperQuoteResponse
+  property_count: 2
+  required: null
+- name: ResponseWrapperServiceAreaResponse
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-responsewrapperservicearearesponse-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/ResponseWrapperServiceAreaResponse
+  property_count: 2
+  required: null
+- name: RestaurantVersionId
+  domain: Orders
+  schema: json-schema/grubhub-restaurantversionid-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/RestaurantVersionId
+  property_count: 1
+  required: null
+- name: ReturnArrived
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-returnarrived-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/ReturnArrived
+  property_count: 0
+  required:
+  - timestamp
+  - type
+- name: ReturnCompleted
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-returncompleted-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/ReturnCompleted
+  property_count: 0
+  required:
+  - timestamp
+  - type
+- name: ReturnInitiated
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-returninitiated-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/ReturnInitiated
+  property_count: 0
+  required:
+  - timestamp
+  - type
+- name: Reward
+  domain: Orders
+  schema: json-schema/grubhub-reward-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/Reward
+  property_count: 3
+  required: null
+- name: ScheduleOverride
+  domain: Menu
+  schema: json-schema/grubhub-scheduleoverride-schema.json
+  source: openapi/grubhub-menu-openapi.yml#/components/schemas/ScheduleOverride
+  property_count: 3
+  required:
+  - end
+  - show_or_hide
+  - start
+- name: ScheduleOverrideMetadata
+  domain: Merchant Schedules
+  schema: json-schema/grubhub-scheduleoverridemetadata-schema.json
+  source: openapi/grubhub-merchant-schedules-openapi.yml#/components/schemas/ScheduleOverrideMetadata
+  property_count: 7
+  required:
+  - source
+  identifiers:
+  - field: legacy_id
+    type: string
+    format: null
+    description: The legacy ID of the schedule in MySQL
+- name: ScheduledOrdersUpdateRequest
+  domain: Merchant Data
+  schema: json-schema/grubhub-scheduledordersupdaterequest-schema.json
+  source: openapi/grubhub-merchant-data-openapi.yml#/components/schemas/ScheduledOrdersUpdateRequest
+  property_count: 1
+  required:
+  - enabled
+- name: ServiceAreaResponse
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-servicearearesponse-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/ServiceAreaResponse
+  property_count: 1
+  required:
+  - delivery_areas
+- name: Size
+  domain: Menu
+  schema: json-schema/grubhub-size-schema.json
+  source: openapi/grubhub-menu-openapi.yml#/components/schemas/Size
+  property_count: 5
+  required:
+  - external_id
+  - name
+  identifiers:
+  - field: external_id
+    type: string
+    format: null
+    description: A user-configured identifier for this object within the menu. External IDs must be unique
+      across all menu entities of this type. Any size that shares this `exte
+- name: SizePrompt
+  domain: Menu
+  schema: json-schema/grubhub-sizeprompt-schema.json
+  source: openapi/grubhub-menu-openapi.yml#/components/schemas/SizePrompt
+  property_count: 4
+  required:
+  - external_id
+  - name
+  identifiers:
+  - field: external_id
+    type: string
+    format: null
+    description: A user-configured identifier for this object within the menu. External IDs must be unique
+      across all menu entities of this type. Any size prompt that shares thi
+- name: SizedPrice
+  domain: Menu
+  schema: json-schema/grubhub-sizedprice-schema.json
+  source: openapi/grubhub-menu-openapi.yml#/components/schemas/SizedPrice
+  property_count: 5
+  required:
+  - price
+  - size
+- name: StatusUpdate
+  domain: Orders
+  schema: json-schema/grubhub-statusupdate-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/StatusUpdate
+  property_count: 5
+  required: null
+- name: StatusUpdateRequestPayload
+  domain: Orders
+  schema: json-schema/grubhub-statusupdaterequestpayload-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/StatusUpdateRequestPayload
+  property_count: 10
+  required:
+  - message
+  - reason_code
+  - status
+  identifiers:
+  - field: external_order_id
+    type: string
+    format: null
+    description: External order id. Note that this field is for reporting only. Orders can only be polled
+      for or updated by using the Grubhub Order UUID
+- name: SubItem
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-subitem-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/SubItem
+  property_count: 3
+  required:
+  - name
+- name: SubItemLineSubstitution
+  domain: Orders
+  schema: json-schema/grubhub-subitemlinesubstitution-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/SubItemLineSubstitution
+  property_count: 0
+  required: null
+- name: SubstitutionAdjustment
+  domain: Orders
+  schema: json-schema/grubhub-substitutionadjustment-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/SubstitutionAdjustment
+  property_count: 1
+  required:
+  - type
+- name: SubstitutionRequest
+  domain: Orders
+  schema: json-schema/grubhub-substitutionrequest-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/SubstitutionRequest
+  property_count: 3
+  required:
+  - substitution_adjustment
+- name: Tag
+  domain: Menu
+  schema: json-schema/grubhub-tag-schema.json
+  source: openapi/grubhub-menu-openapi.yml#/components/schemas/Tag
+  property_count: 2
+  required:
+  - group
+  - name
+- name: TagProductsRequest
+  domain: Menu
+  schema: json-schema/grubhub-tagproductsrequest-schema.json
+  source: openapi/grubhub-menu-openapi.yml#/components/schemas/TagProductsRequest
+  property_count: 1
+  required:
+  - external_ids
+- name: TaxCategory
+  domain: Menu
+  schema: json-schema/grubhub-taxcategory-schema.json
+  source: openapi/grubhub-menu-openapi.yml#/components/schemas/TaxCategory
+  property_count: 1
+  required: null
+- name: TaxRate
+  domain: Menu
+  schema: json-schema/grubhub-taxrate-schema.json
+  source: openapi/grubhub-menu-openapi.yml#/components/schemas/TaxRate
+  property_count: 4
+  required:
+  - external_id
+  - name
+  identifiers:
+  - field: external_id
+    type: string
+    format: null
+    description: The merchant-set ID for this tax rate, which can be used to link it in the `PosNormalizedMenu`.
+- name: Taxes
+  domain: Orders
+  schema: json-schema/grubhub-taxes-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/Taxes
+  property_count: 10
+  required: null
+  identifiers:
+  - field: tax_area_id
+    type: string
+    format: null
+    description: The tax area id associated with this order.
+- name: ThresholdSettings
+  domain: Orders
+  schema: json-schema/grubhub-thresholdsettings-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/ThresholdSettings
+  property_count: 2
+  required: null
+- name: TimePreferences
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-timepreferences-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/TimePreferences
+  property_count: 2
+  required: null
+- name: Tip
+  domain: Orders
+  schema: json-schema/grubhub-tip-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/Tip
+  property_count: 2
+  required: null
+- name: TotalSubstitutionAdjustment
+  domain: Orders
+  schema: json-schema/grubhub-totalsubstitutionadjustment-schema.json
+  source: openapi/grubhub-orders-openapi.yml#/components/schemas/TotalSubstitutionAdjustment
+  property_count: 0
+  required:
+  - type
+- name: Triage
+  domain: Onboarding
+  schema: json-schema/grubhub-triage-schema.json
+  source: openapi/grubhub-onboarding-openapi.yml#/components/schemas/Triage
+  property_count: 2
+  required: null
+  identifiers:
+  - field: cust_id
+    type: array
+    format: null
+    description: null
+- name: Unassigned
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-unassigned-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/Unassigned
+  property_count: 0
+  required:
+  - timestamp
+  - type
+- name: UpdateDeliveryDropoffLocationRequest
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-updatedeliverydropofflocationrequest-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/UpdateDeliveryDropoffLocationRequest
+  property_count: 2
+  required: null
+- name: Vehicle
+  domain: Deliveries
+  schema: json-schema/grubhub-vehicle-schema.json
+  source: openapi/grubhub-deliveries-openapi.yml#/components/schemas/Vehicle
+  property_count: 2
+  required:
+  - type
+- name: com.grubhub.pos.generic.delivery.fulfillment.common.model.PickupVerification
+  domain: Grubhub Connect
+  schema: json-schema/grubhub-com-grubhub-pos-generic-delivery-fulfillment-common-model-pickupverification-schema.json
+  source: openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/com.grubhub.pos.generic.delivery.fulfillment.common.model.PickupVerification
+  property_count: 2
+  required:
+  - capture_method
+  - verification_code
+relationships:
+- from: PosGetBusyModeResponse
+  to: PosBusyInterval
+  type: has_one
+  via: busy_interval
+- from: ProxyPhoneNumberRequest
+  to: PhoneContactDetails
+  type: has_one
+  via: caller
+- from: PhoneBridge
+  to: PhoneContactDetails
+  type: has_one
+  via: caller
+- from: PhoneBridge
+  to: PhoneContactDetails
+  type: has_one
+  via: courier_phone_proxy
+- from: ResponseWrapperProxyPhoneNumberResponse
+  to: ProxyPhoneNumberResponse
+  type: has_one
+  via: response
+- from: ResponseWrapperProxyPhoneNumberResponse
+  to: PublicApiError
+  type: has_many
+  via: errors
+- from: ProxyPhoneNumberResponse
+  to: PhoneBridge
+  type: has_one
+  via: phone_bridge
+- from: ProgressRefundRequest
+  to: RefundAmount
+  type: has_one
+  via: refund_amounts
+- from: ResponseWrapperProgressDeliveryResponse
+  to: ProgressDeliveryResponse
+  type: has_one
+  via: response
+- from: ResponseWrapperProgressDeliveryResponse
+  to: PublicApiError
+  type: has_many
+  via: errors
+- from: Delivery
+  to: DeliveryEvent
+  type: has_many
+  via: events
+- from: Delivery
+  to: EstimatedEventTimes
+  type: has_one
+  via: estimated_event_times
+- from: Delivery
+  to: ClientData
+  type: has_one
+  via: client_data
+- from: DropoffImageDetails
+  to: GeoLocation
+  type: has_one
+  via: photo_capture_location
+- from: ResponseWrapperAcceptQuoteResponse
+  to: AcceptQuoteResponse
+  type: has_one
+  via: response
+- from: ResponseWrapperAcceptQuoteResponse
+  to: PublicApiError
+  type: has_many
+  via: errors
+- from: AcceptQuoteResponse
+  to: Delivery
+  type: has_one
+  via: delivery
+- from: DropoffLocation
+  to: DeliveryAddress
+  type: has_one
+  via: address
+- from: DropoffLocation
+  to: GeoLocation
+  type: has_one
+  via: geo_location
+- from: Item
+  to: SubItem
+  type: has_many
+  via: sub_items
+- from: Item
+  to: ItemSizing
+  type: has_one
+  via: item_sizing
+- from: ItemSizing
+  to: ItemWeight
+  type: has_one
+  via: weight
+- from: ItemSizing
+  to: ItemDimensions
+  type: has_one
+  via: dimensions
+- from: PickupLocation
+  to: DeliveryAddress
+  type: has_one
+  via: address
+- from: PickupLocation
+  to: GeoLocation
+  type: has_one
+  via: geo_location
+- from: QuoteRequest
+  to: PickupLocation
+  type: has_one
+  via: pickup
+- from: QuoteRequest
+  to: DropoffLocation
+  type: has_one
+  via: dropoff
+- from: QuoteRequest
+  to: Item
+  type: has_many
+  via: items
+- from: QuoteRequest
+  to: Charges
+  type: has_one
+  via: charges
+- from: QuoteRequest
+  to: TimePreferences
+  type: has_one
+  via: time_preferences
+- from: QuoteRequest
+  to: DropoffPreferences
+  type: has_one
+  via: dropoff_preferences
+- from: QuoteRequest
+  to: ClientData
+  type: has_one
+  via: client_data
+- from: QuoteRequest
+  to: NotificationPreferences
+  type: has_one
+  via: notification_preferences
+- from: QuoteRequest
+  to: com.grubhub.pos.generic.delivery.fulfillment.common.model.PickupVerification
+  type: has_one
+  via: pickup_verification
+- from: QuoteRequest
+  to: DeliverySizing
+  type: has_one
+  via: delivery_sizing
+- from: ResponseWrapperQuoteResponse
+  to: QuoteResponse
+  type: has_one
+  via: response
+- from: ResponseWrapperQuoteResponse
+  to: PublicApiError
+  type: has_many
+  via: errors
+- from: QuoteResponse
+  to: Quote
+  type: has_many
+  via: quotes
+- from: Courier
+  to: GeoLocation
+  type: has_one
+  via: location
+- from: ResponseWrapperDeliveryStatusResponse
+  to: DeliveryStatusResponse
+  type: has_one
+  via: response
+- from: ResponseWrapperDeliveryStatusResponse
+  to: PublicApiError
+  type: has_many
+  via: errors
+- from: DeliveryStatusResponse
+  to: Delivery
+  type: has_one
+  via: delivery
+- from: DeliveryStatusResponse
+  to: Courier
+  type: has_one
+  via: courier
+- from: ResponseWrapperServiceAreaResponse
+  to: ServiceAreaResponse
+  type: has_one
+  via: response
+- from: ResponseWrapperServiceAreaResponse
+  to: PublicApiError
+  type: has_many
+  via: errors
+- from: ServiceAreaResponse
+  to: DeliveryArea
+  type: has_many
+  via: delivery_areas
+- from: DeliveryArea
+  to: Feature
+  type: has_many
+  via: features
+- from: Feature
+  to: Properties
+  type: has_one
+  via: properties
+- from: Feature
+  to: Geometry
+  type: has_one
+  via: geometry
+- from: DeliveryRefundUpdate
+  to: RefundAmount
+  type: has_one
+  via: amounts
+- from: DeliveryStatusUpdate
+  to: Delivery
+  type: has_one
+  via: delivery
+- from: DeliveryStatusUpdate
+  to: Courier
+  type: has_one
+  via: courier
+- from: DeliveryItem
+  to: DeliveryItemOption
+  type: has_many
+  via: options
+- from: DeliveryItem
+  to: ItemSizing
+  type: has_one
+  via: sizing
+- from: DeliveryItemOption
+  to: DeliveryItemOption
+  type: has_many
+  via: options
+- from: DeliveryTimes
+  to: DeliveryTime
+  type: has_one
+  via: pickup_arrival
+- from: DeliveryTimes
+  to: DeliveryTime
+  type: has_one
+  via: pickup
+- from: DeliveryTimes
+  to: DeliveryTime
+  type: has_one
+  via: contents_prep_complete
+- from: DeliveryTimes
+  to: DeliveryTime
+  type: has_one
+  via: dropoff_arrival
+- from: DeliveryTimes
+  to: DeliveryTime
+  type: has_one
+  via: dropoff
+- from: DeliveryTimes
+  to: DeliveryTime
+  type: has_one
+  via: geofence_pickup_arrival
+- from: DeliveryTimes
+  to: DeliveryTime
+  type: has_one
+  via: geofence_dropoff_arrival
+- from: DeliveryTimes
+  to: DeliveryTime
+  type: has_one
+  via: return_initiated
+- from: DeliveryTimes
+  to: DeliveryTime
+  type: has_one
+  via: return_arrival
+- from: DeliveryTimes
+  to: DeliveryTime
+  type: has_one
+  via: return_complete
+- from: Location
+  to: Address
+  type: has_one
+  via: location_address
+- from: Location
+  to: GeoLocation
+  type: has_one
+  via: handoff_pin_geo
+- from: Address
+  to: Coordinates
+  type: has_one
+  via: coordinates
+- from: Address
+  to: Coordinates
+  type: has_one
+  via: detailed_pin_coordinates
+- from: PosDelivery
+  to: Location
+  type: has_one
+  via: pickup
+- from: PosDelivery
+  to: Location
+  type: has_one
+  via: dropoff
+- from: PosDelivery
+  to: DeliveryItem
+  type: has_many
+  via: contents
+- from: PosDelivery
+  to: Courier
+  type: has_one
+  via: courier
+- from: PosDelivery
+  to: DeliveryTimes
+  type: has_one
+  via: times
+- from: PosDelivery
+  to: DeliveryTimes
+  type: has_one
+  via: committed_times
+- from: PosDelivery
+  to: DeliveryPreferences
+  type: has_one
+  via: preferences
+- from: RepeatingSchedule
+  to: RepeatingScheduleRule
+  type: has_many
+  via: rules
+- from: PosScheduleOverrideBulkRequest
+  to: PosScheduleOverrideBaseRequest
+  type: has_one
+  via: schedule_override
+- from: PosBulkScheduleOverrideStatus
+  to: BulkProcessingItemEntityStatus
+  type: has_many
+  via: entity_override_results
+- from: PosItemScheduleOverrides
+  to: ScheduleOverride
+  type: has_many
+  via: intervals
+- from: PosModifierScheduleOverrides
+  to: ScheduleOverride
+  type: has_many
+  via: intervals
+- from: PosScheduleOverrides
+  to: PosItemScheduleOverrides
+  type: has_many
+  via: item_overrides
+- from: PosScheduleOverrides
+  to: PosModifierScheduleOverrides
+  type: has_many
+  via: modifier_overrides
+- from: MenuInfo
+  to: PosNormalizedMenuMedia
+  type: has_one
+  via: header_media
+- from: MenuInfo
+  to: PosNormalizedMenuMedia
+  type: has_one
+  via: logo_media
+- from: MenuInfo
+  to: PosNormalizedMenuMedia
+  type: has_one
+  via: search_media
+- from: MenuSection
+  to: PosNormalizedMenuMedia
+  type: has_one
+  via: media
+- from: MenuSection
+  to: TaxCategory
+  type: has_one
+  via: tax_category
+- from: Modifier
+  to: Tag
+  type: has_many
+  via: tags
+- from: Modifier
+  to: TaxCategory
+  type: has_one
+  via: tax_category
+- from: Modifier
+  to: PosNormalizedMenuMedia
+  type: has_one
+  via: media
+- from: Modifier
+  to: SizedPrice
+  type: has_many
+  via: sized_prices
+- from: ModifierPrompt
+  to: ModifierPromptSelectionSettings
+  type: has_one
+  via: default_selection_model
+- from: ModifierPrompt
+  to: ModifierPromptQuantitySettings
+  type: has_one
+  via: modifier_prompt_quantity_settings
+- from: ModifierPrompt
+  to: ModifierPromptFreeSettings
+  type: has_one
+  via: modifier_prompt_free_settings
+- from: PosNormalizedMenu
+  to: MenuInfo
+  type: has_one
+  via: menu_info
+- from: PosNormalizedMenu
+  to: TaxRate
+  type: has_many
+  via: tax_rates
+- from: PosNormalizedMenu
+  to: RepeatingSchedule
+  type: has_many
+  via: repeating_schedules
+- from: PosNormalizedMenu
+  to: MenuSection
+  type: has_many
+  via: menu_sections
+- from: PosNormalizedMenu
+  to: Item
+  type: has_many
+  via: items
+- from: PosNormalizedMenu
+  to: ModifierPrompt
+  type: has_many
+  via: modifier_prompts
+- from: PosNormalizedMenu
+  to: ModifierList
+  type: has_many
+  via: modifier_lists
+- from: PosNormalizedMenu
+  to: Modifier
+  type: has_many
+  via: modifiers
+- from: PosNormalizedMenu
+  to: SizePrompt
+  type: has_many
+  via: size_prompts
+- from: PosNormalizedMenu
+  to: Size
+  type: has_many
+  via: sizes
+- from: PosNormalizedMenu
+  to: AvailabilityRange
+  type: has_many
+  via: availability_ranges
+- from: PosNormalizedMenu
+  to: AvailabilityOverride
+  type: has_many
+  via: availability_overrides
+- from: SizePrompt
+  to: SizedPrice
+  type: has_many
+  via: sized_prices
+- from: MenuMerchantStatus
+  to: MediaValidationErrorDTO
+  type: has_many
+  via: media_validation_error_list
+- from: MenuMerchantStatus
+  to: InvalidCodeAndEntityIds
+  type: has_many
+  via: tax_category_validation_errors
+- from: PosNormalizedMenuUpdateStatus
+  to: MenuMerchantStatus
+  type: has_many
+  via: merchant_statuses
+- from: PosMerchantBatchOperationStatus
+  to: MerchantStatus
+  type: has_many
+  via: merchant_statuses
+- from: PosMerchantFulfillmentInfo
+  to: PosDeliveryFee
+  type: has_one
+  via: delivery_fee
+- from: PosMerchantFulfillmentInfo
+  to: DeliveryArea
+  type: has_many
+  via: active_delivery_areas
+- from: PosMerchantData
+  to: PosAccountStatus
+  type: has_one
+  via: account_status
+- from: PosMerchantData
+  to: Address
+  type: has_one
+  via: address
+- from: PosMerchantData
+  to: PosMerchantFulfillmentInfo
+  type: has_one
+  via: fulfillment_info
+- from: PosMerchantData
+  to: OrderProcessingInfo
+  type: has_one
+  via: order_processing_info
+- from: PosMerchantData
+  to: OrderTakingInfo
+  type: has_one
+  via: order_taking_info
+- from: PosMerchantData
+  to: DinerPickUpInstructions
+  type: has_one
+  via: diner_pickup_instructions
+- from: LocalTime
+  to: Chronology
+  type: has_one
+  via: chronology
+- from: LocalTime
+  to: DateTimeField
+  type: has_many
+  via: fields
+- from: LocalTime
+  to: DateTimeFieldType
+  type: has_many
+  via: field_types
+- from: PosMerchantRepeatingIntervalRequest
+  to: LocalTime
+  type: has_one
+  via: start
+- from: PosMerchantRepeatingIntervalRequest
+  to: LocalTime
+  type: has_one
+  via: end
+- from: PosUpdateRepeatingScheduleRequest
+  to: PosMerchantRepeatingIntervalRequest
+  type: has_many
+  via: intervals
+- from: Chronology
+  to: DateTimeZone
+  type: has_one
+  via: zone
+- from: DateTimeField
+  to: DateTimeFieldType
+  type: has_one
+  via: type
+- from: DateTimeField
+  to: DurationField
+  type: has_one
+  via: duration_field
+- from: DateTimeField
+  to: DurationField
+  type: has_one
+  via: range_duration_field
+- from: DateTimeField
+  to: DurationField
+  type: has_one
+  via: leap_duration_field
+- from: DateTimeFieldType
+  to: DurationFieldType
+  type: has_one
+  via: duration_type
+- from: DateTimeFieldType
+  to: DurationFieldType
+  type: has_one
+  via: range_duration_type
+- from: DurationField
+  to: DurationFieldType
+  type: has_one
+  via: type
+- from: PosMerchantRepeatingSchedule
+  to: RepeatingSchedule
+  type: has_one
+  via: repeating_schedule_content
+- from: PosMerchantRepeatingSchedule
+  to: RepeatingScheduleMetadata
+  type: has_one
+  via: metadata
+- from: RepeatingScheduleRuleInterval
+  to: LocalTime
+  type: has_one
+  via: start_time
+- from: RepeatingScheduleRuleInterval
+  to: LocalTime
+  type: has_one
+  via: end_time
+- from: CustomScheduleMetadata
+  to: RepeatingScheduleRuleInterval
+  type: has_many
+  via: intervals
+- from: PosCustomSchedule
+  to: CustomScheduleMetadata
+  type: has_one
+  via: metadata
+- from: PosFullSchedule
+  to: PosScheduleOverride
+  type: has_many
+  via: overrides_in_effect
+- from: PosFullSchedule
+  to: PosMassScheduleOverride
+  type: has_many
+  via: mass_overrides_in_effect
+- from: PosFullSchedule
+  to: PosMerchantRepeatingSchedule
+  type: has_many
+  via: repeating_schedules_in_effect
+- from: PosFullSchedule
+  to: PosCustomSchedule
+  type: has_many
+  via: custom_schedules_in_effect
+- from: PosFullSchedule
+  to: PosScheduleOverride
+  type: has_many
+  via: all_schedule_overrides
+- from: PosFullSchedule
+  to: PosMassScheduleOverride
+  type: has_many
+  via: all_mass_overrides
+- from: PosFullSchedule
+  to: PosMerchantRepeatingSchedule
+  type: has_many
+  via: all_repeating_schedules
+- from: PosFullSchedule
+  to: PosCustomSchedule
+  type: has_many
+  via: all_custom_schedules
+- from: PosFullSchedule
+  to: RepeatingSchedule
+  type: has_many
+  via: managed_delivery_schedules
+- from: PosMassScheduleOverride
+  to: MassScheduleOverrideMetadata
+  type: has_one
+  via: metadata
+- from: PosScheduleOverride
+  to: ScheduleOverrideMetadata
+  type: has_one
+  via: metadata
+- from: ReferralResponse
+  to: ReferralSignup
+  type: has_one
+  via: referral
+- from: MerchantActivationResponse
+  to: MerchantActivationEnablementResponse
+  type: has_many
+  via: merchant_activation_enablement_response
+- from: MerchantAssociationResponse
+  to: AssociationResponse
+  type: has_many
+  via: association_responses
+- from: MerchantEligibilityResponse
+  to: Address
+  type: has_one
+  via: address
+- from: StatusUpdateRequestPayload
+  to: PosTaxTotal
+  type: has_one
+  via: tax_total
+- from: StatusUpdateRequestPayload
+  to: OrderPickupVerification
+  type: has_one
+  via: pickup_verification
+- from: RestaurantVersionId
+  to: CatalogVersion
+  type: has_one
+  via: catalog_version
+- from: PosOrder
+  to: StatusUpdate
+  type: has_many
+  via: statusHistory
+- from: PosOrder
+  to: Instant
+  type: has_one
+  via: updated_at
+- from: PosOrder
+  to: FulfillmentInfo
+  type: has_one
+  via: fulfillment_info
+- from: PosOrder
+  to: Instant
+  type: has_one
+  via: time_placed
+- from: PosOrder
+  to: DateTimeZone
+  type: has_one
+  via: restaurant_timezone_id
+- from: PosOrder
+  to: Payments
+  type: has_one
+  via: payments
+- from: PosOrder
+  to: Charges
+  type: has_one
+  via: charges
+- from: PosOrder
+  to: Catering
+  type: has_one
+  via: catering
+- from: PosOrder
+  to: Diner
+  type: has_many
+  via: diners
+- from: PosOrder
+  to: PosOrderMerchantData
+  type: has_one
+  via: merchant_data
+- from: PosOrder
+  to: RestaurantVersionId
+  type: has_one
+  via: restaurant_version_id
+- from: PosOrder
+  to: Affiliate
+  type: has_one
+  via: affiliate
+- from: DeliveryInfo
+  to: Address
+  type: has_one
+  via: address
+- from: DeliveryInfo
+  to: Instant
+  type: has_one
+  via: estimated_delivery_time
+- from: DeliveryInfo
+  to: ContactInfo
+  type: has_one
+  via: contact_info
+- from: DeliveryInfo
+  to: Instant
+  type: has_one
+  via: managed-delivery-delivered
+- from: DeliveryInfo
+  to: Instant
+  type: has_one
+  via: managed-delivery-estimated_pickup
+- from: DeliveryInfo
+  to: Instant
+  type: has_one
+  via: managed_delivery_delivered
+- from: DeliveryInfo
+  to: Instant
+  type: has_one
+  via: managed_delivery_estimated_pickup
+- from: Diner
+  to: ContactInfo
+  type: has_one
+  via: diner_info
+- from: Diner
+  to: Charges
+  type: has_one
+  via: charges
+- from: Diner
+  to: Payments
+  type: has_one
+  via: payments
+- from: FulfillmentInfo
+  to: DeliveryInfo
+  type: has_one
+  via: delivery_info
+- from: FulfillmentInfo
+  to: PickupInfo
+  type: has_one
+  via: pickup_info
+- from: Line
+  to: LineOption
+  type: has_many
+  via: line_options
+- from: Line
+  to: PhysicalInfo
+  type: has_one
+  via: physical_info
+- from: LineGroup
+  to: Line
+  type: has_many
+  via: lines
+- from: LineOption
+  to: LineSubOption
+  type: has_many
+  via: line_sub_options
+- from: LineOption
+  to: DefaultContext
+  type: has_one
+  via: default_context
+- from: LineSubOption
+  to: LineTag
+  type: has_many
+  via: tags
+- from: LineSubOption
+  to: LineSubOption
+  type: has_many
+  via: line_sub_options
+- from: LineSubOption
+  to: DefaultContext
+  type: has_one
+  via: default_context
+- from: Payments
+  to: Payment
+  type: has_many
+  via: payments
+- from: Payments
+  to: Reward
+  type: has_many
+  via: rewards
+- from: Payments
+  to: Promotion
+  type: has_many
+  via: promo_codes
+- from: Payments
+  to: Promotion
+  type: has_many
+  via: promotions
+- from: PhysicalInfo
+  to: Dimensions
+  type: has_one
+  via: dimensions
+- from: PickupInfo
+  to: ContactInfo
+  type: has_one
+  via: contact_info
+- from: PickupInfo
+  to: Instant
+  type: has_one
+  via: estimated_pickup_time
+- from: StatusUpdate
+  to: Instant
+  type: has_one
+  via: timestamp
+- from: OrderFacetData
+  to: LeadTimeSettings
+  type: has_one
+  via: lead_time_settings
+- from: LeadTimeSettings
+  to: LeadTimeSettingsTier
+  type: has_many
+  via: lead_time_settings_tiers
+- from: LeadTimeSettings
+  to: ThresholdSettings
+  type: has_one
+  via: calculated_large_order_threshold_settings
+- from: Instant
+  to: Chronology
+  type: has_one
+  via: chronology
+- from: Instant
+  to: DateTimeZone
+  type: has_one
+  via: zone
+- from: OrderChangeRequest
+  to: SubstitutionRequest
+  type: has_many
+  via: substitution_requests
+- from: LineOptionSubstitution
+  to: LineSubstitutionType
+  type: has_one
+  via: line_option_substitution_type
+- from: LineOptionSubstitution
+  to: LineOptionSubstitution
+  type: has_many
+  via: sub_options
+- from: LineSubstitutionReplacement
+  to: LineOptionSubstitution
+  type: has_many
+  via: options
+- from: SubstitutionRequest
+  to: SubstitutionAdjustment
+  type: has_one
+  via: substitution_adjustment
+- from: OrderChangeRequestStatus
+  to: OrderChangeRequest
+  type: has_one
+  via: request
+- from: OrderPickupInstructions
+  to: OrderPickupVerification
+  type: has_one
+  via: pickup_verification
+- from: CreateExportReportRequestByPartner
+  to: ReportRequestParametersByPartner
+  type: has_one
+  via: report_parameters
+- from: ReportRequestParametersByPartner
+  to: DateRange
+  type: has_one
+  via: date_range

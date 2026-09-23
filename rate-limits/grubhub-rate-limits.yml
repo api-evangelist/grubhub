@@ -4,74 +4,88 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Grubhub
 providerId: grubhub
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-06-02'
+method: searched
+modified: '2026-09-17'
 reconciled: true
 tags:
-  - Rate Limiting
-  - Food Delivery
-  - Marketplaces
-  - Restaurants
-description: Grubhub rate-limits its Partner Integration API endpoints to minimize abuse, protect
-  backend systems, and maintain service quality. Per the official FAQs & Best Practices
-  documentation, endpoint limits vary by endpoint but typically range between 200 and 400 requests
-  per minute from a single source. Requests above the threshold receive an HTTP 429 response.
-  Limits are enforced per source / OAuth client and assigned per partner integration. Grubhub
-  recommends batching entity operations and subscribing to webhooks rather than polling to avoid
-  hitting the limit.
-notes: Numeric limits (200-400 req/min per single source) confirmed from Grubhub's public FAQs &
-  Best Practices documentation. Exact per-endpoint values vary and are assigned per partner
-  integration; reconcile a precise per-endpoint table against a partner contract when available.
+- Rate Limiting
+- Food Delivery
+- Marketplaces
+- Restaurants
+description: Grubhub rate-limits its Partner Integration API endpoints to minimize abuse, protect backend
+  systems, and maintain service quality. Per the official FAQs & Best Practices documentation, endpoint
+  limits vary by endpoint but typically range between 200 and 400 requests per minute from a single source.
+  Requests above the threshold receive an HTTP 429 response. Limits are enforced per source / OAuth client
+  and assigned per partner integration. Grubhub recommends batching entity operations and subscribing
+  to webhooks rather than polling to avoid hitting the limit.
+notes: Numeric limits (200-400 req/min per single source) confirmed from Grubhub's public FAQs & Best
+  Practices documentation. Exact per-endpoint values vary and are assigned per partner integration; reconcile
+  a precise per-endpoint table against a partner contract when available.
 sources:
-  - https://developer.grubhub.com/docs/2PVzj0qUWAcMMsI84pYQlv/faqs-and-best-practices
-  - https://developer.grubhub.com/docs/5buXEVbijjqvp4zJS2Xgew/common-status-codes
-  - https://developer.grubhub.com
+- https://developer.grubhub.com/docs/2PVzj0qUWAcMMsI84pYQlv/faqs-and-best-practices
+- https://developer.grubhub.com/docs/5buXEVbijjqvp4zJS2Xgew/common-status-codes
+- https://developer.grubhub.com
 responseCodes:
   throttled: 429
   serviceUnavailable: 503
 limits:
-  - name: Partner integration API requests (per source)
-    scope: source
-    metric: requests_per_minute
-    limit: 400
-    timeFrame: minute
-    notes: Endpoint limits vary but typically range between 200 and 400 requests per minute from a
-      single source. Requests above the threshold receive a 429 error. The 400/min value is the
-      documented upper bound of the typical range.
-  - name: Partner integration API requests (per source, lower bound)
-    scope: source
-    metric: requests_per_minute
-    limit: 200
-    timeFrame: minute
-    notes: Documented lower bound of the typical per-source range. Specific endpoints may be
-      throttled closer to 200/min; treat 200 as the conservative budget when the per-endpoint
-      value is unknown.
-  - name: Webhook delivery (Orders, Deliveries)
-    scope: partner-endpoint
-    metric: varies
-    limit: 'partner endpoint must accept burst order volumes'
-    notes: Grubhub posts events to the partner's webhook URL; the partner is expected to absorb
-      peak restaurant order volume rather than rate-limit Grubhub-originated requests.
+- name: Partner integration API requests (per source)
+  scope: source
+  metric: requests_per_minute
+  limit: 400
+  timeFrame: minute
+  notes: Endpoint limits vary but typically range between 200 and 400 requests per minute from a single
+    source. Requests above the threshold receive a 429 error. The 400/min value is the documented upper
+    bound of the typical range.
+- name: Partner integration API requests (per source, lower bound)
+  scope: source
+  metric: requests_per_minute
+  limit: 200
+  timeFrame: minute
+  notes: Documented lower bound of the typical per-source range. Specific endpoints may be throttled closer
+    to 200/min; treat 200 as the conservative budget when the per-endpoint value is unknown.
+- name: Webhook delivery (Orders, Deliveries)
+  scope: partner-endpoint
+  metric: varies
+  limit: partner endpoint must accept burst order volumes
+  notes: Grubhub posts events to the partner's webhook URL; the partner is expected to absorb peak restaurant
+    order volume rather than rate-limit Grubhub-originated requests.
 policies:
-  - name: Backoff Strategy
-    description: Use exponential backoff with jitter on 429 / 503 responses; honor Retry-After
-      when present. Repeated 429 errors should be escalated to your Grubhub technical contact.
-  - name: Batch Entity Operations
-    description: When updating or removing individual or groups of menu items, include as many
-      entity IDs as possible in a single request rather than sending one request per entity. For
-      example, send one request with 10 out-of-stock item IDs instead of 10 separate requests.
-  - name: Prefer Webhooks Over Polling
-    description: Subscribe to available webhooks that fire when jobs complete, or wait a few
-      minutes before polling for status, rather than polling tightly in a loop. This is the
-      primary recommended technique for staying under the per-source limit.
-  - name: Webhook Reliability
-    description: Partners receiving Orders / Deliveries webhooks should respond quickly (2xx) and
-      process asynchronously to avoid Grubhub-side retry storms.
-  - name: Per-Source Scoping
-    description: Limits are enforced per single source / OAuth client; new integrations should
-      pre-provision headroom with Grubhub before launch.
+- name: Backoff Strategy
+  description: Use exponential backoff with jitter on 429 / 503 responses; honor Retry-After when present.
+    Repeated 429 errors should be escalated to your Grubhub technical contact.
+- name: Batch Entity Operations
+  description: When updating or removing individual or groups of menu items, include as many entity IDs
+    as possible in a single request rather than sending one request per entity. For example, send one
+    request with 10 out-of-stock item IDs instead of 10 separate requests.
+- name: Prefer Webhooks Over Polling
+  description: Subscribe to available webhooks that fire when jobs complete, or wait a few minutes before
+    polling for status, rather than polling tightly in a loop. This is the primary recommended technique
+    for staying under the per-source limit.
+- name: Webhook Reliability
+  description: Partners receiving Orders / Deliveries webhooks should respond quickly (2xx) and process
+    asynchronously to avoid Grubhub-side retry storms.
+- name: Per-Source Scoping
+  description: Limits are enforced per single source / OAuth client; new integrations should pre-provision
+    headroom with Grubhub before launch.
 maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+- FN: Kin Lane
+  email: kin@apievangelist.com
+generated: '2026-09-17'
+source: https://developer.grubhub.com/docs/2PVzj0qUWAcMMsI84pYQlv/faqs-and-best-practices
+contract_evidence:
+  note: Re-checked 2026-09-17 against Grubhub's own twelve OpenAPI documents. Exactly ONE of 91 operations
+    declares a 429 response - GET /pos/v1/merchant/{merchant_long_id}/orders/{order_uuid}/delivery (getExternalDeliveryByOrderUuid),
+    described verbatim as 'You have sent too many API calls in a short period of time'. No operation anywhere
+    declares a RateLimit-*, X-RateLimit-* or Retry-After response header, so an agent gets no runtime
+    budget signal from the contract at all. The 200-400 req/min figures below come from the FAQs & Best
+    Practices article on the developer portal, which renders client-side and could not be re-read by a
+    crawler on 2026-09-17; they are carried forward, not re-verified.
+  operations_declaring_429: 1
+  operations_total: 91
+  response_headers_declared: []
+  source: openapi/_harvested/*.json
+responseHeaders:
+  published: false
+  note: No rate-limit response header is declared on any operation.
+limit_count: 3

@@ -1,30 +1,38 @@
-generated: '2026-07-11'
-method: searched
-source: openapi/grubhub-onboarding-openapi.yml
+generated: '2026-09-17'
+method: probed
+source: https://api-third-party-gtm.grubhub.com/.well-known/oauth-authorization-server
 docs: https://grubhub-developers.zendesk.com/hc/en-us/articles/115004598023-Open-ID-Authentication
-schemes:
-- name: oauthAuth
-  source: openapi/grubhub-onboarding-openapi.yml
-  flows:
-  - flow: clientCredentials
-    tokenUrl: /oauth2/direct/auth
-  description: OAuth 2.0 authentication for the Onboarding API. Partners use OAuth to authenticate
-    merchant onboarding operations.
+note: >-
+  Upgraded 2026-09-17 from searched to probed. The scope list is no longer inferred from a docs
+  article - it is read directly from Grubhub's own RFC 8414 authorization-server metadata, which
+  both partner API hosts serve anonymously. scopes_supported is exactly ["openid", "diner"].
+  None of the twelve published partner OpenAPI documents declares an oauth2 securityScheme, so
+  no scope is bound to an operation anywhere in the machine-readable contract.
+discovery:
+  url: https://api-third-party-gtm.grubhub.com/.well-known/oauth-authorization-server
+  status: 200
+  fetched: '2026-09-17'
+  file: well-known/grubhub-oauth-authorization-server.json
+issuer: https://api-gtm.grubhub.com
+authorization_endpoint: https://api-gtm.grubhub.com/oauth2/authorize
+token_endpoint: https://api-gtm.grubhub.com/oauth2/token
+registration_endpoint: https://api-gtm.grubhub.com/oauth/register
+scope_count: 2
 scopes:
-- scope: anonymous
-  description: Anonymous authentication via POST /oauth2/direct/auth (grant_type token). Returns
-    an access token that can be used to browse restaurant information and begin an order without
-    a logged-in diner; any call except checkout is permitted until the session is connected to
-    an authenticated diner.
+- scope: openid
+  description: >-
+    OpenID Connect base scope. Advertised in scopes_supported by the production and preproduction
+    authorization servers.
   sources:
-  - https://grubhub-developers.zendesk.com/hc/en-us/articles/115004598023-Open-ID-Authentication
-- scope: openid diner
-  description: Required scope value when authenticating a diner via POST /oauth2/direct/auth with
-    a signed OpenID token (grant_type token). Links the partner application's user to a Grubhub
-    diner record and returns an access token for making Grubhub API calls on that diner's behalf,
-    including checkout.
+  - https://api-third-party-gtm.grubhub.com/.well-known/oauth-authorization-server
+- scope: diner
+  description: >-
+    Grants a partner application an access token bound to a Grubhub diner record, for diner-facing
+    ordering integrations. Advertised in scopes_supported by the production and preproduction
+    authorization servers.
   sources:
-  - https://grubhub-developers.zendesk.com/hc/en-us/articles/115004598023-Open-ID-Authentication
-note: Grubhub's partner Onboarding/Menu/Orders APIs use OAuth client credentials without published
-  named scopes; the only documented scope values ("anonymous" and "openid diner") appear in the
-  Grubhub Developers Open ID Authentication guide for diner-facing ordering integrations.
+  - https://api-third-party-gtm.grubhub.com/.well-known/oauth-authorization-server
+gaps:
+- No scope is referenced by any operation in any published OpenAPI document (no securitySchemes at all).
+- Partner-side integration (Menu, Orders, Merchant Data, Schedules, Connect, Reporting) authenticates
+  with the X-GH-PARTNER-KEY header rather than a scoped OAuth token; those surfaces have no scope model.

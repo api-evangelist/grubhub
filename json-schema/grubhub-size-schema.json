@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-size-schema.json",
+  "title": "Size",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-menu-openapi.yml#/components/schemas/Size",
+  "required": [
+    "external_id",
+    "name"
+  ],
+  "type": "object",
+  "properties": {
+    "external_id": {
+      "type": "string",
+      "description": "A user-configured identifier for this object within the menu. External IDs must be unique across all menu entities of this type. Any size that shares this `external_id` will be overwritten."
+    },
+    "name": {
+      "type": "string",
+      "description": "The display name for this size, which will be given to the diner as an option to select."
+    },
+    "internal_name": {
+      "type": "string",
+      "description": "A name displayed on Grubhub menu management tools instead of the display name."
+    },
+    "metadata": {
+      "type": "string",
+      "description": "Metadata associated with the size."
+    },
+    "fulfillment_type_settings": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/NormalizedSizeFulfillmentTypeSettings"
+      },
+      "description": "OrderServiceType-specific configurations for this size. All keys should be strings representing order-service types (valid options include \"STANDARD_DELIVERY\", \"STANDARD_PICKUP\", \"CATERING_DELIVERY\", and \"GROUP_DELIVERY\". All values should be of type NormalizedSizeFulfillmentTypeSettings."
+    }
+  },
+  "description": "Size selections for prompts within menu items.",
+  "$defs": {
+    "NormalizedSizeFulfillmentTypeSettings": {
+      "type": "object",
+      "properties": {
+        "price": {
+          "type": "number",
+          "description": "The base price of the menu item at this size to be used for a given OrderServiceType."
+        }
+      },
+      "description": "SizeFulfillmentTypeSettings include configurations to be used for a Size only for oneFulfillmentType."
+    }
+  }
+}

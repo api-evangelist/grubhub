@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-statusupdaterequestpayload-schema.json",
+  "title": "StatusUpdateRequestPayload",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-orders-openapi.yml#/components/schemas/StatusUpdateRequestPayload",
+  "required": [
+    "message",
+    "reason_code",
+    "status"
+  ],
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string",
+      "description": "The status of an order as it passes through the Grubhub fulfillment flow.<br /><br />ANTICIPATED: denotes a future order, which may be cancelled by diner.<br />RESTAURANT_CONFIRMABLE: pending confirmation of receipt by the restaurant. These are effectively new ASAP orders. ANTICIPATED orders will automatically become RESTAURANT_CONFIRMABLE at the promise time, less the restaurant's configured pickup or delivery prep time.<br />DINER_CONFIRMABLE: a status held for future use.<br />CONFIRMED: denotes that the order was received by restaurant, even if the restaurant is unable to fulfill it.<br />REJECTED: an error status. For example, if an order is unable to be inserted to the POS, due to menu item mismatch, restaurant offline, etc., the status should be updated to REJECTED. This is not to be used when the order was successfully transmitted, but the restaurant is unable to fulfill it for operational reasons. In that scenario, a Change Request should be submitted to cancel the order.<br />CANCELLED: a cancellation request by the diner or restaurant has been processed by Grubhub Customer Care.<br />PICKUP_READY: indicates that the food is prepared and ready for pickup by the diner or a Grubhub delivery courier.<br />OUT_FOR_DELIVERY: the food is on the way to the diner.<br />FULFILLED: denotes that the food has been delivered to or picked up by the diner.<br />UNKNOWN: provided for error handling of strings unmappable to known enumeration values.",
+      "enum": [
+        "REJECTED",
+        "READY_FOR_PICKUP",
+        "ANTICIPATED",
+        "RESTAURANT_CONFIRMABLE",
+        "CONFIRMED",
+        "CANCELLED",
+        "DELIVERY_CONFIRMABLE",
+        "DINER_CONFIRMABLE",
+        "UNKNOWN",
+        "PICKUP_READY",
+        "OUT_FOR_DELIVERY",
+        "FULFILLED",
+        "POS_VALIDATING",
+        "POS_VALIDATED",
+        "POS_VALIDATION_REJECTED"
+      ]
+    },
+    "wait_time_in_minutes": {
+      "type": "integer",
+      "description": "Represent the remaining wait time in minutes.If this is a pickup order, it is the number of minutes before the food is ready for pickup. If this is a delivery order, it is the estimated number of minutes until delivery to the diner. If it is a Grubhub Managed Delivery order, it the estimated number of minutes until the food is ready for pickup by the Grubhub delivery driver. This value may be used by Grubhub as part of order processing workflows. Grubhub may also use its own timing considerations and internal systems based on real-time operational conditions. ",
+      "format": "int64"
+    },
+    "message": {
+      "type": "string",
+      "description": "If updating status to REJECTED, descriptive text `IS REQUIRED` to providing more detail about the rejection reason. This information may be included in logging and customer care tickets. Helpful information would be, for example, the ID of the menu item not found, or details on the price mismatch."
+    },
+    "reason_code": {
+      "type": "string",
+      "description": "Reason about the status.",
+      "enum": [
+        "RESTAURANT_OFFLINE",
+        "MENU_ITEM_NOT_FOUND",
+        "PRICE_MISMATCH",
+        "CONFIRMED_BUT_NOT_SUBMITTED",
+        "SUBMITTED",
+        "OTHER"
+      ]
+    },
+    "tax_total": {
+      "$ref": "#/$defs/PosTaxTotal"
+    },
+    "sub_total": {
+      "type": "integer",
+      "description": "This is the updated subtotal amount in cents.",
+      "format": "int32"
+    },
+    "expected_ready_at": {
+      "type": "string",
+      "description": "Expected ready time. This value may be used by Grubhub as part of order processing workflows. Grubhub may also use its own timing considerations and internal systems based on real-time operational conditions. "
+    },
+    "soonest_available_at": {
+      "type": "string",
+      "description": "Soonest availability time. This value may be used by Grubhub as part of order processing workflows. Grubhub may also use its own timing considerations and internal systems based on real-time operational conditions. "
+    },
+    "external_order_id": {
+      "type": "string",
+      "description": "External order id. Note that this field is for reporting only. Orders can only be polled for or updated by using the Grubhub Order UUID"
+    },
+    "pickup_verification": {
+      "$ref": "#/$defs/OrderPickupVerification"
+    }
+  },
+  "description": "Payload to request a status change",
+  "$defs": {
+    "OrderPickupVerification": {
+      "required": [
+        "verification_code"
+      ],
+      "type": "object",
+      "properties": {
+        "verification_code": {
+          "type": "string",
+          "description": "The code to be used at pickup verification step to validate that the driver is picking up the correct order. Drivers would be required to input/scan the correct verification code in order to complete the pickup via Driver App"
+        },
+        "capture_method": {
+          "type": "string",
+          "description": "The verification method required for the merchant-to-driver handoff during order pickup",
+          "default": "MANUAL_ENTRY",
+          "enum": [
+            "QR_SCAN",
+            "MANUAL_ENTRY"
+          ]
+        }
+      },
+      "description": "Payload to for pickup verification instructions"
+    },
+    "PosTaxTotal": {
+      "type": "object",
+      "properties": {
+        "tax": {
+          "type": "integer",
+          "description": "The value of the tax. Depending on the type, this is either the updated tax amount in cents or the amount, in cents, that the Grubhub-calculated tax is off by.",
+          "format": "int32"
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of tax. Whether to set the tax using an ABSOLUTE value - the tax will be set to the amount specified - or RELATIVE - the tax will be adjusted by the tax value.",
+          "enum": [
+            "ABSOLUTE",
+            "RELATIVE",
+            "ABSOLUTE",
+            "RELATIVE"
+          ]
+        },
+        "null": {
+          "type": "boolean"
+        }
+      },
+      "description": "Corrected tax for an order."
+    }
+  }
+}

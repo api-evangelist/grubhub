@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-posbusymoderesponse-schema.json",
+  "title": "PosBusyModeResponse",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-busy-intervals-openapi.yml#/components/schemas/PosBusyModeResponse",
+  "type": "object",
+  "properties": {
+    "restaurant_id": {
+      "type": "string",
+      "description": "The short Grubhub ID for the merchant the busy interval applies to."
+    },
+    "busy_interval_id": {
+      "type": "string",
+      "description": "Unique identifier of the created busy interval.",
+      "format": "uuid"
+    },
+    "eta_increase_seconds": {
+      "type": "integer",
+      "description": "Additional time, in seconds, added to the displayed delivery ETA while the restaurant is busy.",
+      "format": "int64"
+    },
+    "start_time": {
+      "type": "string",
+      "description": "When the busy interval begins, as an RFC-3339 / ISO-8601 UTC timestamp.",
+      "format": "date-time"
+    },
+    "end_time": {
+      "type": "string",
+      "description": "When the busy interval ends, as an RFC-3339 / ISO-8601 UTC timestamp.",
+      "format": "date-time"
+    }
+  }
+}

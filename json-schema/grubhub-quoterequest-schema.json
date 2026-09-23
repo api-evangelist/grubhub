@@ -1,0 +1,529 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-quoterequest-schema.json",
+  "title": "QuoteRequest",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/QuoteRequest",
+  "required": [
+    "charges",
+    "dropoff",
+    "pickup",
+    "time_preferences"
+  ],
+  "type": "object",
+  "properties": {
+    "pickup": {
+      "$ref": "#/$defs/PickupLocation"
+    },
+    "dropoff": {
+      "$ref": "#/$defs/DropoffLocation"
+    },
+    "items": {
+      "type": "array",
+      "description": "A collection of items describing what is included in the delivery.",
+      "items": {
+        "$ref": "#/$defs/Item"
+      }
+    },
+    "charges": {
+      "$ref": "#/$defs/Charges"
+    },
+    "time_preferences": {
+      "$ref": "#/$defs/TimePreferences"
+    },
+    "dropoff_preferences": {
+      "$ref": "#/$defs/DropoffPreferences"
+    },
+    "client_data": {
+      "$ref": "#/$defs/ClientData"
+    },
+    "notification_preferences": {
+      "$ref": "#/$defs/NotificationPreferences"
+    },
+    "pickup_verification": {
+      "$ref": "#/$defs/com.grubhub.pos.generic.delivery.fulfillment.common.model.PickupVerification"
+    },
+    "delivery_sizing": {
+      "$ref": "#/$defs/DeliverySizing"
+    },
+    "tags": {
+      "uniqueItems": true,
+      "type": "array",
+      "description": "Tags that can be applied to a delivery to assist with categorization, pricing and filtering.",
+      "items": {
+        "type": "string",
+        "description": "Tags that can be applied to a delivery to assist with categorization, pricing and filtering.",
+        "example": "FOOD",
+        "enum": [
+          "FOOD",
+          "FLORAL",
+          "GROCERY"
+        ]
+      }
+    }
+  },
+  "description": "A request for delivery fulfillment quotes.",
+  "$defs": {
+    "Charges": {
+      "required": [
+        "contents_value",
+        "tip"
+      ],
+      "type": "object",
+      "properties": {
+        "tip": {
+          "minimum": 0,
+          "type": "integer",
+          "description": "The tip amount the courier receives, formatted as cents.",
+          "format": "int32",
+          "example": 200
+        },
+        "contents_value": {
+          "minimum": 0,
+          "type": "integer",
+          "description": "The amount the items being delivered are worth minus taxes, formatted as cents.",
+          "format": "int32",
+          "example": 200
+        }
+      },
+      "description": "The charges associated with a delivery."
+    },
+    "ClientData": {
+      "type": "object",
+      "properties": {
+        "external_id": {
+          "maxLength": 128,
+          "minLength": 0,
+          "type": "string",
+          "description": "A stored correlation id that isn't used by Grubhub's platform.",
+          "example": "ABC123"
+        },
+        "external_merchant_id": {
+          "maxLength": 128,
+          "minLength": 0,
+          "type": "string",
+          "description": "A client-provided merchant identifier.",
+          "example": "MERCHANT_123"
+        },
+        "external_source": {
+          "maxLength": 128,
+          "minLength": 0,
+          "type": "string",
+          "description": "The external source API from which the delivery came from.",
+          "example": "RELAY_123"
+        },
+        "reference_number": {
+          "type": "string",
+          "description": "An external delivery identifier that is used by Grubhub's platform for display purposes.",
+          "example": "123XYZ4567ABC890"
+        }
+      },
+      "description": "Client metadata associated with a delivery."
+    },
+    "DeliveryAddress": {
+      "required": [
+        "city",
+        "country_area",
+        "country_code",
+        "postal_code",
+        "street_address"
+      ],
+      "type": "object",
+      "properties": {
+        "country_code": {
+          "maxLength": 8,
+          "minLength": 0,
+          "type": "string",
+          "description": "The ISO-3166 country code of the address.",
+          "example": "US"
+        },
+        "country_area": {
+          "maxLength": 64,
+          "minLength": 0,
+          "type": "string",
+          "description": "The country area or state of the address.",
+          "example": "IL"
+        },
+        "city": {
+          "maxLength": 64,
+          "minLength": 0,
+          "type": "string",
+          "description": "The city of the address.",
+          "example": "Chicago"
+        },
+        "street_address": {
+          "maxItems": 5,
+          "minItems": 1,
+          "type": "array",
+          "description": "The street address details of the address.",
+          "example": [
+            "123 Washington Lane"
+          ],
+          "items": {
+            "maxLength": 128,
+            "minLength": 0,
+            "type": "string"
+          }
+        },
+        "postal_code": {
+          "maxLength": 16,
+          "minLength": 0,
+          "type": "string",
+          "description": "The postal code of the address.",
+          "example": "60642"
+        },
+        "company_name": {
+          "maxLength": 128,
+          "minLength": 0,
+          "type": "string",
+          "description": "The company name of the address.",
+          "example": "Fake Savings and Loans Co."
+        }
+      },
+      "description": "The information associated with an address."
+    },
+    "DeliverySizing": {
+      "type": "object",
+      "properties": {
+        "weight": {
+          "type": "string",
+          "description": "The weight category of a delivery.\n\n**STANDARD** <= 15 lbs\n\n**HEAVY** > 15 lbs",
+          "example": "STANDARD",
+          "enum": [
+            "STANDARD",
+            "HEAVY"
+          ]
+        },
+        "dimensions": {
+          "type": "string",
+          "description": "The size category of a delivery based on its dimensions.\n\n**SMALL** - single item, may be carried in one hand\n\n**MEDIUM** - requires a bag, may be carried in one hand\n\n**LARGE** - may require two hands\n\n**EXTRA_LARGE** - may require multiple trips or equipment",
+          "example": "MEDIUM",
+          "enum": [
+            "SMALL",
+            "MEDIUM",
+            "LARGE",
+            "EXTRA_LARGE"
+          ]
+        }
+      },
+      "description": "Information about delivery-level sizing."
+    },
+    "DropoffLocation": {
+      "required": [
+        "address",
+        "name",
+        "phone"
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "maxLength": 128,
+          "minLength": 0,
+          "type": "string",
+          "description": "The name of the merchant or individual at the location.",
+          "example": "Bob's Burgers"
+        },
+        "address": {
+          "$ref": "#/$defs/DeliveryAddress"
+        },
+        "phone": {
+          "pattern": "^\\+\\d{11}$",
+          "type": "string",
+          "description": "A E.164 formatted phone number. Only 11-digits are supported.",
+          "example": "+16145552332"
+        },
+        "instructions": {
+          "maxLength": 500,
+          "minLength": 0,
+          "type": "string",
+          "description": "Instructions for the courier while at the location.",
+          "example": "Leave at front door."
+        },
+        "geo_location": {
+          "$ref": "#/$defs/GeoLocation"
+        }
+      },
+      "description": "The information associated with a dropoff location."
+    },
+    "DropoffPreferences": {
+      "type": "object",
+      "properties": {
+        "handoff_options": {
+          "maxItems": 1,
+          "uniqueItems": true,
+          "type": "array",
+          "description": "Options indicating how dropoff should be performed.",
+          "items": {
+            "type": "string",
+            "enum": [
+              "CONTACTLESS"
+            ]
+          }
+        }
+      },
+      "description": "Preferences for how the delivery dropoff should be handled."
+    },
+    "GeoLocation": {
+      "required": [
+        "lat",
+        "lng"
+      ],
+      "type": "object",
+      "properties": {
+        "lat": {
+          "type": "number",
+          "description": "The latitude of the location.",
+          "format": "double",
+          "example": 41.88320791307697
+        },
+        "lng": {
+          "type": "number",
+          "description": "The longitude of the location.",
+          "format": "double",
+          "example": -87.63142796027925
+        }
+      },
+      "description": "The last known location of the courier."
+    },
+    "Item": {
+      "required": [
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "maxLength": 256,
+          "minLength": 0,
+          "type": "string",
+          "description": "The name of the item being delivered.",
+          "example": "Cheeseburger"
+        },
+        "description": {
+          "maxLength": 256,
+          "minLength": 0,
+          "type": "string",
+          "description": "The description of the item.",
+          "example": "Burger patty topped with cheese."
+        },
+        "quantity": {
+          "minimum": 1,
+          "type": "integer",
+          "description": "The quantity of the item.",
+          "format": "int32"
+        },
+        "sub_items": {
+          "type": "array",
+          "description": "Subitems included with the item.",
+          "items": {
+            "$ref": "#/$defs/SubItem"
+          }
+        },
+        "item_sizing": {
+          "$ref": "#/$defs/ItemSizing"
+        }
+      },
+      "description": "The information associated with a delivery item."
+    },
+    "ItemDimensions": {
+      "required": [
+        "depth",
+        "height",
+        "unit",
+        "width"
+      ],
+      "type": "object",
+      "properties": {
+        "unit": {
+          "type": "string",
+          "description": "Unit of measurement",
+          "example": "INCHES",
+          "enum": [
+            "INCHES",
+            "FEET"
+          ]
+        },
+        "width": {
+          "type": "number",
+          "description": "Width of the item",
+          "format": "double",
+          "example": 10.0
+        },
+        "height": {
+          "type": "number",
+          "description": "Height of the item",
+          "format": "double",
+          "example": 5.0
+        },
+        "depth": {
+          "type": "number",
+          "description": "Depth of the item",
+          "format": "double",
+          "example": 3.0
+        }
+      },
+      "description": "Dimensions of the item"
+    },
+    "ItemSizing": {
+      "type": "object",
+      "properties": {
+        "weight": {
+          "$ref": "#/$defs/ItemWeight"
+        },
+        "dimensions": {
+          "$ref": "#/$defs/ItemDimensions"
+        }
+      },
+      "description": "Information about item-level sizing"
+    },
+    "ItemWeight": {
+      "required": [
+        "unit",
+        "weight"
+      ],
+      "type": "object",
+      "properties": {
+        "unit": {
+          "type": "string",
+          "description": "Unit of measurement",
+          "example": "POUNDS",
+          "enum": [
+            "POUNDS"
+          ]
+        },
+        "weight": {
+          "type": "number",
+          "description": "Weight of the item",
+          "format": "double",
+          "example": 5.0
+        }
+      },
+      "description": "Weight of the item"
+    },
+    "NotificationPreferences": {
+      "type": "object",
+      "properties": {
+        "send_dropoff_contact_notifications": {
+          "type": "boolean",
+          "description": "Whether to send notifications to the dropoff contact for this delivery - defaults to sending notifications.",
+          "default": true
+        }
+      },
+      "description": "Notification-related preferences for the delivery request"
+    },
+    "PickupLocation": {
+      "required": [
+        "address",
+        "brand_name",
+        "name",
+        "phone"
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "maxLength": 128,
+          "minLength": 0,
+          "type": "string",
+          "description": "The name of the merchant or individual at the location.",
+          "example": "Bob's Burgers"
+        },
+        "address": {
+          "$ref": "#/$defs/DeliveryAddress"
+        },
+        "phone": {
+          "pattern": "^\\+\\d{11}$",
+          "type": "string",
+          "description": "A E.164 formatted phone number. Only 11-digits are supported.",
+          "example": "+16145552332"
+        },
+        "instructions": {
+          "maxLength": 500,
+          "minLength": 0,
+          "type": "string",
+          "description": "Instructions for the courier while at the location.",
+          "example": "Leave at front door."
+        },
+        "geo_location": {
+          "$ref": "#/$defs/GeoLocation"
+        },
+        "brand_name": {
+          "maxLength": 128,
+          "minLength": 0,
+          "type": "string",
+          "description": "The name of the requesting brand. This must be consistent across all deliveries for the same brand.",
+          "example": "Inspire"
+        },
+        "sub_brand_name": {
+          "maxLength": 128,
+          "minLength": 0,
+          "type": "string",
+          "description": "The name of the requesting individual brand, NOT the aggregator. This must be consistent across all deliveries for the same brand.",
+          "example": "Dunkin Donuts"
+        },
+        "location_grouping_id": {
+          "maxLength": 128,
+          "minLength": 0,
+          "type": "string",
+          "description": "A reference identifier for grouping locations.",
+          "example": "loc-group-123"
+        },
+        "location_grouping_name": {
+          "maxLength": 128,
+          "minLength": 0,
+          "type": "string",
+          "description": "A reference name for grouping locations.",
+          "example": "All NY Stores"
+        }
+      },
+      "description": "The information associated with a pickup location."
+    },
+    "SubItem": {
+      "required": [
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "maxLength": 64,
+          "minLength": 0,
+          "type": "string",
+          "description": "The name of the subitem.",
+          "example": "Add cheese"
+        },
+        "description": {
+          "maxLength": 128,
+          "minLength": 0,
+          "type": "string",
+          "description": "The description of the subitem.",
+          "example": "Single slice of American cheese."
+        },
+        "quantity": {
+          "minimum": 0,
+          "type": "integer",
+          "description": "The quantity of this subitem, if applicable.",
+          "format": "int32",
+          "default": 0
+        }
+      },
+      "description": "The information associated with a delivery subitem."
+    },
+    "TimePreferences": {
+      "type": "object",
+      "properties": {
+        "pickup_time": {
+          "type": "string",
+          "description": "The preferred pickup time for the courier. Formatted as an ISO-8601 timestamp.",
+          "format": "date-time",
+          "example": "2024-03-14T19:22:51.999Z"
+        },
+        "dropoff_time": {
+          "type": "string",
+          "description": "The preferred dropoff time for the courier. Formatted as an ISO-8601 timestamp.",
+          "format": "date-time",
+          "example": "2024-03-14T19:22:51.999Z"
+        }
+      },
+      "description": "The preferred pickup or dropoff time for the courier. Only use one of them."
+    }
+  }
+}

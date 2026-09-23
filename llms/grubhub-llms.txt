@@ -1,0 +1,100 @@
+# Grubhub
+
+> Grubhub is a US online food-ordering and delivery marketplace. Its partner platform lets
+> point-of-sale vendors, online-ordering providers, delivery aggregators and enterprise restaurant
+> brands ingest menus, receive and manage Marketplace orders, control merchant availability and
+> schedules, run last-mile delivery on Grubhub's courier network (Grubhub Connect), onboard
+> merchants, and export merchant reports.
+
+Generated 2026-09-17 by the API Evangelist enrichment pipeline. Grubhub serves no /llms.txt of its
+own (https://developer.grubhub.com/llms.txt returns 404), so this file is generated from Grubhub's
+own twelve OpenAPI documents plus artifacts derived from them. Nothing here is invented.
+
+## What is real, and what is not
+
+- Twelve first-party OpenAPI documents, 91 operations and 3 egress webhooks, fetched verbatim from
+  https://developer.grubhub.com/resource/partner-docs/api-docs/ on 2026-09-17.
+- Production base URL: https://api-third-party-gtm.grubhub.com
+- Preproduction base URL: https://api-third-party-gtm-pp.grubhub.com
+- Authentication: X-GH-PARTNER-KEY header (UUID), issued through Grubhub partner onboarding.
+  There is no self-serve API signup and no public API key.
+- A real OAuth 2.0 authorization server (RFC 8414 metadata, dynamic client registration, PKCE,
+  scopes openid + diner) exists for diner-facing ordering integrations.
+- Grubhub publishes NO MCP server, NO A2A agent card, NO client SDK on any package registry, NO CLI,
+  NO status page, NO changelog and NO security.txt. Do not claim otherwise.
+
+## OpenAPI
+
+- [Menu](openapi/grubhub-menu-openapi.yml): normalized menu ingestion, validation, schedule
+  overrides, alcohol tagging, ingestion job status. 10 operations.
+- [Orders](openapi/grubhub-orders-openapi.yml): retrieve orders by order UUID, merchant or group;
+  update order status; request and poll order change requests; add pickup instructions. 7 operations.
+- [Merchant Data](openapi/grubhub-merchant-data-openapi.yml): merchant profile, tax rate, delivery
+  minimum, delivery boundaries and area fees, fulfillment estimates, online/offline status by order
+  type, batch property updates and their status polls, ID mappings, config groups. 26 operations.
+- [Merchant Schedules](openapi/grubhub-merchant-schedules-openapi.yml): repeating delivery, pickup
+  and catering schedules, schedule overrides, open-now and close-now. 13 operations.
+- [Busy Intervals](openapi/grubhub-busy-intervals-openapi.yml): mark a restaurant busy, read the
+  active interval, update it, clear it. 4 operations.
+- [Deliveries](openapi/grubhub-deliveries-openapi.yml): read Marketplace delivery state by order
+  UUID or delivery ID. 2 operations.
+- [Grubhub Connect endpoints](openapi/grubhub-connect-endpoints-openapi.yml): delivery-as-a-service -
+  request and accept delivery quotes, read delivery status and service areas, update dropoff and
+  pickup verification, create a courier proxy phone number, increase a courier tip, cancel a
+  delivery, request a refund, plus five test/emulation operations. 15 operations.
+- [Grubhub Connect webhooks](openapi/grubhub-connect-webhooks-openapi.yml): OpenAPI 3.1 webhooks -
+  Delivery Status Update and Delivery Refund Update.
+- [Onboarding](openapi/grubhub-onboarding-openapi.yml): merchant referral, eligibility, activation,
+  deactivation, association, partner-scoped activation/deactivation, onboarding issue triage.
+  8 operations.
+- [Reporting endpoints](openapi/grubhub-reporting-endpoints-openapi.yml): create an export report,
+  fetch its download URL, list reporting-enabled merchants. 3 operations.
+- [Reporting webhooks](openapi/grubhub-reporting-webhooks-openapi.yml): OpenAPI 3.1 webhooks -
+  Report Status Update.
+- [Testing](openapi/grubhub-testing-openapi.yml): transmission test, JIT order event simulation,
+  test delivery. 3 operations.
+
+## Artifacts
+
+- [Authentication](authentication/grubhub-authentication.yml)
+- [OAuth scopes](scopes/grubhub-scopes.yml)
+- [Well-known documents](well-known/grubhub-well-known.yml)
+- [Conventions, idempotency and reversibility](conventions/grubhub-conventions.yml)
+- [Error catalog](errors/grubhub-problem-types.yml)
+- [Data model](data-model/grubhub-data-model.yml) - 248 entities, 212 relationships
+- [Lifecycle and versioning](lifecycle/grubhub-lifecycle.yml)
+- [Sandbox and test surface](sandbox/grubhub-sandbox.yml)
+- [Conformance](conformance/grubhub-conformance.yml)
+- [Rate limits](rate-limits/grubhub-rate-limits.yml)
+- [Plans and pricing](plans/grubhub-plans-pricing.yml)
+- [Packages](packages/grubhub-packages.yml) - no first-party SDK exists
+- [MCP candidate](mcp/grubhub-mcp.yml) - derived candidate only, no server is published
+- [Agent skills](skills/_index.yml)
+- [JSON Schema](json-schema/) - 248 schemas derived from the published contract
+- [Overlays](overlays/) - API Evangelist annotations, originals unmutated
+
+## Things an agent must know before calling this API
+
+- Two merchant identifier spaces coexist. `merchant_id` is the legacy identifier; `merchant_long_id`
+  is the long form. Only the path-parameter name tells them apart, and both are typed as bare
+  strings. Sending the wrong one produces a 404, not a validation error.
+- There is no idempotency mechanism anywhere. 56 mutating operations, zero replay protection.
+  Retrying a POST is not safe; read state back before retrying.
+- Several merchant-wide writes are asynchronous: they return a batch_id or job_id and must be polled
+  at a matching /{batch_id}/status or /jobs/{job_id} operation.
+- Errors are not RFC 9457. Grubhub Connect returns {code, message}; Reporting returns {message};
+  most Marketplace 4xx responses declare no body at all.
+- Exactly one operation declares a 429, and no operation declares any rate-limit response header.
+- Reversal operations exist (cancel a delivery, request a refund, delete a schedule override,
+  deactivate a merchant, close/open now) but NO time window is published for any of them.
+- New Marketplace orders arrive by webhook. Grubhub configures webhook URLs by hand; a partner
+  cannot set or change them through the API.
+
+## Docs
+
+- [Developer portal](https://developer.grubhub.com/)
+- [Getting started](https://developer.grubhub.com/get-started)
+- [Pricing and fees](https://get.grubhub.com/grubhub-pricing-and-fees/)
+- [Help center](https://get.grubhub.com/help-center/)
+- [Terms of use](https://www.grubhub.com/legal/terms-of-use)
+- [Privacy policy](https://www.grubhub.com/legal/privacy-policy)

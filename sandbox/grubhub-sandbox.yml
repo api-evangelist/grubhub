@@ -1,0 +1,94 @@
+generated: '2026-09-17'
+method: derived
+source: >-
+  openapi/_harvested/*.json - the twelve first-party Grubhub OpenAPI documents fetched 2026-09-17.
+  Grubhub ships an entire OpenAPI document ("Testing", /api/testing on the developer portal) devoted
+  to the test surface, plus five test operations inside the Grubhub Connect document.
+note: >-
+  Unusually strong for a partner API: the test surface is part of the published contract rather than
+  a prose page. No test credentials, magic identifiers or fixture values are published - a partner
+  gets a real preproduction merchant during onboarding - so nothing is invented here.
+environments:
+- name: preproduction
+  base_url: https://api-third-party-gtm-pp.grubhub.com
+  description: >-
+    Declared as the first entry of servers[] in all twelve documents (description "preprod"). Runs its
+    own OAuth issuer, https://api-order-taking-pp.grubhub.com, whose RFC 8414 metadata is served
+    anonymously at /.well-known/oauth-authorization-server.
+  evidence:
+  - url: https://api-third-party-gtm-pp.grubhub.com/.well-known/oauth-authorization-server
+    status: 200
+- name: production
+  base_url: https://api-third-party-gtm.grubhub.com
+test_mode_signal:
+  header: x-gh-daas-test
+  type: boolean
+  default: false
+  operation: POST /delivery/daas/v1/quote (requestDeliveryQuote)
+  description: >-
+    Published verbatim in the contract: "Denotes if you're placing a request for a test, ensuring
+    that the resulting delivery will only be progressed by test endpoint requests. This can be used
+    either in testing environments or in production. The resulting delivery cannot be progressed in
+    production."
+  note: >-
+    A production-safe test flag is rare and worth calling out - a partner can exercise the Connect
+    delivery flow against production without dispatching a real courier.
+test_operations:
+- operationId: postTestOrderRequest
+  method: POST
+  path: /pos/v1/merchant/{merchant_long_id}/test/transmission
+  summary: Create transmission test
+  spec: openapi/grubhub-testing-openapi.yml
+- operationId: simulateJitOrderEvent
+  method: POST
+  path: /pos/v1/merchant/{merchant_long_id}/test/jitevent
+  summary: Create order with JIT flag triggered
+  spec: openapi/grubhub-testing-openapi.yml
+- operationId: postTestDeliveryRequest
+  method: POST
+  path: /pos/v1/merchant/{merchant_long_id}/test/delivery
+  summary: Create test delivery
+  spec: openapi/grubhub-testing-openapi.yml
+- operationId: progressDelivery
+  method: POST
+  path: /delivery/daas/v1/test/{deliveryId}/deliveryState
+  summary: Progress a test delivery
+  spec: openapi/grubhub-connect-endpoints-openapi.yml
+  note: >-
+    Drives a test delivery through its state machine on demand - the equivalent of a test clock for
+    delivery lifecycle.
+- operationId: progressRefund
+  method: POST
+  path: /delivery/daas/v1/test/{deliveryId}/refund
+  summary: Progress a test refund
+  spec: openapi/grubhub-connect-endpoints-openapi.yml
+webhook_simulators:
+- operationId: emulateStatusUpdateWebhook
+  method: POST
+  path: /delivery/daas/v1/test/webhook/emulateStatusUpdateWebhook
+  summary: Emulate a delivery status update webhook
+  emits: '[Egress] Delivery Status Update Webhook'
+  spec: openapi/grubhub-connect-endpoints-openapi.yml
+- operationId: emulateRefundUpdateWebhook
+  method: POST
+  path: /delivery/daas/v1/test/webhook/emulateRefundUpdateWebhook
+  summary: Emulate a delivery refund update webhook
+  emits: '[Egress] Delivery Refund Update Webhook'
+  spec: openapi/grubhub-connect-endpoints-openapi.yml
+validation_only_operations:
+- operationId: validatePosMenu
+  method: POST
+  path: /pos/v1/menu/ingestion/validate
+  summary: Validate a normalized menu without ingesting it
+  spec: openapi/grubhub-menu-openapi.yml
+test_credentials:
+  published: false
+  note: >-
+    No test API key, no test merchant ID, no magic identifier range and no fixture values are
+    published. A partner receives preproduction credentials and a test merchant through the
+    Grubhub partner onboarding process. Nothing is guessed here.
+console:
+  published: false
+  note: >-
+    The developer portal renders OpenAPI with Redoc (loadApiDocRedoc in the published bundle), which
+    is read-only reference rendering - there is no try-it console and no hosted playground.

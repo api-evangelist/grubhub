@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-deliveryrefundupdate-schema.json",
+  "title": "DeliveryRefundUpdate",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-connect-webhooks-openapi.yml#/components/schemas/DeliveryRefundUpdate",
+  "type": "object",
+  "description": "Reports the final decision regarding a submitted delivery refund request to clients via webhook.",
+  "properties": {
+    "delivery_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "The UUID associated with the delivery.",
+      "example": "0ec346bd-635a-4a07-8f35-44962a8bcc5b"
+    },
+    "accepted": {
+      "type": "boolean",
+      "description": "Whether the refund was accepted or not.",
+      "example": true
+    },
+    "reason": {
+      "type": "string",
+      "description": "The reason for accepting or rejecting the refund.",
+      "example": "DriverNotCourteous"
+    },
+    "description": {
+      "type": "string",
+      "description": "Additional descriptive notes about the refund decision.",
+      "example": "Grubhub accepts the full refund amount."
+    },
+    "amounts": {
+      "$ref": "#/$defs/RefundAmount"
+    }
+  },
+  "required": [
+    "accepted",
+    "delivery_id",
+    "reason"
+  ],
+  "$defs": {
+    "RefundAmount": {
+      "description": "The amount of the refund requested, broken down into various categories.",
+      "properties": {
+        "delivery_fee": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The amount of the refund requested to be taken from the delivery fee, formatted as cents.",
+          "example": 100,
+          "minimum": 0
+        },
+        "tip": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The amount of the refund requested to be taken from the tip, formatted as cents.",
+          "example": 333,
+          "minimum": 0
+        },
+        "contents_value": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The amount of the refund requested to be taken from the contents value, formatted as cents.",
+          "example": 542,
+          "minimum": 0
+        },
+        "return_fee": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The amount of the refund requested to be taken from the return fee, formatted as cents.",
+          "example": 50,
+          "minimum": 0
+        }
+      },
+      "required": [
+        "contents_value",
+        "delivery_fee",
+        "return_fee",
+        "tip"
+      ]
+    }
+  }
+}

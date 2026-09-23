@@ -1,29 +1,96 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "#/components/schemas/MenuSection",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-menusection-schema.json",
   "title": "MenuSection",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-menu-openapi.yml#/components/schemas/MenuSection",
+  "required": [
+    "external_id",
+    "name"
+  ],
   "type": "object",
-  "description": "A grouping of menu items such as appetizers, entrees, or desserts.",
   "properties": {
     "external_id": {
       "type": "string",
-      "description": "A unique external identifier for diff-based ingestion."
+      "description": "The merchant-set ID for this schedule, which can be used to link it in the `PosNormalizedMenu`."
     },
     "name": {
       "type": "string",
-      "description": "The display name of the section."
+      "description": "The display name of this menu section."
+    },
+    "internal_name": {
+      "type": "string",
+      "description": "An internal reference name for this section. It will not be displayed on the Grubhub ordering platform."
+    },
+    "description": {
+      "type": "string",
+      "description": "A human-readable description of what this section contains that can be displayed on either the Grubhub ordering apps or the POS system."
     },
     "items": {
       "type": "array",
-      "description": "Menu items within this section.",
+      "description": "A list of the `external_id` values of the menu items that will be listed under this section.",
       "items": {
-        "$ref": "#/components/schemas/MenuItem"
+        "type": "string",
+        "description": "A list of the `external_id` values of the menu items that will be listed under this section."
       }
+    },
+    "availability_ranges": {
+      "type": "array",
+      "description": "A list of the `external_id` values of the `PosNormalizedAvailabilityRanges` that define when the menu items within this section can be ordered.",
+      "items": {
+        "type": "string",
+        "description": "A list of the `external_id` values of the `PosNormalizedAvailabilityRanges` that define when the menu items within this section can be ordered."
+      }
+    },
+    "schedule_ids": {
+      "type": "array",
+      "description": "A list of `external_id` values for `PosNormalizedRepeatingSchedule` schedules that indicate when this menu item is available during the week.",
+      "items": {
+        "type": "string",
+        "description": "A list of `external_id` values for `PosNormalizedRepeatingSchedule` schedules that indicate when this menu item is available during the week."
+      }
+    },
+    "availability_override": {
+      "type": "string",
+      "description": "The `external_id` value for `availability_overrides` object that indicate the date ranges when this menu section will not be available for ordering."
+    },
+    "media": {
+      "$ref": "#/$defs/PosNormalizedMenuMedia"
+    },
+    "subsections": {
+      "type": "array",
+      "description": "A list of subsections associated with this section.",
+      "items": {
+        "type": "string",
+        "description": "A list of subsections associated with this section."
+      }
+    },
+    "tax_category": {
+      "$ref": "#/$defs/TaxCategory"
     }
   },
-  "required": [
-    "external_id",
-    "name",
-    "items"
-  ]
+  "description": "A category of the menu - such as appetizers, breakfast, or drinks - including the menu items that these sections contain.",
+  "$defs": {
+    "PosNormalizedMenuMedia": {
+      "type": "object",
+      "properties": {
+        "source_url": {
+          "type": "string",
+          "description": "The URL where the image file can be downloaded."
+        }
+      },
+      "description": "Information about media used in the PosNormalizedMenu format."
+    },
+    "TaxCategory": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "A valid Grubhub internal tax category code."
+        }
+      },
+      "description": "Tax category."
+    }
+  }
 }

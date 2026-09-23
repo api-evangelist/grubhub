@@ -1,0 +1,39 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements - Grubhub Busy Intervals
+  version: 1.0.0
+extends: grubhub-busy-intervals-openapi.yml
+x-generated: '2026-09-17'
+x-method: generated
+x-note: Captures API Evangelist annotations only. The original document is never mutated.
+actions:
+- target: $.info
+  description: 'Stamp the provenance the provider does not publish: no info.version, no contact and no
+    termsOfService appear in the source document.'
+  update:
+    x-api-evangelist:
+      harvested: '2026-09-17'
+      source: https://developer.grubhub.com/resource/partner-docs/api-docs/
+      provider: Grubhub
+      slug: grubhub
+      docs: https://developer.grubhub.com/api/busy-intervals
+- target: $.info
+  description: Record the authentication model, which the source document expresses only as a loose header
+    parameter and never as a securityScheme.
+  update:
+    x-authentication:
+      style: api-key-header
+      header: X-GH-PARTNER-KEY
+      format: uuid
+      securitySchemes_declared: false
+      see: authentication/grubhub-authentication.yml
+- target: $.info
+  description: 'Record the machine verdicts this contract does not state: no idempotency anywhere across
+    the mutating surface, and reversal paths that exist but publish no window.'
+  update:
+    x-conventions:
+      idempotency: none
+      reversibility: documented
+      rate_limit_headers: none
+      error_format: proprietary
+      see: conventions/grubhub-conventions.yml

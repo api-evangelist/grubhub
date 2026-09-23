@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-reportrequestparametersbypartner-schema.json",
+  "title": "ReportRequestParametersByPartner",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-reporting-endpoints-openapi.yml#/components/schemas/ReportRequestParametersByPartner",
+  "required": [
+    "date_range"
+  ],
+  "type": "object",
+  "properties": {
+    "date_range": {
+      "$ref": "#/$defs/DateRange"
+    }
+  },
+  "description": "The parameters to request the report. Currently, the only supported parameter is date range.",
+  "$defs": {
+    "DateRange": {
+      "required": [
+        "end_date",
+        "start_date"
+      ],
+      "type": "object",
+      "properties": {
+        "start_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "end_date": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "description": "Date range for the report using a start and end date in yyyy-MM-dd format.",
+      "example": {
+        "start_date": "2025-01-01",
+        "end_date": "2025-01-31"
+      }
+    }
+  }
+}

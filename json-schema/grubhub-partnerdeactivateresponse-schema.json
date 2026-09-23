@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-partnerdeactivateresponse-schema.json",
+  "title": "PartnerDeactivateResponse",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-onboarding-openapi.yml#/components/schemas/PartnerDeactivateResponse",
+  "type": "object",
+  "properties": {
+    "merchant_id": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    }
+  }
+}

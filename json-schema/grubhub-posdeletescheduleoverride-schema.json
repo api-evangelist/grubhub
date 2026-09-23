@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-posdeletescheduleoverride-schema.json",
+  "title": "PosDeleteScheduleOverride",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-merchant-schedules-openapi.yml#/components/schemas/PosDeleteScheduleOverride",
+  "required": [
+    "current_end_time",
+    "type"
+  ],
+  "type": "object",
+  "properties": {
+    "current_end_time": {
+      "type": "string",
+      "description": "Current end time of the override to be deleted. Used as reference for the override.",
+      "format": "date-time"
+    },
+    "type": {
+      "type": "string",
+      "description": "Type of schedule override. \"UNAVAILABLE\" is a duration when the merchant should be closed, when normally they would be open. \"AVAILABLE\" is a duration when the merchant should be open, when normally they would be closed.",
+      "enum": [
+        "WHITEIN",
+        "BLACKOUT",
+        "AVAILABLE",
+        "UNAVAILABLE"
+      ]
+    }
+  },
+  "description": "Request body for deleting a schedule override."
+}

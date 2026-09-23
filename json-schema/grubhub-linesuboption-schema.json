@@ -1,0 +1,189 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-linesuboption-schema.json",
+  "title": "LineSubOption",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-orders-openapi.yml#/components/schemas/LineSubOption",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The Grubhub ID of the sub option."
+    },
+    "name": {
+      "type": "string",
+      "description": "The name of the sub option, which will be shown to diners."
+    },
+    "price": {
+      "type": "integer",
+      "description": "Deprecated. Use &quot;merchant_price&quot; instead.",
+      "format": "int32",
+      "deprecated": true
+    },
+    "merchant_price": {
+      "type": "integer",
+      "description": "The price of this item in US Cents.",
+      "format": "int64"
+    },
+    "diner_price": {
+      "type": "integer",
+      "description": "Cost to diner, in cents.",
+      "format": "int64"
+    },
+    "choice_category_id": {
+      "type": "string",
+      "description": "The category Id the choice belongs to."
+    },
+    "quantity": {
+      "type": "integer",
+      "description": "The amount of this option to add to the previous option. This can indicate combos (single menu items with multiple selectable items), options with variable amounts, or options that can be selected multiple times.",
+      "format": "int32"
+    },
+    "tags": {
+      "type": "array",
+      "description": "Grubhub tag IDs that apply to this line item.",
+      "items": {
+        "$ref": "#/$defs/LineTag"
+      }
+    },
+    "line_sub_options": {
+      "type": "array",
+      "description": "Further sub options that apply to this sub option. These can be nested up to ten levels deep.",
+      "items": {
+        "$ref": "#/$defs/LineSubOption"
+      }
+    },
+    "external_id": {
+      "type": "string",
+      "description": "The external ID that was stored in Grubhub for this menu suboption."
+    },
+    "metadata": {
+      "type": "string",
+      "description": "Metadata associated with the line option."
+    },
+    "routing_tags": {
+      "uniqueItems": true,
+      "type": "array",
+      "description": "Used to route where a line option is printed and/or displayed.",
+      "items": {
+        "type": "string",
+        "description": "Used to route where a line option is printed and/or displayed."
+      }
+    },
+    "default_context": {
+      "$ref": "#/$defs/DefaultContext"
+    }
+  },
+  "description": "Sub Options that are applied to an Option or other Sub Option. These can be nested up to ten levels deep.",
+  "$defs": {
+    "DefaultContext": {
+      "type": "object",
+      "properties": {
+        "removed": {
+          "type": "boolean",
+          "description": "True if boolean line or line sub option has been removed"
+        },
+        "default_quantity": {
+          "type": "integer",
+          "description": "Present for line or line sub option with quantity if NormalizedModifierPrompt.modifier_prompt_quantity_settings",
+          "format": "int64"
+        },
+        "unit_price": {
+          "type": "integer",
+          "description": "Present for line or line sub option with default_quantity, quantity_free, and selected quantity is greater than quantity_free",
+          "format": "int64"
+        }
+      },
+      "description": "Contextual information to compare a line or line sub option to its default state"
+    },
+    "LineSubOption": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The Grubhub ID of the sub option."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the sub option, which will be shown to diners."
+        },
+        "price": {
+          "type": "integer",
+          "description": "Deprecated. Use &quot;merchant_price&quot; instead.",
+          "format": "int32",
+          "deprecated": true
+        },
+        "merchant_price": {
+          "type": "integer",
+          "description": "The price of this item in US Cents.",
+          "format": "int64"
+        },
+        "diner_price": {
+          "type": "integer",
+          "description": "Cost to diner, in cents.",
+          "format": "int64"
+        },
+        "choice_category_id": {
+          "type": "string",
+          "description": "The category Id the choice belongs to."
+        },
+        "quantity": {
+          "type": "integer",
+          "description": "The amount of this option to add to the previous option. This can indicate combos (single menu items with multiple selectable items), options with variable amounts, or options that can be selected multiple times.",
+          "format": "int32"
+        },
+        "tags": {
+          "type": "array",
+          "description": "Grubhub tag IDs that apply to this line item.",
+          "items": {
+            "$ref": "#/$defs/LineTag"
+          }
+        },
+        "line_sub_options": {
+          "type": "array",
+          "description": "Further sub options that apply to this sub option. These can be nested up to ten levels deep.",
+          "items": {
+            "$ref": "#/$defs/LineSubOption"
+          }
+        },
+        "external_id": {
+          "type": "string",
+          "description": "The external ID that was stored in Grubhub for this menu suboption."
+        },
+        "metadata": {
+          "type": "string",
+          "description": "Metadata associated with the line option."
+        },
+        "routing_tags": {
+          "uniqueItems": true,
+          "type": "array",
+          "description": "Used to route where a line option is printed and/or displayed.",
+          "items": {
+            "type": "string",
+            "description": "Used to route where a line option is printed and/or displayed."
+          }
+        },
+        "default_context": {
+          "$ref": "#/$defs/DefaultContext"
+        }
+      },
+      "description": "Sub Options that are applied to an Option or other Sub Option. These can be nested up to ten levels deep."
+    },
+    "LineTag": {
+      "type": "object",
+      "properties": {
+        "ghc_tag_id": {
+          "type": "integer",
+          "description": "The Grubhub Id for the tag.",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the tag."
+        }
+      },
+      "description": "Tags that are associated with line items."
+    }
+  }
+}

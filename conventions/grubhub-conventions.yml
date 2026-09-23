@@ -1,0 +1,161 @@
+generated: '2026-09-17'
+method: derived
+source: >-
+  openapi/_harvested/*.json - the twelve first-party Grubhub OpenAPI documents fetched 2026-09-17 from
+  https://developer.grubhub.com/resource/partner-docs/api-docs/ - plus the live RFC 8414 document at
+  https://api-third-party-gtm.grubhub.com/.well-known/oauth-authorization-server
+note: >-
+  Derived from the contract, not from prose. Grubhub's narrative documentation renders client-side
+  from Contentful on developer.grubhub.com and is not machine-readable, so anything that is only
+  stated in prose is recorded as unknown rather than guessed.
+surface:
+  operations: 91
+  mutating_operations: 56
+  read_operations: 35
+  webhooks: 3
+authentication:
+  style: api-key-header
+  header: X-GH-PARTNER-KEY
+  format: uuid
+  oauth: >-
+    A real RFC 8414 authorization server exists for the diner-facing surface (scopes openid, diner)
+    with dynamic client registration and PKCE. No OpenAPI operation declares a security requirement.
+  see: authentication/grubhub-authentication.yml
+idempotency:
+  supported: false
+  coverage: none
+  mechanism: null
+  header: null
+  retention: null
+  evidence: >-
+    No Idempotency-Key header, no idempotency_key body field, no client-supplied request identifier
+    and no replay-protection language appears anywhere in the twelve documents, across 56 mutating
+    operations - 12 of which are POST creates (delivery quotes, refunds, proxy phone numbers, schedule
+    overrides, merchant referrals, test orders).
+  consequence: >-
+    An agent that retries a failed POST /delivery/daas/v1/{deliveryId}/refund or
+    POST /pos/v1/merchant/{merchant_id}/schedules/overrides has no way to know whether the first
+    attempt landed. The 409 on POST schedules/overrides ("Schedule override overlaps existing
+    override") is the closest thing to replay protection in the contract, and it is a side effect
+    of overlap validation, not a deduplication guarantee.
+reversibility:
+  grade: documented
+  note: >-
+    Real reversal operations exist across the write surface and are named in the contract. NO window
+    is stated anywhere in the twelve documents or on any machine-readable page, so this grades as
+    documented (0.4) rather than verified (1.0). Do NOT read a window into these - none is published.
+  surfaces:
+  - write: POST /delivery/daas/v1/quote/{quoteId}/accept (acceptDeliveryQuote)
+    reversal: POST /delivery/daas/v1/{deliveryId}/cancel (cancelDelivery)
+    window: unstated
+    note: >-
+      The contract says a delivery quote can expire (400 "Delivery quote expired") but does not
+      state the quote's validity period or how late a delivery may be cancelled.
+  - write: any completed Grubhub Connect delivery
+    reversal: POST /delivery/daas/v1/{deliveryId}/refund (requestRefund)
+    window: unstated
+    note: Returns 202 - the refund is accepted asynchronously and reported back on the Delivery Refund Update webhook.
+  - write: POST /pos/v1/merchant/{merchant_id}/busy (setBusyMode)
+    reversal: DELETE /pos/v1/merchant/{merchant_id}/busy (deleteActiveBusyMode)
+    window: unstated
+  - write: POST /pos/v1/merchant/{merchant_id}/schedules/overrides (overrideSchedule)
+    reversal: DELETE /pos/v1/merchant/{merchant_id}/schedules/overrides (deleteScheduleOverride)
+    window: unstated
+  - write: POST /pos/v1/merchant/{merchant_id}/schedules/closenow (closeNow)
+    reversal: POST /pos/v1/merchant/{merchant_id}/schedules/opennow (openNow)
+    window: unstated
+  - write: POST /merchant/onboarding/v1/activate (activateMerchants)
+    reversal: POST /merchant/onboarding/v1/deactivate (deactivate)
+    window: unstated
+  - write: POST /merchant/onboarding/v1/partner/activate (partnerActivateMerchants)
+    reversal: POST /merchant/onboarding/v1/partner/deactivate (partnerDeactivate)
+    window: unstated
+  irreversible:
+  - PUT /pos/v1/merchant/{merchant_long_id}/orders/{order_uuid}/status - no operation reverts an
+    order status transition once applied.
+  - POST /pos/v1/menu/ingestion - menu ingestion is diff-based against external IDs; there is no
+    rollback operation and no menu version to restore.
+  - POST /delivery/daas/v1/{deliveryId}/tip (updateCourierTip) - increase only, no decrease or void.
+dry_run_mode:
+  supported: true
+  mechanisms:
+  - name: x-gh-daas-test header
+    operation: POST /delivery/daas/v1/quote (requestDeliveryQuote)
+    description: >-
+      Boolean header, default false. Marks the request as a test so the resulting delivery can only be
+      progressed by the test endpoints. Works in production as well as preproduction, and the resulting
+      delivery cannot be progressed in production.
+  - name: menu validation
+    operation: POST /pos/v1/menu/ingestion/validate (validatePosMenu)
+    description: Validates a normalized menu without ingesting it.
+  see: sandbox/grubhub-sandbox.yml
+pagination:
+  coverage: partial
+  style: page-number
+  params:
+  - name: page
+    note: 1-based. 400 "page or size is not a valid number", 422 when page < 1.
+  - name: size
+    note: 422 when size < 1 or above the (unpublished) maximum.
+  applies_to:
+  - GET /merchant/onboarding/v1/merchants
+  - GET /merchant/reporting/v1/merchants
+  absent_on: >-
+    Marketplace collection endpoints (GET /pos/v1/merchant/{id}/orders, GET /pos/v1/group/{key}/orders)
+    take status + start/end date-range filters instead and declare no pagination at all.
+  response_fields: none declared
+batching:
+  supported: true
+  note: >-
+    A distinct and unusual convention: several merchant-wide writes are submitted as a batch and
+    return a batch_id, then polled for completion at a matching /{batch_id}/status operation.
+  pattern:
+  - submit: PUT /pos/v1/merchant/properties
+    poll: GET /pos/v1/merchant/properties/{batch_id}/status
+  - submit: PUT /pos/v1/merchant/pos-status
+    poll: GET /pos/v1/merchant/pos-status/{batch_id}/status
+  - submit: PUT /pos/v2/merchant/pos-status
+    poll: GET /pos/v2/merchant/pos-status/{batch_id}/status
+  - submit: PUT /pos/v1/merchant/integrationlive
+    poll: GET /pos/v1/merchant/integrationlive/{batch_id}/status
+  - submit: POST /pos/v1/menu/ingestion
+    poll: GET /pos/v1/menu/ingestion/jobs/{job_id}
+  - submit: PATCH /pos/v1/merchant/{merchant_id}/menu/schedules/overrides
+    poll: GET /pos/v1/merchant/{merchant_id}/menu/schedules/overrides/{job_id}/status
+  - submit: PATCH /pos/v1/merchant/{merchant_id}/menu/entities/tags/alcohol
+    poll: GET /pos/v1/merchant/{merchant_id}/menu/entities/tags/{job_id}/status
+  failure_mode: >-
+    422 when the batch contains duplicate merchant IDs, exceeds the maximum size, is empty, or
+    contains a merchant blocked from updates. The maximum batch size is never published.
+field_expansion:
+  supported: false
+metadata_fields:
+  supported: false
+request_id_tracing:
+  supported: false
+  note: No X-Request-Id, trace or correlation header is declared on any operation or response.
+versioning:
+  style: uri-path
+  see: lifecycle/grubhub-lifecycle.yml
+error_envelope:
+  rfc9457: false
+  envelopes:
+  - PublicApiError {code, message} - Grubhub Connect
+  - MerchantReportingErrorResponse {message} - Reporting
+  - none - most Marketplace 4xx responses declare a status code and a human description but no body schema
+  see: errors/grubhub-problem-types.yml
+rate_limit_signalling:
+  status_on_exhaustion: 429
+  declared_on: GET /pos/v1/merchant/{merchant_long_id}/orders/{order_uuid}/delivery (getExternalDeliveryByOrderUuid)
+  headers: none declared
+  note: >-
+    Exactly one of 91 operations declares a 429 response, and no operation declares a RateLimit-*,
+    X-RateLimit-* or Retry-After response header. An agent gets no runtime budget signal.
+  see: rate-limits/grubhub-rate-limits.yml
+identifier_hazard:
+  note: >-
+    The single largest integration hazard in this contract. Two different merchant identifier
+    spaces are used and the ONLY signal of which one an operation wants is the path-parameter name -
+    merchant_id (legacy) versus merchant_long_id (long form). Both are declared as plain strings
+    with no format, no pattern and no description. GET /pos/v1/merchant/{merchant_long_id}/orders
+    and GET /pos/v1/merchant/{merchant_id}/busy sit in the same API and take different identifiers.

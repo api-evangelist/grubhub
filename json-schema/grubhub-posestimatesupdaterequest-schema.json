@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-posestimatesupdaterequest-schema.json",
+  "title": "PosEstimatesUpdateRequest",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-merchant-data-openapi.yml#/components/schemas/PosEstimatesUpdateRequest",
+  "type": "object",
+  "properties": {
+    "pickup_estimate_minutes": {
+      "type": "integer",
+      "description": "The estimated number of minutes that the merchant needs to fulfill a pickup order.",
+      "format": "int32"
+    },
+    "delivery_estimate_minutes": {
+      "type": "integer",
+      "description": "The estimated number of minutes that the merchant needs to fulfill a delivery order.",
+      "format": "int32"
+    },
+    "order_type": {
+      "type": "string",
+      "description": "What kind of order this is. This can be one of the following: - \"standard\" - A regular, single diner order. - \"catering\" - A large order intended to provide food for multiple people and is often ordered by a corporate organization. - \"group\" - An order for multiple diners.",
+      "enum": [
+        "STANDARD",
+        "CATERING",
+        "GROUP"
+      ]
+    }
+  },
+  "description": "Estimated pickup and delivery times for a merchant."
+}

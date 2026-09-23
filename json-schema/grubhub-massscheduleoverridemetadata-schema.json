@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-massscheduleoverridemetadata-schema.json",
+  "title": "MassScheduleOverrideMetadata",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-merchant-schedules-openapi.yml#/components/schemas/MassScheduleOverrideMetadata",
+  "type": "object",
+  "properties": {
+    "name_filter": {
+      "type": "string",
+      "description": "Optional Java Regular Expression used to target specific RepeatingSchedules by name"
+    },
+    "override_type": {
+      "type": "string",
+      "description": "The type of a schedule override.  Describes whether the deviation is to open or close unexpectedly.",
+      "enum": [
+        "BLACKOUT",
+        "WHITEIN"
+      ]
+    },
+    "schedule_type": {
+      "type": "string",
+      "description": "The type of mass schedule override, whether timezones are applied",
+      "enum": [
+        "LOCAL",
+        "ZONED"
+      ]
+    },
+    "created_by": {
+      "type": "string",
+      "description": "The creator of the schedule"
+    },
+    "updated_by": {
+      "type": "string",
+      "description": "The last credential to update the schedule"
+    },
+    "created_date": {
+      "type": "string",
+      "description": "The creation date of the schedule",
+      "format": "date-time"
+    },
+    "updated_date": {
+      "type": "string",
+      "description": "The last update date of the schedule",
+      "format": "date-time"
+    },
+    "legacy_id": {
+      "type": "string",
+      "description": "The legacy ID of the schedule in MySQL"
+    },
+    "description": {
+      "type": "string",
+      "description": "The description for the schedule"
+    }
+  },
+  "description": "Metadata associated to a merchant mass schedule override"
+}

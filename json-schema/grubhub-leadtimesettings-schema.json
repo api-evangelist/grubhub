@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-leadtimesettings-schema.json",
+  "title": "LeadTimeSettings",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-orders-openapi.yml#/components/schemas/LeadTimeSettings",
+  "type": "object",
+  "properties": {
+    "delivery_estimate_minutes": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "pickup_estimate_minutes": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "lead_time_settings_tiers": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/LeadTimeSettingsTier"
+      }
+    },
+    "calculated_large_order_threshold_settings": {
+      "$ref": "#/$defs/ThresholdSettings"
+    }
+  },
+  "$defs": {
+    "LeadTimeSettingsTier": {
+      "required": [
+        "additional_prep_time",
+        "threshold",
+        "threshold_type"
+      ],
+      "type": "object",
+      "properties": {
+        "threshold_type": {
+          "type": "string",
+          "enum": [
+            "ORDER_AMOUNT_CENTS",
+            "UNKNOWN"
+          ]
+        },
+        "threshold": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "additional_prep_time": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "ThresholdSettings": {
+      "type": "object",
+      "properties": {
+        "threshold": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "threshold_type": {
+          "type": "string",
+          "enum": [
+            "ORDER_AMOUNT_CENTS",
+            "UNKNOWN"
+          ]
+        }
+      }
+    }
+  }
+}

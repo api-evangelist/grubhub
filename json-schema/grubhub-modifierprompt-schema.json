@@ -1,43 +1,124 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "#/components/schemas/ModifierPrompt",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-modifierprompt-schema.json",
   "title": "ModifierPrompt",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-menu-openapi.yml#/components/schemas/ModifierPrompt",
+  "required": [
+    "external_id",
+    "modifier_list",
+    "name"
+  ],
   "type": "object",
-  "description": "A modifier prompt for a menu item, allowing customization such as choice of dressing, extra toppings, or preparation preferences.",
   "properties": {
     "external_id": {
       "type": "string",
-      "description": "A unique external identifier for this modifier prompt."
+      "description": "A user-configured identifier for this object within the menu. External IDs must be unique across all menu entities of this type. Any modifier prompt that shares this `external_id` will be overwritten."
     },
     "name": {
       "type": "string",
-      "description": "The display name of the modifier prompt."
+      "description": "The text given to the diner to prompt then to select from a list of modifier options."
     },
-    "required": {
-      "type": "boolean",
-      "description": "Whether a selection is required from this modifier prompt."
+    "internal_name": {
+      "type": "string",
+      "description": "A name displayed on Grubhub menu management tools instead of the display name."
     },
-    "min_selections": {
-      "type": "integer",
-      "description": "Minimum number of selections required.",
-      "minimum": 0
+    "modifier_list": {
+      "type": "string",
+      "description": "An `external_id` reference to a PosNormalizedModifierList. This is the list of modifier options valid as answers to this prompt."
     },
-    "max_selections": {
-      "type": "integer",
-      "description": "Maximum number of selections allowed.",
-      "minimum": 1
+    "default_selection_model": {
+      "$ref": "#/$defs/ModifierPromptSelectionSettings"
     },
-    "options": {
+    "modifier_prompt_quantity_settings": {
+      "$ref": "#/$defs/ModifierPromptQuantitySettings"
+    },
+    "modifier_quantity_settings": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/ModifierQuantitySettings"
+      },
+      "description": "Quantity information for a single modifier within this prompt."
+    },
+    "defaulted_modifiers": {
+      "uniqueItems": true,
       "type": "array",
-      "description": "Available modifier options.",
+      "description": "The modifiers, if any, that are selected by default for this prompt.",
       "items": {
-        "$ref": "#/components/schemas/ModifierOption"
+        "type": "string",
+        "description": "The modifiers, if any, that are selected by default for this prompt."
       }
+    },
+    "modifier_prompt_free_settings": {
+      "$ref": "#/$defs/ModifierPromptFreeSettings"
     }
   },
-  "required": [
-    "external_id",
-    "name",
-    "options"
-  ]
+  "description": "In a normalized menu, a question posed to a diner about what additional options they would like with their food; for example, toppings on a pizza or soup options in a lunch special. Each modifier prompts has one or more modifiers that a diner can select. Modifier prompts can apply to multiple menu items.",
+  "$defs": {
+    "ModifierPromptFreeSettings": {
+      "type": "object",
+      "properties": {
+        "free_modifiers": {
+          "minimum": 0,
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "description": "Free settings for modifier prompts."
+    },
+    "ModifierPromptQuantitySettings": {
+      "type": "object",
+      "properties": {
+        "minimum_units": {
+          "type": "integer",
+          "description": "The total minimum quantity that must be selected across all modifiers in a prompt.",
+          "format": "int32"
+        },
+        "maximum_units": {
+          "type": "integer",
+          "description": "The total maximum quantity that can be selected across all modifiers in a prompt. *DO NOT use -1 as an integer for unlimited quantity. Instead use a high number, ie 99.*",
+          "format": "int32"
+        }
+      },
+      "description": "The total minimum and maximum quantities that can be added for all modifier options in this prompt."
+    },
+    "ModifierPromptSelectionSettings": {
+      "type": "object",
+      "properties": {
+        "minimum_quantity": {
+          "type": "integer",
+          "description": "The minimum number of unique options that the diner can select for this prompt. Use 0 to set no minimum.",
+          "format": "int32"
+        },
+        "maximum_quantity": {
+          "type": "integer",
+          "description": "The maximum number of unique options that the diner can select for this prompt. *DO NOT use -1 as an integer for unlimited quantity. Instead use a high number, ie 99.*",
+          "format": "int32"
+        }
+      },
+      "description": "The minimum and maximum number of unique modifier options that can be selected within a prompt."
+    },
+    "ModifierQuantitySettings": {
+      "type": "object",
+      "properties": {
+        "default_units": {
+          "type": "integer",
+          "description": "The number of units of this modifier already entered into the interface when the diner first selects these associated menu item. Applies only to default_modifiers.",
+          "format": "int32"
+        },
+        "maximum_units": {
+          "type": "integer",
+          "description": "The maximum number of units that the diner can add of this modifier. Do not use zero as a maximum integer or the modifiers will not be selectable. *DO NOT use -1 as an integer for unlimited quantity. Instead use a high number, ie 99.*",
+          "format": "int32"
+        },
+        "unit_increment": {
+          "type": "integer",
+          "description": "The number of units added per incremental or decremental action.",
+          "format": "int32"
+        }
+      },
+      "description": "Contains default, maximum, and custom increments for a single modifier. The properties below will be contained in a sub-object identified by the external_id of the modifier in question."
+    }
+  }
 }

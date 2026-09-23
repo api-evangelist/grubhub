@@ -1,0 +1,3018 @@
+openapi: 3.0.1
+info:
+  title: Menu
+servers:
+- url: https://api-third-party-gtm-pp.grubhub.com
+  description: preprod
+- url: https://api-third-party-gtm.grubhub.com
+  description: prod
+tags:
+- name: Models
+  description: "# RepeatingSchedule \n <SchemaDefinition schemaRef=\"#/components/schemas/RepeatingSchedule\"/>\n\
+    \n# RepeatingScheduleRule \n <SchemaDefinition schemaRef=\"#/components/schemas/RepeatingScheduleRule\"/>\n\n\
+    # PosNormalizedMenuValidationResult \n <SchemaDefinition schemaRef=\"#/components/schemas/PosNormalizedMenuValidationResult\"\
+    />\n\n# PosNormalizedMenuUpdateRequest \n <SchemaDefinition schemaRef=\"#/components/schemas/PosNormalizedMenuUpdateRequest\"\
+    />\n\n# PosNormalizedMenuUpdateResult \n <SchemaDefinition schemaRef=\"#/components/schemas/PosNormalizedMenuUpdateResult\"\
+    />\n\n# PosScheduleOverrideBaseRequest \n <SchemaDefinition schemaRef=\"#/components/schemas/PosScheduleOverrideBaseRequest\"\
+    />\n\n# PosScheduleOverrideBulkRequest \n <SchemaDefinition schemaRef=\"#/components/schemas/PosScheduleOverrideBulkRequest\"\
+    />\n\n# ScheduleOverride \n <SchemaDefinition schemaRef=\"#/components/schemas/ScheduleOverride\"/>\n\n# PosScheduleOverrideMultiOperationResult\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/PosScheduleOverrideMultiOperationResult\"/>\n\n# TagProductsRequest\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/TagProductsRequest\"/>\n\n# PosSupplementalTagMultiOperationResult\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/PosSupplementalTagMultiOperationResult\"/>\n\n# BulkProcessingItemEntityStatus\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/BulkProcessingItemEntityStatus\"/>\n\n# PosBulkScheduleOverrideStatus\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/PosBulkScheduleOverrideStatus\"/>\n\n# PosItemScheduleOverrides\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/PosItemScheduleOverrides\"/>\n\n# PosModifierScheduleOverrides\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/PosModifierScheduleOverrides\"/>\n\n# PosScheduleOverrides\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/PosScheduleOverrides\"/>\n\n# AvailabilityOverride \n\
+    \ <SchemaDefinition schemaRef=\"#/components/schemas/AvailabilityOverride\"/>\n\n# AvailabilityRange \n <SchemaDefinition\
+    \ schemaRef=\"#/components/schemas/AvailabilityRange\"/>\n\n# Dimensions \n <SchemaDefinition schemaRef=\"#/components/schemas/Dimensions\"\
+    />\n\n# Item \n <SchemaDefinition schemaRef=\"#/components/schemas/Item\"/>\n\n# MeasuredPrice \n <SchemaDefinition\
+    \ schemaRef=\"#/components/schemas/MeasuredPrice\"/>\n\n# MenuInfo \n <SchemaDefinition schemaRef=\"#/components/schemas/MenuInfo\"\
+    />\n\n# MenuSection \n <SchemaDefinition schemaRef=\"#/components/schemas/MenuSection\"/>\n\n# Modifier \n <SchemaDefinition\
+    \ schemaRef=\"#/components/schemas/Modifier\"/>\n\n# ModifierList \n <SchemaDefinition schemaRef=\"#/components/schemas/ModifierList\"\
+    />\n\n# ModifierPrompt \n <SchemaDefinition schemaRef=\"#/components/schemas/ModifierPrompt\"/>\n\n# ModifierPromptFreeSettings\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/ModifierPromptFreeSettings\"/>\n\n# ModifierPromptQuantitySettings\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/ModifierPromptQuantitySettings\"/>\n\n# ModifierPromptSelectionSettings\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/ModifierPromptSelectionSettings\"/>\n\n# ModifierQuantitySettings\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/ModifierQuantitySettings\"/>\n\n# NormalizedItemFulfillmentTypeSettings\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/NormalizedItemFulfillmentTypeSettings\"/>\n\n# NormalizedModifierFulfillmentTypeSettings\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/NormalizedModifierFulfillmentTypeSettings\"/>\n\n# NormalizedSizeFulfillmentTypeSettings\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/NormalizedSizeFulfillmentTypeSettings\"/>\n\n# NormalizedSizedPriceFulfillmentTypeSettings\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/NormalizedSizedPriceFulfillmentTypeSettings\"/>\n\n\
+    # PosNormalizedMenu \n <SchemaDefinition schemaRef=\"#/components/schemas/PosNormalizedMenu\"/>\n\n# PosNormalizedMenuMedia\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/PosNormalizedMenuMedia\"/>\n\n# Size \n <SchemaDefinition\
+    \ schemaRef=\"#/components/schemas/Size\"/>\n\n# SizePrompt \n <SchemaDefinition schemaRef=\"#/components/schemas/SizePrompt\"\
+    />\n\n# SizedPrice \n <SchemaDefinition schemaRef=\"#/components/schemas/SizedPrice\"/>\n\n# Tag \n <SchemaDefinition\
+    \ schemaRef=\"#/components/schemas/Tag\"/>\n\n# TaxCategory \n <SchemaDefinition schemaRef=\"#/components/schemas/TaxCategory\"\
+    />\n\n# TaxRate \n <SchemaDefinition schemaRef=\"#/components/schemas/TaxRate\"/>\n\n# PosBulkSupplementalTagStatus\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/PosBulkSupplementalTagStatus\"/>\n\n# InvalidCodeAndEntityIds\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/InvalidCodeAndEntityIds\"/>\n\n# MediaValidationErrorDTO\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/MediaValidationErrorDTO\"/>\n\n# MenuMerchantStatus\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/MenuMerchantStatus\"/>\n\n# PosNormalizedMenuUpdateStatus\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/PosNormalizedMenuUpdateStatus\"/>\n\n"
+paths:
+  /pos/v1/menu/ingestion/validate:
+    post:
+      tags:
+      - Endpoints
+      summary: Validate a normalized menu
+      description: Verifies that the menu provided as the request body is a valid and complete PosNormalizedMenu
+        data object. You do not need to validate a menu object before you run the ingestion process, but validation
+        can save you the hassle of having a menu ingestion process fail unexpectedly.
+      operationId: validatePosMenu
+      parameters:
+      - name: is_normalized_menu
+        in: query
+        description: Is the menu in a normalized format.
+        required: true
+        explode: true
+        schema:
+          type: boolean
+          default: false
+      - name: merchant_id
+        in: query
+        description: The Grubhub or third-party provided external ID for the merchant. Corresponds to a single location.
+        required: false
+        explode: true
+        schema:
+          type: string
+      responses:
+        '503':
+          description: The menu validation has timed out.
+        '200':
+          description: Successfully or unsuccessfully performed a validation check.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PosNormalizedMenuValidationResult'
+              example:
+                valid: true
+                validation_errors: []
+  /pos/v1/menu/ingestion:
+    post:
+      tags:
+      - Endpoints
+      summary: Add or update a normalized menu
+      description: 'Uploads a complete menu to Grubhub, including schedules, sections, items, and modifiers. Because
+        of the size of the data used in this operation, the processing portion of this job completes after this
+        endpoint responds. To find out the status of a normalized menu ingestion, call GET /pos/v1/menu/ingestion/jobs/{job_id}.
+        Use the job_id returned from this endpoint.<br/><br/>By default, this endpoint expects the menu to conform
+        to the normalized menu structure. To indicate this reference structure, the required field normalized_menu=true
+        must be in the request body.<br/><br/>All objects within this menu payload must have external_id values
+        attached to them for this upload to complete. External IDs that match existing objects will be merged with
+        that object''s data. If a field exists in both the existing and ingested data, the ingested data will replace
+        it. If the data only exists in the new data, then that object will be created. If the data exists in the
+        old menu but not the new one, then that object will be deleted.<br/><br/>External IDs must be unique across
+        all menu entities of the same type, except for menu schedules and sections, which must be globally unique.<br/><br/>Grubhub
+        has a retry mechanism when attempting to download a partner menu. Upon failure, nine retry attempts over
+        a span of five minutes are made before failing the job completely.<br/><br/>You can call GET /pos/v1/merchant/{merchant_id}/ingestion/menu
+        to retrieve the current menu, then edit that object and use this endpoint to replace the existing menu with
+        the edited one.<br/><br/>This call supports GZIP compression. In the request header, pass Accept-Encoding:
+        gzip to receive a compressed response payload. Whether you send the JSON object compressed or not, it must
+        be encoded in UTF-8.<br/><br/>We recommend that you use this endpoint for all menu creation, edits, and
+        deletions.'
+      operationId: addOrUpdatePosFullMenu
+      parameters:
+      - name: X-GH-PARTNER-KEY
+        in: header
+        required: true
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        description: The request payload.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PosNormalizedMenuUpdateRequest'
+            example:
+              merchant_ids:
+              - store182
+              menu_url: https://example.com/menu
+              normalized_menu: true
+              apply_existing_schedule_overrides: false
+        required: true
+      responses:
+        '409':
+          description: Merchant(s) already has an active async update process.
+        '422':
+          description: Syntax of the request content was correct, but unable to process the contained instructions.
+        '200':
+          description: Menu successfully enqueued for processing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PosNormalizedMenuUpdateResult'
+              example:
+                job_id: b78fba98-fb76-4748-9c72-dba110afa923
+  /pos/v1/merchant/{merchant_id}/menu/schedules/overrides/external:
+    patch:
+      tags:
+      - Endpoints
+      summary: Bulk menu item schedule override operation by external IDs
+      description: Bulk add or update the menu schedule overrides by external ID. Used to '86' a list of entities
+        (items / modifiers).
+      operationId: bulkAddOrUpdateSchedulesOverridesByExternalIds
+      parameters:
+      - name: merchant_id
+        in: path
+        description: The Grubhub or third-party provided external ID for the merchant.
+        required: true
+        explode: false
+        schema:
+          type: string
+      - name: allow_partial_success
+        in: query
+        description: Should valid overrides still be applied if there are individual failures on the bulk operation
+        required: true
+        explode: true
+        schema:
+          type: boolean
+          default: false
+      requestBody:
+        description: A list of PosScheduleOverrideBulkRequests, each containing a list of Partner external entity
+          IDs and the schedule override operation to be applied for all of them.
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/PosScheduleOverrideBulkRequest'
+            example:
+            - entity_ids:
+              - entity_id1
+              - entity_id2
+              schedule_override:
+                op: ADD
+                start: '2023-07-20T12:00:00.000Z'
+                end: '9999-12-31T23:59:00.000Z'
+                show_or_hide: SHOW
+            - entity_ids:
+              - entity_id3
+              - entity_id4
+              schedule_override:
+                op: UPDATE
+                cur_end_date: '2023-07-20T12:00:00.000Z'
+                start: '2023-07-20T12:00:00.000Z'
+                end: '2023-12-31T23:59:00.000Z'
+                show_or_hide: HIDE
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PosScheduleOverrideMultiOperationResult'
+              example:
+                status: QUEUED
+                message: Menu entity schedule override operation is queued.
+                entity_ids:
+                - entity_id_1
+                - entity_id_2
+                job_id: b3332f8b-64c6-4a46-89c2-3c27c27e8edf
+  /pos/v1/merchant/{merchant_id}/menu/schedules/overrides:
+    get:
+      tags:
+      - Endpoints
+      summary: Get schedule overrides for a merchant
+      description: Returns the schedule overrides for a given merchant, optionally you can pass dates to use as
+        a range.
+      operationId: getSchedulesOverridesForMerchant
+      parameters:
+      - name: merchant_id
+        in: path
+        description: The short Grubhub ID for the merchant. Corresponds to a single location.
+        required: true
+        explode: false
+        schema:
+          type: string
+      - name: ending_after
+        in: query
+        description: A start date to use for the search window. If "now" is provided then current datetime will
+          be used.
+        required: true
+        explode: true
+        schema:
+          type: string
+      - name: ending_before
+        in: query
+        description: An end date to use for the search window. If "endOfTime" is provided then December 31, 9999,
+          23:59 (11:59 PM) UTC will be used
+        required: true
+        explode: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Schedule overrides were successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PosScheduleOverrides'
+              example:
+                merchant_id: merchant_id_123
+                item_overrides:
+                - merchant_id: merchant_id_123
+                  item_id: item_id_1
+                  external_id: external_item_id_1
+                  intervals:
+                  - start: '2023-07-18T12:00:00Z'
+                    end: '2023-07-18T15:00:00Z'
+                    show_or_hide: SHOW
+                  - start: '2023-07-19T10:00:00Z'
+                    end: '2023-07-19T13:00:00Z'
+                    show_or_hide: HIDE
+                - merchant_id: merchant_id_123
+                  item_id: item_id_2
+                  external_id: external_item_id_2
+                  intervals:
+                  - start: '2023-07-18T14:00:00Z'
+                    end: '2023-07-18T17:00:00Z'
+                    show_or_hide: HIDE
+                modifier_overrides:
+                - merchant_id: merchant_id_123
+                  modifier_id: modifier_id_1
+                  external_id: external_modifier_id_1
+                  intervals:
+                  - start: '2023-07-18T12:00:00Z'
+                    end: '2023-07-18T15:00:00Z'
+                    show_or_hide: SHOW
+        '404':
+          description: Schedule Override(s) do not exist.
+    patch:
+      tags:
+      - Endpoints
+      summary: Bulk menu item schedule override operation by Grubhub internal IDs
+      description: Bulk add or update the menu schedule overrides by Grubhub ID. Used to '86' a list of entities
+        (items / modifiers).
+      operationId: bulkAddOrUpdateSchedulesOverridesByInternalIds
+      parameters:
+      - name: merchant_id
+        in: path
+        description: The Grubhub or third-party provided external ID for the merchant.
+        required: true
+        explode: false
+        schema:
+          type: string
+      - name: allow_partial_success
+        in: query
+        description: Should existing overrides be applied to the updated menu.Should only be "true" if overrides
+          currently exist and the present and updated menu share the same set of items and modifiers.
+        required: true
+        explode: true
+        schema:
+          type: boolean
+          default: false
+      requestBody:
+        description: A list of PosScheduleOverrideBulkRequests, each containing a list of Grubhub internal entity
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/PosScheduleOverrideBulkRequest'
+            example:
+            - entity_ids:
+              - entity_id1
+              - entity_id2
+              schedule_override:
+                op: ADD
+                start: '2023-07-20T12:00:00.000Z'
+                end: '9999-12-31T23:59:00.000Z'
+                show_or_hide: SHOW
+            - entity_ids:
+              - entity_id3
+              - entity_id4
+              schedule_override:
+                op: UPDATE
+                cur_end_date: '2023-07-20T12:00:00.000Z'
+                start: '2023-07-20T12:00:00.000Z'
+                end: '2023-12-31T23:59:00.000Z'
+                show_or_hide: HIDE
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PosScheduleOverrideMultiOperationResult'
+              example:
+                status: QUEUED
+                message: Menu entity schedule override operation is queued.
+                entity_ids:
+                - entity_id_1
+                - entity_id_2
+                job_id: b3332f8b-64c6-4a46-89c2-3c27c27e8edf
+  /pos/v1/merchant/{merchant_id}/menu/entities/tags/alcohol:
+    patch:
+      tags:
+      - Endpoints
+      summary: Mark items/modifiers as alcoholic
+      description: Mark a merchant's specific items/modifiers with an 'ALCOHOL' classification tag.
+      operationId: tagProductsAsAlcoholic
+      parameters:
+      - name: merchant_id
+        in: path
+        description: The short Grubhub ID for the merchant. Corresponds to a single location.
+        required: true
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Request payload for tagging products as alcoholic.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TagProductsRequest'
+            example:
+              external_ids:
+              - item-1
+              - item-2
+        required: true
+      responses:
+        '202':
+          description: Successfully started the operation for tagging items/modifiers as alcoholic.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PosSupplementalTagMultiOperationResult'
+  /pos/v1/merchant/{merchant_id}/menu/schedules/overrides/{job_id}/status:
+    get:
+      tags:
+      - Endpoints
+      summary: Get bulk schedule override job status
+      description: Returns the status of the bulk schedule override job.
+      operationId: getBulkScheduleOverrideStatus
+      parameters:
+      - name: merchant_id
+        in: path
+        description: The Grubhub ID for the merchant OR the Partner merchant ID. This ID is not validated.
+        required: true
+        explode: false
+        schema:
+          type: string
+      - name: job_id
+        in: path
+        description: The bulk schedule override unique job identifier.
+        required: true
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '422':
+          description: Unprocessable Entity
+        '200':
+          description: Job status was successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PosBulkScheduleOverrideStatus'
+              example:
+                job_id: e72d57a9-41c8-4a60-8f0b-fd42b396f11d
+                processing_complete: true
+                status: SUCCESSFUL
+                reason: Bulk schedule override completed successfully.
+                entity_override_results:
+                - entity_index: 0
+                  entity_id: entity_id_1
+                  status: SUCCESSFUL
+                  details: Entity override successful.
+                - entity_index: 1
+                  entity_id: entity_id_2
+                  status: SUCCESSFUL
+                  details: Entity override successful.
+                merchant_id: merchant_id_123
+        '404':
+          description: Job does not exist.
+  /pos/v1/merchant/{merchant_id}/menu/normalized:
+    get:
+      tags:
+      - Endpoints
+      summary: Retrieve a normalized menu for a given merchant ID
+      description: Returns the current menu as a PosNormalizedMenu object, which can be edited and ingested to update
+        a merchant's or group of merchants' menu. You can edit the response payload and use it to update menus with
+        the primary menu ingestion endpoint.
+      operationId: findNormalizedMenu
+      parameters:
+      - name: merchant_id
+        in: path
+        description: The short Grubhub ID for the merchant. Corresponds to a single location.
+        required: true
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PosNormalizedMenu'
+              example:
+                menu_info:
+                  currency: USD
+                  sections:
+                  - 1_sandwich
+                  - 5_drinks
+                  header_media: null
+                  logo_media: null
+                  search_media: null
+                tax_rates:
+                - external_id: feb124cea788f2d582bd40b188ffce1c
+                  name: Tax rate feb124cea788f2d582bd40b188ffce1c
+                  rate: 0.06
+                - external_id: e737c3b7a4c99675212fd1d50e6d945b
+                  name: Tax rate e737c3b7a4c99675212fd1d50e6d945b
+                  rate: 0.0525
+                - external_id: 1e89f83ca9c996b33fe10a907322c2e0
+                  name: Tax rate 1e89f83ca9c996b33fe10a907322c2e0
+                  rate: 0.0725
+                - external_id: 37d5c0b6b354bc3c790d2696b42756c9
+                  name: Tax rate 37d5c0b6b354bc3c790d2696b42756c9
+                  rate: 0.08
+                repeating_schedules: []
+                menu_sections:
+                - external_id: 1_sandwich
+                  name: Sandwiches
+                  internal_name: Sandwiches
+                  description: These are delicious!
+                  items:
+                  - 1_sandwich|100_pbj_sandwich
+                  - 1_sandwich|40006_basket_of_breadsticks
+                  availability_ranges: []
+                  schedule_ids: []
+                  availability_override: null
+                  media: null
+                  tax_category:
+                    code: '100020'
+                - external_id: 5_drinks
+                  name: Drinks
+                  internal_name: Drinks
+                  description: Great drinks for you enjoy on the go
+                  items:
+                  - 5_drinks|coffee
+                  - 5_drinks|smoothie
+                  - 5_drinks|fountain_drink
+                  - 5_drinks|san_pellegrino_sparking_natural_mineral_water
+                  availability_ranges: []
+                  schedule_ids: []
+                  availability_override: null
+                  media: null
+                items:
+                - external_id: 1_sandwich|100_pbj_sandwich
+                  name: PBJ Sandwich
+                  internal_name: PBJ Sandwich
+                  description: Delicious Peanut Butter and Jelly Sandwich
+                  price: 0.0
+                  tax_rate: feb124cea788f2d582bd40b188ffce1c
+                  miscellaneous_taxes: []
+                  size_prompt: null
+                  modifier_prompts:
+                  - 1_sandwich|100_pbj_sandwich|uid_opt_pbj_size
+                  - 1_sandwich|100_pbj_sandwich|uid_opt_grilled_toppings_large
+                  - 1_sandwich|100_pbj_sandwich|spreads_pbj
+                  schedule_ids: []
+                  tags: []
+                  minimum_order_quantity: null
+                  maximum_order_quantity: null
+                  calorie_content: null
+                  media:
+                    source_url: https://example.com/348863390-1.jpg
+                  metadata: '{"order_ahead_menu_id":48630}'
+                  availability_ranges: []
+                  allowable_order_types:
+                  - standard
+                  availability_override: null
+                  tax_category:
+                    code: '100021'
+                - external_id: 1_sandwich|40006_basket_of_breadsticks
+                  name: Basket of Breadsticks
+                  internal_name: Basket of Breadsticks
+                  description: Shareable size of breadsticks
+                  price: 3.0
+                  tax_rate: feb124cea788f2d582bd40b188ffce1c
+                  miscellaneous_taxes: []
+                  size_prompt: null
+                  modifier_prompts: []
+                  schedule_ids: []
+                  tags: []
+                  minimum_order_quantity: 1
+                  maximum_order_quantity: 50
+                  calorie_content: null
+                  media:
+                    source_url: https://dreamdinners.com/theme/dreamdinners/images/recipe/default/745.jpg
+                  metadata: '{"order_ahead_menu_id":48630}'
+                  availability_ranges: []
+                  allowable_order_types:
+                  - standard
+                  availability_override: null
+                - external_id: 5_drinks|coffee
+                  name: Coffee
+                  internal_name: Coffee
+                  description: Delicious coffee
+                  price: 4.0
+                  tax_rate: feb124cea788f2d582bd40b188ffce1c
+                  miscellaneous_taxes: []
+                  size_prompt: null
+                  modifier_prompts:
+                  - 5_drinks|coffee|uid_opt_coffee_size
+                  - 5_drinks|coffee|opt_coffee_topping
+                  - 5_drinks|coffee|opt_coffee_milk
+                  schedule_ids: []
+                  tags: []
+                  minimum_order_quantity: null
+                  maximum_order_quantity: null
+                  calorie_content: null
+                  media:
+                    source_url: https://https://example.com/5473ca2.jpg
+                  metadata: '{"order_ahead_menu_id":48630}'
+                  availability_ranges: []
+                  allowable_order_types:
+                  - standard
+                  availability_override: null
+                - external_id: 5_drinks|smoothie
+                  name: Smoothie
+                  internal_name: Smoothie
+                  description: Delicious smoothie
+                  price: 3.0
+                  tax_rate: feb124cea788f2d582bd40b188ffce1c
+                  miscellaneous_taxes: []
+                  size_prompt: null
+                  modifier_prompts:
+                  - 5_drinks|smoothie|uid_opt_coffee_size
+                  - 5_drinks|smoothie|opt_smoothie_topping
+                  schedule_ids: []
+                  tags: []
+                  minimum_order_quantity: null
+                  maximum_order_quantity: null
+                  calorie_content: null
+                  media:
+                    source_url: https://example.com/09dc1a2bbb542310071.png
+                  metadata: '{"order_ahead_menu_id":48630}'
+                  availability_ranges: []
+                  allowable_order_types:
+                  - standard
+                  availability_override: null
+                - external_id: 5_drinks|fountain_drink
+                  name: Fountain Drink
+                  internal_name: Fountain Drink
+                  description: Pick your size and soda
+                  price: 3.0
+                  tax_rate: feb124cea788f2d582bd40b188ffce1c
+                  miscellaneous_taxes: []
+                  size_prompt: null
+                  modifier_prompts:
+                  - 5_drinks|fountain_drink|drink_selection
+                  schedule_ids: []
+                  tags: []
+                  minimum_order_quantity: null
+                  maximum_order_quantity: null
+                  calorie_content: null
+                  media:
+                    source_url: https://example.com/1231231.png
+                  metadata: '{"order_ahead_menu_id":48630}'
+                  availability_ranges: []
+                  allowable_order_types:
+                  - standard
+                  availability_override: null
+                - external_id: 5_drinks|san_pellegrino_sparking_natural_mineral_water
+                  name: San Pellegrino Sparkling Natural Mineral Water
+                  internal_name: San Pellegrino Sparkling Natural Mineral Water
+                  description: S.Pellegrino is a carbonated natural mineral water rich in minerals.
+                  price: 4.0
+                  tax_rate: feb124cea788f2d582bd40b188ffce1c
+                  miscellaneous_taxes: []
+                  size_prompt: null
+                  modifier_prompts: []
+                  schedule_ids: []
+                  tags: []
+                  minimum_order_quantity: null
+                  maximum_order_quantity: null
+                  calorie_content: null
+                  media:
+                    source_url: https://example.com/12312.jpg
+                  metadata: '{"order_ahead_menu_id":48630}'
+                  availability_ranges: []
+                  allowable_order_types:
+                  - standard
+                  availability_override: null
+                  gtin: 041508802185
+                modifier_prompts:
+                - external_id: 1_sandwich|100_pbj_sandwich|uid_opt_pbj_size
+                  name: Size
+                  internal_name: Size
+                  modifier_list: 1_sandwich|100_pbj_sandwich|uid_opt_pbj_size|modifier_list
+                  default_selection_model:
+                    minimum_quantity: 1
+                    maximum_quantity: 1
+                  modifier_prompt_quantity_settings:
+                    minimum_units: 1
+                    maximum_units: 1
+                  modifier_quantity_settings:
+                    1_sandwich|100_pbj_sandwich|uid_opt_pbj_size|10_pbj_small:
+                      default_units: 0
+                      maximum_units: 1
+                      unit_increment: 1
+                    1_sandwich|100_pbj_sandwich|uid_opt_pbj_size|30_pbj_large:
+                      default_units: 0
+                      maximum_units: 1
+                      unit_increment: 1
+                    1_sandwich|100_pbj_sandwich|uid_opt_pbj_size|20_pbj_medium:
+                      default_units: 0
+                      maximum_units: 1
+                      unit_increment: 1
+                  defaulted_modifiers: []
+                  modifier_prompt_free_settings: null
+                - external_id: 1_sandwich|100_pbj_sandwich|uid_opt_grilled_toppings_large|10_cheese_opt_grilled_toppings_large|cheese_type
+                  name: Type of Cheese
+                  internal_name: Type of Cheese
+                  modifier_list: 1_sandwich|100_pbj_sandwich|uid_opt_grilled_toppings_large|10_cheese_opt_grilled_toppings_large|cheese_type|modifier_list
+                  default_selection_model:
+                    minimum_quantity: 1
+                    maximum_quantity: 1
+                  modifier_prompt_quantity_settings:
+                    minimum_units: 1
+                    maximum_units: 1
+                  modifier_quantity_settings:
+                    1_sandwich|100_pbj_sandwich|uid_opt_grilled_toppings_large|10_cheese_opt_grilled_toppings_large|cheese_type|cheese_cheddar:
+                      default_units: 1
+                      maximum_units: 1
+                      unit_increment: 1
+                    ? 1_sandwich|100_pbj_sandwich|uid_opt_grilled_toppings_large|10_cheese_opt_grilled_toppings_large|cheese_type|cheese_american
+                    : default_units: 0
+                      maximum_units: 1
+                      unit_increment: 1
+                    ? 1_sandwich|100_pbj_sandwich|uid_opt_grilled_toppings_large|10_cheese_opt_grilled_toppings_large|cheese_type|cheese_provolone
+                    : default_units: 0
+                      maximum_units: 1
+                      unit_increment: 1
+                  defaulted_modifiers:
+                  - 1_sandwich|100_pbj_sandwich|uid_opt_grilled_toppings_large|10_cheese_opt_grilled_toppings_large|cheese_type|cheese_cheddar
+                  modifier_prompt_free_settings: null
+                - external_id: 1_sandwich|100_pbj_sandwich|uid_opt_grilled_toppings_large
+                  name: Toppings
+                  internal_name: Toppings
+                  modifier_list: 1_sandwich|100_pbj_sandwich|uid_opt_grilled_toppings_large|modifier_list
+                  default_selection_model:
+                    minimum_quantity: 0
+                    maximum_quantity: 3
+                  modifier_prompt_quantity_settings:
+                    minimum_units: 0
+                    maximum_units: 3
+                  modifier_quantity_settings:
+                    1_sandwich|100_pbj_sandwich|uid_opt_grilled_toppings_large|30_bacon_opt_grilled_toppings_large:
+                      default_units: 0
+                      maximum_units: 1
+                      unit_increment: 1
+                    1_sandwich|100_pbj_sandwich|uid_opt_grilled_toppings_large|10_cheese_opt_grilled_toppings_large:
+                      default_units: 0
+                      maximum_units: 1
+                      unit_increment: 1
+                    1_sandwich|100_pbj_sandwich|uid_opt_grilled_toppings_large|20_butter_opt_grilled_toppings_large:
+                      default_units: 0
+                      maximum_units: 1
+                      unit_increment: 1
+                  defaulted_modifiers: []
+                  modifier_prompt_free_settings: null
+                - external_id: 1_sandwich|100_pbj_sandwich|spreads_pbj
+                  name: Spreads
+                  internal_name: Spreads
+                  modifier_list: 1_sandwich|100_pbj_sandwich|spreads_pbj|modifier_list
+                  default_selection_model:
+                    minimum_quantity: 0
+                    maximum_quantity: 2
+                  modifier_prompt_quantity_settings:
+                    minimum_units: 0
+                  modifier_quantity_settings:
+                    1_sandwich|100_pbj_sandwich|spreads_pbj|jelly:
+                      default_units: 1
+                      maximum_units: 1
+                      unit_increment: 1
+                    1_sandwich|100_pbj_sandwich|spreads_pbj|peanut_butter:
+                      default_units: 1
+                      maximum_units: 1
+                      unit_increment: 1
+                  defaulted_modifiers:
+                  - 1_sandwich|100_pbj_sandwich|spreads_pbj|peanut_butter
+                  - 1_sandwich|100_pbj_sandwich|spreads_pbj|jelly
+                  modifier_prompt_free_settings: null
+                - external_id: 5_drinks|coffee|uid_opt_coffee_size
+                  name: Choose a Size
+                  internal_name: Choose a Size
+                  modifier_list: 5_drinks|coffee|uid_opt_coffee_size|modifier_list
+                  default_selection_model:
+                    minimum_quantity: 1
+                    maximum_quantity: 1
+                  modifier_prompt_quantity_settings:
+                    minimum_units: 1
+                    maximum_units: 1
+                  modifier_quantity_settings:
+                    5_drinks|coffee|uid_opt_coffee_size|large:
+                      default_units: 0
+                      maximum_units: 1
+                      unit_increment: 1
+                    5_drinks|coffee|uid_opt_coffee_size|small:
+                      default_units: 0
+                      maximum_units: 1
+                      unit_increment: 1
+                    5_drinks|coffee|uid_opt_coffee_size|medium:
+                      default_units: 0
+                      maximum_units: 1
+                      unit_increment: 1
+                  defaulted_modifiers: []
+                  modifier_prompt_free_settings: null
+                - external_id: 5_drinks|coffee|opt_coffee_topping
+                  name: Condiments
+                  internal_name: Condiments
+                  modifier_list: 5_drinks|coffee|opt_coffee_topping|modifier_list
+                  default_selection_model:
+                    minimum_quantity: 0
+                    maximum_quantity: 2
+                  modifier_prompt_quantity_settings:
+                    minimum_units: 0
+                    maximum_units: 15
+                  modifier_quantity_settings:
+                    5_drinks|coffee|opt_coffee_topping|cream:
+                      default_units: 0
+                      maximum_units: 10
+                      unit_increment: 1
+                    5_drinks|coffee|opt_coffee_topping|sugar:
+                      default_units: 0
+                      maximum_units: 10
+                      unit_increment: 1
+                  defaulted_modifiers: []
+                  modifier_prompt_free_settings: null
+                - external_id: 5_drinks|coffee|opt_coffee_milk
+                  name: Milk
+                  internal_name: Milk
+                  modifier_list: 5_drinks|coffee|opt_coffee_milk|modifier_list
+                  default_selection_model:
+                    minimum_quantity: 0
+                    maximum_quantity: 1
+                  modifier_prompt_quantity_settings:
+                    minimum_units: 0
+                    maximum_units: 1
+                  modifier_quantity_settings:
+                    5_drinks|coffee|opt_coffee_milk|soy_milk:
+                      default_units: 0
+                      maximum_units: 1
+                      unit_increment: 1
+                    5_drinks|coffee|opt_coffee_milk|whole_milk:
+                      default_units: 0
+                      maximum_units: 1
+                      unit_increment: 1
+                    5_drinks|coffee|opt_coffee_milk|almond_milk:
+                      default_units: 0
+                      maximum_units: 1
+                      unit_increment: 1
+                    5_drinks|coffee|opt_coffee_milk|fat_free_milk:
+                      default_units: 0
+                      maximum_units: 1
+                      unit_increment: 1
+                  defaulted_modifiers: []
+                  modifier_prompt_free_settings: null
+                - external_id: 5_drinks|smoothie|uid_opt_coffee_size
+                  name: Choose a Size
+                  internal_name: Choose a Size
+                  modifier_list: 5_drinks|smoothie|uid_opt_coffee_size|modifier_list
+                  default_selection_model:
+                    minimum_quantity: 1
+                    maximum_quantity: 1
+                  modifier_prompt_quantity_settings:
+                    minimum_units: 1
+                    maximum_units: 1
+                  modifier_quantity_settings:
+                    5_drinks|smoothie|uid_opt_coffee_size|large:
+                      default_units: 0
+                      maximum_units: 1
+                      unit_increment: 1
+                    5_drinks|smoothie|uid_opt_coffee_size|small:
+                      default_units: 0
+                      maximum_units: 1
+                      unit_increment: 1
+                    5_drinks|smoothie|uid_opt_coffee_size|medium:
+                      default_units: 0
+                      maximum_units: 1
+                      unit_increment: 1
+                  defaulted_modifiers: []
+                  modifier_prompt_free_settings: null
+                - external_id: 5_drinks|smoothie|opt_smoothie_topping
+                  name: Condiments
+                  internal_name: Condiments
+                  modifier_list: 5_drinks|smoothie|opt_smoothie_topping|modifier_list
+                  default_selection_model:
+                    minimum_quantity: 1
+                    maximum_quantity: 2
+                  modifier_prompt_quantity_settings:
+                    minimum_units: 1
+                    maximum_units: 10
+                  modifier_quantity_settings:
+                    5_drinks|smoothie|opt_smoothie_topping|drizzle:
+                      default_units: 0
+                      maximum_units: 5
+                      unit_increment: 1
+                    5_drinks|smoothie|opt_smoothie_topping|whipped_cream:
+                      default_units: 0
+                      maximum_units: 5
+                      unit_increment: 1
+                  defaulted_modifiers: []
+                  modifier_prompt_free_settings: null
+                - external_id: 5_drinks|fountain_drink|drink_selection|orange_soda|drink_sizes
+                  name: Drink Size
+                  internal_name: Drink Size
+                  modifier_list: 5_drinks|fountain_drink|drink_selection|orange_soda|drink_sizes|modifier_list
+                  default_selection_model:
+                    minimum_quantity: 1
+                    maximum_quantity: 1
+                  modifier_prompt_quantity_settings:
+                    minimum_units: 1
+                    maximum_units: 1
+                  modifier_quantity_settings:
+                    5_drinks|fountain_drink|drink_selection|orange_soda|drink_sizes|large:
+                      default_units: 0
+                      maximum_units: 1
+                      unit_increment: 1
+                    5_drinks|fountain_drink|drink_selection|orange_soda|drink_sizes|small:
+                      default_units: 0
+                      maximum_units: 1
+                      unit_increment: 1
+                    5_drinks|fountain_drink|drink_selection|orange_soda|drink_sizes|medium:
+                      default_units: 0
+                      maximum_units: 1
+                      unit_increment: 1
+                  defaulted_modifiers: []
+                  modifier_prompt_free_settings: null
+                - external_id: 5_drinks|fountain_drink|drink_selection
+                  name: Choice of Fountain Beverage
+                  internal_name: Choice of Fountain Beverage
+                  modifier_list: 5_drinks|fountain_drink|drink_selection|modifier_list
+                  default_selection_model:
+                    minimum_quantity: 1
+                    maximum_quantity: 1
+                  modifier_prompt_quantity_settings:
+                    minimum_units: 1
+                    maximum_units: 1
+                  modifier_quantity_settings:
+                    5_drinks|fountain_drink|drink_selection|water:
+                      default_units: 0
+                      maximum_units: 1
+                      unit_increment: 1
+                    5_drinks|fountain_drink|drink_selection|club_soda:
+                      default_units: 0
+                      maximum_units: 1
+                      unit_increment: 1
+                    5_drinks|fountain_drink|drink_selection|ginger_ale:
+                      default_units: 0
+                      maximum_units: 1
+                      unit_increment: 1
+                    5_drinks|fountain_drink|drink_selection|lemon_lime:
+                      default_units: 0
+                      maximum_units: 1
+                      unit_increment: 1
+                    5_drinks|fountain_drink|drink_selection|orange_soda:
+                      default_units: 0
+                      maximum_units: 1
+                      unit_increment: 1
+                    5_drinks|fountain_drink|drink_selection|strawberry_soda:
+                      default_units: 0
+                      maximum_units: 1
+                      unit_increment: 1
+                  defaulted_modifiers: []
+                  modifier_prompt_free_settings: null
+                modifier_lists:
+                - external_id: 1_sandwich|100_pbj_sandwich|uid_opt_pbj_size|modifier_list
+                  name: Size
+                  modifiers:
+                  - 1_sandwich|100_pbj_sandwich|uid_opt_pbj_size|10_pbj_small
+                  - 1_sandwich|100_pbj_sandwich|uid_opt_pbj_size|20_pbj_medium
+                  - 1_sandwich|100_pbj_sandwich|uid_opt_pbj_size|30_pbj_large
+                - external_id: 1_sandwich|100_pbj_sandwich|uid_opt_grilled_toppings_large|modifier_list
+                  name: Toppings
+                  modifiers:
+                  - 1_sandwich|100_pbj_sandwich|uid_opt_grilled_toppings_large|10_cheese_opt_grilled_toppings_large
+                  - 1_sandwich|100_pbj_sandwich|uid_opt_grilled_toppings_large|20_butter_opt_grilled_toppings_large
+                  - 1_sandwich|100_pbj_sandwich|uid_opt_grilled_toppings_large|30_bacon_opt_grilled_toppings_large
+                - external_id: 1_sandwich|100_pbj_sandwich|uid_opt_grilled_toppings_large|10_cheese_opt_grilled_toppings_large|cheese_type|modifier_list
+                  name: Type of Cheese
+                  modifiers:
+                  - 1_sandwich|100_pbj_sandwich|uid_opt_grilled_toppings_large|10_cheese_opt_grilled_toppings_large|cheese_type|cheese_cheddar
+                  - 1_sandwich|100_pbj_sandwich|uid_opt_grilled_toppings_large|10_cheese_opt_grilled_toppings_large|cheese_type|cheese_american
+                  - 1_sandwich|100_pbj_sandwich|uid_opt_grilled_toppings_large|10_cheese_opt_grilled_toppings_large|cheese_type|cheese_provolone
+                - external_id: 1_sandwich|100_pbj_sandwich|spreads_pbj|modifier_list
+                  name: Spreads
+                  modifiers:
+                  - 1_sandwich|100_pbj_sandwich|spreads_pbj|jelly
+                  - 1_sandwich|100_pbj_sandwich|spreads_pbj|peanut_butter
+                - external_id: 5_drinks|coffee|uid_opt_coffee_size|modifier_list
+                  name: Choose a Size
+                  modifiers:
+                  - 5_drinks|coffee|uid_opt_coffee_size|small
+                  - 5_drinks|coffee|uid_opt_coffee_size|medium
+                  - 5_drinks|coffee|uid_opt_coffee_size|large
+                - external_id: 5_drinks|coffee|opt_coffee_topping|modifier_list
+                  name: Condiments
+                  modifiers:
+                  - 5_drinks|coffee|opt_coffee_topping|sugar
+                  - 5_drinks|coffee|opt_coffee_topping|cream
+                - external_id: 5_drinks|coffee|opt_coffee_milk|modifier_list
+                  name: Milk
+                  modifiers:
+                  - 5_drinks|coffee|opt_coffee_milk|whole_milk
+                  - 5_drinks|coffee|opt_coffee_milk|fat_free_milk
+                  - 5_drinks|coffee|opt_coffee_milk|soy_milk
+                  - 5_drinks|coffee|opt_coffee_milk|almond_milk
+                - external_id: 5_drinks|smoothie|uid_opt_coffee_size|modifier_list
+                  name: Choose a Size
+                  modifiers:
+                  - 5_drinks|smoothie|uid_opt_coffee_size|small
+                  - 5_drinks|smoothie|uid_opt_coffee_size|medium
+                  - 5_drinks|smoothie|uid_opt_coffee_size|large
+                - external_id: 5_drinks|smoothie|opt_smoothie_topping|modifier_list
+                  name: Condiments
+                  modifiers:
+                  - 5_drinks|smoothie|opt_smoothie_topping|whipped_cream
+                  - 5_drinks|smoothie|opt_smoothie_topping|drizzle
+                - external_id: 5_drinks|fountain_drink|drink_selection|modifier_list
+                  name: Choice of Fountain Beverage
+                  modifiers:
+                  - 5_drinks|fountain_drink|drink_selection|strawberry_soda
+                  - 5_drinks|fountain_drink|drink_selection|lemon_lime
+                  - 5_drinks|fountain_drink|drink_selection|ginger_ale
+                  - 5_drinks|fountain_drink|drink_selection|club_soda
+                  - 5_drinks|fountain_drink|drink_selection|orange_soda
+                  - 5_drinks|fountain_drink|drink_selection|water
+                - external_id: 5_drinks|fountain_drink|drink_selection|orange_soda|drink_sizes|modifier_list
+                  name: Drink Size
+                  modifiers:
+                  - 5_drinks|fountain_drink|drink_selection|orange_soda|drink_sizes|small
+                  - 5_drinks|fountain_drink|drink_selection|orange_soda|drink_sizes|medium
+                  - 5_drinks|fountain_drink|drink_selection|orange_soda|drink_sizes|large
+                modifiers:
+                - external_id: 1_sandwich|100_pbj_sandwich|uid_opt_pbj_size|10_pbj_small
+                  name: Small
+                  internal_name: Small
+                  description: null
+                  calorie_content: null
+                  default_price: 6.0
+                  tags: []
+                  tax_rate: feb124cea788f2d582bd40b188ffce1c
+                  miscellaneous_taxes: []
+                  media: null
+                  sized_prices: []
+                  submodifiers: []
+                  metadata: '{}'
+                  schedule_ids: []
+                  availability_ranges: []
+                  availability_override: null
+                  tax_category:
+                    code: '100022'
+                - external_id: 1_sandwich|100_pbj_sandwich|uid_opt_pbj_size|20_pbj_medium
+                  name: Medium
+                  internal_name: Medium
+                  description: null
+                  calorie_content: null
+                  default_price: 7.0
+                  tags: []
+                  tax_rate: feb124cea788f2d582bd40b188ffce1c
+                  miscellaneous_taxes: []
+                  media: null
+                  sized_prices: []
+                  submodifiers: []
+                  metadata: '{}'
+                  schedule_ids: []
+                  availability_ranges: []
+                  availability_override: null
+                - external_id: 1_sandwich|100_pbj_sandwich|uid_opt_pbj_size|30_pbj_large
+                  name: Large
+                  internal_name: Large
+                  description: null
+                  calorie_content: null
+                  default_price: 8.0
+                  tags: []
+                  tax_rate: feb124cea788f2d582bd40b188ffce1c
+                  miscellaneous_taxes: []
+                  media: null
+                  sized_prices: []
+                  submodifiers: []
+                  metadata: '{}'
+                  schedule_ids: []
+                  availability_ranges: []
+                  availability_override: null
+                - external_id: 1_sandwich|100_pbj_sandwich|uid_opt_grilled_toppings_large|10_cheese_opt_grilled_toppings_large|cheese_type|cheese_cheddar
+                  name: Cheddar
+                  internal_name: Cheddar
+                  description: null
+                  calorie_content: null
+                  default_price: 0.0
+                  tags: []
+                  tax_rate: feb124cea788f2d582bd40b188ffce1c
+                  miscellaneous_taxes: []
+                  media: null
+                  sized_prices: []
+                  submodifiers: []
+                  metadata: '{}'
+                  schedule_ids: []
+                  availability_ranges: []
+                  availability_override: null
+                - external_id: 1_sandwich|100_pbj_sandwich|uid_opt_grilled_toppings_large|10_cheese_opt_grilled_toppings_large|cheese_type|cheese_american
+                  name: American
+                  internal_name: American
+                  description: null
+                  calorie_content: null
+                  default_price: 0.0
+                  tags: []
+                  tax_rate: feb124cea788f2d582bd40b188ffce1c
+                  miscellaneous_taxes: []
+                  media: null
+                  sized_prices: []
+                  submodifiers: []
+                  metadata: '{}'
+                  schedule_ids: []
+                  availability_ranges: []
+                  availability_override: null
+                - external_id: 1_sandwich|100_pbj_sandwich|uid_opt_grilled_toppings_large|10_cheese_opt_grilled_toppings_large|cheese_type|cheese_provolone
+                  name: Provolone
+                  internal_name: Provolone
+                  description: null
+                  calorie_content: null
+                  default_price: 0.0
+                  tags: []
+                  tax_rate: feb124cea788f2d582bd40b188ffce1c
+                  miscellaneous_taxes: []
+                  media: null
+                  sized_prices: []
+                  submodifiers: []
+                  metadata: '{}'
+                  schedule_ids: []
+                  availability_ranges: []
+                  availability_override: null
+                - external_id: 1_sandwich|100_pbj_sandwich|uid_opt_grilled_toppings_large|10_cheese_opt_grilled_toppings_large
+                  name: Cheese
+                  internal_name: Cheese
+                  description: null
+                  calorie_content: null
+                  default_price: 0.0
+                  tags: []
+                  tax_rate: feb124cea788f2d582bd40b188ffce1c
+                  miscellaneous_taxes: []
+                  media: null
+                  sized_prices: []
+                  submodifiers:
+                  - 1_sandwich|100_pbj_sandwich|uid_opt_grilled_toppings_large|10_cheese_opt_grilled_toppings_large|cheese_type
+                  metadata: '{}'
+                  schedule_ids: []
+                  availability_ranges: []
+                  availability_override: null
+                - external_id: 1_sandwich|100_pbj_sandwich|uid_opt_grilled_toppings_large|20_butter_opt_grilled_toppings_large
+                  name: Butter
+                  internal_name: Butter
+                  description: null
+                  calorie_content: null
+                  default_price: 0.0
+                  tags: []
+                  tax_rate: feb124cea788f2d582bd40b188ffce1c
+                  miscellaneous_taxes: []
+                  media: null
+                  sized_prices: []
+                  submodifiers: []
+                  metadata: '{}'
+                  schedule_ids: []
+                  availability_ranges: []
+                  availability_override: null
+                - external_id: 1_sandwich|100_pbj_sandwich|uid_opt_grilled_toppings_large|30_bacon_opt_grilled_toppings_large
+                  name: Bacon
+                  internal_name: Bacon
+                  description: null
+                  calorie_content: null
+                  default_price: 3.0
+                  tags: []
+                  tax_rate: feb124cea788f2d582bd40b188ffce1c
+                  miscellaneous_taxes: []
+                  media: null
+                  sized_prices: []
+                  submodifiers: []
+                  metadata: '{}'
+                  schedule_ids: []
+                  availability_ranges: []
+                  availability_override: null
+                - external_id: 1_sandwich|100_pbj_sandwich|spreads_pbj|jelly
+                  name: Jelly
+                  internal_name: Jelly
+                  description: null
+                  calorie_content: null
+                  default_price: 0.0
+                  tags: []
+                  tax_rate: feb124cea788f2d582bd40b188ffce1c
+                  miscellaneous_taxes: []
+                  media: null
+                  sized_prices: []
+                  submodifiers: []
+                  metadata: '{}'
+                  schedule_ids: []
+                  availability_ranges: []
+                  availability_override: null
+                - external_id: 1_sandwich|100_pbj_sandwich|spreads_pbj|peanut_butter
+                  name: Peanut Butter
+                  internal_name: Peanut Butter
+                  description: null
+                  calorie_content: null
+                  default_price: 0.0
+                  tags: []
+                  tax_rate: feb124cea788f2d582bd40b188ffce1c
+                  miscellaneous_taxes: []
+                  media: null
+                  sized_prices: []
+                  submodifiers: []
+                  metadata: '{}'
+                  schedule_ids: []
+                  availability_ranges: []
+                  availability_override: null
+                - external_id: 5_drinks|coffee|uid_opt_coffee_size|small
+                  name: Small
+                  internal_name: Small
+                  description: null
+                  calorie_content: null
+                  default_price: 2.0
+                  tags: []
+                  tax_rate: feb124cea788f2d582bd40b188ffce1c
+                  miscellaneous_taxes: []
+                  media: null
+                  sized_prices: []
+                  submodifiers: []
+                  metadata: '{}'
+                  schedule_ids: []
+                  availability_ranges: []
+                  availability_override: null
+                - external_id: 5_drinks|coffee|uid_opt_coffee_size|medium
+                  name: Medium
+                  internal_name: Medium
+                  description: null
+                  calorie_content: null
+                  default_price: 3.0
+                  tags: []
+                  tax_rate: feb124cea788f2d582bd40b188ffce1c
+                  miscellaneous_taxes: []
+                  media: null
+                  sized_prices: []
+                  submodifiers: []
+                  metadata: '{}'
+                  schedule_ids: []
+                  availability_ranges: []
+                  availability_override: null
+                - external_id: 5_drinks|coffee|uid_opt_coffee_size|large
+                  name: Large
+                  internal_name: Large
+                  description: null
+                  calorie_content: null
+                  default_price: 4.0
+                  tags: []
+                  tax_rate: feb124cea788f2d582bd40b188ffce1c
+                  miscellaneous_taxes: []
+                  media: null
+                  sized_prices: []
+                  submodifiers: []
+                  metadata: '{}'
+                  schedule_ids: []
+                  availability_ranges: []
+                  availability_override: null
+                - external_id: 5_drinks|coffee|opt_coffee_topping|sugar
+                  name: Sugar
+                  internal_name: Sugar
+                  description: null
+                  calorie_content: null
+                  default_price: 0.0
+                  tags: []
+                  tax_rate: feb124cea788f2d582bd40b188ffce1c
+                  miscellaneous_taxes: []
+                  media: null
+                  sized_prices: []
+                  submodifiers: []
+                  metadata: '{}'
+                  schedule_ids: []
+                  availability_ranges: []
+                  availability_override: null
+                - external_id: 5_drinks|coffee|opt_coffee_topping|cream
+                  name: Cream
+                  internal_name: Cream
+                  description: null
+                  calorie_content: null
+                  default_price: 0.0
+                  tags: []
+                  tax_rate: feb124cea788f2d582bd40b188ffce1c
+                  miscellaneous_taxes: []
+                  media: null
+                  sized_prices: []
+                  submodifiers: []
+                  metadata: '{}'
+                  schedule_ids: []
+                  availability_ranges: []
+                  availability_override: null
+                - external_id: 5_drinks|coffee|opt_coffee_milk|whole_milk
+                  name: Whole Milk
+                  internal_name: Whole Milk
+                  description: null
+                  calorie_content: null
+                  default_price: 0.0
+                  tags: []
+                  tax_rate: feb124cea788f2d582bd40b188ffce1c
+                  miscellaneous_taxes: []
+                  media: null
+                  sized_prices: []
+                  submodifiers: []
+                  metadata: '{}'
+                  schedule_ids: []
+                  availability_ranges: []
+                  availability_override: null
+                - external_id: 5_drinks|coffee|opt_coffee_milk|fat_free_milk
+                  name: Fat Free Milk
+                  internal_name: Fat Free Milk
+                  description: null
+                  calorie_content: null
+                  default_price: 0.0
+                  tags: []
+                  tax_rate: feb124cea788f2d582bd40b188ffce1c
+                  miscellaneous_taxes: []
+                  media: null
+                  sized_prices: []
+                  submodifiers: []
+                  metadata: '{}'
+                  schedule_ids: []
+                  availability_ranges: []
+                  availability_override: null
+                - external_id: 5_drinks|coffee|opt_coffee_milk|soy_milk
+                  name: Soy Milk
+                  internal_name: Soy Milk
+                  description: null
+                  calorie_content: null
+                  default_price: 1.0
+                  tags: []
+                  tax_rate: feb124cea788f2d582bd40b188ffce1c
+                  miscellaneous_taxes: []
+                  media: null
+                  sized_prices: []
+                  submodifiers: []
+                  metadata: '{}'
+                  schedule_ids: []
+                  availability_ranges: []
+                  availability_override: null
+                - external_id: 5_drinks|coffee|opt_coffee_milk|almond_milk
+                  name: Almond Milk
+                  internal_name: Almond Milk
+                  description: null
+                  calorie_content: null
+                  default_price: 1.5
+                  tags: []
+                  tax_rate: feb124cea788f2d582bd40b188ffce1c
+                  miscellaneous_taxes: []
+                  media: null
+                  sized_prices: []
+                  submodifiers: []
+                  metadata: '{}'
+                  schedule_ids: []
+                  availability_ranges: []
+                  availability_override: null
+                - external_id: 5_drinks|smoothie|uid_opt_coffee_size|small
+                  name: Small
+                  internal_name: Small
+                  description: null
+                  calorie_content: null
+                  default_price: 2.0
+                  tags: []
+                  tax_rate: feb124cea788f2d582bd40b188ffce1c
+                  miscellaneous_taxes: []
+                  media: null
+                  sized_prices: []
+                  submodifiers: []
+                  metadata: '{}'
+                  schedule_ids: []
+                  availability_ranges: []
+                  availability_override: null
+                - external_id: 5_drinks|smoothie|uid_opt_coffee_size|medium
+                  name: Medium
+                  internal_name: Medium
+                  description: null
+                  calorie_content: null
+                  default_price: 3.0
+                  tags: []
+                  tax_rate: feb124cea788f2d582bd40b188ffce1c
+                  miscellaneous_taxes: []
+                  media: null
+                  sized_prices: []
+                  submodifiers: []
+                  metadata: '{}'
+                  schedule_ids: []
+                  availability_ranges: []
+                  availability_override: null
+                - external_id: 5_drinks|smoothie|uid_opt_coffee_size|large
+                  name: Large
+                  internal_name: Large
+                  description: null
+                  calorie_content: null
+                  default_price: 4.0
+                  tags: []
+                  tax_rate: feb124cea788f2d582bd40b188ffce1c
+                  miscellaneous_taxes: []
+                  media: null
+                  sized_prices: []
+                  submodifiers: []
+                  metadata: '{}'
+                  schedule_ids: []
+                  availability_ranges: []
+                  availability_override: null
+                - external_id: 5_drinks|smoothie|opt_smoothie_topping|whipped_cream
+                  name: Whipped Cream
+                  internal_name: Whipped Cream
+                  description: null
+                  calorie_content: null
+                  default_price: 0.0
+                  tags: []
+                  tax_rate: feb124cea788f2d582bd40b188ffce1c
+                  miscellaneous_taxes: []
+                  media: null
+                  sized_prices: []
+                  submodifiers: []
+                  metadata: '{}'
+                  schedule_ids: []
+                  availability_ranges: []
+                  availability_override: null
+                - external_id: 5_drinks|smoothie|opt_smoothie_topping|drizzle
+                  name: Drizzle
+                  internal_name: Drizzle
+                  description: null
+                  calorie_content: null
+                  default_price: 0.0
+                  tags: []
+                  tax_rate: feb124cea788f2d582bd40b188ffce1c
+                  miscellaneous_taxes: []
+                  media: null
+                  sized_prices: []
+                  submodifiers: []
+                  metadata: '{}'
+                  schedule_ids: []
+                  availability_ranges: []
+                  availability_override: null
+                - external_id: 5_drinks|fountain_drink|drink_selection|strawberry_soda
+                  name: Strawberry Soda
+                  internal_name: Strawberry Soda
+                  description: null
+                  calorie_content: null
+                  default_price: 1.79
+                  tags: []
+                  tax_rate: null
+                  miscellaneous_taxes: []
+                  media: null
+                  sized_prices: []
+                  submodifiers: []
+                  metadata: '{}'
+                  schedule_ids: []
+                  availability_ranges: []
+                  availability_override: null
+                - external_id: 5_drinks|fountain_drink|drink_selection|lemon_lime
+                  name: Lemon Lime Soda
+                  internal_name: Lemon Lime Soda
+                  description: null
+                  calorie_content: null
+                  default_price: 1.99
+                  tags: []
+                  tax_rate: null
+                  miscellaneous_taxes: []
+                  media: null
+                  sized_prices: []
+                  submodifiers: []
+                  metadata: '{}'
+                  schedule_ids: []
+                  availability_ranges: []
+                  availability_override: null
+                - external_id: 5_drinks|fountain_drink|drink_selection|ginger_ale
+                  name: Ginger Ale
+                  internal_name: Ginger Ale
+                  description: null
+                  calorie_content: null
+                  default_price: 1.79
+                  tags: []
+                  tax_rate: e737c3b7a4c99675212fd1d50e6d945b
+                  miscellaneous_taxes: []
+                  media: null
+                  sized_prices: []
+                  submodifiers: []
+                  metadata: '{}'
+                  schedule_ids: []
+                  availability_ranges: []
+                  availability_override: null
+                - external_id: 5_drinks|fountain_drink|drink_selection|club_soda
+                  name: Club Soda
+                  internal_name: Club Soda
+                  description: null
+                  calorie_content: null
+                  default_price: 2.19
+                  tags: []
+                  tax_rate: 1e89f83ca9c996b33fe10a907322c2e0
+                  miscellaneous_taxes: []
+                  media: null
+                  sized_prices: []
+                  submodifiers: []
+                  metadata: '{}'
+                  schedule_ids: []
+                  availability_ranges: []
+                  availability_override: null
+                - external_id: 5_drinks|fountain_drink|drink_selection|orange_soda|drink_sizes|small
+                  name: Small
+                  internal_name: Small
+                  description: null
+                  calorie_content: null
+                  default_price: 1.0
+                  tags: []
+                  tax_rate: null
+                  miscellaneous_taxes: []
+                  media: null
+                  sized_prices: []
+                  submodifiers: []
+                  metadata: '{}'
+                  schedule_ids: []
+                  availability_ranges: []
+                  availability_override: null
+                - external_id: 5_drinks|fountain_drink|drink_selection|orange_soda|drink_sizes|medium
+                  name: Medium
+                  internal_name: Medium
+                  description: null
+                  calorie_content: null
+                  default_price: 1.5
+                  tags: []
+                  tax_rate: null
+                  miscellaneous_taxes: []
+                  media: null
+                  sized_prices: []
+                  submodifiers: []
+                  metadata: '{}'
+                  schedule_ids: []
+                  availability_ranges: []
+                  availability_override: null
+                - external_id: 5_drinks|fountain_drink|drink_selection|orange_soda|drink_sizes|large
+                  name: Large
+                  internal_name: Large
+                  description: null
+                  calorie_content: null
+                  default_price: 2.0
+                  tags: []
+                  tax_rate: null
+                  miscellaneous_taxes: []
+                  media: null
+                  sized_prices: []
+                  submodifiers: []
+                  metadata: '{}'
+                  schedule_ids: []
+                  availability_ranges: []
+                  availability_override: null
+                - external_id: 5_drinks|fountain_drink|drink_selection|orange_soda
+                  name: Orange Soda
+                  internal_name: Orange Soda
+                  description: null
+                  calorie_content: null
+                  default_price: 2.19
+                  tags: []
+                  tax_rate: null
+                  miscellaneous_taxes: []
+                  media: null
+                  sized_prices: []
+                  submodifiers:
+                  - 5_drinks|fountain_drink|drink_selection|orange_soda|drink_sizes
+                  metadata: '{}'
+                  schedule_ids: []
+                  availability_ranges: []
+                  availability_override: null
+                - external_id: 5_drinks|fountain_drink|drink_selection|water
+                  name: Bottled Water
+                  internal_name: Bottled Water
+                  description: null
+                  calorie_content: null
+                  default_price: 1.79
+                  tags: []
+                  tax_rate: null
+                  miscellaneous_taxes: []
+                  media: null
+                  sized_prices: []
+                  submodifiers: []
+                  metadata: '{}'
+                  schedule_ids: []
+                  availability_ranges: []
+                  availability_override: null
+                sizes: []
+                availability_ranges: []
+                availability_overrides:
+                - external_id: availability_override
+                  name: availability_override
+                  start_date: '2021-02-05T05:00:00.000Z'
+                  end_date: '9999-12-31T23:59:59.999Z'
+                  override_type: UNAVAILABLE
+                size_prompts: []
+        '404':
+          description: Menu not found
+  /pos/v1/merchant/{merchant_id}/menu/entities/tags/{job_id}/status:
+    get:
+      tags:
+      - Endpoints
+      summary: Check supplemental tag job status
+      description: Checks the status of the specified supplemental tag job.
+      operationId: getBulkSupplementalTagStatus
+      parameters:
+      - name: merchant_id
+        in: path
+        description: The short Grubhub ID for the merchant. Corresponds to a single location.
+        required: true
+        explode: false
+        schema:
+          type: string
+      - name: job_id
+        in: path
+        description: The unique supplemental tag job identifier.
+        required: true
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Job status was successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PosBulkSupplementalTagStatus'
+        '404':
+          description: Job does not exist.
+  /pos/v1/menu/ingestion/jobs/{job_id}:
+    get:
+      tags:
+      - Endpoints
+      summary: Check ingestion job status
+      description: Checks the status of the specified menu ingestion job.
+      operationId: getMenuIngestionStatus
+      parameters:
+      - name: X-GH-PARTNER-KEY
+        in: header
+        required: true
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      - name: job_id
+        in: path
+        description: The identifier of the menu ingestion job to check.
+        required: true
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PosNormalizedMenuUpdateStatus'
+              example:
+                job_id: 35b5b71c-417c-448f-8390-5eea50b59ca5
+                details: Successful ingestion
+                merchant_statuses:
+                - merchant_id: '12035446'
+                  status: SUCCESS
+                  menu_proof_url: https://pp.grubhub.com/restaurant/12035446?proof=true
+        '404':
+          description: No job found for that ID
+components:
+  schemas:
+    RepeatingSchedule:
+      required:
+      - external_id
+      - name
+      - rules
+      type: object
+      properties:
+        external_id:
+          type: string
+          description: The merchant-set ID for this schedule, which can be used to link it in the `PosNormalizedMenu`.
+        name:
+          type: string
+          description: The display name for this schedule, e.g. "Sunday Brunch"
+        type:
+          type: string
+          description: How often this schedule repeats. Currently the only valid value is "WEEKLY".
+          enum:
+          - WEEKLY
+        rules:
+          type: array
+          description: A set of non-overlapping time periods.
+          items:
+            $ref: '#/components/schemas/RepeatingScheduleRule'
+      description: Information about a weekly schedule during which a menu item may be made available. Typical usages
+        include Breakfast, Lunch, Dinner, Weekend Brunch, etc.
+    RepeatingScheduleRule:
+      required:
+      - end_time
+      - start_time
+      type: object
+      properties:
+        days:
+          uniqueItems: true
+          type: array
+          description: Days of the week for which the time period applies. Must be one of [MONDAY, TUESDAY, WEDNESDAY,
+            THURSDAY, FRIDAY, SATURDAY, SUNDAY]
+          items:
+            type: string
+            description: Days of the week for which the time period applies. Must be one of [MONDAY, TUESDAY, WEDNESDAY,
+              THURSDAY, FRIDAY, SATURDAY, SUNDAY]
+            enum:
+            - MONDAY
+            - TUESDAY
+            - WEDNESDAY
+            - THURSDAY
+            - FRIDAY
+            - SATURDAY
+            - SUNDAY
+        start_time:
+          type: string
+          description: The time when this schedule begins on the days listed, in the merchant's local time. Must
+            conform to ISO date and time format
+          example: '09:30:00.000'
+        end_time:
+          type: string
+          description: The time when this schedule ends on the days listed, in the merchant's local time. Must conform
+            to ISO date and time format
+          example: '22:30:00.000'
+      description: A time period and repetition rule.
+    PosNormalizedMenuValidationResult:
+      type: object
+      properties:
+        valid:
+          type: boolean
+          description: Indicates whether the input menu is valid for ingestion.
+        validation_errors:
+          type: array
+          description: If the validation fails, this field contains a description of the problem.
+          items:
+            type: string
+            description: If the validation fails, this field contains a description of the problem.
+      description: The results from a normalized menu validation. If successful, the valid property will be true.
+        If the validation fails, the valid property will be false and the validation_errors property will indicate
+        which menu field caused the failure and why.
+    PosNormalizedMenuUpdateRequest:
+      required:
+      - menu_url
+      - merchant_ids
+      type: object
+      properties:
+        merchant_ids:
+          type: array
+          description: An array containing only a single merchant ID for applying an uploaded menu to a specific
+            location.
+          items:
+            type: string
+            description: An array containing only a single merchant ID for applying an uploaded menu to a specific
+              location.
+        menu_url:
+          type: string
+          description: The location or webhook where the Grubhub API can download a PosNormalizedMenu object, either
+            as a gzip file or uncompressed.
+        normalized_menu:
+          type: boolean
+          description: Indicated whether this endpoint expects the normalized menu object structured as a series
+            of object types linked by references (`true`). Make sure to use `true` for normalized menu.
+        apply_existing_schedule_overrides:
+          type: boolean
+          description: Should the schedule overrides that are currently in the Grubhub system be applied to this
+            menu.
+      description: A normalized menu update request.
+    PosNormalizedMenuUpdateResult:
+      required:
+      - job_id
+      type: object
+      properties:
+        job_id:
+          type: string
+          description: An identifier that you can use to check the status of this update job.
+      description: The response payload from a normalized menu ingestion.
+    PosScheduleOverrideBaseRequest:
+      required:
+      - end
+      - op
+      - show_or_hide
+      - start
+      type: object
+      properties:
+        op:
+          type: string
+          description: The operation to perform [ADD, UPDATE].
+          enum:
+          - ADD
+          - UPDATE
+        cur_end_date:
+          type: string
+          description: 'ISO-8601 format.For ADD operations, the current end date is not required.For UPDATE operations,
+            the current end date is required. '
+          format: date-time
+        start:
+          type: string
+          description: ISO-8601 format. The beginning of the temporary override period.
+          format: date-time
+        end:
+          type: string
+          description: ISO-8601 format. The end of the temporary override period. A sentinel value of "9999-12-31T23:59:00.000Z"
+            is used to "archive" an item.
+          format: date-time
+        show_or_hide:
+          type: string
+          description: The options to use for the override.
+          enum:
+          - SHOW
+          - HIDE
+      description: A schedule override operation to be performed for multiple entities of any type (ITEM or MODIFIER).
+    PosScheduleOverrideBulkRequest:
+      required:
+      - entity_ids
+      - schedule_override
+      type: object
+      properties:
+        entity_ids:
+          type: array
+          description: A list of entity IDs to apply the schedule override operation for. The entities can have
+            any type (ITEM or MODIFIER), and the IDs can be either Grubhub internal IDs or Partner external IDs.
+            If one of the IDs if not valid, the other IDs won't be processed either, and the operation will be aborted.
+          items:
+            type: string
+            description: A list of entity IDs to apply the schedule override operation for. The entities can have
+              any type (ITEM or MODIFIER), and the IDs can be either Grubhub internal IDs or Partner external IDs.
+              If one of the IDs if not valid, the other IDs won't be processed either, and the operation will be
+              aborted.
+        schedule_override:
+          $ref: '#/components/schemas/PosScheduleOverrideBaseRequest'
+      description: A schedule override operation to be performed for multiple entities of any type (ITEM or MODIFIER).
+    ScheduleOverride:
+      required:
+      - end
+      - show_or_hide
+      - start
+      type: object
+      properties:
+        start:
+          type: string
+          description: ISO-8601 format. The beginning of the temporary override period.
+          format: date-time
+        end:
+          type: string
+          description: ISO-8601 format. The end of the temporary override period. A sentinel value of "9999-12-31T23:59:00.000Z"
+            is used to "archive" an item.
+          format: date-time
+        show_or_hide:
+          type: string
+          description: The options to use for the override.
+          enum:
+          - SHOW
+          - HIDE
+      description: The schedule override details.
+    PosScheduleOverrideMultiOperationResult:
+      type: object
+      properties:
+        entity_ids:
+          type: array
+          description: Array of either menu entity internal (Grubhub) OR external (Partner) IDs. This list will
+            contain all the entity IDs sent in the associated request.
+          items:
+            type: string
+            description: Array of either menu entity internal (Grubhub) OR external (Partner) IDs. This list will
+              contain all the entity IDs sent in the associated request.
+        job_id:
+          type: string
+          description: A unique reference used to identify the status of this operation.
+          format: uuid
+        status:
+          type: string
+          description: Status of a menu entity schedule override operation.
+          enum:
+          - QUEUED
+          - OK
+          - INVALID
+          - ERROR
+        message:
+          type: string
+          description: Text description providing more detail on the status.
+      description: Result of a bulk schedule override add/update request.
+    TagProductsRequest:
+      required:
+      - external_ids
+      type: object
+      properties:
+        external_ids:
+          uniqueItems: true
+          type: array
+          description: A list of external IDs to which to apply the tag(s)
+          items:
+            type: string
+            description: A list of external IDs to which to apply the tag(s)
+      description: Operation to tag a specified list of item/modifier IDs.
+    PosSupplementalTagMultiOperationResult:
+      type: object
+      properties:
+        entity_ids:
+          uniqueItems: true
+          type: array
+          description: Array of menu entity external (Partner) IDs. This list will contain all the entity IDs sent
+            in the associated request.
+          items:
+            type: string
+            description: Array of menu entity external (Partner) IDs. This list will contain all the entity IDs
+              sent in the associated request.
+        job_id:
+          type: string
+          description: A unique reference used to identify the status of this operation.
+          format: uuid
+        status:
+          type: string
+          description: Status of a menu entity supplemental tag operation.
+          enum:
+          - QUEUED
+          - SUCCESSFUL
+          - FAILED
+          - ALREADY_SUBMITTED
+        message:
+          type: string
+          description: Text description providing more detail on the status.
+      description: Result of a bulk supplemental tag update request.
+    BulkProcessingItemEntityStatus:
+      type: object
+      properties:
+        entity_index:
+          type: integer
+          description: The index of the entity in the original list of IDs as it was sent to Grubhub.
+          format: int32
+        entity_id:
+          type: string
+          description: Either the menu entity internal (Grubhub) OR external (Partner) IDs.
+        status:
+          type: string
+          description: Status of the override operation for this entity.
+        details:
+          type: string
+          description: Additional details that pertain to the the individual entity's status.
+      description: An individual override entity and its status.
+    PosBulkScheduleOverrideStatus:
+      type: object
+      properties:
+        job_id:
+          type: string
+          description: A value that identifies a bulk schedule override request.
+          format: uuid
+        processing_complete:
+          type: boolean
+          description: True if this job processing is done (successful or not), false otherwise.
+        status:
+          type: string
+          description: The final status of the operation - SUCCESSFUL / FAILED.
+        reason:
+          type: string
+          description: Additional details that pertain to the status of the override.
+        entity_override_results:
+          type: array
+          description: A list of each entity and its individual override status (specific configurations are required
+            to enable this).
+          items:
+            $ref: '#/components/schemas/BulkProcessingItemEntityStatus'
+        merchant_id:
+          type: string
+          description: This field can either be the Grubhub ID for the merchant, or if an external ID is provided,
+            it represents the external ID of the merchant.
+      description: Describes the state (completed or not) of a bulk schedule override operation request together
+        with its state (successful or not).
+    PosItemScheduleOverrides:
+      required:
+      - intervals
+      - item_id
+      - merchant_id
+      type: object
+      properties:
+        merchant_id:
+          type: string
+          description: The Grubhub or third-party provided external ID for the merchant. Corresponds to a single
+            location.
+        item_id:
+          type: string
+          description: The ID of the item.
+        external_id:
+          type: string
+          description: The external ID of the item.
+        intervals:
+          type: array
+          description: The list of schedule override details.
+          items:
+            $ref: '#/components/schemas/ScheduleOverride'
+      description: Item override.
+    PosModifierScheduleOverrides:
+      required:
+      - intervals
+      - merchant_id
+      - modifier_id
+      type: object
+      properties:
+        merchant_id:
+          type: string
+          description: The Grubhub or third-party provided external ID for the merchant. Corresponds to a single
+            location.
+        modifier_id:
+          type: string
+          description: The ID of the modifier.
+        external_id:
+          type: string
+          description: The external ID of the item.
+        intervals:
+          type: array
+          description: The list of schedule override details.
+          items:
+            $ref: '#/components/schemas/ScheduleOverride'
+      description: Modifier override
+    PosScheduleOverrides:
+      required:
+      - item_overrides
+      - merchant_id
+      - modifier_overrides
+      type: object
+      properties:
+        merchant_id:
+          type: string
+          description: The Grubhub or third-party provided external ID for the merchant. Corresponds to a single
+            location.
+        item_overrides:
+          type: array
+          description: The list of item overrides.
+          items:
+            $ref: '#/components/schemas/PosItemScheduleOverrides'
+        modifier_overrides:
+          type: array
+          description: The list of modifier overrides.
+          items:
+            $ref: '#/components/schemas/PosModifierScheduleOverrides'
+      description: A list of override schedules for items and modifiers
+    AvailabilityOverride:
+      required:
+      - end_date
+      - external_id
+      - name
+      - override_type
+      - start_date
+      type: object
+      properties:
+        external_id:
+          type: string
+          description: A user-configured identifier for this object within the menu. External IDs must be unique
+            across all menu entities of this type. Any availability override that shares this `external_id` will
+            be overwritten.
+        name:
+          type: string
+          description: The display name for this availability override, which will be shown internally and externally.
+        start_date:
+          type: string
+          description: The date and time when this override begins.
+          format: date-time
+        end_date:
+          type: string
+          description: The date and time when this override ends.
+          format: date-time
+        override_type:
+          type: string
+          description: The type of availability override, [AVAILABLE, UNAVAILABLE].
+          enum:
+          - AVAILABLE
+          - UNAVAILABLE
+      description: Definitions of time range during which item or modifier is not available.
+    AvailabilityRange:
+      required:
+      - external_id
+      - name
+      - start_date
+      type: object
+      properties:
+        external_id:
+          type: string
+          description: A user-configured identifier for this object within the menu. External IDs must be unique
+            across all menu entities of this type. Any availability range that shares this `external_id` will be
+            overwritten.
+        name:
+          type: string
+          description: The display name for this availability, which will be shown internally and externally.
+        start_date:
+          type: string
+          description: The date and time when this override begins.
+          format: date-time
+        end_date:
+          type: string
+          description: The date and time when this override ends.
+          format: date-time
+      description: Definitions of time ranges during a year when one or more menu items may be available.
+    Dimensions:
+      type: object
+      properties:
+        depth_in_inches:
+          type: number
+          description: Depth of an item in inches.
+          format: float
+        width_in_inches:
+          type: number
+          description: Width of an item in inches.
+          format: float
+        height_in_inches:
+          type: number
+          description: Height of an item in inches.
+          format: float
+      description: The dimensions of the item, width/height/depth.
+    Item:
+      required:
+      - external_id
+      - name
+      type: object
+      properties:
+        external_id:
+          type: string
+          description: The merchant-set ID for this menu item, which can be used to link it in the `PosNormalizedMenu`.
+        name:
+          type: string
+          description: The display name of the menu item.
+        internal_name:
+          type: string
+          description: An internal reference name for this menu item. It will not be displayed on the Grubhub ordering
+            platform.
+        description:
+          type: string
+          description: A diner-facing description of this menu item that displays on the Grubhub ordering apps.
+        price:
+          type: number
+          description: The cost of this item in cents before taxes and fees. Every menu item must have either a
+            `price` or a `size_prompt` value.
+          format: double
+        tax_rate:
+          type: string
+          description: 'The `external_id` value of the tax rate that applies to this menu item. Note:  All applicable
+            tax rates must first be defined in the menu-level tax_rates array (with rates formatted as decimals,
+            e.g., 2.5% as 0.025). Reference the corresponding external_id here if this tax rate differs.'
+        tax_category:
+          $ref: '#/components/schemas/TaxCategory'
+        miscellaneous_taxes:
+          type: array
+          description: A list of `external_id` values that indicate additional tax rates that apply to this menu
+            item.
+          items:
+            type: string
+            description: A list of `external_id` values that indicate additional tax rates that apply to this menu
+              item.
+        flexible_tax_fields:
+          type: object
+          additionalProperties:
+            type: string
+            description: 'Flexible fields can be used to include unique rules for an item, for example bottle deposit
+              or cup fees. These rules, including bottle deposit and cup fees, may require additional activation
+              in the Grubhub system. Contact your Grubhub representative for further information. This is a map
+              of flexible fields associated with this item whose values are Strings.<br /><br />Allowed entries
+              are:<br /><br />   ''SERVING_METHOD'': "BTL-GLASS", "BTL-PLASTIC", "CANNED", or "CUP". <br/>   ''PREMISIS_CONSUMPTION'':
+              "ON", "OFF".'
+            example: '{"SERVING_METHOD":"BTL-GLASS"}'
+          description: 'Flexible fields can be used to include unique rules for an item, for example bottle deposit
+            or cup fees. These rules, including bottle deposit and cup fees, may require additional activation in
+            the Grubhub system. Contact your Grubhub representative for further information. This is a map of flexible
+            fields associated with this item whose values are Strings.<br /><br />Allowed entries are:<br /><br
+            />   ''SERVING_METHOD'': "BTL-GLASS", "BTL-PLASTIC", "CANNED", or "CUP". <br/>   ''PREMISIS_CONSUMPTION'':
+            "ON", "OFF".'
+          example:
+            SERVING_METHOD: BTL-GLASS
+        flexible_tax_numeric_fields:
+          type: object
+          additionalProperties:
+            type: number
+            description: 'Flexible fields can be used to include unique rules for an item, for example bottle deposit
+              or cup fees. These rules, including bottle deposit and cup fees, may require additional activation
+              in the Grubhub system. Contact your Grubhub representative for further information. This is a map
+              of flexible fields associated with this item whose values are numeric.<br /><br />Allowed entries
+              are:<br /><br />   ''VOLUME'': <volume in fluid oz. eg. ''16.0''> <br />   ''NUMBER_OF_UNITS'': <number
+              of units, eg. ''6'' for a six pack> .'
+            format: double
+          description: 'Flexible fields can be used to include unique rules for an item, for example bottle deposit
+            or cup fees. These rules, including bottle deposit and cup fees, may require additional activation in
+            the Grubhub system. Contact your Grubhub representative for further information. This is a map of flexible
+            fields associated with this item whose values are numeric.<br /><br />Allowed entries are:<br /><br
+            />   ''VOLUME'': <volume in fluid oz. eg. ''16.0''> <br />   ''NUMBER_OF_UNITS'': <number of units,
+            eg. ''6'' for a six pack> .'
+          example:
+            VOLUME: 1
+            NUMBER_OF_UNIT: 1
+        size_prompt:
+          type: string
+          description: The `external_id` value of the size prompt and options that apply to this menu item. Every
+            menu item must have either a `price` or a `size_prompt` value.
+        modifier_prompts:
+          type: array
+          description: A list of `external_id` values for the modifier prompts that apply to this menu item.
+          items:
+            type: string
+            description: A list of `external_id` values for the modifier prompts that apply to this menu item.
+        schedule_ids:
+          type: array
+          description: A list of `external_id` values for `PosNormalizedRepeatingSchedule` schedules that indicate
+            when this menu item is available during the week.
+          items:
+            type: string
+            description: A list of `external_id` values for `PosNormalizedRepeatingSchedule` schedules that indicate
+              when this menu item is available during the week.
+        tags:
+          type: array
+          description: A list of indicators that flag this menu item for special delivery handling, regulatory treatment,
+            or to indicate specific properties of the food - spicy, kosher, etc. - for the diner.
+          items:
+            $ref: '#/components/schemas/Tag'
+        minimum_serving_size:
+          type: integer
+          description: The minimum serving size that can be ordered of this item.
+          format: int32
+        maximum_serving_size:
+          type: integer
+          description: The maximum serving size that can be ordered of this item. This value must be greater than
+            `minimum_serving_size.`
+          format: int32
+        lead_time_seconds:
+          type: integer
+          description: The required minimum time this item needs to be prepared.
+          format: int64
+        minimum_order_quantity:
+          type: integer
+          description: Default minimum quantity that can be ordered of this item.
+          format: int32
+        maximum_order_quantity:
+          type: integer
+          description: The maximum quantity of this item that can be ordered in standard orders. This value must
+            be greater than `minimum_order_quantity`.
+          format: int32
+        calorie_count:
+          type: string
+          description: How many calories is this item? Can be an integer, an integer with a '+' or '-' prepended,
+            or a range of integers.
+        media:
+          $ref: '#/components/schemas/PosNormalizedMenuMedia'
+        metadata:
+          type: string
+          description: User-configured text stored with and returned as part of this object. This text is not used
+            by the Grubhub system; it is solely for the POS user's purposes. Character limit is restricted to 2560
+            characters. A validation error will be returned if this limit is exceeded.
+        availability_ranges:
+          type: array
+          description: A list of `external_id` values for `PosNormalizedAvailabilityRanges` objects that indicate
+            the date ranges when this menu item will be available for ordering.
+          items:
+            type: string
+            description: A list of `external_id` values for `PosNormalizedAvailabilityRanges` objects that indicate
+              the date ranges when this menu item will be available for ordering.
+        allowable_order_types:
+          uniqueItems: true
+          type: array
+          description: The set of order types that can use this item. If the value is null or empty, the item will
+            default to being "STANDARD"
+          items:
+            type: string
+            enum:
+            - STANDARD
+            - CATERING
+            - GROUP
+        availability_override:
+          type: string
+          description: The `external_id` value for `availability_overrides` object that indicate the date ranges
+            when this menu item will not be available for ordering.
+        gtin:
+          type: string
+          description: The Global Trade Number Identification Number (GTIN) is for manufactured items only. This
+            is assigned by the manufacturer (barcode on the back of the product packaging) to uniquely identify
+            your item and used by Grubhub to optimize your menu.<br /><br />In North America, use the 12 digit UPC
+            number (unless the product is a book in which case you'd use the ISBN). The complete list of GTIN number
+            types is as follows:<br /><br />    UPC (in North America / GTIN-12) - 12-digit number<br />    EAN
+            (in Europe / GTIN-13) - 13-digit number<br />    JAN (in Japan / GTIN-13) - 8 or 13-digit number<br
+            />    ISBN (for books) - 13-digit number (convert ISBN-10 to ISBN-13). If you have both, include only
+            the 13-digit number.<br />    ITF-14 (for multipacks / GTIN-14) - 14-digit number<br /><br />Only provide
+            a GTIN if you are sure it is correct, other wise leave it blank. An incorrect GTIN can cause menu ingestion
+            to fail.
+        dimensions:
+          $ref: '#/components/schemas/Dimensions'
+        weight_in_pounds:
+          type: number
+          description: The weight of the item in pounds.
+          format: float
+        location_in_store:
+          type: string
+          description: The location of the item in the store.
+        serving_size:
+          type: integer
+          description: The number of expected servings for each quantity of this item.
+          format: int32
+        measured_price:
+          $ref: '#/components/schemas/MeasuredPrice'
+        fulfillment_type_settings:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/NormalizedItemFulfillmentTypeSettings'
+          description: OrderServiceType-specific configurations for this menu item. All keys should be strings representing
+            order-service types (valid options include "STANDARD_DELIVERY", "STANDARD_PICKUP", "CATERING_DELIVERY",
+            and "GROUP_DELIVERY". All values should be of type NormalizedItemFulfillmentTypeSettings.
+      description: Information about a single menu item included in a PosNormalizedMenu ingestion process.
+    MeasuredPrice:
+      type: object
+      properties:
+        measurement_unit_for_pricing:
+          type: string
+          description: The measurement unit used to measure the item. This should be used only for items whose price
+            depends on quantity sold. These are also referred as weighted items
+        estimated_units_per_item_for_pricing:
+          type: number
+          description: 'Estimated units per unit of item. This value will be used to calculate estimated price for
+            total number of units. The unit of measurement used will be measurement_unit_for_pricing. This should
+            be used only for items whose price depends on quantity. These are also referred as weighted items '
+      description: The values for items whose price depends on the quantity sold. Also referred as weighted items.
+    MenuInfo:
+      required:
+      - currency
+      type: object
+      properties:
+        currency:
+          type: string
+          description: The currency in which this merchant's prices are valued in.
+        sections:
+          type: array
+          description: An array of the `external_id` strings for the sections within this menu.
+          items:
+            type: string
+            description: An array of the `external_id` strings for the sections within this menu.
+        header_media:
+          $ref: '#/components/schemas/PosNormalizedMenuMedia'
+        logo_media:
+          $ref: '#/components/schemas/PosNormalizedMenuMedia'
+        search_media:
+          $ref: '#/components/schemas/PosNormalizedMenuMedia'
+      description: The top-level information about a menu in the PosNormalizedMenu format, including default currency,
+        images, and sections.
+    MenuSection:
+      required:
+      - external_id
+      - name
+      type: object
+      properties:
+        external_id:
+          type: string
+          description: The merchant-set ID for this schedule, which can be used to link it in the `PosNormalizedMenu`.
+        name:
+          type: string
+          description: The display name of this menu section.
+        internal_name:
+          type: string
+          description: An internal reference name for this section. It will not be displayed on the Grubhub ordering
+            platform.
+        description:
+          type: string
+          description: A human-readable description of what this section contains that can be displayed on either
+            the Grubhub ordering apps or the POS system.
+        items:
+          type: array
+          description: A list of the `external_id` values of the menu items that will be listed under this section.
+          items:
+            type: string
+            description: A list of the `external_id` values of the menu items that will be listed under this section.
+        availability_ranges:
+          type: array
+          description: A list of the `external_id` values of the `PosNormalizedAvailabilityRanges` that define when
+            the menu items within this section can be ordered.
+          items:
+            type: string
+            description: A list of the `external_id` values of the `PosNormalizedAvailabilityRanges` that define
+              when the menu items within this section can be ordered.
+        schedule_ids:
+          type: array
+          description: A list of `external_id` values for `PosNormalizedRepeatingSchedule` schedules that indicate
+            when this menu item is available during the week.
+          items:
+            type: string
+            description: A list of `external_id` values for `PosNormalizedRepeatingSchedule` schedules that indicate
+              when this menu item is available during the week.
+        availability_override:
+          type: string
+          description: The `external_id` value for `availability_overrides` object that indicate the date ranges
+            when this menu section will not be available for ordering.
+        media:
+          $ref: '#/components/schemas/PosNormalizedMenuMedia'
+        subsections:
+          type: array
+          description: A list of subsections associated with this section.
+          items:
+            type: string
+            description: A list of subsections associated with this section.
+        tax_category:
+          $ref: '#/components/schemas/TaxCategory'
+      description: A category of the menu - such as appetizers, breakfast, or drinks - including the menu items
+        that these sections contain.
+    Modifier:
+      required:
+      - default_price
+      - external_id
+      - name
+      type: object
+      properties:
+        external_id:
+          type: string
+          description: The merchant-set ID for this modifier, which can be used to link it in the `PosNormalizedMenu`.
+        name:
+          type: string
+          description: The display name of the modifier.
+        internal_name:
+          type: string
+          description: Optional. If present, name displayed on Grubhub menu management tools
+        description:
+          type: string
+          description: The description displayed to the diner.
+        calorie_count:
+          type: string
+          description: The calorie content for this modifier.
+        default_price:
+          type: number
+          description: Default price of the modifier. Applies if the item has no sizes or if there is no modifier
+            `sized_price` for the size selected.
+        tags:
+          type: array
+          description: A list of indicators that flag this modifier for special delivery handling, regulatory treatment,
+            or to indicate specific properties of the food - spicy, kosher, etc. - for the diner. Modifier tags
+            can differ from menu item tags as they can add ingredients, i.e. a modifier that adds cheese could make
+            a menu item no longer vegan and add dairy.
+          items:
+            $ref: '#/components/schemas/Tag'
+        tax_rate:
+          type: string
+          description: The `external_id` value of the tax rate that applies to this modifier if that rate differs
+            from the overall menu or the specific menu item rate.
+        tax_category:
+          $ref: '#/components/schemas/TaxCategory'
+        flexible_tax_fields:
+          type: object
+          additionalProperties:
+            type: string
+            description: 'Flexible fields can be used to include unique rules for an item, for example bottle deposit
+              or cup fees. These rules, including bottle deposit and cup fees, may require additional activation
+              in the Grubhub system. Contact your Grubhub representative for further information. This is a map
+              of flexible fields associated with this item whose values are Strings.<br /><br />Allowed entries
+              are:<br /><br />   ''SERVING_METHOD'': "BTL-GLASS", "BTL-PLASTIC", "CANNED", or "CUP". <br/>   ''PREMISIS_CONSUMPTION:
+              "ON", "OFF".'
+          description: 'Flexible fields can be used to include unique rules for an item, for example bottle deposit
+            or cup fees. These rules, including bottle deposit and cup fees, may require additional activation in
+            the Grubhub system. Contact your Grubhub representative for further information. This is a map of flexible
+            fields associated with this item whose values are Strings.<br /><br />Allowed entries are:<br /><br
+            />   ''SERVING_METHOD'': "BTL-GLASS", "BTL-PLASTIC", "CANNED", or "CUP". <br/>   ''PREMISIS_CONSUMPTION:
+            "ON", "OFF".'
+        flexible_tax_numeric_fields:
+          type: object
+          additionalProperties:
+            type: number
+            description: 'Flexible fields can be used to include unique rules for an item, for example bottle deposit
+              or cup fees. These rules, including bottle deposit and cup fees, may require additional activation
+              in the Grubhub system. Contact your Grubhub representative for further information. This is a map
+              of flexible fields associated with this item whose values are numeric.<br /><br />Allowed entries
+              are:<br /><br />   ''VOLUME'': <volume in fluid oz. eg. ''16.0''> <br />   ''NUMBER_OF_UNITS'': <number
+              of units, eg. ''6'' for a six pack> .'
+            format: double
+          description: 'Flexible fields can be used to include unique rules for an item, for example bottle deposit
+            or cup fees. These rules, including bottle deposit and cup fees, may require additional activation in
+            the Grubhub system. Contact your Grubhub representative for further information. This is a map of flexible
+            fields associated with this item whose values are numeric.<br /><br />Allowed entries are:<br /><br
+            />   ''VOLUME'': <volume in fluid oz. eg. ''16.0''> <br />   ''NUMBER_OF_UNITS'': <number of units,
+            eg. ''6'' for a six pack> .'
+        miscellaneous_taxes:
+          type: array
+          description: A list of `external_id` values that indicate additional tax rates that apply to this modifier
+            selection.
+          items:
+            type: string
+            description: A list of `external_id` values that indicate additional tax rates that apply to this modifier
+              selection.
+        media:
+          $ref: '#/components/schemas/PosNormalizedMenuMedia'
+        sized_prices:
+          type: array
+          description: Optional. An ordered list of sized prices for this modifier, i.e., the modifier price depends
+            on the Size selected for the Item.
+          items:
+            $ref: '#/components/schemas/SizedPrice'
+        submodifiers:
+          type: array
+          description: A list of `external_id` values for the modifier prompts that are available on this individual
+            modifier option. In enhanced menus, modifiers can recurse up to six levels deep.
+          items:
+            type: string
+            description: A list of `external_id` values for the modifier prompts that are available on this individual
+              modifier option. In enhanced menus, modifiers can recurse up to six levels deep.
+        metadata:
+          type: string
+          description: User-configured text stored with and returned as part of this object. This text is not used
+            by the Grubhub system; it is solely for the POS user's purposes. Character limit is restricted to 2560
+            characters. A validation error will be returned if this limit is exceeded.
+        schedule_ids:
+          type: array
+          description: A list of `external_id` values for `PosNormalizedRepeatingSchedule` schedules that indicate
+            when this modifier is available during the week. This can differ from the schedules for the menu item
+            itself, though the modifier will only be available during the times when both schedules are active.
+          items:
+            type: string
+            description: A list of `external_id` values for `PosNormalizedRepeatingSchedule` schedules that indicate
+              when this modifier is available during the week. This can differ from the schedules for the menu item
+              itself, though the modifier will only be available during the times when both schedules are active.
+        availability_ranges:
+          type: array
+          description: A list of `external_id` values for `PosNormalizedAvailabiltyRanges` objects that indicate
+            the date ranges when this menu item will be available for ordering. This can differ from the availability
+            range for the menu item itself, though the modifier will only be available during the times when both
+            ranges are active.
+          items:
+            type: string
+            description: A list of `external_id` values for `PosNormalizedAvailabiltyRanges` objects that indicate
+              the date ranges when this menu item will be available for ordering. This can differ from the availability
+              range for the menu item itself, though the modifier will only be available during the times when both
+              ranges are active.
+        availability_override:
+          type: string
+          description: The `external_id` value for `availability_overrides` object that indicate the date ranges
+            when this modifier will not be available for ordering.
+        fulfillment_type_settings:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/NormalizedModifierFulfillmentTypeSettings'
+          description: OrderServiceType-specific configurations for this modifier. All keys should be strings representing
+            order-service types (valid options include "STANDARD_DELIVERY", "STANDARD_PICKUP", "CATERING_DELIVERY",
+            and "GROUP_DELIVERY". All values should be of type NormalizedModifierFulfillmentTypeSettings.
+      description: A selectable option within a modifier prompt that changes a menu item. That change may include
+        price and calorie variations, and may be affected by size selections.
+    ModifierList:
+      required:
+      - external_id
+      - name
+      type: object
+      properties:
+        external_id:
+          type: string
+          description: A user-configured identifier for this object within the menu. External IDs must be unique
+            across all menu entities of this type. Any modifier list that shares this `external_id` will be overwritten.
+        name:
+          type: string
+          description: The display name for this list of modifiers.
+        modifiers:
+          type: array
+          description: The `external_id` values of the `PosNormalizedModifier` objects referenced by this list.
+          items:
+            type: string
+            description: The `external_id` values of the `PosNormalizedModifier` objects referenced by this list.
+      description: A list of modifiers included within a modifier prompt.
+    ModifierPrompt:
+      required:
+      - external_id
+      - modifier_list
+      - name
+      type: object
+      properties:
+        external_id:
+          type: string
+          description: A user-configured identifier for this object within the menu. External IDs must be unique
+            across all menu entities of this type. Any modifier prompt that shares this `external_id` will be overwritten.
+        name:
+          type: string
+          description: The text given to the diner to prompt then to select from a list of modifier options.
+        internal_name:
+          type: string
+          description: A name displayed on Grubhub menu management tools instead of the display name.
+        modifier_list:
+          type: string
+          description: An `external_id` reference to a PosNormalizedModifierList. This is the list of modifier options
+            valid as answers to this prompt.
+        default_selection_model:
+          $ref: '#/components/schemas/ModifierPromptSelectionSettings'
+        modifier_prompt_quantity_settings:
+          $ref: '#/components/schemas/ModifierPromptQuantitySettings'
+        modifier_quantity_settings:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ModifierQuantitySettings'
+          description: Quantity information for a single modifier within this prompt.
+        defaulted_modifiers:
+          uniqueItems: true
+          type: array
+          description: The modifiers, if any, that are selected by default for this prompt.
+          items:
+            type: string
+            description: The modifiers, if any, that are selected by default for this prompt.
+        modifier_prompt_free_settings:
+          $ref: '#/components/schemas/ModifierPromptFreeSettings'
+      description: In a normalized menu, a question posed to a diner about what additional options they would like
+        with their food; for example, toppings on a pizza or soup options in a lunch special. Each modifier prompts
+        has one or more modifiers that a diner can select. Modifier prompts can apply to multiple menu items.
+    ModifierPromptFreeSettings:
+      type: object
+      properties:
+        free_modifiers:
+          minimum: 0
+          type: integer
+          format: int32
+      description: Free settings for modifier prompts.
+    ModifierPromptQuantitySettings:
+      type: object
+      properties:
+        minimum_units:
+          type: integer
+          description: The total minimum quantity that must be selected across all modifiers in a prompt.
+          format: int32
+        maximum_units:
+          type: integer
+          description: The total maximum quantity that can be selected across all modifiers in a prompt. *DO NOT
+            use -1 as an integer for unlimited quantity. Instead use a high number, ie 99.*
+          format: int32
+      description: The total minimum and maximum quantities that can be added for all modifier options in this prompt.
+    ModifierPromptSelectionSettings:
+      type: object
+      properties:
+        minimum_quantity:
+          type: integer
+          description: The minimum number of unique options that the diner can select for this prompt. Use 0 to
+            set no minimum.
+          format: int32
+        maximum_quantity:
+          type: integer
+          description: The maximum number of unique options that the diner can select for this prompt. *DO NOT use
+            -1 as an integer for unlimited quantity. Instead use a high number, ie 99.*
+          format: int32
+      description: The minimum and maximum number of unique modifier options that can be selected within a prompt.
+    ModifierQuantitySettings:
+      type: object
+      properties:
+        default_units:
+          type: integer
+          description: The number of units of this modifier already entered into the interface when the diner first
+            selects these associated menu item. Applies only to default_modifiers.
+          format: int32
+        maximum_units:
+          type: integer
+          description: The maximum number of units that the diner can add of this modifier. Do not use zero as a
+            maximum integer or the modifiers will not be selectable. *DO NOT use -1 as an integer for unlimited
+            quantity. Instead use a high number, ie 99.*
+          format: int32
+        unit_increment:
+          type: integer
+          description: The number of units added per incremental or decremental action.
+          format: int32
+      description: Contains default, maximum, and custom increments for a single modifier. The properties below
+        will be contained in a sub-object identified by the external_id of the modifier in question.
+    NormalizedItemFulfillmentTypeSettings:
+      type: object
+      properties:
+        price:
+          type: number
+          description: The price to be used for a given OrderServiceType for an Item if the Item has no sizes.
+          format: double
+      description: ItemFulfillmentTypeSettings include configurations to be used for an Item only for oneOrderServiceType.
+    NormalizedModifierFulfillmentTypeSettings:
+      type: object
+      properties:
+        price:
+          type: number
+          description: The additional cost applied to an order if a diner selects this modifier for a given OrderServiceType.
+      description: ModifierFulfillmentTypeSettings include configurations to be used for an Modifier only for oneOrderServiceType.
+    NormalizedSizeFulfillmentTypeSettings:
+      type: object
+      properties:
+        price:
+          type: number
+          description: The base price of the menu item at this size to be used for a given OrderServiceType.
+      description: SizeFulfillmentTypeSettings include configurations to be used for a Size only for oneFulfillmentType.
+    NormalizedSizedPriceFulfillmentTypeSettings:
+      type: object
+      properties:
+        price:
+          type: number
+          description: The price for the referenced Size for a given OrderServiceType.
+      description: SizedPriceFulfillmentTypeSettings include configurations to be used for a SizedPrice onlyfor
+        one OrderServiceType.
+    PosNormalizedMenu:
+      required:
+      - menu_info
+      type: object
+      properties:
+        menu_info:
+          $ref: '#/components/schemas/MenuInfo'
+        tax_rates:
+          type: array
+          description: Information about the tax rates for this menu.
+          items:
+            $ref: '#/components/schemas/TaxRate'
+        repeating_schedules:
+          type: array
+          description: A list of the weekly schedules during which menu items may be made available. Typical usages
+            include Breakfast, Lunch, Dinner, Weekend Brunch, etc.
+          items:
+            $ref: '#/components/schemas/RepeatingSchedule'
+        menu_sections:
+          type: array
+          description: The categories on a normalized menu - such as appetizers, breakfast, or drinks - including
+            the menu items that these sections contain.
+          items:
+            $ref: '#/components/schemas/MenuSection'
+        items:
+          type: array
+          description: Information about all of the individual menu items that can be ordered as part of this menu.
+          items:
+            $ref: '#/components/schemas/Item'
+        modifier_prompts:
+          type: array
+          description: A list of top-level modifier categories, which can contain multiple modifier options.
+          items:
+            $ref: '#/components/schemas/ModifierPrompt'
+        modifier_lists:
+          type: array
+          description: A list of the modifier lists included with this menu in any modifier prompt.
+          items:
+            $ref: '#/components/schemas/ModifierList'
+        modifiers:
+          type: array
+          description: A list of selectable options within a modifier prompt that changes a menu item. That change
+            may include price and calorie variations, and may be affected by size selections. This list will include
+            all possible modifiers, regardless of the prompts or menu items that they are associated with.
+          items:
+            $ref: '#/components/schemas/Modifier'
+        size_prompts:
+          type: array
+          description: Information about item sizing, including display text and pricing.
+          items:
+            $ref: '#/components/schemas/SizePrompt'
+        sizes:
+          type: array
+          description: The sizes for all items in this menu.
+          items:
+            $ref: '#/components/schemas/Size'
+        availability_ranges:
+          type: array
+          description: A list of the times during which seasonal menu items can be available.
+          items:
+            $ref: '#/components/schemas/AvailabilityRange'
+        availability_overrides:
+          type: array
+          description: A list of the times during which items, modifiers or menu sections are not available for
+            ordering.
+          items:
+            $ref: '#/components/schemas/AvailabilityOverride'
+      description: The normalized menu.
+    PosNormalizedMenuMedia:
+      type: object
+      properties:
+        source_url:
+          type: string
+          description: The URL where the image file can be downloaded.
+      description: Information about media used in the PosNormalizedMenu format.
+    Size:
+      required:
+      - external_id
+      - name
+      type: object
+      properties:
+        external_id:
+          type: string
+          description: A user-configured identifier for this object within the menu. External IDs must be unique
+            across all menu entities of this type. Any size that shares this `external_id` will be overwritten.
+        name:
+          type: string
+          description: The display name for this size, which will be given to the diner as an option to select.
+        internal_name:
+          type: string
+          description: A name displayed on Grubhub menu management tools instead of the display name.
+        metadata:
+          type: string
+          description: Metadata associated with the size.
+        fulfillment_type_settings:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/NormalizedSizeFulfillmentTypeSettings'
+          description: OrderServiceType-specific configurations for this size. All keys should be strings representing
+            order-service types (valid options include "STANDARD_DELIVERY", "STANDARD_PICKUP", "CATERING_DELIVERY",
+            and "GROUP_DELIVERY". All values should be of type NormalizedSizeFulfillmentTypeSettings.
+      description: Size selections for prompts within menu items.
+    SizePrompt:
+      required:
+      - external_id
+      - name
+      type: object
+      properties:
+        external_id:
+          type: string
+          description: A user-configured identifier for this object within the menu. External IDs must be unique
+            across all menu entities of this type. Any size prompt that shares this `external_id` will be overwritten.
+        name:
+          type: string
+          description: The display name for this size prompt, which in this case is the prompt given to the diner.
+        internal_name:
+          type: string
+          description: A name displayed on Grubhub menu management tools instead of the display name.
+        sized_prices:
+          type: array
+          description: Additional price information about size within a normalized menu. For use in Size Prompts
+            for the item pricing model.
+          items:
+            $ref: '#/components/schemas/SizedPrice'
+      description: Information about item sizing, including display text and pricing.
+    SizedPrice:
+      required:
+      - price
+      - size
+      type: object
+      properties:
+        size:
+          type: string
+          description: The `external_id` reference to a PosNormalizedSize.
+        price:
+          type: number
+          description: Price for the referenced size.
+        calorie_content:
+          type: string
+          description: Number of calories for the size.
+        display_name:
+          type: string
+          description: Optional. If present, overrides the name of the referenced size, for display to diners.
+        fulfillment_type_settings:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/NormalizedSizedPriceFulfillmentTypeSettings'
+          description: OrderServiceType-specific configurations for this SizedPrice. All keys should be strings
+            representing order-service types (valid options include "STANDARD_DELIVERY", "STANDARD_PICKUP", "CATERING_DELIVERY",
+            and "GROUP_DELIVERY". All values should be of type NormalizedSizedPriceFulfillmentTypeSettings.
+      description: Additional price information about size within a normalized menu. For use in Size Prompts for
+        the item pricing model.
+    Tag:
+      required:
+      - group
+      - name
+      type: object
+      properties:
+        group:
+          type: string
+          description: Tag group. Currently, the only valid group is 'LEGACY'
+        name:
+          type: string
+          description: Tag name or code.
+          enum:
+          - ADVANCED_ORDERING
+          - ALCOHOL
+          - DESSERT
+          - DAIRY_FREE
+          - DRINK
+          - GLUTEN_FREE
+          - KOSHER
+          - LOW_FAT
+          - NOT_FOR_BIKER
+          - NUT_FREE
+          - RAW_FOOD_WARNING
+          - SPECIALTY
+          - SPICY
+          - SODIUM_WARNING
+          - TAX_EXEMPT
+          - VEGAN
+          - VEGETARIAN
+          - FIFTEEN_TWENTY_LBS
+          - TWENTY_TWENTYFIVE_LBS
+          - TWENTYFIVE_THIRTY_LBS
+          - THIRTY_PLUS_LBS
+          - TWO_TWOHALF_FT
+          - TWOHALF_THREE_FT
+          - THREE_PLUS_FT
+      description: Tags for menu items are used to flag certain items for special delivery handling, regulatory
+        treatment, and to denote an item is eligible for certain flags and icons on Grubhub diner properties.
+    TaxCategory:
+      type: object
+      properties:
+        code:
+          type: string
+          description: A valid Grubhub internal tax category code.
+      description: Tax category.
+    TaxRate:
+      required:
+      - external_id
+      - name
+      type: object
+      properties:
+        external_id:
+          type: string
+          description: The merchant-set ID for this tax rate, which can be used to link it in the `PosNormalizedMenu`.
+        name:
+          type: string
+          description: The name of the tax rate shown in Grubhub menu management user interfaces.
+        rate:
+          type: number
+          description: Decimal tax rate. Must be between 0 and 1. This object must have a value for either this
+            field or the `flat` field.
+          format: double
+        flat:
+          type: number
+          description: The absolute amount of tax applied to orders from this merchant. This object must have a
+            value for either this field or the `rate` field.
+          format: double
+      description: Information about a tax rate in a normalized menu format. Tax rate to be applied at order checkout,
+        if the diner is not tax-exempt. The tax rate listed here applies only to the items and modifiers with which
+        it is associated. All other menu items will use the merchant tax rate.
+    PosBulkSupplementalTagStatus:
+      type: object
+      properties:
+        job_id:
+          type: string
+          description: A value that identifies a bulk supplemental tag request.
+          format: uuid
+        processing_complete:
+          type: boolean
+          description: True if this job processing is done (successful or not), false otherwise.
+        status:
+          type: string
+          description: Status of a menu entity supplemental tag operation.
+          enum:
+          - QUEUED
+          - SUCCESSFUL
+          - FAILED
+          - ALREADY_SUBMITTED
+        reason:
+          type: string
+          description: Additional details that pertain to the status of the operation.
+        entity_ids:
+          uniqueItems: true
+          type: array
+          description: A list of external IDs that were part of the associated request.
+          items:
+            type: string
+            description: A list of external IDs that were part of the associated request.
+        merchant_id:
+          type: string
+          description: This field can either be the Grubhub ID for the merchant, or if an external ID is provided,
+            it represents the external ID of the merchant.
+      description: Describes the state (completed or not) of a bulk supplemental tag operation request together
+        with its state (successful or not).
+    InvalidCodeAndEntityIds:
+      required:
+      - code
+      - entity_ids
+      type: object
+      properties:
+        code:
+          type: string
+          description: The invalid tax category code found in the menu.
+        entity_ids:
+          uniqueItems: true
+          type: array
+          description: Set of entity ids with the invalid code above.
+          items:
+            type: string
+            description: Set of entity ids with the invalid code above.
+        errror_message:
+          type: string
+          description: The error message includes more details.
+      description: A tax category validation error found on supplied menu
+    MediaValidationErrorDTO:
+      type: object
+      properties:
+        media_validation_error_message:
+          type: string
+          description: The message including error details.
+          example: 'Precondition Failed : User request invalid, could not upload media.'
+        entity_id:
+          type: string
+          description: The entity id of the item with media validation error.
+          example: '123452933468'
+        external_id:
+          type: string
+          description: The external id of the item with media validation error.
+          example: ededebf898ebd89ebd9e8bd9b3
+        url:
+          type: string
+          description: The url of the invalid media.
+          example: https://mediahost.example/bacon.jpg
+        menu_item_name:
+          type: string
+          description: The name of the item with media validation error.
+          example: Bacon
+      description: A media validation error that occurred during ingestion.
+    MenuMerchantStatus:
+      required:
+      - merchant_id
+      - status
+      type: object
+      properties:
+        merchant_id:
+          type: string
+          description: The partner resource ID of the merchant whose specific menu ingestion job this status applies
+            to.
+        status:
+          type: string
+          description: Represents the current state of the menu ingestion job.<ul><li>`REQUESTED` - The ingestion
+            process has been received, but it has not begun processing. Replaces `QUEUED`, but that status is not
+            deprecated.</li><li>`QUEUED` - Waiting to process.</li><li>`IN_PROGRESS` - Job is in progress, possibly
+            in retry cycle.</li><li>`SUCCESS` - Menu successfully updated.</li><li>`PARTIAL_SUCCESS` - Some portion
+            of the menu has updated successfully, but not all.</li><li>`FAILED` - Menu could not be updated.</li><li>`FAILED_MENU_DOWNLOAD`
+            - Menu request payload/URL could not be downloaded.</li><li>`FAILED_VALIDATION` - Menu request payload/URL
+            could not be validated.</li><li>`UNKNOWN` - The ingestion process is in an unknown state. Contact support.</li></ul>
+          enum:
+          - REQUESTED
+          - QUEUED
+          - IN_PROGRESS
+          - SUCCESS
+          - PARTIAL_SUCCESS
+          - FAILED
+          - FAILED_MENU_DOWNLOAD
+          - FAILED_VALIDATION
+          - UNKNOWN
+        menu_proof_url:
+          type: string
+          description: The proof URL to view the ingested menu on the front-end. This is only returned when the
+            menu ingestion is successful.
+        details:
+          type: array
+          description: 'A list where each element is a human-readable description of the status of this job or the
+            problem encountered, if any. For example: ["Control details: jobId is ...", "Other details"], ["Error
+            message"] '
+          items:
+            type: string
+            description: 'A list where each element is a human-readable description of the status of this job or
+              the problem encountered, if any. For example: ["Control details: jobId is ...", "Other details"],
+              ["Error message"] '
+        media_processing_status:
+          type: string
+          description: Status reflecting the state of the media uploads.
+        media_validation_error_list:
+          type: array
+          description: A List of any media validation errors that occurred during ingestion.
+          items:
+            $ref: '#/components/schemas/MediaValidationErrorDTO'
+        tax_category_validation_errors:
+          type: array
+          description: List of tax category validation errors on supplied menu.
+          items:
+            $ref: '#/components/schemas/InvalidCodeAndEntityIds'
+        weighted_items_validation_errors:
+          type: string
+          description: String of comma-delimited items that were marked as invalid weighted items. Will not be ingested.
+      description: The current state or result of a menu ingestion job. Each status will be communicated with both
+        a standardized status string and a human-readable description.
+    PosNormalizedMenuUpdateStatus:
+      required:
+      - details
+      - job_id
+      - merchant_statuses
+      type: object
+      properties:
+        job_id:
+          type: string
+          description: The identifier of the job that the status messages come from.
+        details:
+          type: string
+          description: Details associated with the update status.
+        merchant_statuses:
+          type: array
+          description: The current state or result of a menu ingestion job.
+          items:
+            $ref: '#/components/schemas/MenuMerchantStatus'
+      description: The current status of a menu ingestion job.

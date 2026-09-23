@@ -1,0 +1,244 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-lineoptionsubstitution-schema.json",
+  "title": "LineOptionSubstitution",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-orders-openapi.yml#/components/schemas/LineOptionSubstitution",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of the replacement option"
+    },
+    "option_id": {
+      "type": "string",
+      "description": "ID of the replacement option"
+    },
+    "price": {
+      "type": "integer",
+      "description": "Price for replacement option",
+      "format": "int32"
+    },
+    "delta": {
+      "type": "integer",
+      "description": "The absolute value of the difference in cents requested to change the total by",
+      "format": "int32"
+    },
+    "quantity": {
+      "type": "integer",
+      "description": "Quantity of replacement option",
+      "format": "int32"
+    },
+    "line_option_substitution_type": {
+      "$ref": "#/$defs/LineSubstitutionType"
+    },
+    "sub_options": {
+      "type": "array",
+      "description": "Options for the replacement",
+      "items": {
+        "$ref": "#/$defs/LineOptionSubstitution"
+      }
+    }
+  },
+  "description": "Options for the replacement",
+  "$defs": {
+    "AddLineSubstitution": {
+      "type": "object",
+      "description": "Add Line Substitution",
+      "allOf": [
+        {
+          "$ref": "#/$defs/LineSubstitutionType"
+        }
+      ]
+    },
+    "LineOptionSubstitution": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the replacement option"
+        },
+        "option_id": {
+          "type": "string",
+          "description": "ID of the replacement option"
+        },
+        "price": {
+          "type": "integer",
+          "description": "Price for replacement option",
+          "format": "int32"
+        },
+        "delta": {
+          "type": "integer",
+          "description": "The absolute value of the difference in cents requested to change the total by",
+          "format": "int32"
+        },
+        "quantity": {
+          "type": "integer",
+          "description": "Quantity of replacement option",
+          "format": "int32"
+        },
+        "line_option_substitution_type": {
+          "$ref": "#/$defs/LineSubstitutionType"
+        },
+        "sub_options": {
+          "type": "array",
+          "description": "Options for the replacement",
+          "items": {
+            "$ref": "#/$defs/LineOptionSubstitution"
+          }
+        }
+      },
+      "description": "Options for the replacement"
+    },
+    "LineSubstitutionType": {
+      "required": [
+        "type"
+      ],
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        }
+      },
+      "description": "The type of substitution: ADDED, REMOVED, QUANTITY_CHANGED, QUANTITY_WEIGHT_CHANGED, SUBITEMS_CHANGED, REPLACED",
+      "discriminator": {
+        "propertyName": "type",
+        "mapping": {
+          "ADDED": "#/components/schemas/AddLineSubstitution",
+          "REMOVED": "#/components/schemas/RemoveLineSubstitution",
+          "QUANTITY_CHANGED": "#/components/schemas/QuantityLineSubstitution",
+          "QUANTITY_WEIGHT_CHANGED": "#/components/schemas/QuantityAndWeightLineSubstitution",
+          "SUBITEMS_CHANGED": "#/components/schemas/SubItemLineSubstitution",
+          "REPLACED": "#/components/schemas/ReplaceLineSubstitution"
+        }
+      },
+      "oneOf": [
+        {
+          "$ref": "#/$defs/AddLineSubstitution"
+        },
+        {
+          "$ref": "#/$defs/RemoveLineSubstitution"
+        },
+        {
+          "$ref": "#/$defs/QuantityLineSubstitution"
+        },
+        {
+          "$ref": "#/$defs/QuantityAndWeightLineSubstitution"
+        },
+        {
+          "$ref": "#/$defs/SubItemLineSubstitution"
+        },
+        {
+          "$ref": "#/$defs/ReplaceLineSubstitution"
+        }
+      ]
+    },
+    "QuantityAndWeightLineSubstitution": {
+      "required": [
+        "new_quantity",
+        "new_weight",
+        "old_quantity",
+        "old_weight"
+      ],
+      "type": "object",
+      "description": "Quantity And Weight Line Substitution",
+      "allOf": [
+        {
+          "$ref": "#/$defs/LineSubstitutionType"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "old_quantity": {
+              "type": "integer",
+              "description": "Old quantity",
+              "format": "int32"
+            },
+            "new_quantity": {
+              "type": "integer",
+              "description": "New quantity",
+              "format": "int32"
+            },
+            "old_weight": {
+              "type": "number",
+              "description": "Old weight"
+            },
+            "new_weight": {
+              "type": "number",
+              "description": "New weight"
+            }
+          }
+        }
+      ]
+    },
+    "QuantityLineSubstitution": {
+      "required": [
+        "new_quantity",
+        "old_quantity"
+      ],
+      "type": "object",
+      "description": "Quantity Line Substitution",
+      "allOf": [
+        {
+          "$ref": "#/$defs/LineSubstitutionType"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "old_quantity": {
+              "type": "integer",
+              "description": "Old quantity",
+              "format": "int32"
+            },
+            "new_quantity": {
+              "type": "integer",
+              "description": "New quantity",
+              "format": "int32"
+            }
+          }
+        }
+      ]
+    },
+    "RemoveLineSubstitution": {
+      "required": [
+        "old_quantity"
+      ],
+      "type": "object",
+      "description": "Remove Line Substitution",
+      "allOf": [
+        {
+          "$ref": "#/$defs/LineSubstitutionType"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "old_quantity": {
+              "type": "integer",
+              "description": "Old quantity",
+              "format": "int32"
+            }
+          }
+        }
+      ]
+    },
+    "ReplaceLineSubstitution": {
+      "type": "object",
+      "description": "Replace Line Substitution",
+      "allOf": [
+        {
+          "$ref": "#/$defs/LineSubstitutionType"
+        }
+      ]
+    },
+    "SubItemLineSubstitution": {
+      "type": "object",
+      "description": "Sub Item Line Substitution",
+      "allOf": [
+        {
+          "$ref": "#/$defs/LineSubstitutionType"
+        }
+      ]
+    }
+  }
+}

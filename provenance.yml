@@ -7,735 +7,783 @@ artifacts:
     method: generated
     evidence: declared in the artifact
   asyncapi/grubhub-delivery-events-asyncapi.yml:
-    method: unknown
-    evidence: no authorship recorded
-  asyncapi/grubhub-order-events-asyncapi.yml:
-    method: unknown
-    evidence: no authorship recorded
-  authentication/grubhub-authentication.yml:
     method: derived
     evidence: declared in the artifact
-  capabilities/grubhub-capability-edges.yml:
-    method: unknown
-    evidence: no authorship recorded
-  collections/grubhub-deliveries.opencollection.json:
-    method: unknown
-    evidence: no authorship recorded
-  collections/grubhub-deliveries.postman_collection.json:
-    method: unknown
-    evidence: no authorship recorded
-  collections/grubhub-delivery-status-api.opencollection.json:
+  asyncapi/grubhub-order-events-asyncapi.yml:
+    method: generated
+    evidence: declared in the artifact
+  asyncapi/grubhub-reporting-events-asyncapi.yml:
     method: derived
-    evidence: openapi/grubhub-delivery-status-api
-  collections/grubhub-delivery-status-api.postman_collection.json:
+    evidence: declared in the artifact
+  asyncapi/grubhub-webhooks.yml:
     method: derived
-    evidence: openapi/grubhub-delivery-status-api
-  collections/grubhub-driver-communication-api.opencollection.json:
+    evidence: declared in the artifact
+  authentication/grubhub-authentication.yml:
+    method: searched
+    evidence: declared in the artifact
+  conformance/grubhub-conformance.yml:
+    method: unknown
+    evidence: no authorship recorded
+  conventions/grubhub-conventions.yml:
     method: derived
-    evidence: openapi/grubhub-driver-communication-api
-  collections/grubhub-driver-communication-api.postman_collection.json:
+    evidence: declared in the artifact
+  data-model/grubhub-data-model.yml:
     method: derived
-    evidence: openapi/grubhub-driver-communication-api
-  collections/grubhub-issue-reporting-api.opencollection.json:
+    evidence: declared in the artifact
+  errors/grubhub-problem-types.yml:
     method: derived
-    evidence: openapi/grubhub-issue-reporting-api
-  collections/grubhub-issue-reporting-api.postman_collection.json:
-    method: derived
-    evidence: openapi/grubhub-issue-reporting-api
-  collections/grubhub-menu-ingestion-api.opencollection.json:
-    method: derived
-    evidence: openapi/grubhub-menu-ingestion-api
-  collections/grubhub-menu-ingestion-api.postman_collection.json:
-    method: derived
-    evidence: openapi/grubhub-menu-ingestion-api
-  collections/grubhub-menu-retrieval-api.opencollection.json:
-    method: derived
-    evidence: openapi/grubhub-menu-retrieval-api
-  collections/grubhub-menu-retrieval-api.postman_collection.json:
-    method: derived
-    evidence: openapi/grubhub-menu-retrieval-api
-  collections/grubhub-menu-schedule-overrides-api.opencollection.json:
-    method: derived
-    evidence: openapi/grubhub-menu-schedule-overrides-api
-  collections/grubhub-menu-schedule-overrides-api.postman_collection.json:
-    method: derived
-    evidence: openapi/grubhub-menu-schedule-overrides-api
-  collections/grubhub-menu.opencollection.json:
-    method: derived
-    evidence: openapi/grubhub-menu
-  collections/grubhub-menu.postman_collection.json:
-    method: derived
-    evidence: openapi/grubhub-menu
-  collections/grubhub-merchant-data.opencollection.json:
-    method: unknown
-    evidence: no authorship recorded
-  collections/grubhub-merchant-data.postman_collection.json:
-    method: unknown
-    evidence: no authorship recorded
-  collections/grubhub-merchant-eligibility-api.opencollection.json:
-    method: derived
-    evidence: openapi/grubhub-merchant-eligibility-api
-  collections/grubhub-merchant-eligibility-api.postman_collection.json:
-    method: derived
-    evidence: openapi/grubhub-merchant-eligibility-api
-  collections/grubhub-merchant-onboarding-api.opencollection.json:
-    method: derived
-    evidence: openapi/grubhub-merchant-onboarding-api
-  collections/grubhub-merchant-onboarding-api.postman_collection.json:
-    method: derived
-    evidence: openapi/grubhub-merchant-onboarding-api
-  collections/grubhub-merchant-properties-api.opencollection.json:
-    method: derived
-    evidence: openapi/grubhub-merchant-properties-api
-  collections/grubhub-merchant-properties-api.postman_collection.json:
-    method: derived
-    evidence: openapi/grubhub-merchant-properties-api
-  collections/grubhub-merchant-schedules.opencollection.json:
-    method: unknown
-    evidence: no authorship recorded
-  collections/grubhub-merchant-schedules.postman_collection.json:
-    method: unknown
-    evidence: no authorship recorded
-  collections/grubhub-merchant-status-api.opencollection.json:
-    method: derived
-    evidence: openapi/grubhub-merchant-status-api
-  collections/grubhub-merchant-status-api.postman_collection.json:
-    method: derived
-    evidence: openapi/grubhub-merchant-status-api
-  collections/grubhub-merchants-api.opencollection.json:
-    method: derived
-    evidence: openapi/grubhub-merchants-api
-  collections/grubhub-merchants-api.postman_collection.json:
-    method: derived
-    evidence: openapi/grubhub-merchants-api
-  collections/grubhub-onboarding.opencollection.json:
-    method: unknown
-    evidence: no authorship recorded
-  collections/grubhub-onboarding.postman_collection.json:
-    method: unknown
-    evidence: no authorship recorded
-  collections/grubhub-order-change-requests-api.opencollection.json:
-    method: derived
-    evidence: openapi/grubhub-order-change-requests-api
-  collections/grubhub-order-change-requests-api.postman_collection.json:
-    method: derived
-    evidence: openapi/grubhub-order-change-requests-api
-  collections/grubhub-order-polling-api.opencollection.json:
-    method: derived
-    evidence: openapi/grubhub-order-polling-api
-  collections/grubhub-order-polling-api.postman_collection.json:
-    method: derived
-    evidence: openapi/grubhub-order-polling-api
-  collections/grubhub-order-status-api.opencollection.json:
-    method: derived
-    evidence: openapi/grubhub-order-status-api
-  collections/grubhub-order-status-api.postman_collection.json:
-    method: derived
-    evidence: openapi/grubhub-order-status-api
-  collections/grubhub-orders-api.opencollection.json:
-    method: derived
-    evidence: openapi/grubhub-orders-api
-  collections/grubhub-orders-api.postman_collection.json:
-    method: derived
-    evidence: openapi/grubhub-orders-api
-  collections/grubhub-orders.opencollection.json:
-    method: derived
-    evidence: openapi/grubhub-orders
-  collections/grubhub-orders.postman_collection.json:
-    method: derived
-    evidence: openapi/grubhub-orders
-  collections/grubhub-schedule-overrides-api.opencollection.json:
-    method: derived
-    evidence: openapi/grubhub-schedule-overrides-api
-  collections/grubhub-schedule-overrides-api.postman_collection.json:
-    method: derived
-    evidence: openapi/grubhub-schedule-overrides-api
-  collections/grubhub-schedules-api.opencollection.json:
-    method: derived
-    evidence: openapi/grubhub-schedules-api
-  collections/grubhub-schedules-api.postman_collection.json:
-    method: derived
-    evidence: openapi/grubhub-schedules-api
-  examples/grubhub-address-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-availability-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-batchjobresponse-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-batchjobstatus-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-contact-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-courierlocationpayload-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-customer-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-dayschedule-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-delivery-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-deliverycancelledpayload-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-deliveryrefundpayload-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-deliverystatuspayload-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-driver-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-driverassignedpayload-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-eligibilityresponse-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-error-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-fulfillmentinfo-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-ingestionjobresponse-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-ingestionjobstatus-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-menu-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-menuitem-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-menuschedule-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-menuscheduleoverriderequest-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-menusection-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-merchant-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-merchantactivationrequest-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-merchantassociationrequest-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-merchantdeactivationrequest-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-merchantmapping-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-merchantpropertiesupdaterequest-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-merchantreferral-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-merchantstatusupdaterequest-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-modifieroption-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-modifierprompt-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-onboardingissue-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-order-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-ordercancellationpayload-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-orderchangerequest-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-orderchangerequestpayload-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-orderconfirmation-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-orderitem-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-orderstatusupdate-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-orderstatuswebhookpayload-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-ordertotals-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-orderwebhookpayload-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-posnormalizedmenu-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-proxyphone-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-referralresponse-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-scheduleoverride-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-scheduleoverriderequest-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-sizeoption-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-sizeprompt-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-timewindow-example.json:
-    method: unknown
-    evidence: no authorship recorded
-  examples/grubhub-weeklyschedule-example.json:
-    method: unknown
-    evidence: no authorship recorded
+    evidence: declared in the artifact
   finops/grubhub-finops.yml:
     method: generated
     evidence: declared in the artifact
-  graphql/grubhub-graphql.md:
-    method: unknown
-    evidence: no authorship recorded
-  graphql/grubhub-schema.graphql:
-    method: unknown
-    evidence: no authorship recorded
   json-ld/grubhub-context.jsonld:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-acceptquoteresponse-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-activaterequest-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-addlinesubstitution-schema.json:
     method: unknown
     evidence: no authorship recorded
   json-schema/grubhub-address-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-schema/grubhub-availability-schema.json:
+  json-schema/grubhub-affiliate-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-schema/grubhub-batchjobresponse-schema.json:
+  json-schema/grubhub-assigned-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-schema/grubhub-batchjobstatus-schema.json:
+  json-schema/grubhub-associationresponse-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-schema/grubhub-contact-schema.json:
+  json-schema/grubhub-availabilityoverride-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-schema/grubhub-courierlocationpayload-schema.json:
+  json-schema/grubhub-availabilityrange-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-schema/grubhub-customer-schema.json:
+  json-schema/grubhub-bulkprocessingitementitystatus-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-schema/grubhub-dayschedule-schema.json:
+  json-schema/grubhub-canceldeliveryrequest-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-canceled-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-catalogversion-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-catering-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-charges-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-chronology-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-clientdata-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-com-grubhub-pos-generic-delivery-fulfillment-common-model-pickupverification-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-configgroup-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-contactinfo-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-coordinates-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-courier-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-courieratdropoff-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-courieratpickup-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-created-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-createexportreportrequestbypartner-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-createexportreportresponsebypartner-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-customschedulemetadata-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-daterange-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-datetimefield-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-datetimefieldtype-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-datetimezone-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-deactivaterequest-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-deactivateresponse-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-defaultcontext-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-delivered-schema.json:
     method: unknown
     evidence: no authorship recorded
   json-schema/grubhub-delivery-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-schema/grubhub-deliverycancelledpayload-schema.json:
+  json-schema/grubhub-deliveryaddress-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-schema/grubhub-deliveryrefundpayload-schema.json:
+  json-schema/grubhub-deliveryarea-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-schema/grubhub-deliverystatuspayload-schema.json:
+  json-schema/grubhub-deliveryareastats-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-schema/grubhub-driver-schema.json:
+  json-schema/grubhub-deliveryevent-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-schema/grubhub-driverassignedpayload-schema.json:
+  json-schema/grubhub-deliveryinfo-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-schema/grubhub-eligibilityresponse-schema.json:
+  json-schema/grubhub-deliveryitem-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-schema/grubhub-error-schema.json:
+  json-schema/grubhub-deliveryitemoption-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-deliverypreferences-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-deliveryrefundupdate-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-deliverysizing-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-deliverystatusresponse-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-deliverystatusupdate-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-deliverytestrequest-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-deliverytime-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-deliverytimes-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-dimensions-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-diner-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-dinerpickupinstructions-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-dropoffimagedetails-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-dropofflocation-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-dropoffpreferences-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-durationfield-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-durationfieldtype-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-emulatedeliverystatusupdatewebhookrequest-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-estimatedeventtimes-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-externalid-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-feature-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-fees-schema.json:
     method: unknown
     evidence: no authorship recorded
   json-schema/grubhub-fulfillmentinfo-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-schema/grubhub-ingestionjobresponse-schema.json:
+  json-schema/grubhub-geolocation-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-schema/grubhub-ingestionjobstatus-schema.json:
+  json-schema/grubhub-geometry-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-schema/grubhub-menu-schema.json:
+  json-schema/grubhub-getdownloadurlresponsebypartner-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-schema/grubhub-menuitem-schema.json:
+  json-schema/grubhub-getenabledmerchantsresponse-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-schema/grubhub-menuschedule-schema.json:
+  json-schema/grubhub-heartbeattriggeredpayload-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-schema/grubhub-menuscheduleoverriderequest-schema.json:
+  json-schema/grubhub-increasetiprequest-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-instant-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-intransit-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-invalidcodeandentityids-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-item-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-itemdimensions-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-itemsizing-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-itemweight-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-jittestorder-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-jsonnode-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-leadtimesettings-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-leadtimesettingstier-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-line-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-linegroup-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-lineoption-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-lineoptionsubstitution-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-linesuboption-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-linesubstitutionadjustment-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-linesubstitutionreplacement-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-linesubstitutiontype-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-linetag-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-localtime-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-location-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-massscheduleoverridemetadata-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-measuredprice-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-mediavalidationerrordto-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-menuinfo-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-menumerchantstatus-schema.json:
     method: unknown
     evidence: no authorship recorded
   json-schema/grubhub-menusection-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-schema/grubhub-merchant-schema.json:
+  json-schema/grubhub-merchantactivationenablementresponse-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-schema/grubhub-merchantactivationrequest-schema.json:
+  json-schema/grubhub-merchantactivationresponse-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-schema/grubhub-merchantassociationrequest-schema.json:
+  json-schema/grubhub-merchantassociationresponse-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-schema/grubhub-merchantdeactivationrequest-schema.json:
+  json-schema/grubhub-merchanteligibilityresponse-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-schema/grubhub-merchantmapping-schema.json:
+  json-schema/grubhub-merchantheartbeattriggeredpayload-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-schema/grubhub-merchantpropertiesupdaterequest-schema.json:
+  json-schema/grubhub-merchantordertypeheartbeatpayload-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-schema/grubhub-merchantreferral-schema.json:
+  json-schema/grubhub-merchantpropertyupdaterequest-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-schema/grubhub-merchantstatusupdaterequest-schema.json:
+  json-schema/grubhub-merchantreportingerrorresponse-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-schema/grubhub-modifieroption-schema.json:
+  json-schema/grubhub-merchantreportstatuswebhook-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-merchantstatus-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-modifier-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-modifierlist-schema.json:
     method: unknown
     evidence: no authorship recorded
   json-schema/grubhub-modifierprompt-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-schema/grubhub-onboardingissue-schema.json:
+  json-schema/grubhub-modifierpromptfreesettings-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-schema/grubhub-order-schema.json:
+  json-schema/grubhub-modifierpromptquantitysettings-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-schema/grubhub-ordercancellationpayload-schema.json:
+  json-schema/grubhub-modifierpromptselectionsettings-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-modifierquantitysettings-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-normalizeditemfulfillmenttypesettings-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-normalizedmodifierfulfillmenttypesettings-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-normalizedsizedpricefulfillmenttypesettings-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-normalizedsizefulfillmenttypesettings-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-notificationpreferences-schema.json:
     method: unknown
     evidence: no authorship recorded
   json-schema/grubhub-orderchangerequest-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-schema/grubhub-orderchangerequestpayload-schema.json:
+  json-schema/grubhub-orderchangerequeststatus-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-schema/grubhub-orderconfirmation-schema.json:
+  json-schema/grubhub-orderfacetdata-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-schema/grubhub-orderitem-schema.json:
+  json-schema/grubhub-orderpickupinstructions-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-schema/grubhub-orderstatusupdate-schema.json:
+  json-schema/grubhub-orderpickupverification-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-schema/grubhub-orderstatuswebhookpayload-schema.json:
+  json-schema/grubhub-orderprocessinginfo-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-schema/grubhub-ordertotals-schema.json:
+  json-schema/grubhub-ordertakinginfo-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-schema/grubhub-orderwebhookpayload-schema.json:
+  json-schema/grubhub-ordertypeheartbeatpayload-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-partnerdeactivaterequest-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-partnerdeactivateresponse-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-payment-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-payments-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-periodschedule-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-phonebridge-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-phonecontactdetails-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-physicalinfo-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-pickedup-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-pickupinfo-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-pickuplocation-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-pickupverification-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-pickupverificationdetails-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-posaccountstatus-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-posbulkscheduleoverridestatus-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-posbulksupplementaltagstatus-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-posbusyinterval-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-posbusymoderequest-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-posbusymoderesponse-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-poscustomschedule-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-posdeletescheduleoverride-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-posdelivery-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-posdeliveryfee-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-posestimates-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-posestimatesupdaterequest-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-posfullschedule-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-posgetbusymoderesponse-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-positemscheduleoverrides-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-posmassscheduleoverride-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-posmerchantbatchoperationresponse-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-posmerchantbatchoperationstatus-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-posmerchantdata-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-posmerchantfulfillmentinfo-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-posmerchantintegrationstatus-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-posmerchantrepeatingintervalrequest-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-posmerchantrepeatingschedule-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-posmodifierscheduleoverrides-schema.json:
     method: unknown
     evidence: no authorship recorded
   json-schema/grubhub-posnormalizedmenu-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-schema/grubhub-proxyphone-schema.json:
+  json-schema/grubhub-posnormalizedmenumedia-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-posnormalizedmenuupdaterequest-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-posnormalizedmenuupdateresult-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-posnormalizedmenuupdatestatus-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-posnormalizedmenuvalidationresult-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-posorder-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-posordercoupon-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-posordermerchantdata-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-posscheduleoverride-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-posscheduleoverridebaserequest-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-posscheduleoverridebulkrequest-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-posscheduleoverridemultioperationresult-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-posscheduleoverriderequest-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-posscheduleoverrides-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-possupplementaltagmultioperationresult-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-postaxtotal-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-postestorderrequest-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-posupdaterepeatingschedulerequest-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-progressdeliveryrequest-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-progressdeliveryresponse-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-progressrefundrequest-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-promotion-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-proofofdelivery-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-properties-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-proxyphonenumberrequest-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-proxyphonenumberresponse-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-publicapierror-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-quantityandweightlinesubstitution-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-quantitylinesubstitution-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-quote-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-quoterequest-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-quoteresponse-schema.json:
     method: unknown
     evidence: no authorship recorded
   json-schema/grubhub-referralresponse-schema.json:
     method: unknown
     evidence: no authorship recorded
+  json-schema/grubhub-referralsignup-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-refundamount-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-refundrequest-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-removelinesubstitution-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-repeatingschedule-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-repeatingschedulemetadata-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-repeatingschedulerule-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-repeatingscheduleruleinterval-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-replacelinesubstitution-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-reportrequestparametersbypartner-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-responsewrapperacceptquoteresponse-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-responsewrapperdeliverystatusresponse-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-responsewrapperprogressdeliveryresponse-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-responsewrapperproxyphonenumberresponse-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-responsewrapperquoteresponse-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-responsewrapperservicearearesponse-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-restaurantversionid-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-returnarrived-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-returncompleted-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-returninitiated-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-reward-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-scheduledordersupdaterequest-schema.json:
+    method: unknown
+    evidence: no authorship recorded
   json-schema/grubhub-scheduleoverride-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-schema/grubhub-scheduleoverriderequest-schema.json:
+  json-schema/grubhub-scheduleoverridemetadata-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-schema/grubhub-sizeoption-schema.json:
+  json-schema/grubhub-servicearearesponse-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-size-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/grubhub-sizedprice-schema.json:
     method: unknown
     evidence: no authorship recorded
   json-schema/grubhub-sizeprompt-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-schema/grubhub-timewindow-schema.json:
+  json-schema/grubhub-statusupdate-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-schema/grubhub-weeklyschedule-schema.json:
+  json-schema/grubhub-statusupdaterequestpayload-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-structure/grubhub-address-structure.json:
+  json-schema/grubhub-subitem-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-structure/grubhub-availability-structure.json:
+  json-schema/grubhub-subitemlinesubstitution-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-structure/grubhub-batchjobresponse-structure.json:
+  json-schema/grubhub-substitutionadjustment-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-structure/grubhub-batchjobstatus-structure.json:
+  json-schema/grubhub-substitutionrequest-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-structure/grubhub-contact-structure.json:
+  json-schema/grubhub-tag-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-structure/grubhub-courierlocationpayload-structure.json:
+  json-schema/grubhub-tagproductsrequest-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-structure/grubhub-customer-structure.json:
+  json-schema/grubhub-taxcategory-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-structure/grubhub-dayschedule-structure.json:
+  json-schema/grubhub-taxes-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-structure/grubhub-delivery-structure.json:
+  json-schema/grubhub-taxrate-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-structure/grubhub-deliverycancelledpayload-structure.json:
+  json-schema/grubhub-thresholdsettings-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-structure/grubhub-deliveryrefundpayload-structure.json:
+  json-schema/grubhub-timepreferences-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-structure/grubhub-deliverystatuspayload-structure.json:
+  json-schema/grubhub-tip-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-structure/grubhub-driver-structure.json:
+  json-schema/grubhub-totalsubstitutionadjustment-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-structure/grubhub-driverassignedpayload-structure.json:
+  json-schema/grubhub-triage-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-structure/grubhub-eligibilityresponse-structure.json:
+  json-schema/grubhub-unassigned-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-structure/grubhub-error-structure.json:
+  json-schema/grubhub-updatedeliverydropofflocationrequest-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-structure/grubhub-fulfillmentinfo-structure.json:
+  json-schema/grubhub-vehicle-schema.json:
     method: unknown
     evidence: no authorship recorded
-  json-structure/grubhub-ingestionjobresponse-structure.json:
-    method: unknown
-    evidence: no authorship recorded
-  json-structure/grubhub-ingestionjobstatus-structure.json:
-    method: unknown
-    evidence: no authorship recorded
-  json-structure/grubhub-menu-structure.json:
-    method: unknown
-    evidence: no authorship recorded
-  json-structure/grubhub-menuitem-structure.json:
-    method: unknown
-    evidence: no authorship recorded
-  json-structure/grubhub-menuschedule-structure.json:
-    method: unknown
-    evidence: no authorship recorded
-  json-structure/grubhub-menuscheduleoverriderequest-structure.json:
-    method: unknown
-    evidence: no authorship recorded
-  json-structure/grubhub-menusection-structure.json:
-    method: unknown
-    evidence: no authorship recorded
-  json-structure/grubhub-merchant-structure.json:
-    method: unknown
-    evidence: no authorship recorded
-  json-structure/grubhub-merchantactivationrequest-structure.json:
-    method: unknown
-    evidence: no authorship recorded
-  json-structure/grubhub-merchantassociationrequest-structure.json:
-    method: unknown
-    evidence: no authorship recorded
-  json-structure/grubhub-merchantdeactivationrequest-structure.json:
-    method: unknown
-    evidence: no authorship recorded
-  json-structure/grubhub-merchantmapping-structure.json:
-    method: unknown
-    evidence: no authorship recorded
-  json-structure/grubhub-merchantpropertiesupdaterequest-structure.json:
-    method: unknown
-    evidence: no authorship recorded
-  json-structure/grubhub-merchantreferral-structure.json:
-    method: unknown
-    evidence: no authorship recorded
-  json-structure/grubhub-merchantstatusupdaterequest-structure.json:
-    method: unknown
-    evidence: no authorship recorded
-  json-structure/grubhub-modifieroption-structure.json:
-    method: unknown
-    evidence: no authorship recorded
-  json-structure/grubhub-modifierprompt-structure.json:
-    method: unknown
-    evidence: no authorship recorded
-  json-structure/grubhub-onboardingissue-structure.json:
-    method: unknown
-    evidence: no authorship recorded
-  json-structure/grubhub-order-structure.json:
-    method: unknown
-    evidence: no authorship recorded
-  json-structure/grubhub-ordercancellationpayload-structure.json:
-    method: unknown
-    evidence: no authorship recorded
-  json-structure/grubhub-orderchangerequest-structure.json:
-    method: unknown
-    evidence: no authorship recorded
-  json-structure/grubhub-orderchangerequestpayload-structure.json:
-    method: unknown
-    evidence: no authorship recorded
-  json-structure/grubhub-orderconfirmation-structure.json:
-    method: unknown
-    evidence: no authorship recorded
-  json-structure/grubhub-orderitem-structure.json:
-    method: unknown
-    evidence: no authorship recorded
-  json-structure/grubhub-orderstatusupdate-structure.json:
-    method: unknown
-    evidence: no authorship recorded
-  json-structure/grubhub-orderstatuswebhookpayload-structure.json:
-    method: unknown
-    evidence: no authorship recorded
-  json-structure/grubhub-ordertotals-structure.json:
-    method: unknown
-    evidence: no authorship recorded
-  json-structure/grubhub-orderwebhookpayload-structure.json:
-    method: unknown
-    evidence: no authorship recorded
-  json-structure/grubhub-posnormalizedmenu-structure.json:
-    method: unknown
-    evidence: no authorship recorded
-  json-structure/grubhub-proxyphone-structure.json:
-    method: unknown
-    evidence: no authorship recorded
-  json-structure/grubhub-referralresponse-structure.json:
-    method: unknown
-    evidence: no authorship recorded
-  json-structure/grubhub-scheduleoverride-structure.json:
-    method: unknown
-    evidence: no authorship recorded
-  json-structure/grubhub-scheduleoverriderequest-structure.json:
-    method: unknown
-    evidence: no authorship recorded
-  json-structure/grubhub-sizeoption-structure.json:
-    method: unknown
-    evidence: no authorship recorded
-  json-structure/grubhub-sizeprompt-structure.json:
-    method: unknown
-    evidence: no authorship recorded
-  json-structure/grubhub-timewindow-structure.json:
-    method: unknown
-    evidence: no authorship recorded
-  json-structure/grubhub-weeklyschedule-structure.json:
-    method: unknown
-    evidence: no authorship recorded
-  kin/checks-2026-08-28T221322.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-23T094130.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-23T182523.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-26T223651.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-27T083119.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-27T190208.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-28T115055.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-28T170848.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-28T172558.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-28T192327.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-28T200725.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-31T133250.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-31T151044.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-31T162206.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-07-31T202106.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-01T163141.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-01T163302.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-01T171935.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-03T113057.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-03T161012.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-04T083143.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-05T153418.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-06T210741.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-07T135032.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-10T093022.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-10T111628.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-11T211707.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-12T193225.yml:
+  kin/checks-2026-09-16T225339.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-08-17T064519.yml:
@@ -801,62 +849,218 @@ artifacts:
   kin/score-2026-08-28T221322.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
-  openapi/grubhub-delivery-status-api-openapi.yml:
+  kin/score-2026-08-29T213958.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-08-29T230545.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-08-30T203505.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-08-30T220315.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-08-31T223420.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-01T063623.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-01T210448.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-01T222808.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-02T211804.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-02T224043.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-03T161828.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-03T174231.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-04T062714.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-04T212454.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-04T224856.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-05T055819.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-05T072335.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-05T144739.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-05T195450.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-05T211839.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-06T011047.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-06T211804.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-06T224210.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-07T200636.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-07T213054.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-08T214843.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-08T232836.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-10T204815.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-10T222408.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-12T062655.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-12T080032.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-12T204651.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-12T221936.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-13T214537.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-14T064754.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-14T210656.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-14T225847.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-15T211329.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-15T230249.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-16T210549.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-16T225339.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  lifecycle/grubhub-lifecycle.yml:
+    method: derived
+    evidence: declared in the artifact
+  llms/grubhub-llms.txt:
     method: unknown
     evidence: no authorship recorded
-  openapi/grubhub-driver-communication-api-openapi.yml:
+  mcp/grubhub-mcp.yml:
+    method: derived
+    evidence: declared in the artifact
+  openapi/grubhub-busy-intervals-openapi.yml:
     method: unknown
     evidence: no authorship recorded
-  openapi/grubhub-issue-reporting-api-openapi.yml:
+  openapi/grubhub-connect-endpoints-openapi.yml:
     method: unknown
     evidence: no authorship recorded
-  openapi/grubhub-menu-ingestion-api-openapi.yml:
+  openapi/grubhub-connect-webhooks-openapi.yml:
     method: unknown
     evidence: no authorship recorded
-  openapi/grubhub-menu-retrieval-api-openapi.yml:
+  openapi/grubhub-deliveries-openapi.yml:
     method: unknown
     evidence: no authorship recorded
-  openapi/grubhub-menu-schedule-overrides-api-openapi.yml:
+  openapi/grubhub-menu-openapi.yml:
     method: unknown
     evidence: no authorship recorded
-  openapi/grubhub-merchant-eligibility-api-openapi.yml:
+  openapi/grubhub-merchant-data-openapi.yml:
     method: unknown
     evidence: no authorship recorded
-  openapi/grubhub-merchant-onboarding-api-openapi.yml:
+  openapi/grubhub-merchant-schedules-openapi.yml:
     method: unknown
     evidence: no authorship recorded
-  openapi/grubhub-merchant-properties-api-openapi.yml:
+  openapi/grubhub-onboarding-openapi.yml:
     method: unknown
     evidence: no authorship recorded
-  openapi/grubhub-merchant-status-api-openapi.yml:
+  openapi/grubhub-orders-openapi.yml:
     method: unknown
     evidence: no authorship recorded
-  openapi/grubhub-merchants-api-openapi.yml:
+  openapi/grubhub-reporting-endpoints-openapi.yml:
     method: unknown
     evidence: no authorship recorded
-  openapi/grubhub-order-change-requests-api-openapi.yml:
+  openapi/grubhub-reporting-webhooks-openapi.yml:
     method: unknown
     evidence: no authorship recorded
-  openapi/grubhub-order-polling-api-openapi.yml:
+  openapi/grubhub-testing-openapi.yml:
     method: unknown
     evidence: no authorship recorded
-  openapi/grubhub-order-status-api-openapi.yml:
-    method: unknown
-    evidence: no authorship recorded
-  openapi/grubhub-orders-api-openapi.yml:
-    method: unknown
-    evidence: no authorship recorded
-  openapi/grubhub-schedule-overrides-api-openapi.yml:
-    method: unknown
-    evidence: no authorship recorded
-  openapi/grubhub-schedules-api-openapi.yml:
-    method: unknown
-    evidence: no authorship recorded
-  plans/grubhub-plans-pricing.yml:
+  overlays/grubhub-busy-intervals-overlay.yaml:
     method: generated
     evidence: declared in the artifact
-  rate-limits/grubhub-rate-limits.yml:
+  overlays/grubhub-connect-endpoints-overlay.yaml:
     method: generated
+    evidence: declared in the artifact
+  overlays/grubhub-connect-webhooks-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/grubhub-deliveries-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/grubhub-menu-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/grubhub-merchant-data-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/grubhub-merchant-schedules-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/grubhub-onboarding-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/grubhub-orders-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/grubhub-reporting-endpoints-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/grubhub-reporting-webhooks-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/grubhub-testing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  packages/grubhub-packages.yml:
+    method: searched
+    evidence: declared in the artifact
+  plans/grubhub-plans-pricing.yml:
+    method: searched
+    evidence: declared in the artifact
+  rate-limits/grubhub-rate-limits.yml:
+    method: searched
     evidence: declared in the artifact
   rules/grubhub-asyncapi-spectral-rules.yml:
     method: generated
@@ -867,12 +1071,45 @@ artifacts:
   rules/grubhub-spectral-rules.yml:
     method: generated
     evidence: declared in the artifact
-  scopes/grubhub-scopes.yml:
-    method: searched
+  sandbox/grubhub-sandbox.yml:
+    method: derived
     evidence: declared in the artifact
+  scopes/grubhub-scopes.yml:
+    method: unknown
+    evidence: no authorship recorded
   security/grubhub-domain-security.yml:
     method: unknown
     evidence: no authorship recorded
+  skills/_index.yml:
+    method: generated
+    evidence: declared in the artifact
+  skills/grubhub-connect-delivery.md:
+    method: generated
+    evidence: declared in the artifact
+  skills/grubhub-menu-ingestion.md:
+    method: generated
+    evidence: declared in the artifact
+  skills/grubhub-merchant-availability.md:
+    method: generated
+    evidence: declared in the artifact
+  skills/grubhub-merchant-onboarding.md:
+    method: generated
+    evidence: declared in the artifact
+  skills/grubhub-merchant-reporting.md:
+    method: generated
+    evidence: declared in the artifact
+  skills/grubhub-order-fulfillment.md:
+    method: generated
+    evidence: declared in the artifact
   vocabulary/grubhub-vocabulary.yml:
+    method: unknown
+    evidence: no authorship recorded
+  well-known/grubhub-oauth-authorization-server.json:
+    method: unknown
+    evidence: no authorship recorded
+  well-known/grubhub-pp-oauth-authorization-server.json:
+    method: unknown
+    evidence: no authorship recorded
+  well-known/grubhub-well-known.yml:
     method: unknown
     evidence: no authorship recorded

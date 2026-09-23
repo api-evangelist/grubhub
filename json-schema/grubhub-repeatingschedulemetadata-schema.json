@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-repeatingschedulemetadata-schema.json",
+  "title": "RepeatingScheduleMetadata",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-merchant-schedules-openapi.yml#/components/schemas/RepeatingScheduleMetadata",
+  "required": [
+    "source"
+  ],
+  "type": "object",
+  "properties": {
+    "created_by": {
+      "type": "string",
+      "description": "The creator of the schedule"
+    },
+    "updated_by": {
+      "type": "string",
+      "description": "The last credential to update the schedule"
+    },
+    "created_date": {
+      "type": "string",
+      "description": "The creation date of the schedule",
+      "format": "date-time"
+    },
+    "updated_date": {
+      "type": "string",
+      "description": "The last update date of the schedule",
+      "format": "date-time"
+    },
+    "legacy_id": {
+      "type": "string",
+      "description": "The legacy ID of the schedule in MySQL"
+    },
+    "description": {
+      "type": "string",
+      "description": "The description for the schedule"
+    },
+    "source": {
+      "type": "string",
+      "description": "The source of the creation or update of the repeating schedule"
+    }
+  },
+  "description": "The metadata associated to a specific repeating schedule"
+}

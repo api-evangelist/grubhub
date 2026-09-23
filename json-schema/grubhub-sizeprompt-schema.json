@@ -1,24 +1,80 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "#/components/schemas/SizePrompt",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-sizeprompt-schema.json",
   "title": "SizePrompt",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-menu-openapi.yml#/components/schemas/SizePrompt",
+  "required": [
+    "external_id",
+    "name"
+  ],
   "type": "object",
-  "description": "A size selection prompt for a menu item. Sizes can affect the price of both the item and its modifiers.",
   "properties": {
     "external_id": {
       "type": "string",
-      "description": "A unique external identifier for this size prompt."
+      "description": "A user-configured identifier for this object within the menu. External IDs must be unique across all menu entities of this type. Any size prompt that shares this `external_id` will be overwritten."
     },
     "name": {
       "type": "string",
-      "description": "The display name for the size prompt."
+      "description": "The display name for this size prompt, which in this case is the prompt given to the diner."
     },
-    "options": {
+    "internal_name": {
+      "type": "string",
+      "description": "A name displayed on Grubhub menu management tools instead of the display name."
+    },
+    "sized_prices": {
       "type": "array",
-      "description": "Available size options.",
+      "description": "Additional price information about size within a normalized menu. For use in Size Prompts for the item pricing model.",
       "items": {
-        "$ref": "#/components/schemas/SizeOption"
+        "$ref": "#/$defs/SizedPrice"
       }
+    }
+  },
+  "description": "Information about item sizing, including display text and pricing.",
+  "$defs": {
+    "NormalizedSizedPriceFulfillmentTypeSettings": {
+      "type": "object",
+      "properties": {
+        "price": {
+          "type": "number",
+          "description": "The price for the referenced Size for a given OrderServiceType."
+        }
+      },
+      "description": "SizedPriceFulfillmentTypeSettings include configurations to be used for a SizedPrice onlyfor one OrderServiceType."
+    },
+    "SizedPrice": {
+      "required": [
+        "price",
+        "size"
+      ],
+      "type": "object",
+      "properties": {
+        "size": {
+          "type": "string",
+          "description": "The `external_id` reference to a PosNormalizedSize."
+        },
+        "price": {
+          "type": "number",
+          "description": "Price for the referenced size."
+        },
+        "calorie_content": {
+          "type": "string",
+          "description": "Number of calories for the size."
+        },
+        "display_name": {
+          "type": "string",
+          "description": "Optional. If present, overrides the name of the referenced size, for display to diners."
+        },
+        "fulfillment_type_settings": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/NormalizedSizedPriceFulfillmentTypeSettings"
+          },
+          "description": "OrderServiceType-specific configurations for this SizedPrice. All keys should be strings representing order-service types (valid options include \"STANDARD_DELIVERY\", \"STANDARD_PICKUP\", \"CATERING_DELIVERY\", and \"GROUP_DELIVERY\". All values should be of type NormalizedSizedPriceFulfillmentTypeSettings."
+        }
+      },
+      "description": "Additional price information about size within a normalized menu. For use in Size Prompts for the item pricing model."
     }
   }
 }

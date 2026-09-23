@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-availabilityrange-schema.json",
+  "title": "AvailabilityRange",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-menu-openapi.yml#/components/schemas/AvailabilityRange",
+  "required": [
+    "external_id",
+    "name",
+    "start_date"
+  ],
+  "type": "object",
+  "properties": {
+    "external_id": {
+      "type": "string",
+      "description": "A user-configured identifier for this object within the menu. External IDs must be unique across all menu entities of this type. Any availability range that shares this `external_id` will be overwritten."
+    },
+    "name": {
+      "type": "string",
+      "description": "The display name for this availability, which will be shown internally and externally."
+    },
+    "start_date": {
+      "type": "string",
+      "description": "The date and time when this override begins.",
+      "format": "date-time"
+    },
+    "end_date": {
+      "type": "string",
+      "description": "The date and time when this override ends.",
+      "format": "date-time"
+    }
+  },
+  "description": "Definitions of time ranges during a year when one or more menu items may be available."
+}

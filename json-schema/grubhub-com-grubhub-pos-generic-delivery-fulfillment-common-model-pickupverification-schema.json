@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-com-grubhub-pos-generic-delivery-fulfillment-common-model-pickupverification-schema.json",
+  "title": "com.grubhub.pos.generic.delivery.fulfillment.common.model.PickupVerification",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/com.grubhub.pos.generic.delivery.fulfillment.common.model.PickupVerification",
+  "required": [
+    "capture_method",
+    "verification_code"
+  ],
+  "type": "object",
+  "properties": {
+    "capture_method": {
+      "type": "string",
+      "description": "The method used to capture the pickup verification code.",
+      "enum": [
+        "QR_SCAN"
+      ]
+    },
+    "verification_code": {
+      "type": "string",
+      "description": "The verification code provided by the partner."
+    }
+  },
+  "description": "Pickup verification provided by the partner."
+}

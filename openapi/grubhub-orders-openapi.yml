@@ -1,0 +1,2809 @@
+openapi: 3.0.1
+info:
+  title: Orders
+servers:
+- url: https://api-third-party-gtm-pp.grubhub.com
+  description: preprod
+- url: https://api-third-party-gtm.grubhub.com
+  description: prod
+tags:
+- name: Models
+  description: "# StatusUpdateRequestPayload \n <SchemaDefinition schemaRef=\"#/components/schemas/StatusUpdateRequestPayload\"\
+    />\n\n# OrderPickupVerification \n <SchemaDefinition schemaRef=\"#/components/schemas/OrderPickupVerification\"\
+    />\n\n# PosTaxTotal \n <SchemaDefinition schemaRef=\"#/components/schemas/PosTaxTotal\"/>\n\n# Affiliate \n\
+    \ <SchemaDefinition schemaRef=\"#/components/schemas/Affiliate\"/>\n\n# CatalogVersion \n <SchemaDefinition\
+    \ schemaRef=\"#/components/schemas/CatalogVersion\"/>\n\n# RestaurantVersionId \n <SchemaDefinition schemaRef=\"\
+    #/components/schemas/RestaurantVersionId\"/>\n\n# PosOrder \n <SchemaDefinition schemaRef=\"#/components/schemas/PosOrder\"\
+    />\n\n# PosOrderCoupon \n <SchemaDefinition schemaRef=\"#/components/schemas/PosOrderCoupon\"/>\n\n# Address\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/Address\"/>\n\n# Catering \n <SchemaDefinition schemaRef=\"\
+    #/components/schemas/Catering\"/>\n\n# Charges \n <SchemaDefinition schemaRef=\"#/components/schemas/Charges\"\
+    />\n\n# ContactInfo \n <SchemaDefinition schemaRef=\"#/components/schemas/ContactInfo\"/>\n\n# DefaultContext\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/DefaultContext\"/>\n\n# DeliveryInfo \n <SchemaDefinition\
+    \ schemaRef=\"#/components/schemas/DeliveryInfo\"/>\n\n# Dimensions \n <SchemaDefinition schemaRef=\"#/components/schemas/Dimensions\"\
+    />\n\n# Diner \n <SchemaDefinition schemaRef=\"#/components/schemas/Diner\"/>\n\n# Fees \n <SchemaDefinition\
+    \ schemaRef=\"#/components/schemas/Fees\"/>\n\n# FulfillmentInfo \n <SchemaDefinition schemaRef=\"#/components/schemas/FulfillmentInfo\"\
+    />\n\n# Line \n <SchemaDefinition schemaRef=\"#/components/schemas/Line\"/>\n\n# LineGroup \n <SchemaDefinition\
+    \ schemaRef=\"#/components/schemas/LineGroup\"/>\n\n# LineOption \n <SchemaDefinition schemaRef=\"#/components/schemas/LineOption\"\
+    />\n\n# LineSubOption \n <SchemaDefinition schemaRef=\"#/components/schemas/LineSubOption\"/>\n\n# LineTag \n\
+    \ <SchemaDefinition schemaRef=\"#/components/schemas/LineTag\"/>\n\n# Payment \n <SchemaDefinition schemaRef=\"\
+    #/components/schemas/Payment\"/>\n\n# Payments \n <SchemaDefinition schemaRef=\"#/components/schemas/Payments\"\
+    />\n\n# PhysicalInfo \n <SchemaDefinition schemaRef=\"#/components/schemas/PhysicalInfo\"/>\n\n# PickupInfo\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/PickupInfo\"/>\n\n# PosOrderMerchantData \n <SchemaDefinition\
+    \ schemaRef=\"#/components/schemas/PosOrderMerchantData\"/>\n\n# Promotion \n <SchemaDefinition schemaRef=\"\
+    #/components/schemas/Promotion\"/>\n\n# Reward \n <SchemaDefinition schemaRef=\"#/components/schemas/Reward\"\
+    />\n\n# StatusUpdate \n <SchemaDefinition schemaRef=\"#/components/schemas/StatusUpdate\"/>\n\n# Taxes \n <SchemaDefinition\
+    \ schemaRef=\"#/components/schemas/Taxes\"/>\n\n# Tip \n <SchemaDefinition schemaRef=\"#/components/schemas/Tip\"\
+    />\n\n# OrderFacetData \n <SchemaDefinition schemaRef=\"#/components/schemas/OrderFacetData\"/>\n\n# LeadTimeSettings\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/LeadTimeSettings\"/>\n\n# LeadTimeSettingsTier \n <SchemaDefinition\
+    \ schemaRef=\"#/components/schemas/LeadTimeSettingsTier\"/>\n\n# ThresholdSettings \n <SchemaDefinition schemaRef=\"\
+    #/components/schemas/ThresholdSettings\"/>\n\n# Chronology \n <SchemaDefinition schemaRef=\"#/components/schemas/Chronology\"\
+    />\n\n# DateTimeZone \n <SchemaDefinition schemaRef=\"#/components/schemas/DateTimeZone\"/>\n\n# Instant \n\
+    \ <SchemaDefinition schemaRef=\"#/components/schemas/Instant\"/>\n\n# AddLineSubstitution \n <SchemaDefinition\
+    \ schemaRef=\"#/components/schemas/AddLineSubstitution\"/>\n\n# LineSubstitutionAdjustment \n <SchemaDefinition\
+    \ schemaRef=\"#/components/schemas/LineSubstitutionAdjustment\"/>\n\n# QuantityAndWeightLineSubstitution \n\
+    \ <SchemaDefinition schemaRef=\"#/components/schemas/QuantityAndWeightLineSubstitution\"/>\n\n# QuantityLineSubstitution\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/QuantityLineSubstitution\"/>\n\n# RemoveLineSubstitution\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/RemoveLineSubstitution\"/>\n\n# ReplaceLineSubstitution\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/ReplaceLineSubstitution\"/>\n\n# SubItemLineSubstitution\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/SubItemLineSubstitution\"/>\n\n# TotalSubstitutionAdjustment\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/TotalSubstitutionAdjustment\"/>\n\n# OrderChangeRequest\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/OrderChangeRequest\"/>\n\n# LineOptionSubstitution \n\
+    \ <SchemaDefinition schemaRef=\"#/components/schemas/LineOptionSubstitution\"/>\n\n# LineSubstitutionReplacement\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/LineSubstitutionReplacement\"/>\n\n# SubstitutionAdjustment\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/SubstitutionAdjustment\"/>\n\n# SubstitutionRequest\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/SubstitutionRequest\"/>\n\n# LineSubstitutionType \n\
+    \ <SchemaDefinition schemaRef=\"#/components/schemas/LineSubstitutionType\"/>\n\n# OrderChangeRequestStatus\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/OrderChangeRequestStatus\"/>\n\n# OrderPickupInstructions\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/OrderPickupInstructions\"/>\n\n"
+paths:
+  /pos/v1/merchant/{merchant_long_id}/orders/{order_uuid}/status:
+    put:
+      tags:
+      - Endpoints
+      summary: Update order status
+      description: Updating order status for the requested order id.
+      operationId: updateExternalOrderStatusByOrderUuid
+      parameters:
+      - name: merchant_long_id
+        in: path
+        description: The Grubhub or third-party provided external ID for the merchant.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: order_uuid
+        in: path
+        description: Order UUID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        description: The request payload.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StatusUpdateRequestPayload'
+            examples:
+              Basic Status Update:
+                description: Basic Status Update
+                value:
+                  status: CONFIRMED
+                  wait_time_in_minutes: 10
+                  tax_total:
+                    tax: 3
+                    type: ABSOLUTE
+                  sub_total: 2345
+              Status Update with Pickup Verification:
+                description: Status Update with Pickup Verification
+                value:
+                  status: CONFIRMED
+                  wait_time_in_minutes: 10
+                  pickup_verification:
+                    verification_code: ABC123
+                    capture_method: QR_SCAN
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PosOrder'
+              example:
+                uuid: JylzkoC0Ee2zk-PUFdlLqg
+                merchant_uuid: 0OfxgNelEey87BGSJG9AHg
+                order_number: '604721063804098'
+                is_test: false
+                status: REJECTED
+                statusHistory:
+                - status: REJECTED
+                  timestamp: '2022-12-20T22:46:01.582Z'
+                  update_source: CONFIRMATION_AUTOMATION
+                - status: STALE
+                  timestamp: '2022-12-20T22:36:00.864Z'
+                  update_source: GRUBHUB_ORDERS_REAPER
+                  reason: Stuck status RESTAURANT_CONFIRMABLE at 2022-12-20T22:36:00.864Z
+                - status: RESTAURANT_CONFIRMABLE
+                  timestamp: '2022-12-20T22:18:07.810Z'
+                  update_source: TXS
+                - status: ANTICIPATED
+                  timestamp: '2022-12-20T22:18:07.430Z'
+                  update_source: DINER
+                  reason: non-GHD
+                updated_at: '2022-12-20T22:46:01.582Z'
+                merchant_id: '10004116752'
+                fulfillment_info:
+                  pickup_info:
+                    name: John Doe
+                    contact_info:
+                      phone: (222) 222-2222
+                      name: John Doe
+                    instructions: ''
+                    is_green_indicated: true
+                brand: GRUBHUB
+                time_placed: '2022-12-20T22:18:06.214Z'
+                confirmation_code: '6335'
+                when_for: '2022-12-20T22:28:06.221Z'
+                restaurant_timezone_id: America/New_York
+                payments:
+                  payments:
+                  - payment_type: CREDIT_CARD
+                    amount: 472
+                    tax_application: POST_TAX
+                  total: 472
+                  adjusted_total: 472
+                charges:
+                  fees:
+                    total: 0
+                    delivery: 0
+                  taxes:
+                    total: 32
+                    sales: 32
+                    delivery: 0
+                    restaurant: 32
+                    merchant_sales_total: 32
+                    merchant_total: 32
+                  tip:
+                    amount: 0
+                    type: CASH
+                  diner_grand_total: 472
+                  grand_total: 472
+                  adjusted_grand_total: 472
+                  line_groups:
+                  - lines:
+                    - name: Avocado Cherry Tomato
+                      line_options: []
+                      price: 440
+                      merchant_price: 440
+                      quantity: 1
+                      menu_item_id: '2426676565'
+                      menu_item_uuid: AAAAAAAAAAasdAkadss
+                      diner_total: 440
+                      total: 440
+                      tags: []
+                      external_id: Salad|Avocado Salad
+                      metadata:
+                        internal_id: 1123234
+                      routing_tags: []
+                      line_uuid: J5AkoIC0Ee2koy&8hjj
+                      packaging_options: []
+                  coupons: []
+                  merchant_total: 472
+                  merchant_subtotal: 440
+                  restaurant_subtotal: 440
+                  merchant_subtotal_before_coupons: 440
+                tax_withheld: true
+                jit_enabled: true
+                just_in_time_fired: false
+                diners:
+                - status: ACTIVE
+                  diner_info:
+                    phone: (222) 222-2222
+                    name: John Doe
+                  charges:
+                    fees:
+                      total: 0
+                      delivery: 0
+                    taxes:
+                      total: 32
+                      sales: 32
+                      delivery: 0
+                      restaurant: 32
+                      merchant_sales_total: 32
+                      merchant_total: 32
+                    tip:
+                      amount: 0
+                      type: CASH
+                    diner_grand_total: 472
+                    grand_total: 472
+                    adjusted_grand_total: 472
+                    line_groups:
+                    - lines:
+                      - name: Avocado Salad
+                        line_options: []
+                        price: 440
+                        merchant_price: 440
+                        quantity: 1
+                        menu_item_id: '2426676565'
+                        diner_total: 440
+                        total: 440
+                        tags: []
+                        routing_tags: []
+                        line_uuid: J5AkoIC0Ee2koy&8hjj
+                        packaging_options: []
+                    coupons: []
+                    merchant_total: 472
+                    merchant_subtotal: 440
+                    restaurant_subtotal: 440
+                    merchant_subtotal_before_coupons: 440
+                  payments:
+                    payments:
+                    - payment_type: CREDIT_CARD
+                      amount: 472
+                      payment_source: UNKNOWN
+                      tax_application: POST_TAX
+                    total: 472
+                    adjusted_total: 472
+                  order_diner_number: '1232132343'
+                  cart_uuid: JylzkIC0Ee2zkePUaHjs
+                  participation: HOST
+                order_type: STANDARD
+                order_taking_system: CARTING
+                handoff_options: []
+                restaurant_version_id:
+                  catalog_version:
+                    version_id: v1:VoNHjJPBjGrXXThkLnOrrgVAmwBG3yR2
+                fulfillment_scheduling: ASAP
+                transmission_id: IwsfGSpHM461UOWnLXHf6g
+                order_merchant_id: 9CvhTfZvNvqR8_WRGSjL9Q
+        '404':
+          description: Order does not exist for order id.
+  /pos/v1/merchant/{merchant_long_id}/orders/{order_uuid}/changerequests:
+    get:
+      tags:
+      - Endpoints
+      summary: Get status of order change request
+      description: Returns the status of all order change requests of a single order.
+      operationId: getChangeRequests
+      parameters:
+      - name: merchant_long_id
+        in: path
+        description: The Grubhub or third-party provided external ID for the merchant.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: order_uuid
+        in: path
+        description: Order UUID.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '404':
+          description: Could not find any change requests.
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderChangeRequestStatus'
+              example:
+              - order_id: 93101167-9065-4b9c-b98b-5d789a3ed9fe
+                change_request_id: f90819c3-6f40-44d9-9518-d77c485c0c12
+                request:
+                  amount: 5
+                  restaurant_agent_name: POS Terminal
+                  requestor_email: jack@email.com
+                  requestor_first_name: Jack
+                  requestor_last_name: Jack
+                  reason: offline
+                  reason_code: offline
+                  change_action: cancel.action
+                status: COMPLETED
+                ticket_id: 123456789
+                requested_action: test
+    post:
+      tags:
+      - Endpoints
+      summary: Request change to order
+      description: Request a change (cancellation & adjustments) to an existing order.
+      operationId: changeExternalOrder
+      parameters:
+      - name: merchant_long_id
+        in: path
+        description: The Grubhub or third-party provided external ID for the merchant.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: order_uuid
+        in: path
+        description: Order UUID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        description: The requested change to the order.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderChangeRequest'
+            example:
+              amount: 5
+              restaurant_agent_name: POS Terminal
+              requestor_email: jack@email.com
+              requestor_first_name: Jack
+              requestor_last_name: Jack
+              reason: offline
+              reason_code: offline
+              change_action: cancel.action
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderChangeRequestStatus'
+              example:
+                order_id: 93101167-9065-4b9c-b98b-5d789a3ed9fe
+                change_request_id: f90819c3-6f40-44d9-9518-d77c485c0c12
+                request:
+                  amount: 5
+                  restaurant_agent_name: POS Terminal
+                  requestor_email: jack@email.com
+                  requestor_first_name: Jack
+                  requestor_last_name: Jack
+                  reason: offline
+                  reason_code: offline
+                  change_action: cancel.action
+                status: COMPLETED
+                ticket_id: 123456789
+                requested_action: test
+  /pos/v1/merchant/{merchant_id}/orders/{order_uuid}/addpickupinstructions:
+    post:
+      tags:
+      - Endpoints
+      summary: Add Pickup Instructions
+      description: Add Pickup Instructions for individual order.
+      operationId: addPickupInstructionsToOrder
+      parameters:
+      - name: merchant_id
+        in: path
+        description: The Grubhub or third-party provided external ID for the merchant.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: order_uuid
+        in: path
+        description: Order UUID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        description: The requested instructions and/or pickup verification to the order. At least one of order_pickup_instructions
+          or pickup_verification must be provided.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderPickupInstructions'
+            examples:
+              Basic Pickup Instructions:
+                description: Basic Pickup Instructions
+                value:
+                  order_pickup_instructions: Dynamic Instruction
+                  updated_at: '2025-03-04T14:20:00.000Z'
+              Pickup Verification Only:
+                description: Pickup Verification Only
+                value:
+                  pickup_verification:
+                    verification_code: ABC123
+                    capture_method: QR_SCAN
+                  updated_at: '2025-03-04T14:20:00.000Z'
+              Both Instructions and Verification:
+                description: Both Instructions and Verification
+                value:
+                  order_pickup_instructions: Please come to the back entrance
+                  pickup_verification:
+                    verification_code: XYZ789
+                    capture_method: MANUAL_ENTRY
+                  updated_at: '2025-03-04T14:20:00.000Z'
+        required: true
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Order does not exist for order id.
+  /pos/v1/merchant/{merchant_long_id}/orders/{order_uuid}:
+    get:
+      tags:
+      - Endpoints
+      summary: Get order by order ID
+      description: Returns the single order requested by its UUID.
+      operationId: getPosOrderByOrderUuid
+      parameters:
+      - name: X-GH-PARTNER-KEY
+        in: header
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: merchant_long_id
+        in: path
+        description: The Grubhub or third-party provided external ID for the merchant.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: order_uuid
+        in: path
+        description: Order UUID.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      - name: legacyStatus
+        in: query
+        description: Legacy status
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      responses:
+        '404':
+          description: Order does not exist
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PosOrder'
+              example:
+                uuid: JylzkoC0Ee2zk-PUFdlLqg
+                merchant_uuid: 0OfxgNelEey87BGSJG9AHg
+                order_number: '604721063804098'
+                is_test: false
+                status: REJECTED
+                statusHistory:
+                - status: REJECTED
+                  timestamp: '2022-12-20T22:46:01.582Z'
+                  update_source: CONFIRMATION_AUTOMATION
+                - status: STALE
+                  timestamp: '2022-12-20T22:36:00.864Z'
+                  update_source: GRUBHUB_ORDERS_REAPER
+                  reason: Stuck status RESTAURANT_CONFIRMABLE at 2022-12-20T22:36:00.864Z
+                - status: RESTAURANT_CONFIRMABLE
+                  timestamp: '2022-12-20T22:18:07.810Z'
+                  update_source: TXS
+                - status: ANTICIPATED
+                  timestamp: '2022-12-20T22:18:07.430Z'
+                  update_source: DINER
+                  reason: non-GHD
+                updated_at: '2022-12-20T22:46:01.582Z'
+                merchant_id: '10004116752'
+                fulfillment_info:
+                  pickup_info:
+                    name: John Doe
+                    contact_info:
+                      phone: (222) 222-2222
+                      name: John Doe
+                    instructions: ''
+                    is_green_indicated: true
+                brand: GRUBHUB
+                time_placed: '2022-12-20T22:18:06.214Z'
+                confirmation_code: '6335'
+                when_for: '2022-12-20T22:28:06.221Z'
+                restaurant_timezone_id: America/New_York
+                payments:
+                  payments:
+                  - payment_type: CREDIT_CARD
+                    amount: 472
+                    tax_application: POST_TAX
+                  total: 472
+                  adjusted_total: 472
+                charges:
+                  fees:
+                    total: 0
+                    delivery: 0
+                  taxes:
+                    total: 32
+                    sales: 32
+                    delivery: 0
+                    restaurant: 32
+                    merchant_sales_total: 32
+                    merchant_total: 32
+                  tip:
+                    amount: 0
+                    type: CASH
+                  diner_grand_total: 472
+                  grand_total: 472
+                  adjusted_grand_total: 472
+                  line_groups:
+                  - lines:
+                    - name: Avocado Cherry Tomato
+                      line_options: []
+                      price: 440
+                      merchant_price: 440
+                      quantity: 1
+                      menu_item_id: '2426676565'
+                      menu_item_uuid: AAAAAAAAAAasdAkadss
+                      diner_total: 440
+                      total: 440
+                      tags: []
+                      external_id: Salad|Avocado Salad
+                      metadata:
+                        internal_id: 1123234
+                      routing_tags: []
+                      line_uuid: J5AkoIC0Ee2koy&8hjj
+                      packaging_options: []
+                  coupons: []
+                  merchant_total: 472
+                  merchant_subtotal: 440
+                  restaurant_subtotal: 440
+                  merchant_subtotal_before_coupons: 440
+                tax_withheld: true
+                jit_enabled: true
+                just_in_time_fired: false
+                diners:
+                - status: ACTIVE
+                  diner_info:
+                    phone: (222) 222-2222
+                    name: John Doe
+                  charges:
+                    fees:
+                      total: 0
+                      delivery: 0
+                    taxes:
+                      total: 32
+                      sales: 32
+                      delivery: 0
+                      restaurant: 32
+                      merchant_sales_total: 32
+                      merchant_total: 32
+                    tip:
+                      amount: 0
+                      type: CASH
+                    diner_grand_total: 472
+                    grand_total: 472
+                    adjusted_grand_total: 472
+                    line_groups:
+                    - lines:
+                      - name: Avocado Salad
+                        line_options: []
+                        price: 440
+                        merchant_price: 440
+                        quantity: 1
+                        menu_item_id: '2426676565'
+                        diner_total: 440
+                        total: 440
+                        tags: []
+                        routing_tags: []
+                        line_uuid: J5AkoIC0Ee2koy&8hjj
+                        packaging_options: []
+                    coupons: []
+                    merchant_total: 472
+                    merchant_subtotal: 440
+                    restaurant_subtotal: 440
+                    merchant_subtotal_before_coupons: 440
+                  payments:
+                    payments:
+                    - payment_type: CREDIT_CARD
+                      amount: 472
+                      payment_source: UNKNOWN
+                      tax_application: POST_TAX
+                    total: 472
+                    adjusted_total: 472
+                  order_diner_number: '1232132343'
+                  cart_uuid: JylzkIC0Ee2zkePUaHjs
+                  participation: HOST
+                order_type: STANDARD
+                order_taking_system: CARTING
+                handoff_options: []
+                restaurant_version_id:
+                  catalog_version:
+                    version_id: v1:VoNHjJPBjGrXXThkLnOrrgVAmwBG3yR2
+                fulfillment_scheduling: ASAP
+                transmission_id: IwsfGSpHM461UOWnLXHf6g
+                order_merchant_id: 9CvhTfZvNvqR8_WRGSjL9Q
+  /pos/v1/merchant/{merchant_long_id}/orders:
+    get:
+      tags:
+      - Endpoints
+      summary: Get orders by merchant ID, status and date range
+      description: Returns the list of orders for the requested merchant in a given status and date range.
+      operationId: getPosOrdersByMerchantStatusDateRange
+      parameters:
+      - name: X-GH-PARTNER-KEY
+        in: header
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: merchant_long_id
+        in: path
+        description: The Grubhub or third-party provided external ID for the merchant.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: status
+        in: query
+        description: Filters returned orders by the provided statuses.
+        required: false
+        style: form
+        explode: true
+        schema:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+      - name: start
+        in: query
+        description: Start time for the query.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          format: date-time
+      - name: end
+        in: query
+        description: End time for the query. Must be within 24 hours of start time.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          format: date-time
+      - name: legacyStatus
+        in: query
+        description: If true, order statuses returned will be translated to legacy order statuses. Default is FALSE.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PosOrder'
+              example:
+              - uuid: JylzkoC0Ee2zk-PUFdlLqg
+                merchant_uuid: 0OfxgNelEey87BGSJG9AHg
+                order_number: '604721063804098'
+                is_test: false
+                status: REJECTED
+                statusHistory:
+                - status: REJECTED
+                  timestamp: '2022-12-20T22:46:01.582Z'
+                  update_source: CONFIRMATION_AUTOMATION
+                - status: STALE
+                  timestamp: '2022-12-20T22:36:00.864Z'
+                  update_source: GRUBHUB_ORDERS_REAPER
+                  reason: Stuck status RESTAURANT_CONFIRMABLE at 2022-12-20T22:36:00.864Z
+                - status: RESTAURANT_CONFIRMABLE
+                  timestamp: '2022-12-20T22:18:07.810Z'
+                  update_source: TXS
+                - status: ANTICIPATED
+                  timestamp: '2022-12-20T22:18:07.430Z'
+                  update_source: DINER
+                  reason: non-GHD
+                updated_at: '2022-12-20T22:46:01.582Z'
+                merchant_id: '10004116752'
+                fulfillment_info:
+                  pickup_info:
+                    name: John Doe
+                    contact_info:
+                      phone: (222) 222-2222
+                      name: John Doe
+                    instructions: ''
+                    is_green_indicated: true
+                brand: GRUBHUB
+                time_placed: '2022-12-20T22:18:06.214Z'
+                confirmation_code: '6335'
+                when_for: '2022-12-20T22:28:06.221Z'
+                restaurant_timezone_id: America/New_York
+                payments:
+                  payments:
+                  - payment_type: CREDIT_CARD
+                    amount: 472
+                    tax_application: POST_TAX
+                  total: 472
+                  adjusted_total: 472
+                charges:
+                  fees:
+                    total: 0
+                    delivery: 0
+                  taxes:
+                    total: 32
+                    sales: 32
+                    delivery: 0
+                    restaurant: 32
+                    merchant_sales_total: 32
+                    merchant_total: 32
+                  tip:
+                    amount: 0
+                    type: CASH
+                  diner_grand_total: 472
+                  grand_total: 472
+                  adjusted_grand_total: 472
+                  line_groups:
+                  - lines:
+                    - name: Avocado Cherry Tomato
+                      line_options: []
+                      price: 440
+                      merchant_price: 440
+                      quantity: 1
+                      menu_item_id: '2426676565'
+                      menu_item_uuid: AAAAAAAAAAasdAkadss
+                      diner_total: 440
+                      total: 440
+                      tags: []
+                      external_id: Salad|Avocado Salad
+                      metadata:
+                        internal_id: 1123234
+                      routing_tags: []
+                      line_uuid: J5AkoIC0Ee2koy&8hjj
+                      packaging_options: []
+                  coupons: []
+                  merchant_total: 472
+                  merchant_subtotal: 440
+                  restaurant_subtotal: 440
+                  merchant_subtotal_before_coupons: 440
+                tax_withheld: true
+                jit_enabled: true
+                just_in_time_fired: false
+                diners:
+                - status: ACTIVE
+                  diner_info:
+                    phone: (222) 222-2222
+                    name: John Doe
+                  charges:
+                    fees:
+                      total: 0
+                      delivery: 0
+                    taxes:
+                      total: 32
+                      sales: 32
+                      delivery: 0
+                      restaurant: 32
+                      merchant_sales_total: 32
+                      merchant_total: 32
+                    tip:
+                      amount: 0
+                      type: CASH
+                    diner_grand_total: 472
+                    grand_total: 472
+                    adjusted_grand_total: 472
+                    line_groups:
+                    - lines:
+                      - name: Avocado Salad
+                        line_options: []
+                        price: 440
+                        merchant_price: 440
+                        quantity: 1
+                        menu_item_id: '2426676565'
+                        diner_total: 440
+                        total: 440
+                        tags: []
+                        routing_tags: []
+                        line_uuid: J5AkoIC0Ee2koy&8hjj
+                        packaging_options: []
+                    coupons: []
+                    merchant_total: 472
+                    merchant_subtotal: 440
+                    restaurant_subtotal: 440
+                    merchant_subtotal_before_coupons: 440
+                  payments:
+                    payments:
+                    - payment_type: CREDIT_CARD
+                      amount: 472
+                      payment_source: UNKNOWN
+                      tax_application: POST_TAX
+                    total: 472
+                    adjusted_total: 472
+                  order_diner_number: '1232132343'
+                  cart_uuid: JylzkIC0Ee2zkePUaHjs
+                  participation: HOST
+                order_type: STANDARD
+                order_taking_system: CARTING
+                handoff_options: []
+                restaurant_version_id:
+                  catalog_version:
+                    version_id: v1:VoNHjJPBjGrXXThkLnOrrgVAmwBG3yR2
+                fulfillment_scheduling: ASAP
+                transmission_id: IwsfGSpHM461UOWnLXHf6g
+                order_merchant_id: 9CvhTfZvNvqR8_WRGSjL9Q
+  /pos/v1/group/{group_key}/orders:
+    get:
+      tags:
+      - Endpoints
+      summary: Get orders by group, status and date range
+      description: Polling endpoint for getting all orders for a group of merchants in a given state in the given
+        time range.
+      operationId: getPosOrdersByGroupStatusDateRange
+      parameters:
+      - name: X-GH-PARTNER-KEY
+        in: header
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: group_key
+        in: path
+        description: Group Key
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: status
+        in: query
+        description: Filters returned orders by the provided statuses.
+        required: false
+        style: form
+        explode: true
+        schema:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+      - name: start
+        in: query
+        description: Start time for the query.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          format: date-time
+      - name: end
+        in: query
+        description: End time for the query.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          format: date-time
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PosOrder'
+              example:
+              - uuid: JylzkoC0Ee2zk-PUFdlLqg
+                merchant_uuid: 0OfxgNelEey87BGSJG9AHg
+                order_number: '604721063804098'
+                is_test: false
+                status: REJECTED
+                statusHistory:
+                - status: REJECTED
+                  timestamp: '2022-12-20T22:46:01.582Z'
+                  update_source: CONFIRMATION_AUTOMATION
+                - status: STALE
+                  timestamp: '2022-12-20T22:36:00.864Z'
+                  update_source: GRUBHUB_ORDERS_REAPER
+                  reason: Stuck status RESTAURANT_CONFIRMABLE at 2022-12-20T22:36:00.864Z
+                - status: RESTAURANT_CONFIRMABLE
+                  timestamp: '2022-12-20T22:18:07.810Z'
+                  update_source: TXS
+                - status: ANTICIPATED
+                  timestamp: '2022-12-20T22:18:07.430Z'
+                  update_source: DINER
+                  reason: non-GHD
+                updated_at: '2022-12-20T22:46:01.582Z'
+                merchant_id: '10004116752'
+                fulfillment_info:
+                  pickup_info:
+                    name: John Doe
+                    contact_info:
+                      phone: (222) 222-2222
+                      name: John Doe
+                    instructions: ''
+                    is_green_indicated: true
+                brand: GRUBHUB
+                time_placed: '2022-12-20T22:18:06.214Z'
+                confirmation_code: '6335'
+                when_for: '2022-12-20T22:28:06.221Z'
+                restaurant_timezone_id: America/New_York
+                payments:
+                  payments:
+                  - payment_type: CREDIT_CARD
+                    amount: 472
+                    tax_application: POST_TAX
+                  total: 472
+                  adjusted_total: 472
+                charges:
+                  fees:
+                    total: 0
+                    delivery: 0
+                  taxes:
+                    total: 32
+                    sales: 32
+                    delivery: 0
+                    restaurant: 32
+                    merchant_sales_total: 32
+                    merchant_total: 32
+                  tip:
+                    amount: 0
+                    type: CASH
+                  diner_grand_total: 472
+                  grand_total: 472
+                  adjusted_grand_total: 472
+                  line_groups:
+                  - lines:
+                    - name: Avocado Cherry Tomato
+                      line_options: []
+                      price: 440
+                      merchant_price: 440
+                      quantity: 1
+                      menu_item_id: '2426676565'
+                      menu_item_uuid: AAAAAAAAAAasdAkadss
+                      diner_total: 440
+                      total: 440
+                      tags: []
+                      external_id: Salad|Avocado Salad
+                      metadata:
+                        internal_id: 1123234
+                      routing_tags: []
+                      line_uuid: J5AkoIC0Ee2koy&8hjj
+                      packaging_options: []
+                  coupons: []
+                  merchant_total: 472
+                  merchant_subtotal: 440
+                  restaurant_subtotal: 440
+                  merchant_subtotal_before_coupons: 440
+                tax_withheld: true
+                jit_enabled: true
+                just_in_time_fired: false
+                diners:
+                - status: ACTIVE
+                  diner_info:
+                    phone: (222) 222-2222
+                    name: John Doe
+                  charges:
+                    fees:
+                      total: 0
+                      delivery: 0
+                    taxes:
+                      total: 32
+                      sales: 32
+                      delivery: 0
+                      restaurant: 32
+                      merchant_sales_total: 32
+                      merchant_total: 32
+                    tip:
+                      amount: 0
+                      type: CASH
+                    diner_grand_total: 472
+                    grand_total: 472
+                    adjusted_grand_total: 472
+                    line_groups:
+                    - lines:
+                      - name: Avocado Salad
+                        line_options: []
+                        price: 440
+                        merchant_price: 440
+                        quantity: 1
+                        menu_item_id: '2426676565'
+                        diner_total: 440
+                        total: 440
+                        tags: []
+                        routing_tags: []
+                        line_uuid: J5AkoIC0Ee2koy&8hjj
+                        packaging_options: []
+                    coupons: []
+                    merchant_total: 472
+                    merchant_subtotal: 440
+                    restaurant_subtotal: 440
+                    merchant_subtotal_before_coupons: 440
+                  payments:
+                    payments:
+                    - payment_type: CREDIT_CARD
+                      amount: 472
+                      payment_source: UNKNOWN
+                      tax_application: POST_TAX
+                    total: 472
+                    adjusted_total: 472
+                  order_diner_number: '1232132343'
+                  cart_uuid: JylzkIC0Ee2zkePUaHjs
+                  participation: HOST
+                order_type: STANDARD
+                order_taking_system: CARTING
+                handoff_options: []
+                restaurant_version_id:
+                  catalog_version:
+                    version_id: v1:VoNHjJPBjGrXXThkLnOrrgVAmwBG3yR2
+                fulfillment_scheduling: ASAP
+                transmission_id: IwsfGSpHM461UOWnLXHf6g
+                order_merchant_id: 9CvhTfZvNvqR8_WRGSjL9Q
+components:
+  schemas:
+    StatusUpdateRequestPayload:
+      required:
+      - message
+      - reason_code
+      - status
+      type: object
+      properties:
+        status:
+          type: string
+          description: 'The status of an order as it passes through the Grubhub fulfillment flow.<br /><br />ANTICIPATED:
+            denotes a future order, which may be cancelled by diner.<br />RESTAURANT_CONFIRMABLE: pending confirmation
+            of receipt by the restaurant. These are effectively new ASAP orders. ANTICIPATED orders will automatically
+            become RESTAURANT_CONFIRMABLE at the promise time, less the restaurant''s configured pickup or delivery
+            prep time.<br />DINER_CONFIRMABLE: a status held for future use.<br />CONFIRMED: denotes that the order
+            was received by restaurant, even if the restaurant is unable to fulfill it.<br />REJECTED: an error
+            status. For example, if an order is unable to be inserted to the POS, due to menu item mismatch, restaurant
+            offline, etc., the status should be updated to REJECTED. This is not to be used when the order was successfully
+            transmitted, but the restaurant is unable to fulfill it for operational reasons. In that scenario, a
+            Change Request should be submitted to cancel the order.<br />CANCELLED: a cancellation request by the
+            diner or restaurant has been processed by Grubhub Customer Care.<br />PICKUP_READY: indicates that the
+            food is prepared and ready for pickup by the diner or a Grubhub delivery courier.<br />OUT_FOR_DELIVERY:
+            the food is on the way to the diner.<br />FULFILLED: denotes that the food has been delivered to or
+            picked up by the diner.<br />UNKNOWN: provided for error handling of strings unmappable to known enumeration
+            values.'
+          enum:
+          - REJECTED
+          - READY_FOR_PICKUP
+          - ANTICIPATED
+          - RESTAURANT_CONFIRMABLE
+          - CONFIRMED
+          - CANCELLED
+          - DELIVERY_CONFIRMABLE
+          - DINER_CONFIRMABLE
+          - UNKNOWN
+          - PICKUP_READY
+          - OUT_FOR_DELIVERY
+          - FULFILLED
+          - POS_VALIDATING
+          - POS_VALIDATED
+          - POS_VALIDATION_REJECTED
+        wait_time_in_minutes:
+          type: integer
+          description: 'Represent the remaining wait time in minutes.If this is a pickup order, it is the number
+            of minutes before the food is ready for pickup. If this is a delivery order, it is the estimated number
+            of minutes until delivery to the diner. If it is a Grubhub Managed Delivery order, it the estimated
+            number of minutes until the food is ready for pickup by the Grubhub delivery driver. This value may
+            be used by Grubhub as part of order processing workflows. Grubhub may also use its own timing considerations
+            and internal systems based on real-time operational conditions. '
+          format: int64
+        message:
+          type: string
+          description: If updating status to REJECTED, descriptive text `IS REQUIRED` to providing more detail about
+            the rejection reason. This information may be included in logging and customer care tickets. Helpful
+            information would be, for example, the ID of the menu item not found, or details on the price mismatch.
+        reason_code:
+          type: string
+          description: Reason about the status.
+          enum:
+          - RESTAURANT_OFFLINE
+          - MENU_ITEM_NOT_FOUND
+          - PRICE_MISMATCH
+          - CONFIRMED_BUT_NOT_SUBMITTED
+          - SUBMITTED
+          - OTHER
+        tax_total:
+          $ref: '#/components/schemas/PosTaxTotal'
+        sub_total:
+          type: integer
+          description: This is the updated subtotal amount in cents.
+          format: int32
+        expected_ready_at:
+          type: string
+          description: 'Expected ready time. This value may be used by Grubhub as part of order processing workflows.
+            Grubhub may also use its own timing considerations and internal systems based on real-time operational
+            conditions. '
+        soonest_available_at:
+          type: string
+          description: 'Soonest availability time. This value may be used by Grubhub as part of order processing
+            workflows. Grubhub may also use its own timing considerations and internal systems based on real-time
+            operational conditions. '
+        external_order_id:
+          type: string
+          description: External order id. Note that this field is for reporting only. Orders can only be polled
+            for or updated by using the Grubhub Order UUID
+        pickup_verification:
+          $ref: '#/components/schemas/OrderPickupVerification'
+      description: Payload to request a status change
+    OrderPickupVerification:
+      required:
+      - verification_code
+      type: object
+      properties:
+        verification_code:
+          type: string
+          description: The code to be used at pickup verification step to validate that the driver is picking up
+            the correct order. Drivers would be required to input/scan the correct verification code in order to
+            complete the pickup via Driver App
+        capture_method:
+          type: string
+          description: The verification method required for the merchant-to-driver handoff during order pickup
+          default: MANUAL_ENTRY
+          enum:
+          - QR_SCAN
+          - MANUAL_ENTRY
+      description: Payload to for pickup verification instructions
+    PosTaxTotal:
+      type: object
+      properties:
+        tax:
+          type: integer
+          description: The value of the tax. Depending on the type, this is either the updated tax amount in cents
+            or the amount, in cents, that the Grubhub-calculated tax is off by.
+          format: int32
+        type:
+          type: string
+          description: Type of tax. Whether to set the tax using an ABSOLUTE value - the tax will be set to the
+            amount specified - or RELATIVE - the tax will be adjusted by the tax value.
+          enum:
+          - ABSOLUTE
+          - RELATIVE
+          - ABSOLUTE
+          - RELATIVE
+        'null':
+          type: boolean
+      description: Corrected tax for an order.
+    Affiliate:
+      type: object
+      properties:
+        affiliate_id:
+          type: string
+        affiliate_type:
+          type: string
+          enum:
+          - CLASSIC
+          - WHITE_LABEL
+          - UNKNOWN
+        data:
+          type: string
+      description: GH Affiliate class containing the Affiliate Type and Affiliate Id.
+    CatalogVersion:
+      type: object
+      properties:
+        version_id:
+          type: string
+    RestaurantVersionId:
+      type: object
+      properties:
+        catalog_version:
+          $ref: '#/components/schemas/CatalogVersion'
+      description: The Restaurant Version Id associated with the PosOrder.
+    PosOrder:
+      type: object
+      properties:
+        uuid:
+          type: string
+          description: The globally unique identity of the order. This is the primary and only guaranteed unique
+            identity.
+          format: uuid
+        order_merchant_uuid:
+          type: string
+          format: uuid
+          writeOnly: true
+        merchant_uuid:
+          type: string
+          description: Grubhub UUID for the merchant.
+          format: uuid
+        order_number:
+          type: string
+          description: A more human-readable order number to show to the customer and merchant For standard and
+            catering orders, this is equivalent to the parent_order_number. For group orders, this is the number
+            related to the orders at that specific restaurant as a subset of the larger group order This is not
+            guaranteed to be unique forever and is thus not used as a true identifier from an API perspective.
+        parent_order_number:
+          type: string
+          description: A more human-readable order number to show to the driver This will be the order number displayed
+            on the Grubhub Driver App. This is not guaranteed to be unique forever and is thus not used as a true
+            identifier from an API perspective.
+        is_test:
+          type: boolean
+          description: If true, this is a test order and should not actually be prepared
+        status:
+          type: string
+          description: 'The status of an order as it passes through the Grubhub fulfillment flow.<br /><br />ANTICIPATED:
+            denotes a future order, which may be cancelled by diner.<br />RESTAURANT_CONFIRMABLE: pending confirmation
+            of receipt by the restaurant. These are effectively new ASAP orders. ANTICIPATED orders will automatically
+            become RESTAURANT_CONFIRMABLE at the promise time, less the restaurant''s configured pickup or delivery
+            prep time.<br />DINER_CONFIRMABLE: a status held for future use.<br />CONFIRMED: denotes that the order
+            was received by restaurant, even if the restaurant is unable to fulfill it.<br />REJECTED: an error
+            status. For example, if an order is unable to be inserted to the POS, due to menu item mismatch, restaurant
+            offline, etc., the status should be updated to REJECTED. This is not to be used when the order was successfully
+            transmitted, but the restaurant is unable to fulfill it for operational reasons. In that scenario, a
+            Change Request should be submitted to cancel the order.<br />CANCELLED: a cancellation request by the
+            diner or restaurant has been processed by Grubhub Customer Care.<br />PICKUP_READY: indicates that the
+            food is prepared and ready for pickup by the diner or a Grubhub delivery courier.<br />OUT_FOR_DELIVERY:
+            the food is on the way to the diner.<br />FULFILLED: denotes that the food has been delivered to or
+            picked up by the diner.<br />UNKNOWN: provided for error handling of strings unmappable to known enumeration
+            values.'
+          enum:
+          - REJECTED
+          - READY_FOR_PICKUP
+          - ANTICIPATED
+          - RESTAURANT_CONFIRMABLE
+          - CONFIRMED
+          - CANCELLED
+          - DELIVERY_CONFIRMABLE
+          - DINER_CONFIRMABLE
+          - UNKNOWN
+          - PICKUP_READY
+          - OUT_FOR_DELIVERY
+          - FULFILLED
+          - POS_VALIDATING
+          - POS_VALIDATED
+          - POS_VALIDATION_REJECTED
+        statusHistory:
+          type: array
+          description: A list of all status updates for this order
+          items:
+            $ref: '#/components/schemas/StatusUpdate'
+        updated_at:
+          $ref: '#/components/schemas/Instant'
+        merchant_id:
+          type: string
+          description: This field can either be the Grubhub ID for the merchant, or if an external ID is provided,
+            it represents the external ID of the merchant.
+        fulfillment_info:
+          $ref: '#/components/schemas/FulfillmentInfo'
+        brand:
+          type: string
+          description: Indicates which brand the order originated from
+          enum:
+          - GRUBHUB
+          - SEAMLESS
+          - WONDER
+          - DIRECT
+          - GROUPON
+          - YELP
+          - EAT24
+          - TAPINGO
+          - UNKNOWN
+        time_placed:
+          $ref: '#/components/schemas/Instant'
+        confirmation_code:
+          type: string
+          description: A string indicating the code required when confirming the order via a phone call. This is
+            not required for programmatic confirmations of the order and can most likely be ignored.
+        when_for:
+          type: string
+          description: 'Target fulfillment time for Pickup and Self-Delivery orders. For Pickup orders: time the
+            order should be fully prepared and ready for handoff. For Self-Delivery orders: time the order is expected
+            to have been delivered to the diner. For Managed Delivery orders: do not use this field; instead use
+            fulfillmentInfo.deliveryInfo.managedDeliveryEstimatedPickup (driver pickup ready time). Integrations
+            should treat this value as authoritative and should not recalculate it.'
+          format: date-time
+        restaurant_timezone_id:
+          $ref: '#/components/schemas/DateTimeZone'
+        payments:
+          $ref: '#/components/schemas/Payments'
+        charges:
+          $ref: '#/components/schemas/Charges'
+        tax_withheld:
+          type: boolean
+          description: TRUE indicates that sales tax has been collected on behalf of the restaurant by GH
+        catering:
+          $ref: '#/components/schemas/Catering'
+        order_filtering_applied:
+          type: boolean
+          writeOnly: true
+        diner_uuid:
+          type: array
+          description: A Grubhub UUID identifying the diner
+          items:
+            type: string
+            description: A Grubhub UUID identifying the diner
+            format: uuid
+        jit_enabled:
+          type: boolean
+          description: Indicates if the associated restaurant has enabled just-in-time preparation for this order,
+            where orders will be prepared only when the driver comes within a specified distance. This does not
+            indicate that the JIT event has fired, just that `just_in_time_fired` can be expected to indicate when
+            the driver is close enough to prepare the order.
+        just_in_time_fired:
+          type: boolean
+          description: TRUE indicates that the driver is within the geofence distance and the restaurant should
+            package the order for pickup.
+        diners:
+          type: array
+          description: List of diners on this order including much related information such as Line and LineOption
+            routingTags.
+          items:
+            $ref: '#/components/schemas/Diner'
+        order_type:
+          type: string
+          description: The type of order (STANDARD, CATERING, GROUP).
+          enum:
+          - STANDARD
+          - CATERING
+          - GROUP
+          - UNKNOWN
+        order_taking_system:
+          type: string
+          description: Place where the order was created.
+          enum:
+          - CARTING
+          - ORDERS
+          - ORDER_AHEAD
+          - TESTORDERGENERATOR
+          - DIRECT
+          - EXTERNALORDERS
+          - UNKNOWN
+        handoff_options:
+          uniqueItems: true
+          type: array
+          description: Instructions around the handoff pertaining to contact-free delivery
+          items:
+            type: string
+            description: Instructions around the handoff pertaining to contact-free delivery
+        merchant_data:
+          $ref: '#/components/schemas/PosOrderMerchantData'
+        restaurant_version_id:
+          $ref: '#/components/schemas/RestaurantVersionId'
+        affiliate:
+          $ref: '#/components/schemas/Affiliate'
+        fulfillment_scheduling:
+          type: string
+          description: Order fulfillment type
+          enum:
+          - ASAP
+          - FUTURE
+          - UNKNOWN
+        cart_version_id:
+          type: string
+          description: The Cart Version Id associate with the PosOrder
+          format: uuid
+        transmission_id:
+          type: string
+          description: The Transmission Id associated with the PosOrder.
+          format: uuid
+        metadata:
+          type: object
+          additionalProperties:
+            type: string
+            description: The metadata associated to a specific PosOrder.
+          description: The metadata associated to a specific PosOrder.
+        external_ordering_configs:
+          type: object
+          additionalProperties:
+            type: string
+            description: External Ordering Configurations specific to the Partner.
+          description: External Ordering Configurations specific to the Partner.
+        gh_plus:
+          type: boolean
+          description: Is this a GH Plus order.
+        gh_plus_diner:
+          type: boolean
+          description: Is the diner a GH Plus member.
+        external_order_id:
+          type: string
+        chain_id:
+          type: string
+          format: uuid
+        order_merchant_id:
+          type: string
+          description: Used within grouped orders to identify a portion of an order associated with a single merchant.
+            Grouped orders can have menu items from multiple merchants associated with a single order.
+          format: uuid
+      description: The order model is the basis for all Grubhub orders. This contains all necessary information
+        for fulfilling and processing orders.
+    PosOrderCoupon:
+      type: object
+      properties:
+        text:
+          type: string
+          description: The coupon description.
+        amount:
+          type: integer
+          description: The coupon amount.
+          format: int32
+      description: Information relating to a coupon that can be applied to an order
+    Address:
+      type: object
+      properties:
+        address_line1:
+          type: string
+          description: First address line
+        address_line2:
+          type: string
+          description: Optional second address line
+        city:
+          type: string
+          description: The city
+        state:
+          type: string
+          description: The state as a two letter abbreviation
+        country:
+          type: string
+          description: The country as a two letter abbreviation
+        zip_code:
+          type: string
+          description: The zip code. This is a string because it may in certain cases contain a +4 zip.
+        latitude:
+          type: number
+          description: The geolocated addresses latitude
+        longitude:
+          type: number
+          description: The geolocated addresses longitude
+        cross_streets:
+          type: string
+          description: The closest major cross streets as entered by the diner
+        company_name:
+          type: string
+          description: Name of the company for a corporate order
+      description: Physical street address
+    Catering:
+      type: object
+      properties:
+        estimated_attendees:
+          type: integer
+          description: Number of attendees
+          format: int32
+        budget:
+          type: integer
+          description: The budget they had for this order
+          format: int32
+        alternate_name:
+          type: string
+          description: Alternative contact info for the order
+        alternate_phone:
+          type: string
+          description: Alternative contact info for the order
+        green_indicated:
+          type: boolean
+          description: If set to true, the restaurant should not include napkins, utensils and other items that
+            would just become waste as the diner has access to their own dishes and utensils
+        setup_food:
+          type: boolean
+          description: If true, the driver should setup the food before leaving
+        setup_instructions:
+          type: string
+          description: Instructions on how to setup the order
+      description: Catering details for an order
+    Charges:
+      type: object
+      properties:
+        fees:
+          $ref: '#/components/schemas/Fees'
+        taxes:
+          $ref: '#/components/schemas/Taxes'
+        exempted_taxes:
+          $ref: '#/components/schemas/Taxes'
+        tip:
+          $ref: '#/components/schemas/Tip'
+        diner_grand_total:
+          type: integer
+          description: Deprecated. Use &quot;merchant_total&quot; instead.
+          format: int32
+          deprecated: true
+        grand_total:
+          type: integer
+          description: Deprecated. Use &quot;merchant_total&quot; instead.
+          format: int32
+          deprecated: true
+        adjusted_grand_total:
+          type: integer
+          description: Deprecated. Use &quot;merchantTotal&quot; instead
+          format: int32
+          deprecated: true
+        line_groups:
+          type: array
+          description: The items ordered by the diner
+          items:
+            $ref: '#/components/schemas/LineGroup'
+        coupons:
+          type: array
+          description: Coupons applied to the order
+          items:
+            $ref: '#/components/schemas/PosOrderCoupon'
+        merchant_total:
+          type: integer
+          description: The total charges for the order in US Cents. Sum of subtotal, fees, taxes and tips.
+          format: int64
+        diner_total:
+          type: integer
+          description: The total amount paid by the diner, including all charges and discounts.
+          format: int64
+        merchant_subtotal:
+          type: integer
+          description: Charges for all line items in US Cents. Excludes taxes, tips and fees.
+          format: int64
+        restaurant_subtotal:
+          type: integer
+          description: The subtotal amount for the restaurant, before any additional charges or discounts.
+          format: int64
+        merchant_subtotal_before_coupons:
+          type: integer
+          description: The subtotal amount for the restaurant before applying any rewards or promotions.
+          format: int64
+        diner_subtotal_before_coupons:
+          type: integer
+          description: The subtotal amount for the diner's order before applying any rewards or promotions.
+          format: int64
+        diner_subtotal:
+          type: integer
+          description: The subtotal amount for the diner's order after applying rewards or promotions.
+          format: int64
+      description: Contains information about the contents of the order including the financial totals and items
+        ordered.
+    ContactInfo:
+      type: object
+      properties:
+        phone:
+          type: string
+          description: Phone number of the diner. This number can only be used for the fulfillment of the order
+            and may not be stored and used for any sort of marketing, research or other contacts not directly related
+            to the delivery or pickup of this specific order.
+        name:
+          type: string
+          description: Name of the diner
+        email:
+          type: string
+          description: E-mail address of the diner
+      description: Basic diner contact information
+    DefaultContext:
+      type: object
+      properties:
+        removed:
+          type: boolean
+          description: True if boolean line or line sub option has been removed
+        default_quantity:
+          type: integer
+          description: Present for line or line sub option with quantity if NormalizedModifierPrompt.modifier_prompt_quantity_settings
+          format: int64
+        unit_price:
+          type: integer
+          description: Present for line or line sub option with default_quantity, quantity_free, and selected quantity
+            is greater than quantity_free
+          format: int64
+      description: Contextual information to compare a line or line sub option to its default state
+    DeliveryInfo:
+      type: object
+      properties:
+        id:
+          type: string
+          description: An id for this delivery
+        address:
+          $ref: '#/components/schemas/Address'
+        is_managed_delivery:
+          type: boolean
+          description: This delivery will be provided by Grubhub and not by the restaurant
+        estimated_delivery_time:
+          $ref: '#/components/schemas/Instant'
+        is_green_indicated:
+          type: boolean
+          description: If set to true, the restaurant should not include napkins, utensils and other items that
+            would just become waste as the diner has access to their own dishes and utensils
+        instruction:
+          type: string
+          description: Special instructions for delivery
+        contact_info:
+          $ref: '#/components/schemas/ContactInfo'
+        managed-delivery-delivered:
+          $ref: '#/components/schemas/Instant'
+        managed-delivery-estimated_pickup:
+          $ref: '#/components/schemas/Instant'
+        order_delivery_type:
+          type: string
+          description: This indicates whether food is delivered by Grubhub or the restaurant.
+          enum:
+          - SELF
+          - GRUBHUB
+          - SUPPLEMENTAL_DELIVERY_AS_GHD
+          - SUPPLEMENTAL_DELIVERY_WITH_GHD_AS_PICKUP
+          - UNKNOWN
+        managed_delivery_delivered:
+          $ref: '#/components/schemas/Instant'
+        managed_delivery_estimated_pickup:
+          $ref: '#/components/schemas/Instant'
+      description: Information on how to deliver the order to the diner
+    Dimensions:
+      type: object
+      properties:
+        depth_in_inches:
+          type: number
+          format: float
+        width_in_inches:
+          type: number
+          format: float
+        height_in_inches:
+          type: number
+          format: float
+    Diner:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ACTIVE
+          - CANCELLED
+          - ADJUSTED
+          - UNKNOWN
+        diner_info:
+          $ref: '#/components/schemas/ContactInfo'
+        charges:
+          $ref: '#/components/schemas/Charges'
+        payments:
+          $ref: '#/components/schemas/Payments'
+        order_diner_number:
+          type: string
+        cart_uuid:
+          type: string
+          format: uuid
+        participation:
+          type: string
+          enum:
+          - HOST
+          - INVITEE
+          - UNKNOWN
+      description: List of diners on this order including much related information such as Line and LineOption routingTags.
+    Fees:
+      type: object
+      properties:
+        total:
+          type: integer
+          description: Total of all fees in US Cents
+          format: int32
+        delivery:
+          type: integer
+          description: Delivery charges in US Cents
+          format: int32
+      description: Base fees paid by the diner for the line items and delivery charges before taxes and tip
+    FulfillmentInfo:
+      type: object
+      properties:
+        delivery_info:
+          $ref: '#/components/schemas/DeliveryInfo'
+        pickup_info:
+          $ref: '#/components/schemas/PickupInfo'
+      description: Information about how to fulfill the order. If delivery info is provided, this is a delivery
+        order, otherwise this is a pickup order. Exactly one property will be set on this object as delivery and
+        pickup are mutually exclusive and required for fulfillment.
+    Line:
+      type: object
+      properties:
+        description:
+          type: string
+          description: A description of the line item.
+        name:
+          type: string
+          description: The name of the line item.
+        special_instructions:
+          type: string
+          description: Free form text special instructions added by the diner.
+        line_options:
+          type: array
+          description: The options selected.
+          items:
+            $ref: '#/components/schemas/LineOption'
+        price:
+          type: integer
+          description: Deprecated. Use &quot;merchant_price&quot; instead.
+          format: int32
+          deprecated: true
+        merchant_price:
+          type: integer
+          description: The price of this item in US Cents.
+          format: int64
+        quantity:
+          type: integer
+          description: The number of this item to include.
+          format: int32
+        id:
+          type: string
+          description: The Grubhub ID for this line item, may be null.
+        menu_item_id:
+          type: string
+          description: The Grubhub menu item ID (legacy_id).
+        menu_item_uuid:
+          type: string
+          description: Grubhub menu item uuid.
+          format: uuid
+        diner_total:
+          type: integer
+          description: The total cost of this item (and options) in US Cents.
+          format: int32
+        total:
+          type: integer
+          description: Deprecated. Use &quot;merchant_total&quot; instead.
+          format: int32
+          deprecated: true
+        merchant_total:
+          type: integer
+          description: The total cost of this item (and options) in US Cents.
+          format: int64
+        item_type:
+          type: string
+          description: A categorization of this item.
+        variation_id:
+          type: string
+          description: Deprecated. A Grubhub Id for a specific variation of this line item.
+        tags:
+          type: array
+          description: Grubhub tag IDs that apply to this line item.
+          items:
+            type: integer
+            description: Grubhub tag IDs that apply to this line item.
+            format: int32
+        tag_names:
+          type: array
+          description: Grubhub tag names that apply to this line item.
+          items:
+            type: string
+            description: Grubhub tag names that apply to this line item.
+        external_id:
+          type: string
+          description: The external ID that was stored in Grubhub for this menu item id.
+        metadata:
+          type: string
+          description: Metadata associated with the line item.
+        routing_tags:
+          uniqueItems: true
+          type: array
+          description: Tags for use in Ultimate Pickup system
+          items:
+            type: string
+            description: Tags for use in Ultimate Pickup system
+        line_uuid:
+          type: string
+          description: Unique line item id for this order instance (i.e. 2 lines of Hamburger will have the same
+            line Id, but will have different line item Ids).
+          format: uuid
+        packaging_options:
+          uniqueItems: true
+          type: array
+          description: Packaging information (i.e. packaging style, ect.)
+          items:
+            type: string
+            description: Packaging information (i.e. packaging style, ect.)
+        physical_info:
+          $ref: '#/components/schemas/PhysicalInfo'
+        item_gtin:
+          type: string
+        item_image_url:
+          type: string
+        category:
+          type: string
+        weight:
+          type: number
+          description: Weight after driver pick-up
+        requested_weight:
+          type: number
+          description: Diner requested weight
+        measurement_unit:
+          type: string
+          description: 'Measurement unit for a weighted line eg: pound, ounce etc'
+          enum:
+          - POUND
+          - GRAM
+          - KILOGRAM
+          - OUNCE
+          - FLUID_OUNCE
+          - UNKNOWN
+        measurement_type:
+          type: string
+          description: Measurement type can be QUANTITY, COUNTABLE_WEIGHT, NON_COUNTABLE_WEIGHT
+        estimated_units_per_item:
+          type: number
+          description: Estimated units per item
+      description: A line item for the order.
+    LineGroup:
+      required:
+      - lines
+      type: object
+      properties:
+        label:
+          type: string
+          description: A label for the group of line items. This will be used in the future for the name of a diner
+            on a group order.
+        lines:
+          type: array
+          description: The lines items for this portion of the order.
+          items:
+            $ref: '#/components/schemas/Line'
+      description: A group of line items. Currently, the entire order is within one line group; as group ordering
+        features are rolled out, orders will include multiple line groups.
+    LineOption:
+      type: object
+      properties:
+        label:
+          type: string
+          description: DEPRECATED. A label for this line item option.
+        price:
+          type: integer
+          description: The price of this item in US Cents.
+          format: int32
+        id:
+          type: string
+          description: A Grubhub id (legacy_id) for this option.
+        uuid:
+          type: string
+          description: Unique line option id for this order instance.
+          format: uuid
+        name:
+          type: string
+          description: The name of this option.
+        line_sub_options:
+          type: array
+          description: Sub-options applied to this option.
+          items:
+            $ref: '#/components/schemas/LineSubOption'
+        external_id:
+          type: string
+          description: The external ID that was stored in Grubhub for this option.
+        metadata:
+          type: string
+          description: Metadata associated with the line option.
+        quantity:
+          type: integer
+          description: The number of this line options to include.
+          format: int32
+        routing_tags:
+          uniqueItems: true
+          type: array
+          description: Used to route where a line option is printed and/or displayed.
+          items:
+            type: string
+            description: Used to route where a line option is printed and/or displayed.
+        default_context:
+          $ref: '#/components/schemas/DefaultContext'
+      description: Options applied to a Line Item
+    LineSubOption:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The Grubhub ID of the sub option.
+        name:
+          type: string
+          description: The name of the sub option, which will be shown to diners.
+        price:
+          type: integer
+          description: Deprecated. Use &quot;merchant_price&quot; instead.
+          format: int32
+          deprecated: true
+        merchant_price:
+          type: integer
+          description: The price of this item in US Cents.
+          format: int64
+        diner_price:
+          type: integer
+          description: Cost to diner, in cents.
+          format: int64
+        choice_category_id:
+          type: string
+          description: The category Id the choice belongs to.
+        quantity:
+          type: integer
+          description: The amount of this option to add to the previous option. This can indicate combos (single
+            menu items with multiple selectable items), options with variable amounts, or options that can be selected
+            multiple times.
+          format: int32
+        tags:
+          type: array
+          description: Grubhub tag IDs that apply to this line item.
+          items:
+            $ref: '#/components/schemas/LineTag'
+        line_sub_options:
+          type: array
+          description: Further sub options that apply to this sub option. These can be nested up to ten levels deep.
+          items:
+            $ref: '#/components/schemas/LineSubOption'
+        external_id:
+          type: string
+          description: The external ID that was stored in Grubhub for this menu suboption.
+        metadata:
+          type: string
+          description: Metadata associated with the line option.
+        routing_tags:
+          uniqueItems: true
+          type: array
+          description: Used to route where a line option is printed and/or displayed.
+          items:
+            type: string
+            description: Used to route where a line option is printed and/or displayed.
+        default_context:
+          $ref: '#/components/schemas/DefaultContext'
+      description: Sub Options that are applied to an Option or other Sub Option. These can be nested up to ten
+        levels deep.
+    LineTag:
+      type: object
+      properties:
+        ghc_tag_id:
+          type: integer
+          description: The Grubhub Id for the tag.
+          format: int64
+        name:
+          type: string
+          description: The name of the tag.
+      description: Tags that are associated with line items.
+    Payment:
+      type: object
+      properties:
+        payment_type:
+          type: string
+          description: The payment type. Note all non-CASH payment types should be treated as pre-paid to a Grubhub
+            tender or house account in the POS.
+          enum:
+          - CREDIT_CARD
+          - PROMO_CODE
+          - UNIFIED_REWARD
+          - REWARD
+          - GRUBCASH
+          - SUBSCRIPTION
+          - GIFT_CARD
+          - CREDIT_CARD
+          - APPLE_PAY
+          - PAYPAL_EXPRESS
+          - CORPORATE_LINE_OF_CREDIT
+          - ANDROID_PAY
+          - VENMO_PAY
+          - CASH
+          - CAMPUS_CARD
+          - AMEX_EXPRESS
+          - AMAZON_PAY
+          - THIRDPARTY_CREDIT
+          - THIRDPARTY_GIFT_CARD
+          - THIRDPARTY_PROMO
+          - CASH_APP
+        amount:
+          type: integer
+          description: The payment amount in US Cents
+          format: int32
+        payment_source:
+          type: string
+          description: The source of payment Possible values are `DINER`, `MERCHANT`, `GRUBHUB`, `OTHER`, or `UNKNOWN
+          enum:
+          - DINER
+          - MERCHANT
+          - GRUBHUB
+          - OTHER
+          - UNKNOWN
+        tax_application:
+          type: string
+          description: Whether this payment is applied `POST_TAX`, `PRE_TAX`, or that the tax applied to this payment
+            is`UNKNOWN`. Most payment types will be applied `POST_TAX`; however, loyalty rewards are applied by
+            the merchant and therefore lower the taxable amount of the order. These payments from the merchant will
+            generally be listed as `PRE_TAX'.
+          enum:
+          - PRE_TAX
+          - POST_TAX
+          - UNKNOWN
+        promotion_title:
+          type: string
+          description: The name of the applied promotion.
+        external_promotion_id:
+          type: string
+          description: The external ID that the partner uses to reference the applied promotion
+      description: A single payment source
+      example: '{
+
+        "payment_type": "UNIFIED_REWARD",
+
+        "amount": 1000,
+
+        "payment_source": "MERCHANT",
+
+        "tax_application": "PRE_TAX"
+
+        "promotion_title": "$5 off $25 or more"
+
+        "external_promotion_id": "12345"
+
+        }'
+    Payments:
+      type: object
+      properties:
+        payments:
+          type: array
+          description: A payment source
+          example: '[{ "payment_type": "UNIFIED_REWARD", "amount": 1000, "payment_source": "MERCHANT", "tax_application":
+            "PRE_TAX" }
+
+            "promotion_title": "$5 off $25 or more"
+
+            "external_promotion_id": "12345"
+
+            ,
+
+            {
+
+            "payment_type": "CREDIT_CARD",
+
+            "amount": 1620,
+
+            "payment_source": "UNKNOWN",
+
+            "tax_application": "POST_TAX"
+
+            "promotion_title": "$5 off $25 or more"
+
+            "external_promotion_id": "12345"
+
+            }]'
+          items:
+            $ref: '#/components/schemas/Payment'
+        rewards:
+          type: array
+          description: List of rewards applied to the order.
+          items:
+            $ref: '#/components/schemas/Reward'
+        promo_codes:
+          type: array
+          writeOnly: true
+          items:
+            $ref: '#/components/schemas/Promotion'
+        total:
+          type: integer
+          description: Initial total for an order in US Cents
+          format: int32
+          example: 2620
+        adjusted_total:
+          type: integer
+          description: Total payments after adjustments in US Cents
+          format: int32
+          example: 2620
+        promotions:
+          type: array
+          description: List of promotions applied to the order.
+          items:
+            $ref: '#/components/schemas/Promotion'
+      description: Information relating to any payments/rewards/promotions applied to the order
+    PhysicalInfo:
+      type: object
+      properties:
+        dimensions:
+          $ref: '#/components/schemas/Dimensions'
+        weight_in_pounds:
+          type: number
+          format: float
+        location_in_store:
+          type: string
+    PickupInfo:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the person coming to pickup the order
+        contact_info:
+          $ref: '#/components/schemas/ContactInfo'
+        instructions:
+          type: string
+          description: Special instructions for pickup
+        estimated_pickup_time:
+          $ref: '#/components/schemas/Instant'
+        is_green_indicated:
+          type: boolean
+          description: if set to true, the merchant should not include napkins, utensils and other items that would
+            just become waste as the diner has access to their own dishes and utensils
+      description: Information about the pickup order
+    PosOrderMerchantData:
+      type: object
+      properties:
+        order_facet_data:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/OrderFacetData'
+        restaurant_tags:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        fulfillment_tags:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        chain_name:
+          type: string
+      description: Merchant specific data including tags, chain name, and lead time.
+    Promotion:
+      type: object
+      properties:
+        amount:
+          type: integer
+          description: Amount of the payment type.
+          format: int32
+        payment_source:
+          type: string
+          description: Source of the payment (DINER, MERCHANT, GRUBHUB, OTHER).
+          enum:
+          - DINER
+          - MERCHANT
+          - GRUBHUB
+          - OTHER
+          - UNKNOWN
+        tax_application:
+          type: string
+          description: How this order was taxed (PRE_TAX, POST_TAX, UNKNOWN).
+          enum:
+          - PRE_TAX
+          - POST_TAX
+          - UNKNOWN
+      description: Information relating to any promotion applied to an order
+    Reward:
+      type: object
+      properties:
+        amount:
+          type: integer
+          description: Amount of the payment type.
+          format: int32
+        payment_source:
+          type: string
+          description: Source of the payment (DINER, MERCHANT, GRUBHUB, OTHER).
+          enum:
+          - DINER
+          - MERCHANT
+          - GRUBHUB
+          - OTHER
+          - UNKNOWN
+        tax_application:
+          type: string
+          description: How this order was taxed (PRE_TAX, POST_TAX, UNKNOWN).
+          enum:
+          - PRE_TAX
+          - POST_TAX
+          - UNKNOWN
+      description: Information relating to any rewards applied to an order
+    StatusUpdate:
+      type: object
+      properties:
+        status:
+          type: string
+          description: 'The status of an order as it passes through the Grubhub fulfillment flow.<br /><br />ANTICIPATED:
+            denotes a future order, which may be cancelled by diner.<br />RESTAURANT_CONFIRMABLE: pending confirmation
+            of receipt by the restaurant. These are effectively new ASAP orders. ANTICIPATED orders will automatically
+            become RESTAURANT_CONFIRMABLE at the promise time, less the restaurant''s configured pickup or delivery
+            prep time.<br />DINER_CONFIRMABLE: a status held for future use.<br />CONFIRMED: denotes that the order
+            was received by restaurant, even if the restaurant is unable to fulfill it.<br />REJECTED: an error
+            status. For example, if an order is unable to be inserted to the POS, due to menu item mismatch, restaurant
+            offline, etc., the status should be updated to REJECTED. This is not to be used when the order was successfully
+            transmitted, but the restaurant is unable to fulfill it for operational reasons. In that scenario, a
+            Change Request should be submitted to cancel the order.<br />CANCELLED: a cancellation request by the
+            diner or restaurant has been processed by Grubhub Customer Care.<br />PICKUP_READY: indicates that the
+            food is prepared and ready for pickup by the diner or a Grubhub delivery courier.<br />OUT_FOR_DELIVERY:
+            the food is on the way to the diner.<br />FULFILLED: denotes that the food has been delivered to or
+            picked up by the diner.<br />UNKNOWN: provided for error handling of strings unmappable to known enumeration
+            values.'
+          enum:
+          - REJECTED
+          - READY_FOR_PICKUP
+          - ANTICIPATED
+          - RESTAURANT_CONFIRMABLE
+          - CONFIRMED
+          - CANCELLED
+          - DELIVERY_CONFIRMABLE
+          - DINER_CONFIRMABLE
+          - UNKNOWN
+          - PICKUP_READY
+          - OUT_FOR_DELIVERY
+          - FULFILLED
+          - POS_VALIDATING
+          - POS_VALIDATED
+          - POS_VALIDATION_REJECTED
+        timestamp:
+          $ref: '#/components/schemas/Instant'
+        update_source:
+          type: string
+          description: The source of the update.
+          enum:
+          - DINER
+          - RESTAURANT
+          - GRUBHUB
+          - GRUBHUB_ADMIN
+          - GRUBHUB_CARE
+          - GRUBHUB_CORE
+          - GRUBHUB_DAPI
+          - GRUBHUB_ORDERS_REAPER
+          - CONFIRMATION_EMAIL_SERVICE
+          - FAX_RING
+          - MERCHANT_ORDERS
+          - CONFIRMATION_AUTOMATION
+          - POS_MICROS
+          - POS_GENERIC
+          - POS_ALOHA
+          - POS_XENIAL
+          - POS_POSITOUCH
+          - TX
+          - TXS
+          - GRUBHUB_ORDERS_ANTICIPATED_REAPER
+          - GRUBHUB_ORDERS_DAPI_SUPERVISOR
+          - GRUBHUB_ORDERS_AUTOCONFIRM_SUPERVISOR
+          - GRUBHUB_ORDERS_AUTOBUMP
+          - GRUBHUB_ORDERS_NOTIFICATION_SUPERVISOR
+          - GRUBHUB_ORDERS_FULFILLMENT_SUPERVISOR
+          - GRUBHUB_ORDERS_TRANSMISSION_SUPERVISOR
+          - UNKNOWN
+        reason:
+          type: string
+          description: An optional reason for the update.
+        segment_index:
+          type: integer
+          description: A number denoting the order of the status. Higher numbers correspond to more recent order
+            statuses
+          format: int32
+      description: A status update reflects each successive change in the status of an order.
+    Taxes:
+      type: object
+      properties:
+        total:
+          type: integer
+          description: Deprecated. Use &quot;merchantTotal&quot; instead
+          format: int32
+          deprecated: true
+        sales:
+          type: integer
+          description: Deprecated. Use &quot;merchantSalesTotal&quot; instead
+          format: int32
+          deprecated: true
+        delivery:
+          type: integer
+          description: Tax portion attributed to delivery fees
+          format: int32
+        restaurant:
+          type: integer
+          description: Deprecated. Use merchantTotal instead
+          format: int32
+          deprecated: true
+        merchant_sales_total:
+          type: integer
+          description: Total sales amount generated by the merchant transaction, inclusive of taxes.
+          format: int64
+        diner_sales_total:
+          type: integer
+          description: Total sales amount generated from the diner transaction, inclusive of taxes.
+          format: int64
+        merchant_total:
+          type: integer
+          description: Total amount earned by the merchant after deducting taxes from their sales.
+          format: int64
+        diner_total:
+          type: integer
+          description: Total amount paid by the diner, including taxes.
+          format: int64
+        tax_source:
+          type: string
+          description: Indicates if either the merchant, Vertex, or an unknown source provided the rates leading
+            to tax calculation.
+          enum:
+          - UNKNOWN
+          - MERCHANT
+          - VERTEX
+        tax_area_id:
+          type: string
+          description: The tax area id associated with this order.
+      description: Taxes paid by the diner
+    Tip:
+      type: object
+      properties:
+        amount:
+          type: integer
+          description: Tip amount
+          format: int32
+        type:
+          type: string
+          description: Type of Tip. CASH or INCLUDE_IN_BILL
+          enum:
+          - CASH
+          - INCLUDE_IN_BILL
+          - UNKNOWN
+      description: Tip for the order
+    OrderFacetData:
+      type: object
+      properties:
+        lead_time_settings:
+          $ref: '#/components/schemas/LeadTimeSettings'
+        min_advance_notice_minutes:
+          type: integer
+          format: int32
+    LeadTimeSettings:
+      type: object
+      properties:
+        delivery_estimate_minutes:
+          type: integer
+          format: int32
+        pickup_estimate_minutes:
+          type: integer
+          format: int32
+        lead_time_settings_tiers:
+          type: array
+          items:
+            $ref: '#/components/schemas/LeadTimeSettingsTier'
+        calculated_large_order_threshold_settings:
+          $ref: '#/components/schemas/ThresholdSettings'
+    LeadTimeSettingsTier:
+      required:
+      - additional_prep_time
+      - threshold
+      - threshold_type
+      type: object
+      properties:
+        threshold_type:
+          type: string
+          enum:
+          - ORDER_AMOUNT_CENTS
+          - UNKNOWN
+        threshold:
+          type: integer
+          format: int32
+        additional_prep_time:
+          type: integer
+          format: int32
+    ThresholdSettings:
+      type: object
+      properties:
+        threshold:
+          type: integer
+          format: int32
+        threshold_type:
+          type: string
+          enum:
+          - ORDER_AMOUNT_CENTS
+          - UNKNOWN
+    Chronology:
+      type: object
+      properties:
+        zone:
+          $ref: '#/components/schemas/DateTimeZone'
+    DateTimeZone:
+      type: object
+      properties:
+        id:
+          type: string
+        fixed:
+          type: boolean
+      description: The timezone of the restaurant
+    Instant:
+      type: object
+      properties:
+        chronology:
+          $ref: '#/components/schemas/Chronology'
+        millis:
+          type: integer
+          format: int64
+        zone:
+          $ref: '#/components/schemas/DateTimeZone'
+        after_now:
+          type: boolean
+        before_now:
+          type: boolean
+        equal_now:
+          type: boolean
+      description: The time that the diner placed the order
+    AddLineSubstitution:
+      type: object
+      description: Add Line Substitution
+      allOf:
+      - $ref: '#/components/schemas/LineSubstitutionType'
+    LineSubstitutionAdjustment:
+      required:
+      - line_substitution_type
+      - line_uuid
+      - menu_item_id
+      - merchant_id
+      - name
+      - quantity
+      - type
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/SubstitutionAdjustment'
+      - type: object
+        properties:
+          name:
+            type: string
+            description: Name of the line item
+          menu_item_id:
+            type: string
+            description: Menu item ID of the line item
+          line_uuid:
+            type: string
+            description: UUID of the line to substitute
+            format: uuid
+          special_instructions:
+            type: string
+            description: Special instructions for the substitution
+          price:
+            type: integer
+            description: Price of the substitution item
+            format: int32
+          delta:
+            type: integer
+            description: The absolute value of the difference in cents requested to change the total by
+            format: int32
+          quantity:
+            type: integer
+            description: Quantity of items for the replacement
+            format: int32
+          weight:
+            type: number
+            description: Weight of the substitution item
+            format: float
+          measurement_unit:
+            type: string
+            description: Measurement unit of the substitution item
+          line_substitution_type:
+            $ref: '#/components/schemas/LineSubstitutionType'
+          options:
+            type: array
+            description: The options for this substitution
+            items:
+              $ref: '#/components/schemas/LineOptionSubstitution'
+          merchant_id:
+            type: string
+            description: Merchant ID of the order
+          packaging_options:
+            uniqueItems: true
+            type: array
+            description: Options for packaging
+            items:
+              type: string
+              description: Options for packaging
+              enum:
+              - INDIVIDUALLY_PACKAGED
+              - TRAY
+              - PLATTER
+            enum:
+            - INDIVIDUALLY_PACKAGED
+            - TRAY
+            - PLATTER
+          replacements:
+            type: array
+            description: Replacement items
+            items:
+              $ref: '#/components/schemas/LineSubstitutionReplacement'
+    QuantityAndWeightLineSubstitution:
+      required:
+      - new_quantity
+      - new_weight
+      - old_quantity
+      - old_weight
+      type: object
+      description: Quantity And Weight Line Substitution
+      allOf:
+      - $ref: '#/components/schemas/LineSubstitutionType'
+      - type: object
+        properties:
+          old_quantity:
+            type: integer
+            description: Old quantity
+            format: int32
+          new_quantity:
+            type: integer
+            description: New quantity
+            format: int32
+          old_weight:
+            type: number
+            description: Old weight
+          new_weight:
+            type: number
+            description: New weight
+    QuantityLineSubstitution:
+      required:
+      - new_quantity
+      - old_quantity
+      type: object
+      description: Quantity Line Substitution
+      allOf:
+      - $ref: '#/components/schemas/LineSubstitutionType'
+      - type: object
+        properties:
+          old_quantity:
+            type: integer
+            description: Old quantity
+            format: int32
+          new_quantity:
+            type: integer
+            description: New quantity
+            format: int32
+    RemoveLineSubstitution:
+      required:
+      - old_quantity
+      type: object
+      description: Remove Line Substitution
+      allOf:
+      - $ref: '#/components/schemas/LineSubstitutionType'
+      - type: object
+        properties:
+          old_quantity:
+            type: integer
+            description: Old quantity
+            format: int32
+    ReplaceLineSubstitution:
+      type: object
+      description: Replace Line Substitution
+      allOf:
+      - $ref: '#/components/schemas/LineSubstitutionType'
+    SubItemLineSubstitution:
+      type: object
+      description: Sub Item Line Substitution
+      allOf:
+      - $ref: '#/components/schemas/LineSubstitutionType'
+    TotalSubstitutionAdjustment:
+      required:
+      - type
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/SubstitutionAdjustment'
+      - type: object
+        properties:
+          delta:
+            type: integer
+            description: The absolute value of the difference in cents requested to change the total by
+            format: int32
+          total_adjustment_type:
+            type: string
+            description: The type of adjustment
+            enum:
+            - ADJUST_UP, ADJUST_DOWN
+    OrderChangeRequest:
+      required:
+      - change_action
+      - requestor_email
+      - requestor_first_name
+      - requestor_last_name
+      - restaurant_agent_name
+      type: object
+      properties:
+        amount:
+          type: integer
+          description: Price change requested on the order in US cents.
+          format: int32
+        restaurant_agent_name:
+          type: string
+          description: Name of the agent who is requesting the change. Should be the logged-in user at the POS.
+            Displayed as a comment on the ticket.
+        requestor_email:
+          type: string
+          description: Email address of the contact to be notified for ticket updates.
+        requestor_first_name:
+          type: string
+          description: First name of the merchant contact to be notified for ticket updates.
+        requestor_last_name:
+          type: string
+          description: Last name of the merchant contact to be notified for ticket updates.
+        reason:
+          type: string
+          description: A description of the reason for the change.
+        reason_code:
+          type: string
+          description: Reason Code for the change.
+        notes:
+          type: string
+          description: Additional notes.
+        substitution_requests:
+          type: array
+          description: Substitution Request List
+          items:
+            $ref: '#/components/schemas/SubstitutionRequest'
+        change_action:
+          type: string
+          description: The action to take.
+          enum:
+          - adjust.action
+          - cancel.action
+          - substitution.action
+      description: Payload required to change an order state
+    LineOptionSubstitution:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the replacement option
+        option_id:
+          type: string
+          description: ID of the replacement option
+        price:
+          type: integer
+          description: Price for replacement option
+          format: int32
+        delta:
+          type: integer
+          description: The absolute value of the difference in cents requested to change the total by
+          format: int32
+        quantity:
+          type: integer
+          description: Quantity of replacement option
+          format: int32
+        line_option_substitution_type:
+          $ref: '#/components/schemas/LineSubstitutionType'
+        sub_options:
+          type: array
+          description: Options for the replacement
+          items:
+            $ref: '#/components/schemas/LineOptionSubstitution'
+      description: Options for the replacement
+    LineSubstitutionReplacement:
+      type: object
+      properties:
+        replacement_id:
+          type: string
+          description: ID for replacement item
+        replacement_name:
+          type: string
+          description: Name for replacement item
+        replacement_price:
+          type: integer
+          description: Price for replacement item
+          format: int32
+        replacement_quantity:
+          type: integer
+          description: Quantity of replacement item
+          format: int32
+        replacement_weight:
+          type: number
+          description: Weight of the replacement item
+          format: float
+        replacement_measurement_unit:
+          type: string
+          description: Measurement unit for the replacement item
+        options:
+          type: array
+          description: Options for the replacement
+          items:
+            $ref: '#/components/schemas/LineOptionSubstitution'
+        merchant_id:
+          type: string
+          description: ID of the merchant that this item belongs to
+        packaging_options:
+          uniqueItems: true
+          type: array
+          description: Options for packaging
+          items:
+            type: string
+            description: Options for packaging
+            enum:
+            - INDIVIDUALLY_PACKAGED
+            - TRAY
+            - PLATTER
+          enum:
+          - INDIVIDUALLY_PACKAGED
+          - TRAY
+          - PLATTER
+        replacement_gtin:
+          type: string
+          description: GTIN ID of the replacement item
+      description: Replacement items
+    SubstitutionAdjustment:
+      required:
+      - type
+      type: object
+      properties:
+        type:
+          type: string
+          description: The type of substitution requested.
+          enum:
+          - TOTAL
+          - LINE
+      description: Represents the details for a line or total substitution adjustment
+      discriminator:
+        propertyName: type
+        mapping:
+          LINE: '#/components/schemas/LineSubstitutionAdjustment'
+          TOTAL: '#/components/schemas/TotalSubstitutionAdjustment'
+      oneOf:
+      - $ref: '#/components/schemas/LineSubstitutionAdjustment'
+      - $ref: '#/components/schemas/TotalSubstitutionAdjustment'
+    SubstitutionRequest:
+      required:
+      - substitution_adjustment
+      type: object
+      properties:
+        substitution_adjustment:
+          $ref: '#/components/schemas/SubstitutionAdjustment'
+        reason:
+          type: string
+          description: Reason for the request
+        reason_code:
+          type: string
+          description: reasonCode
+      description: Substitution Request
+    LineSubstitutionType:
+      required:
+      - type
+      type: object
+      properties:
+        type:
+          type: string
+      description: 'The type of substitution: ADDED, REMOVED, QUANTITY_CHANGED, QUANTITY_WEIGHT_CHANGED, SUBITEMS_CHANGED,
+        REPLACED'
+      discriminator:
+        propertyName: type
+        mapping:
+          ADDED: '#/components/schemas/AddLineSubstitution'
+          REMOVED: '#/components/schemas/RemoveLineSubstitution'
+          QUANTITY_CHANGED: '#/components/schemas/QuantityLineSubstitution'
+          QUANTITY_WEIGHT_CHANGED: '#/components/schemas/QuantityAndWeightLineSubstitution'
+          SUBITEMS_CHANGED: '#/components/schemas/SubItemLineSubstitution'
+          REPLACED: '#/components/schemas/ReplaceLineSubstitution'
+      oneOf:
+      - $ref: '#/components/schemas/AddLineSubstitution'
+      - $ref: '#/components/schemas/RemoveLineSubstitution'
+      - $ref: '#/components/schemas/QuantityLineSubstitution'
+      - $ref: '#/components/schemas/QuantityAndWeightLineSubstitution'
+      - $ref: '#/components/schemas/SubItemLineSubstitution'
+      - $ref: '#/components/schemas/ReplaceLineSubstitution'
+    OrderChangeRequestStatus:
+      required:
+      - change_request_id
+      - order_id
+      - request
+      - status
+      type: object
+      properties:
+        order_id:
+          type: string
+          description: Order Id for which the change request was submitted.
+          format: uuid
+        change_request_id:
+          type: string
+          description: Change Request Id that was created.
+          format: uuid
+        request:
+          $ref: '#/components/schemas/OrderChangeRequest'
+        status:
+          type: string
+          description: Current status of the change request
+        ticket_id:
+          type: integer
+          description: Ticket ID of the change request
+          format: int64
+        requested_action:
+          type: string
+          description: Requested action
+      description: Status of a submitted order change request.
+    OrderPickupInstructions:
+      required:
+      - updated_at
+      type: object
+      properties:
+        order_pickup_instructions:
+          type: string
+          description: Free-form text field with a 250-character limit. Pickup instructions are only for delivery
+            drivers  when they pick up the order. Grubhub will not parse or interpret the content of this field
+            beyond transmitting it.
+        updated_at:
+          type: string
+          description: timestamp in UTC.
+          format: date-time
+        pickup_verification:
+          $ref: '#/components/schemas/OrderPickupVerification'
+      description: Payload to add dynamic pickup instructions

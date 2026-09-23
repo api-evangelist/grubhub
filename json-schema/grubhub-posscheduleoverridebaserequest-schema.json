@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-posscheduleoverridebaserequest-schema.json",
+  "title": "PosScheduleOverrideBaseRequest",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-menu-openapi.yml#/components/schemas/PosScheduleOverrideBaseRequest",
+  "required": [
+    "end",
+    "op",
+    "show_or_hide",
+    "start"
+  ],
+  "type": "object",
+  "properties": {
+    "op": {
+      "type": "string",
+      "description": "The operation to perform [ADD, UPDATE].",
+      "enum": [
+        "ADD",
+        "UPDATE"
+      ]
+    },
+    "cur_end_date": {
+      "type": "string",
+      "description": "ISO-8601 format.For ADD operations, the current end date is not required.For UPDATE operations, the current end date is required. ",
+      "format": "date-time"
+    },
+    "start": {
+      "type": "string",
+      "description": "ISO-8601 format. The beginning of the temporary override period.",
+      "format": "date-time"
+    },
+    "end": {
+      "type": "string",
+      "description": "ISO-8601 format. The end of the temporary override period. A sentinel value of \"9999-12-31T23:59:00.000Z\" is used to \"archive\" an item.",
+      "format": "date-time"
+    },
+    "show_or_hide": {
+      "type": "string",
+      "description": "The options to use for the override.",
+      "enum": [
+        "SHOW",
+        "HIDE"
+      ]
+    }
+  },
+  "description": "A schedule override operation to be performed for multiple entities of any type (ITEM or MODIFIER)."
+}

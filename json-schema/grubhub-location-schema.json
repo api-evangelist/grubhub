@@ -1,0 +1,148 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-location-schema.json",
+  "title": "Location",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-deliveries-openapi.yml#/components/schemas/Location",
+  "required": [
+    "location_address",
+    "name",
+    "phone"
+  ],
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "A unique identifier that the requesting party can send to help identify where deliveries can be batched",
+      "example": "AvYO6VyVEeiVadmHZVMROm"
+    },
+    "name": {
+      "type": "string",
+      "description": "A short description of the location",
+      "example": "Good Food, Inc."
+    },
+    "location_address": {
+      "$ref": "#/$defs/Address"
+    },
+    "phone": {
+      "type": "string",
+      "description": "Telephone number for contacting this location",
+      "example": "4045551212"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Special instructions for access to the location",
+      "example": "Use side door."
+    },
+    "geofence_radius_in_meters": {
+      "type": "integer",
+      "description": "The geofence radius in meters for automated arrival",
+      "format": "int32",
+      "example": 0
+    },
+    "handoff_pin_geo": {
+      "$ref": "#/$defs/GeoLocation"
+    },
+    "merchant_phone_suppressed": {
+      "type": "boolean",
+      "description": "Flag to hide the merchant contact phone number",
+      "example": true
+    }
+  },
+  "description": "Geographic and contact details for where contents will be picked up from or dropped off.",
+  "$defs": {
+    "Address": {
+      "type": "object",
+      "properties": {
+        "region_code": {
+          "type": "string",
+          "description": "ISO 3166-1 alpha-2 country code, e.g. US, GB"
+        },
+        "address_lines": {
+          "type": "array",
+          "description": "In order street address line 1, 2, etc.",
+          "items": {
+            "type": "string",
+            "description": "In order street address line 1, 2, etc."
+          }
+        },
+        "cross_streets": {
+          "type": "string",
+          "description": "Usually a rough description of the intersection for delivery."
+        },
+        "locality": {
+          "type": "string",
+          "description": "Usually refers to postal town or city."
+        },
+        "sublocality": {
+          "type": "string",
+          "description": "Borough, district, an entity with an administrative boundary."
+        },
+        "neighborhood": {
+          "type": "string",
+          "description": "A subdivision of sublocality, with or without a an administrative boundary.<br />It might also refer to a common name that is associated with the location."
+        },
+        "administrative_area": {
+          "type": "string",
+          "description": "State, or some sort of highest level subdivision of the region."
+        },
+        "postal_code": {
+          "type": "string",
+          "description": "Postal code."
+        },
+        "sorting_code": {
+          "type": "string",
+          "description": "Not used in most regions. Sorting code for addressing purposes."
+        },
+        "coordinates": {
+          "$ref": "#/$defs/Coordinates"
+        },
+        "organization_name": {
+          "type": "string",
+          "description": "Name of the organization."
+        },
+        "detailed_pin_coordinates": {
+          "$ref": "#/$defs/Coordinates"
+        }
+      },
+      "description": "Physical street address"
+    },
+    "Coordinates": {
+      "type": "object",
+      "properties": {
+        "latitude": {
+          "type": "number",
+          "description": "Latitude of the address."
+        },
+        "longitude": {
+          "type": "number",
+          "description": "Longitude of the address."
+        }
+      },
+      "description": "Coordinates of the address."
+    },
+    "GeoLocation": {
+      "required": [
+        "lat",
+        "lng"
+      ],
+      "type": "object",
+      "properties": {
+        "lat": {
+          "type": "number",
+          "description": "Latitude coordinate",
+          "format": "double",
+          "example": 37.67577137428678
+        },
+        "lng": {
+          "type": "number",
+          "description": "Longitude coordinate",
+          "format": "double",
+          "example": -81.40696178943328
+        }
+      },
+      "description": "Latitude and longitude coordinates for a location."
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-refundamount-schema.json",
+  "title": "RefundAmount",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/RefundAmount",
+  "required": [
+    "contents_value",
+    "delivery_fee",
+    "tip"
+  ],
+  "type": "object",
+  "properties": {
+    "delivery_fee": {
+      "minimum": 0,
+      "type": "integer",
+      "description": "The amount of the refund requested to be taken from the delivery fee, formatted as cents.",
+      "format": "int32",
+      "example": 100
+    },
+    "tip": {
+      "minimum": 0,
+      "type": "integer",
+      "description": "The amount of the refund requested to be taken from the tip, formatted as cents.",
+      "format": "int32",
+      "example": 333
+    },
+    "contents_value": {
+      "minimum": 0,
+      "type": "integer",
+      "description": "The amount of the refund requested to be taken from the contents value, formatted as cents.",
+      "format": "int32",
+      "example": 542
+    },
+    "return_fee": {
+      "minimum": 0,
+      "type": "integer",
+      "description": "The amount of the refund requested to be taken from the return fee, formatted as cents.",
+      "format": "int32",
+      "example": 200
+    }
+  },
+  "description": "The amount of the refund requested, broken down into various categories."
+}

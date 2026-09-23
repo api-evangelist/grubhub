@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-posbulksupplementaltagstatus-schema.json",
+  "title": "PosBulkSupplementalTagStatus",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-menu-openapi.yml#/components/schemas/PosBulkSupplementalTagStatus",
+  "type": "object",
+  "properties": {
+    "job_id": {
+      "type": "string",
+      "description": "A value that identifies a bulk supplemental tag request.",
+      "format": "uuid"
+    },
+    "processing_complete": {
+      "type": "boolean",
+      "description": "True if this job processing is done (successful or not), false otherwise."
+    },
+    "status": {
+      "type": "string",
+      "description": "Status of a menu entity supplemental tag operation.",
+      "enum": [
+        "QUEUED",
+        "SUCCESSFUL",
+        "FAILED",
+        "ALREADY_SUBMITTED"
+      ]
+    },
+    "reason": {
+      "type": "string",
+      "description": "Additional details that pertain to the status of the operation."
+    },
+    "entity_ids": {
+      "uniqueItems": true,
+      "type": "array",
+      "description": "A list of external IDs that were part of the associated request.",
+      "items": {
+        "type": "string",
+        "description": "A list of external IDs that were part of the associated request."
+      }
+    },
+    "merchant_id": {
+      "type": "string",
+      "description": "This field can either be the Grubhub ID for the merchant, or if an external ID is provided, it represents the external ID of the merchant."
+    }
+  },
+  "description": "Describes the state (completed or not) of a bulk supplemental tag operation request together with its state (successful or not)."
+}

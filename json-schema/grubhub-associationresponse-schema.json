@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-associationresponse-schema.json",
+  "title": "AssociationResponse",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-onboarding-openapi.yml#/components/schemas/AssociationResponse",
+  "type": "object",
+  "properties": {
+    "cust_id": {
+      "type": "integer",
+      "format": "int64"
+    },
+    "external_id": {
+      "type": "string"
+    },
+    "associated": {
+      "type": "boolean"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "SUCCESS",
+        "NOT_FOUND",
+        "ALREADY_INTEGRATED",
+        "FAILURE"
+      ]
+    }
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-quote-schema.json",
+  "title": "Quote",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/Quote",
+  "required": [
+    "cost_amount",
+    "estimated_dropoff_time",
+    "estimated_pickup_time",
+    "expiration",
+    "quote_id",
+    "return_fee"
+  ],
+  "type": "object",
+  "properties": {
+    "quote_id": {
+      "type": "string",
+      "description": "The unique identifier for this quote. This must be referenced when accepting the quote.",
+      "format": "uuid",
+      "example": "0ec346bd-635a-4a07-8f35-44962a8bcc5b"
+    },
+    "cost_amount": {
+      "minimum": 0,
+      "type": "integer",
+      "description": "The cost of the delivery, formatted in cents.",
+      "format": "int32"
+    },
+    "estimated_pickup_time": {
+      "type": "string",
+      "description": "The courier's estimated pickup time of the delivery. Formatted as an ISO-8601 timestamp.",
+      "format": "date-time"
+    },
+    "estimated_dropoff_time": {
+      "type": "string",
+      "description": "The courier's estimated dropoff time of the delivery. Formatted as an ISO-8601 timestamp.",
+      "format": "date-time"
+    },
+    "return_fee": {
+      "minimum": 0,
+      "type": "integer",
+      "description": "The return fee of the delivery, formatted in cents.",
+      "format": "int32"
+    },
+    "expiration": {
+      "type": "string",
+      "description": "When the quote expires and new quote must be requested. Formatted as an ISO-8601 timestamp.",
+      "format": "date-time"
+    }
+  },
+  "description": "The information associated with a delivery fulfillment quote."
+}

@@ -1,0 +1,394 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-linegroup-schema.json",
+  "title": "LineGroup",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-orders-openapi.yml#/components/schemas/LineGroup",
+  "required": [
+    "lines"
+  ],
+  "type": "object",
+  "properties": {
+    "label": {
+      "type": "string",
+      "description": "A label for the group of line items. This will be used in the future for the name of a diner on a group order."
+    },
+    "lines": {
+      "type": "array",
+      "description": "The lines items for this portion of the order.",
+      "items": {
+        "$ref": "#/$defs/Line"
+      }
+    }
+  },
+  "description": "A group of line items. Currently, the entire order is within one line group; as group ordering features are rolled out, orders will include multiple line groups.",
+  "$defs": {
+    "DefaultContext": {
+      "type": "object",
+      "properties": {
+        "removed": {
+          "type": "boolean",
+          "description": "True if boolean line or line sub option has been removed"
+        },
+        "default_quantity": {
+          "type": "integer",
+          "description": "Present for line or line sub option with quantity if NormalizedModifierPrompt.modifier_prompt_quantity_settings",
+          "format": "int64"
+        },
+        "unit_price": {
+          "type": "integer",
+          "description": "Present for line or line sub option with default_quantity, quantity_free, and selected quantity is greater than quantity_free",
+          "format": "int64"
+        }
+      },
+      "description": "Contextual information to compare a line or line sub option to its default state"
+    },
+    "Dimensions": {
+      "type": "object",
+      "properties": {
+        "depth_in_inches": {
+          "type": "number",
+          "format": "float"
+        },
+        "width_in_inches": {
+          "type": "number",
+          "format": "float"
+        },
+        "height_in_inches": {
+          "type": "number",
+          "format": "float"
+        }
+      }
+    },
+    "Line": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "A description of the line item."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the line item."
+        },
+        "special_instructions": {
+          "type": "string",
+          "description": "Free form text special instructions added by the diner."
+        },
+        "line_options": {
+          "type": "array",
+          "description": "The options selected.",
+          "items": {
+            "$ref": "#/$defs/LineOption"
+          }
+        },
+        "price": {
+          "type": "integer",
+          "description": "Deprecated. Use &quot;merchant_price&quot; instead.",
+          "format": "int32",
+          "deprecated": true
+        },
+        "merchant_price": {
+          "type": "integer",
+          "description": "The price of this item in US Cents.",
+          "format": "int64"
+        },
+        "quantity": {
+          "type": "integer",
+          "description": "The number of this item to include.",
+          "format": "int32"
+        },
+        "id": {
+          "type": "string",
+          "description": "The Grubhub ID for this line item, may be null."
+        },
+        "menu_item_id": {
+          "type": "string",
+          "description": "The Grubhub menu item ID (legacy_id)."
+        },
+        "menu_item_uuid": {
+          "type": "string",
+          "description": "Grubhub menu item uuid.",
+          "format": "uuid"
+        },
+        "diner_total": {
+          "type": "integer",
+          "description": "The total cost of this item (and options) in US Cents.",
+          "format": "int32"
+        },
+        "total": {
+          "type": "integer",
+          "description": "Deprecated. Use &quot;merchant_total&quot; instead.",
+          "format": "int32",
+          "deprecated": true
+        },
+        "merchant_total": {
+          "type": "integer",
+          "description": "The total cost of this item (and options) in US Cents.",
+          "format": "int64"
+        },
+        "item_type": {
+          "type": "string",
+          "description": "A categorization of this item."
+        },
+        "variation_id": {
+          "type": "string",
+          "description": "Deprecated. A Grubhub Id for a specific variation of this line item."
+        },
+        "tags": {
+          "type": "array",
+          "description": "Grubhub tag IDs that apply to this line item.",
+          "items": {
+            "type": "integer",
+            "description": "Grubhub tag IDs that apply to this line item.",
+            "format": "int32"
+          }
+        },
+        "tag_names": {
+          "type": "array",
+          "description": "Grubhub tag names that apply to this line item.",
+          "items": {
+            "type": "string",
+            "description": "Grubhub tag names that apply to this line item."
+          }
+        },
+        "external_id": {
+          "type": "string",
+          "description": "The external ID that was stored in Grubhub for this menu item id."
+        },
+        "metadata": {
+          "type": "string",
+          "description": "Metadata associated with the line item."
+        },
+        "routing_tags": {
+          "uniqueItems": true,
+          "type": "array",
+          "description": "Tags for use in Ultimate Pickup system",
+          "items": {
+            "type": "string",
+            "description": "Tags for use in Ultimate Pickup system"
+          }
+        },
+        "line_uuid": {
+          "type": "string",
+          "description": "Unique line item id for this order instance (i.e. 2 lines of Hamburger will have the same line Id, but will have different line item Ids).",
+          "format": "uuid"
+        },
+        "packaging_options": {
+          "uniqueItems": true,
+          "type": "array",
+          "description": "Packaging information (i.e. packaging style, ect.)",
+          "items": {
+            "type": "string",
+            "description": "Packaging information (i.e. packaging style, ect.)"
+          }
+        },
+        "physical_info": {
+          "$ref": "#/$defs/PhysicalInfo"
+        },
+        "item_gtin": {
+          "type": "string"
+        },
+        "item_image_url": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
+        "weight": {
+          "type": "number",
+          "description": "Weight after driver pick-up"
+        },
+        "requested_weight": {
+          "type": "number",
+          "description": "Diner requested weight"
+        },
+        "measurement_unit": {
+          "type": "string",
+          "description": "Measurement unit for a weighted line eg: pound, ounce etc",
+          "enum": [
+            "POUND",
+            "GRAM",
+            "KILOGRAM",
+            "OUNCE",
+            "FLUID_OUNCE",
+            "UNKNOWN"
+          ]
+        },
+        "measurement_type": {
+          "type": "string",
+          "description": "Measurement type can be QUANTITY, COUNTABLE_WEIGHT, NON_COUNTABLE_WEIGHT"
+        },
+        "estimated_units_per_item": {
+          "type": "number",
+          "description": "Estimated units per item"
+        }
+      },
+      "description": "A line item for the order."
+    },
+    "LineOption": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string",
+          "description": "DEPRECATED. A label for this line item option."
+        },
+        "price": {
+          "type": "integer",
+          "description": "The price of this item in US Cents.",
+          "format": "int32"
+        },
+        "id": {
+          "type": "string",
+          "description": "A Grubhub id (legacy_id) for this option."
+        },
+        "uuid": {
+          "type": "string",
+          "description": "Unique line option id for this order instance.",
+          "format": "uuid"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of this option."
+        },
+        "line_sub_options": {
+          "type": "array",
+          "description": "Sub-options applied to this option.",
+          "items": {
+            "$ref": "#/$defs/LineSubOption"
+          }
+        },
+        "external_id": {
+          "type": "string",
+          "description": "The external ID that was stored in Grubhub for this option."
+        },
+        "metadata": {
+          "type": "string",
+          "description": "Metadata associated with the line option."
+        },
+        "quantity": {
+          "type": "integer",
+          "description": "The number of this line options to include.",
+          "format": "int32"
+        },
+        "routing_tags": {
+          "uniqueItems": true,
+          "type": "array",
+          "description": "Used to route where a line option is printed and/or displayed.",
+          "items": {
+            "type": "string",
+            "description": "Used to route where a line option is printed and/or displayed."
+          }
+        },
+        "default_context": {
+          "$ref": "#/$defs/DefaultContext"
+        }
+      },
+      "description": "Options applied to a Line Item"
+    },
+    "LineSubOption": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The Grubhub ID of the sub option."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the sub option, which will be shown to diners."
+        },
+        "price": {
+          "type": "integer",
+          "description": "Deprecated. Use &quot;merchant_price&quot; instead.",
+          "format": "int32",
+          "deprecated": true
+        },
+        "merchant_price": {
+          "type": "integer",
+          "description": "The price of this item in US Cents.",
+          "format": "int64"
+        },
+        "diner_price": {
+          "type": "integer",
+          "description": "Cost to diner, in cents.",
+          "format": "int64"
+        },
+        "choice_category_id": {
+          "type": "string",
+          "description": "The category Id the choice belongs to."
+        },
+        "quantity": {
+          "type": "integer",
+          "description": "The amount of this option to add to the previous option. This can indicate combos (single menu items with multiple selectable items), options with variable amounts, or options that can be selected multiple times.",
+          "format": "int32"
+        },
+        "tags": {
+          "type": "array",
+          "description": "Grubhub tag IDs that apply to this line item.",
+          "items": {
+            "$ref": "#/$defs/LineTag"
+          }
+        },
+        "line_sub_options": {
+          "type": "array",
+          "description": "Further sub options that apply to this sub option. These can be nested up to ten levels deep.",
+          "items": {
+            "$ref": "#/$defs/LineSubOption"
+          }
+        },
+        "external_id": {
+          "type": "string",
+          "description": "The external ID that was stored in Grubhub for this menu suboption."
+        },
+        "metadata": {
+          "type": "string",
+          "description": "Metadata associated with the line option."
+        },
+        "routing_tags": {
+          "uniqueItems": true,
+          "type": "array",
+          "description": "Used to route where a line option is printed and/or displayed.",
+          "items": {
+            "type": "string",
+            "description": "Used to route where a line option is printed and/or displayed."
+          }
+        },
+        "default_context": {
+          "$ref": "#/$defs/DefaultContext"
+        }
+      },
+      "description": "Sub Options that are applied to an Option or other Sub Option. These can be nested up to ten levels deep."
+    },
+    "LineTag": {
+      "type": "object",
+      "properties": {
+        "ghc_tag_id": {
+          "type": "integer",
+          "description": "The Grubhub Id for the tag.",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the tag."
+        }
+      },
+      "description": "Tags that are associated with line items."
+    },
+    "PhysicalInfo": {
+      "type": "object",
+      "properties": {
+        "dimensions": {
+          "$ref": "#/$defs/Dimensions"
+        },
+        "weight_in_pounds": {
+          "type": "number",
+          "format": "float"
+        },
+        "location_in_store": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

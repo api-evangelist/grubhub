@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-measuredprice-schema.json",
+  "title": "MeasuredPrice",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-menu-openapi.yml#/components/schemas/MeasuredPrice",
+  "type": "object",
+  "properties": {
+    "measurement_unit_for_pricing": {
+      "type": "string",
+      "description": "The measurement unit used to measure the item. This should be used only for items whose price depends on quantity sold. These are also referred as weighted items"
+    },
+    "estimated_units_per_item_for_pricing": {
+      "type": "number",
+      "description": "Estimated units per unit of item. This value will be used to calculate estimated price for total number of units. The unit of measurement used will be measurement_unit_for_pricing. This should be used only for items whose price depends on quantity. These are also referred as weighted items "
+    }
+  },
+  "description": "The values for items whose price depends on the quantity sold. Also referred as weighted items."
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-posnormalizedmenumedia-schema.json",
+  "title": "PosNormalizedMenuMedia",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-menu-openapi.yml#/components/schemas/PosNormalizedMenuMedia",
+  "type": "object",
+  "properties": {
+    "source_url": {
+      "type": "string",
+      "description": "The URL where the image file can be downloaded."
+    }
+  },
+  "description": "Information about media used in the PosNormalizedMenu format."
+}

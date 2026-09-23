@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-postestorderrequest-schema.json",
+  "title": "PosTestOrderRequest",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-testing-openapi.yml#/components/schemas/PosTestOrderRequest",
+  "type": "object",
+  "properties": {
+    "is_delivery": {
+      "type": "boolean",
+      "description": "Whether the test order should be for delivery (as opposed to pickup). Default is false. Note that regardless of this property, for Grubhub Managed Delivery restaurants, there will be no Delivery object created."
+    },
+    "is_catering": {
+      "type": "boolean",
+      "description": "Whether the test order should be for catering. Default is false."
+    },
+    "is_validation": {
+      "type": "boolean",
+      "description": "isValidation."
+    }
+  },
+  "description": "Request body for creating a transmission test."
+}

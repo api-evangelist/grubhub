@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-reward-schema.json",
+  "title": "Reward",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-orders-openapi.yml#/components/schemas/Reward",
+  "type": "object",
+  "properties": {
+    "amount": {
+      "type": "integer",
+      "description": "Amount of the payment type.",
+      "format": "int32"
+    },
+    "payment_source": {
+      "type": "string",
+      "description": "Source of the payment (DINER, MERCHANT, GRUBHUB, OTHER).",
+      "enum": [
+        "DINER",
+        "MERCHANT",
+        "GRUBHUB",
+        "OTHER",
+        "UNKNOWN"
+      ]
+    },
+    "tax_application": {
+      "type": "string",
+      "description": "How this order was taxed (PRE_TAX, POST_TAX, UNKNOWN).",
+      "enum": [
+        "PRE_TAX",
+        "POST_TAX",
+        "UNKNOWN"
+      ]
+    }
+  },
+  "description": "Information relating to any rewards applied to an order"
+}

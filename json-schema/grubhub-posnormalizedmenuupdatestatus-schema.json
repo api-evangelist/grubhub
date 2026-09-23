@@ -1,0 +1,155 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-posnormalizedmenuupdatestatus-schema.json",
+  "title": "PosNormalizedMenuUpdateStatus",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-menu-openapi.yml#/components/schemas/PosNormalizedMenuUpdateStatus",
+  "required": [
+    "details",
+    "job_id",
+    "merchant_statuses"
+  ],
+  "type": "object",
+  "properties": {
+    "job_id": {
+      "type": "string",
+      "description": "The identifier of the job that the status messages come from."
+    },
+    "details": {
+      "type": "string",
+      "description": "Details associated with the update status."
+    },
+    "merchant_statuses": {
+      "type": "array",
+      "description": "The current state or result of a menu ingestion job.",
+      "items": {
+        "$ref": "#/$defs/MenuMerchantStatus"
+      }
+    }
+  },
+  "description": "The current status of a menu ingestion job.",
+  "$defs": {
+    "InvalidCodeAndEntityIds": {
+      "required": [
+        "code",
+        "entity_ids"
+      ],
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "The invalid tax category code found in the menu."
+        },
+        "entity_ids": {
+          "uniqueItems": true,
+          "type": "array",
+          "description": "Set of entity ids with the invalid code above.",
+          "items": {
+            "type": "string",
+            "description": "Set of entity ids with the invalid code above."
+          }
+        },
+        "errror_message": {
+          "type": "string",
+          "description": "The error message includes more details."
+        }
+      },
+      "description": "A tax category validation error found on supplied menu"
+    },
+    "MediaValidationErrorDTO": {
+      "type": "object",
+      "properties": {
+        "media_validation_error_message": {
+          "type": "string",
+          "description": "The message including error details.",
+          "example": "Precondition Failed : User request invalid, could not upload media."
+        },
+        "entity_id": {
+          "type": "string",
+          "description": "The entity id of the item with media validation error.",
+          "example": "123452933468"
+        },
+        "external_id": {
+          "type": "string",
+          "description": "The external id of the item with media validation error.",
+          "example": "ededebf898ebd89ebd9e8bd9b3"
+        },
+        "url": {
+          "type": "string",
+          "description": "The url of the invalid media.",
+          "example": "https://mediahost.example/bacon.jpg"
+        },
+        "menu_item_name": {
+          "type": "string",
+          "description": "The name of the item with media validation error.",
+          "example": "Bacon"
+        }
+      },
+      "description": "A media validation error that occurred during ingestion."
+    },
+    "MenuMerchantStatus": {
+      "required": [
+        "merchant_id",
+        "status"
+      ],
+      "type": "object",
+      "properties": {
+        "merchant_id": {
+          "type": "string",
+          "description": "The partner resource ID of the merchant whose specific menu ingestion job this status applies to."
+        },
+        "status": {
+          "type": "string",
+          "description": "Represents the current state of the menu ingestion job.<ul><li>`REQUESTED` - The ingestion process has been received, but it has not begun processing. Replaces `QUEUED`, but that status is not deprecated.</li><li>`QUEUED` - Waiting to process.</li><li>`IN_PROGRESS` - Job is in progress, possibly in retry cycle.</li><li>`SUCCESS` - Menu successfully updated.</li><li>`PARTIAL_SUCCESS` - Some portion of the menu has updated successfully, but not all.</li><li>`FAILED` - Menu could not be updated.</li><li>`FAILED_MENU_DOWNLOAD` - Menu request payload/URL could not be downloaded.</li><li>`FAILED_VALIDATION` - Menu request payload/URL could not be validated.</li><li>`UNKNOWN` - The ingestion process is in an unknown state. Contact support.</li></ul>",
+          "enum": [
+            "REQUESTED",
+            "QUEUED",
+            "IN_PROGRESS",
+            "SUCCESS",
+            "PARTIAL_SUCCESS",
+            "FAILED",
+            "FAILED_MENU_DOWNLOAD",
+            "FAILED_VALIDATION",
+            "UNKNOWN"
+          ]
+        },
+        "menu_proof_url": {
+          "type": "string",
+          "description": "The proof URL to view the ingested menu on the front-end. This is only returned when the menu ingestion is successful."
+        },
+        "details": {
+          "type": "array",
+          "description": "A list where each element is a human-readable description of the status of this job or the problem encountered, if any. For example: [\"Control details: jobId is ...\", \"Other details\"], [\"Error message\"] ",
+          "items": {
+            "type": "string",
+            "description": "A list where each element is a human-readable description of the status of this job or the problem encountered, if any. For example: [\"Control details: jobId is ...\", \"Other details\"], [\"Error message\"] "
+          }
+        },
+        "media_processing_status": {
+          "type": "string",
+          "description": "Status reflecting the state of the media uploads."
+        },
+        "media_validation_error_list": {
+          "type": "array",
+          "description": "A List of any media validation errors that occurred during ingestion.",
+          "items": {
+            "$ref": "#/$defs/MediaValidationErrorDTO"
+          }
+        },
+        "tax_category_validation_errors": {
+          "type": "array",
+          "description": "List of tax category validation errors on supplied menu.",
+          "items": {
+            "$ref": "#/$defs/InvalidCodeAndEntityIds"
+          }
+        },
+        "weighted_items_validation_errors": {
+          "type": "string",
+          "description": "String of comma-delimited items that were marked as invalid weighted items. Will not be ingested."
+        }
+      },
+      "description": "The current state or result of a menu ingestion job. Each status will be communicated with both a standardized status string and a human-readable description."
+    }
+  }
+}

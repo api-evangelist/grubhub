@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-merchantreportstatuswebhook-schema.json",
+  "title": "Merchant Report Status Webhook",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-reporting-webhooks-openapi.yml#/components/schemas/MerchantReportStatusWebhook",
+  "type": "object",
+  "description": "Webhook for reporting status updates.",
+  "properties": {
+    "report_uuid": {
+      "type": "string",
+      "format": "uuid",
+      "description": "A unique identifier for the report.",
+      "example": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
+    },
+    "download_report_request_url": {
+      "type": "string",
+      "description": "URL to download the report. Make a GET request to this URL to get the s3 download link. This field is empty for NO_DATA or ERROR status.",
+      "example": "https://api-gtm.grubhub.com/merchant/reporting/v1/reports/f47ac10b-58cc-4372-a567-0e02b2c3d479"
+    },
+    "report_status": {
+      "type": "string",
+      "description": "Status of the report. Possible values are COMPLETE, ERROR, or NO_DATA.",
+      "example": "COMPLETE"
+    },
+    "message": {
+      "type": "string",
+      "description": "Message providing additional information about the report status. This field is empty for COMPLETE status."
+    }
+  },
+  "required": [
+    "download_report_request_url",
+    "message",
+    "report_status",
+    "report_uuid"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-estimatedeventtimes-schema.json",
+  "title": "EstimatedEventTimes",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/EstimatedEventTimes",
+  "required": [
+    "dropped_off",
+    "picked_up"
+  ],
+  "type": "object",
+  "properties": {
+    "picked_up": {
+      "type": "string",
+      "description": "The estimated pickup time, or the actual pickup time if the pickup has already occurred. Formatted as an ISO-8601 timestamp.",
+      "format": "date-time",
+      "example": "2024-05-28T00:00:00Z"
+    },
+    "dropped_off": {
+      "type": "string",
+      "description": "The estimated drop-off time, or the actual drop-off time if the pickup has already occurred. Formatted as an ISO-8601 timestamp.",
+      "format": "date-time",
+      "example": "2024-05-28T00:00:00Z"
+    }
+  },
+  "description": "The latest known estimates for the delivery pickup and dropoff times. Will be the actual times if the event has already occurred."
+}

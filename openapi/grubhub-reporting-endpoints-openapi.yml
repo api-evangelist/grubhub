@@ -1,0 +1,308 @@
+openapi: 3.0.1
+info:
+  title: Endpoints
+servers:
+- url: https://api-third-party-gtm-pp.grubhub.com
+  description: preprod
+- url: https://api-third-party-gtm.grubhub.com
+  description: prod
+tags:
+- name: Models
+  description: "# DateRange \n <SchemaDefinition schemaRef=\"#/components/schemas/DateRange\"/>\n\n# CreateExportReportRequestByPartner\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/CreateExportReportRequestByPartner\"/>\n\n# ReportRequestParametersByPartner\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/ReportRequestParametersByPartner\"/>\n\n# MerchantReportingErrorResponse\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/MerchantReportingErrorResponse\"/>\n\n# CreateExportReportResponseByPartner\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/CreateExportReportResponseByPartner\"/>\n\n# GetDownloadUrlResponseByPartner\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/GetDownloadUrlResponseByPartner\"/>\n\n# GetEnabledMerchantsResponse\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/GetEnabledMerchantsResponse\"/>\n\n"
+paths:
+  /merchant/reporting/v1/reports:
+    post:
+      tags:
+      - Requesting Reports
+      - Endpoints
+      summary: Create a report
+      description: Creates a report for the given partner.
+      operationId: createExportReport
+      parameters:
+      - name: X-GH-PARTNER-KEY
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateExportReportRequestByPartner'
+        required: true
+      responses:
+        '404':
+          description: Report with given UUID was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MerchantReportingErrorResponse'
+              example:
+                message: Requested report does not exist
+        '400':
+          description: These errors indicate that the request was malformed or contained invalid parameters.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MerchantReportingErrorResponse'
+              examples:
+                Invalid Date Range:
+                  summary: Invalid Date Range
+                  description: Invalid Date Range
+                  value:
+                    message: Requested start date 2023-01-01 is earlier than earliest allowed date 2024-01-01
+                Invalid Columns:
+                  summary: Invalid Columns
+                  description: Invalid Columns
+                  value:
+                    message: Column store_i_d is not available in the report
+                Configuration Error:
+                  summary: Configuration Error
+                  description: Configuration Error
+                  value:
+                    message: There is a problem with the Reporting API configurations for the merchants in the request
+        '500':
+          description: There was an internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MerchantReportingErrorResponse'
+              example:
+                message: Internal server error
+        '403':
+          description: These usually indicate that the configuration for the Reporting API is not set up correctly
+            for the partner or that the requested report is not available for the merchants in the request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MerchantReportingErrorResponse'
+              examples:
+                Reporting Not Enabled:
+                  summary: Reporting Not Enabled
+                  description: Reporting Not Enabled
+                  value:
+                    message: Reporting is not enabled for partnerId=0f3b62bc-37db-11f0-9cd2-0242ac120002
+                Report Not Available:
+                  summary: Report Not Available
+                  description: Report Not Available
+                  value:
+                    message: Requested report is not available for partnerId=0f3b62bc-37db-11f0-9cd2-0242ac120002
+                Requested Merchant Not Authorized:
+                  summary: Requested Merchant Not Authorized
+                  description: Requested Merchant Not Authorized
+                  value:
+                    message: Some of the merchants in the request are not enabled for reporting
+        '200':
+          description: Report request was successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateExportReportResponseByPartner'
+              example:
+                report_uuid: 123e4567-e89b-12d3-a456-426614174000
+  /merchant/reporting/v1/reports/{reportUuid}:
+    get:
+      tags:
+      - Requesting Reports
+      - Endpoints
+      summary: Get download URL for report.
+      description: Retrieves the download URL for the specified report.
+      operationId: getDownloadUrl
+      parameters:
+      - name: reportUuid
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      - name: X-GH-PARTNER-KEY
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Download URL retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetDownloadUrlResponseByPartner'
+              example:
+                download_url: https://example.com/download
+        '404':
+          description: URL for report with given UUID was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MerchantReportingErrorResponse'
+              example:
+                message: Download url is not found
+        '500':
+          description: There was an internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MerchantReportingErrorResponse'
+              example:
+                message: Internal server error
+  /merchant/reporting/v1/merchants:
+    get:
+      tags:
+      - Requesting Reports
+      - Endpoints
+      summary: Get all merchant IDs enabled for reporting
+      description: Returns a list of all merchant IDs under the calling partner that are enabled for the Reporting
+        API.
+      operationId: getEnabledMerchants
+      parameters:
+      - name: X-GH-PARTNER-KEY
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Successfully retrieved the list of reporting enabled merchant IDs.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetEnabledMerchantsResponse'
+              example:
+                merchant_ids:
+                - '123456'
+                - '234567'
+                - '776489'
+        '422':
+          description: The provided partner ID is invalid or does not exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MerchantReportingErrorResponse'
+              example:
+                message: 'Invalid partnerId: 0f3b62bc-37db-11f0-9cd2-0242ac120002'
+        '500':
+          description: There was an error getting data for the partner ID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MerchantReportingErrorResponse'
+              example:
+                message: 'Error fetching enabled merchants for partnerId: 0f3b62bc-37db-11f0-9cd2-0242ac120002'
+components:
+  schemas:
+    DateRange:
+      required:
+      - end_date
+      - start_date
+      type: object
+      properties:
+        start_date:
+          type: string
+          format: date
+        end_date:
+          type: string
+          format: date
+      description: Date range for the report using a start and end date in yyyy-MM-dd format.
+      example:
+        start_date: '2025-01-01'
+        end_date: '2025-01-31'
+    CreateExportReportRequestByPartner:
+      required:
+      - merchant_ids
+      - report_columns
+      - report_parameters
+      - report_type
+      type: object
+      properties:
+        report_type:
+          type: string
+          description: The type of report to generate.
+          example: order-details
+        report_columns:
+          minItems: 1
+          uniqueItems: true
+          type: array
+          description: The columns to include in the report. This can be a subset of the columns available for the
+            specified report type. To request all columns, specify all available columns.
+          example:
+          - order_id
+          - customer_name
+          - order_total
+          items:
+            type: string
+        merchant_ids:
+          maxItems: 25000
+          minItems: 1
+          uniqueItems: true
+          type: array
+          description: The merchant IDs to include in the report. You may provide Grubhub merchant IDs or Partner
+            external IDs if there is a configured mapping to Grubhub merchant IDs. Partners enabled for external
+            IDs can only pass in external IDs.
+          example:
+          - '12345678'
+          - '56789016'
+          items:
+            type: string
+        report_name:
+          type: string
+          description: The name for the generated CSV report file. This field is optional. If left blank, a name
+            will be generated using the specified parameters.
+          example: order_details_september
+        report_parameters:
+          $ref: '#/components/schemas/ReportRequestParametersByPartner'
+      description: The request body for requesting a report.
+    ReportRequestParametersByPartner:
+      required:
+      - date_range
+      type: object
+      properties:
+        date_range:
+          $ref: '#/components/schemas/DateRange'
+      description: The parameters to request the report. Currently, the only supported parameter is date range.
+    MerchantReportingErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+    CreateExportReportResponseByPartner:
+      type: object
+      properties:
+        report_uuid:
+          type: string
+          description: UUID for the requested report.
+          example: cd6b2420-47bc-11f0-a421-b79eaad8f2c3
+      description: Response returned after a successful report request.
+    GetDownloadUrlResponseByPartner:
+      type: object
+      properties:
+        download_url:
+          type: string
+          description: The S3 URL to download the report.
+          format: url
+          example: https://s3.amazonaws.com/grubhub-reports/report.csv
+      description: Response body containing the S3 download URL for the requested report.
+    GetEnabledMerchantsResponse:
+      type: object
+      properties:
+        merchant_ids:
+          uniqueItems: true
+          type: array
+          items:
+            type: string

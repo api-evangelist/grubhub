@@ -1,424 +1,475 @@
-asyncapi: 2.6.0
+asyncapi: 3.0.0
 info:
-  title: Grubhub Delivery Events
-  description: >-
-    Event-driven interface for receiving real-time delivery status updates
-    from Grubhub. Partners can subscribe to webhook notifications for
-    delivery updates including driver assignment, courier location updates,
-    ETA updates, order cancellations, and refund decisions. This eliminates
-    the need for polling delivery status endpoints.
-  version: '1.0.0'
-  contact:
-    name: Grubhub Developer Support
-    url: https://grubhub-developers.zendesk.com/hc/en-us
+  title: Grubhub Connect Delivery Events
+  version: 1.0.0
+  description: 'Egress webhooks Grubhub sends to a Grubhub Connect (delivery-as-a-service) partner: delivery
+    status transitions and delivery refund updates. Derived verbatim from the webhooks object of Grubhub''s
+    own OpenAPI 3.1.0 document.'
+  x-generated: '2026-09-17'
+  x-method: derived
+  x-source: openapi/grubhub-connect-webhooks-openapi.yml - the top-level webhooks object of Grubhub's
+    own OpenAPI 3.1.0 document, fetched 2026-09-17 from https://developer.grubhub.com/resource/partner-docs/api-docs/
+  x-note: Both events can be fired on demand against a test delivery using emulateStatusUpdateWebhook
+    and emulateRefundUpdateWebhook - see sandbox/grubhub-sandbox.yml.
 servers:
   partnerWebhook:
-    url: '{webhookUrl}'
+    host: '{webhookUrl}'
     protocol: https
-    description: >-
-      Partner-hosted webhook endpoint. Grubhub sends delivery event
-      payloads to this URL. Webhook URLs require manual verification
-      by Grubhub to avoid sending requests to unauthorized endpoints.
+    description: Partner-hosted HTTPS endpoint. Grubhub POSTs the payload to this URL. Partners cannot
+      set or change the webhook URL themselves - Grubhub configures it during onboarding.
     variables:
       webhookUrl:
-        description: >-
-          The partner's webhook endpoint URL configured during onboarding.
-    security:
-    - basicAuth: []
-    - hmacAuth: []
+        description: The partner endpoint Grubhub was configured to call.
 channels:
-  /webhook/delivery-status:
-    description: >-
-      Channel for receiving delivery status update events including driver
-      assignment, courier location, ETA updates, and delivery completion.
-    publish:
-      operationId: receiveDeliveryStatusUpdate
-      summary: Receive delivery status updates
-      description: >-
-        Receives delivery status update events from Grubhub including
-        driver assigned, order canceled, courier location updates, and
-        ETA updates for a specific delivery. Also includes courier
-        information such as name and delivery method.
-      message:
-        oneOf:
-        - $ref: '#/components/messages/DriverAssigned'
-        - $ref: '#/components/messages/DeliveryStatusUpdate'
-        - $ref: '#/components/messages/CourierLocationUpdate'
-        - $ref: '#/components/messages/DeliveryCancelled'
-  /webhook/delivery-refund:
-    description: >-
-      Channel for receiving delivery refund update events including
-      acceptance or rejection of refund requests.
-    publish:
-      operationId: receiveDeliveryRefundUpdate
-      summary: Receive delivery refund updates
-      description: >-
-        Receives updates on refund request acceptance or rejection
-        including details on the decision and the refund amount.
-      message:
+  deliveryRefundUpdateWebhook:
+    address: '{webhookUrl}'
+    title: '[Egress] Delivery Refund Update Webhook'
+    description: Information about a Delivery Refund Update
+    messages:
+      DeliveryRefundUpdate:
         $ref: '#/components/messages/DeliveryRefundUpdate'
+  deliveryStatusUpdateWebhook:
+    address: '{webhookUrl}'
+    title: '[Egress] Delivery Status Update Webhook'
+    description: Information about a Delivery Status Update
+    messages:
+      DeliveryStatusUpdate:
+        $ref: '#/components/messages/DeliveryStatusUpdate'
+operations:
+  receiveDeliveryRefundUpdate:
+    action: receive
+    channel:
+      $ref: '#/channels/deliveryRefundUpdateWebhook'
+    summary: Delivery refund update
+    messages:
+    - $ref: '#/channels/deliveryRefundUpdateWebhook/messages/DeliveryRefundUpdate'
+  receiveDeliveryStatusUpdate:
+    action: receive
+    channel:
+      $ref: '#/channels/deliveryStatusUpdateWebhook'
+    summary: Delivery status update
+    messages:
+    - $ref: '#/channels/deliveryStatusUpdateWebhook/messages/DeliveryStatusUpdate'
 components:
-  securitySchemes:
-    basicAuth:
-      type: userPassword
-      description: >-
-        Basic authentication using credentials provided during partner
-        signup, included in the header of webhook requests.
-    hmacAuth:
-      type: httpApiKey
-      name: Authorization
-      in: header
-      description: >-
-        HMAC authentication providing message integrity verification.
-        Recommended for most webhook integrations.
   messages:
-    DriverAssigned:
-      name: DriverAssigned
-      title: Driver Assigned
-      summary: >-
-        A delivery driver has been assigned to the order.
-      contentType: application/json
-      payload:
-        $ref: '#/components/schemas/DriverAssignedPayload'
-      examples:
-      - name: DriverAssignedDefaultExample
-        summary: Default DriverAssigned example payload
-        x-microcks-default: true
-        payload:
-          event_type: STANDARD
-          order_uuid: 3fa85f64-5717-4562-b3fc-2c963f66afa6
-          delivery_id: id-1234567890
-          driver:
-            name: string
-            phone: string
-            delivery_method: CAR
-          pickup_eta: '2026-06-02T18:30:00Z'
-          dropoff_eta: '2026-06-02T18:30:00Z'
-          timestamp: '2026-06-02T18:30:00Z'
-    DeliveryStatusUpdate:
-      name: DeliveryStatusUpdate
-      title: Delivery Status Update
-      summary: >-
-        The delivery status has changed, such as pickup, en route,
-        or delivered.
-      contentType: application/json
-      payload:
-        $ref: '#/components/schemas/DeliveryStatusPayload'
-      examples:
-      - name: DeliveryStatusUpdateDefaultExample
-        summary: Default DeliveryStatusUpdate example payload
-        x-microcks-default: true
-        payload:
-          event_type: STANDARD
-          order_uuid: 3fa85f64-5717-4562-b3fc-2c963f66afa6
-          delivery_id: id-1234567890
-          status: DRIVER_EN_ROUTE_TO_PICKUP
-          pickup_eta: '2026-06-02T18:30:00Z'
-          dropoff_eta: '2026-06-02T18:30:00Z'
-          timestamp: '2026-06-02T18:30:00Z'
-    CourierLocationUpdate:
-      name: CourierLocationUpdate
-      title: Courier Location Update
-      summary: >-
-        The courier's location or ETA has been updated.
-      contentType: application/json
-      payload:
-        $ref: '#/components/schemas/CourierLocationPayload'
-      examples:
-      - name: CourierLocationUpdateDefaultExample
-        summary: Default CourierLocationUpdate example payload
-        x-microcks-default: true
-        payload:
-          event_type: STANDARD
-          order_uuid: 3fa85f64-5717-4562-b3fc-2c963f66afa6
-          delivery_id: id-1234567890
-          latitude: 41.8781
-          longitude: -87.6298
-          pickup_eta: '2026-06-02T18:30:00Z'
-          dropoff_eta: '2026-06-02T18:30:00Z'
-          timestamp: '2026-06-02T18:30:00Z'
-    DeliveryCancelled:
-      name: DeliveryCancelled
-      title: Delivery Cancelled
-      summary: >-
-        The delivery has been cancelled.
-      contentType: application/json
-      payload:
-        $ref: '#/components/schemas/DeliveryCancelledPayload'
-      examples:
-      - name: DeliveryCancelledDefaultExample
-        summary: Default DeliveryCancelled example payload
-        x-microcks-default: true
-        payload:
-          event_type: STANDARD
-          order_uuid: 3fa85f64-5717-4562-b3fc-2c963f66afa6
-          delivery_id: id-1234567890
-          reason: Out of an item.
-          cancelled_at: '2026-06-02T18:30:00Z'
     DeliveryRefundUpdate:
       name: DeliveryRefundUpdate
-      title: Delivery Refund Update
-      summary: >-
-        A refund request has been accepted or rejected with details
-        on the decision and amount.
+      title: Delivery refund update
       contentType: application/json
       payload:
-        $ref: '#/components/schemas/DeliveryRefundPayload'
-      examples:
-      - name: DeliveryRefundUpdateDefaultExample
-        summary: Default DeliveryRefundUpdate example payload
-        x-microcks-default: true
-        payload:
-          event_type: STANDARD
-          order_uuid: 3fa85f64-5717-4562-b3fc-2c963f66afa6
-          delivery_id: id-1234567890
-          refund_status: ACCEPTED
-          refund_amount: 0.0
-          decision_reason: Out of an item.
-          decided_at: '2026-06-02T18:30:00Z'
+        $ref: '#/components/schemas/DeliveryRefundUpdate'
+    DeliveryStatusUpdate:
+      name: DeliveryStatusUpdate
+      title: Delivery status update
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/DeliveryStatusUpdate'
   schemas:
-    DriverAssignedPayload:
+    DeliveryRefundUpdate:
       type: object
-      description: >-
-        Webhook payload when a driver is assigned to a delivery.
+      description: Reports the final decision regarding a submitted delivery refund request to clients
+        via webhook.
       properties:
-        event_type:
-          type: string
-          description: >-
-            The type of delivery event.
-          const: DRIVER_ASSIGNED
-          example: STANDARD
-        order_uuid:
-          type: string
-          format: uuid
-          description: >-
-            The UUID of the associated order.
-          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
         delivery_id:
           type: string
-          description: >-
-            The unique identifier for the delivery.
-          example: id-1234567890
-        driver:
-          type: object
-          description: >-
-            Information about the assigned driver.
-          properties:
-            name:
-              type: string
-              description: >-
-                The driver's display name.
-            phone:
-              type: string
-              description: >-
-                The driver's contact phone number.
-            delivery_method:
-              type: string
-              description: >-
-                The delivery method being used.
-              enum:
-              - CAR
-              - BIKE
-              - WALKING
-        pickup_eta:
-          type: string
-          format: date-time
-          description: >-
-            Estimated time of arrival at the pickup location.
-          example: '2026-06-02T18:30:00Z'
-        dropoff_eta:
-          type: string
-          format: date-time
-          description: >-
-            Estimated time of arrival at the delivery location.
-          example: '2026-06-02T18:30:00Z'
-        timestamp:
-          type: string
-          format: date-time
-          description: >-
-            When this event occurred.
-          example: '2026-06-02T18:30:00Z'
-    DeliveryStatusPayload:
-      type: object
-      description: >-
-        Webhook payload for a delivery status change.
-      properties:
-        event_type:
-          type: string
-          description: >-
-            The type of delivery event.
-          const: DELIVERY_STATUS_UPDATE
-          example: STANDARD
-        order_uuid:
-          type: string
           format: uuid
-          description: >-
-            The UUID of the associated order.
-          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
-        delivery_id:
-          type: string
-          description: >-
-            The unique identifier for the delivery.
-          example: id-1234567890
-        status:
-          type: string
-          description: >-
-            The new delivery status.
-          enum:
-          - DRIVER_EN_ROUTE_TO_PICKUP
-          - ARRIVED_AT_PICKUP
-          - PICKED_UP
-          - OUT_FOR_DELIVERY
-          - ARRIVED_AT_DROPOFF
-          - DELIVERED
-          example: DRIVER_EN_ROUTE_TO_PICKUP
-        pickup_eta:
-          type: string
-          format: date-time
-          description: >-
-            Updated estimated time of arrival at pickup.
-          example: '2026-06-02T18:30:00Z'
-        dropoff_eta:
-          type: string
-          format: date-time
-          description: >-
-            Updated estimated time of arrival at dropoff.
-          example: '2026-06-02T18:30:00Z'
-        timestamp:
-          type: string
-          format: date-time
-          description: >-
-            When this event occurred.
-          example: '2026-06-02T18:30:00Z'
-    CourierLocationPayload:
-      type: object
-      description: >-
-        Webhook payload for a courier location or ETA update.
-      properties:
-        event_type:
-          type: string
-          description: >-
-            The type of delivery event.
-          const: COURIER_LOCATION_UPDATE
-          example: STANDARD
-        order_uuid:
-          type: string
-          format: uuid
-          description: >-
-            The UUID of the associated order.
-          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
-        delivery_id:
-          type: string
-          description: >-
-            The unique identifier for the delivery.
-          example: id-1234567890
-        latitude:
-          type: number
-          format: double
-          description: >-
-            The courier's current latitude coordinate.
-          example: 41.8781
-        longitude:
-          type: number
-          format: double
-          description: >-
-            The courier's current longitude coordinate.
-          example: -87.6298
-        pickup_eta:
-          type: string
-          format: date-time
-          description: >-
-            Updated estimated time of arrival at pickup.
-          example: '2026-06-02T18:30:00Z'
-        dropoff_eta:
-          type: string
-          format: date-time
-          description: >-
-            Updated estimated time of arrival at dropoff.
-          example: '2026-06-02T18:30:00Z'
-        timestamp:
-          type: string
-          format: date-time
-          description: >-
-            When this location update was recorded.
-          example: '2026-06-02T18:30:00Z'
-    DeliveryCancelledPayload:
-      type: object
-      description: >-
-        Webhook payload when a delivery is cancelled.
-      properties:
-        event_type:
-          type: string
-          description: >-
-            The type of delivery event.
-          const: DELIVERY_CANCELLED
-          example: STANDARD
-        order_uuid:
-          type: string
-          format: uuid
-          description: >-
-            The UUID of the associated order.
-          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
-        delivery_id:
-          type: string
-          description: >-
-            The unique identifier for the delivery.
-          example: id-1234567890
+          description: The UUID associated with the delivery.
+          example: 0ec346bd-635a-4a07-8f35-44962a8bcc5b
+        accepted:
+          type: boolean
+          description: Whether the refund was accepted or not.
+          example: true
         reason:
           type: string
-          description: >-
-            The reason for cancellation.
-          example: Out of an item.
-        cancelled_at:
+          description: The reason for accepting or rejecting the refund.
+          example: DriverNotCourteous
+        description:
           type: string
-          format: date-time
-          description: >-
-            When the delivery was cancelled.
-          example: '2026-06-02T18:30:00Z'
-    DeliveryRefundPayload:
-      type: object
-      description: >-
-        Webhook payload for a delivery refund decision.
+          description: Additional descriptive notes about the refund decision.
+          example: Grubhub accepts the full refund amount.
+        amounts:
+          $ref: '#/components/schemas/RefundAmount'
+      required:
+      - accepted
+      - delivery_id
+      - reason
+    RefundAmount:
+      description: The amount of the refund requested, broken down into various categories.
       properties:
-        event_type:
+        delivery_fee:
+          type: integer
+          format: int32
+          description: The amount of the refund requested to be taken from the delivery fee, formatted
+            as cents.
+          example: 100
+          minimum: 0
+        tip:
+          type: integer
+          format: int32
+          description: The amount of the refund requested to be taken from the tip, formatted as cents.
+          example: 333
+          minimum: 0
+        contents_value:
+          type: integer
+          format: int32
+          description: The amount of the refund requested to be taken from the contents value, formatted
+            as cents.
+          example: 542
+          minimum: 0
+        return_fee:
+          type: integer
+          format: int32
+          description: The amount of the refund requested to be taken from the return fee, formatted as
+            cents.
+          example: 50
+          minimum: 0
+      required:
+      - contents_value
+      - delivery_fee
+      - return_fee
+      - tip
+    Assigned:
+      allOf:
+      - $ref: '#/components/schemas/DeliveryEvent'
+      description: An event indicating the delivery has been assigned.
+      required:
+      - timestamp
+      - type
+    Canceled:
+      allOf:
+      - $ref: '#/components/schemas/DeliveryEvent'
+      - type: object
+        properties:
+          source:
+            type: string
+            description: Types of actors who may update a delivery.
+            enum:
+            - CLIENT
+            - GRUBHUB
+            example: CLIENT
+          reason_code:
+            type: string
+            description: Codes for reasons why a delivery was canceled.
+            enum:
+            - MERCHANT_NOT_READY_FOR_PICKUP
+            - MERCHANT_UNABLE_TO_FULFILL_ORDER
+            - MERCHANT_CLOSED
+            - MERCHANT_PICKUP_DELAYED
+            - MERCHANT_ITEM_MISSING
+            - CUSTOMER_CONTENTS_ISSUE
+            - ORDER_PICKED_UP_BY_ANOTHER_DRIVER
+            - DRIVER_UNABLE_TO_FINISH_DELIVERY
+            - UNABLE_TO_ASSIGN_DRIVER
+            - DELIVERY_CANCELLATION_OTHER_REASON
+            example: CUSTOMER_CANCEL
+          reason_comment:
+            type: string
+            description: Additional detail about the cancellation.
+            example: Customer no longer wants delivery.
+      description: An event indicating that the delivery was canceled.
+      required:
+      - timestamp
+      - type
+    ClientData:
+      description: Partner/client-supplied reference identifiers for this delivery.
+      properties:
+        external_id:
           type: string
-          description: >-
-            The type of delivery event.
-          const: DELIVERY_REFUND_UPDATE
-          example: STANDARD
-        order_uuid:
+          description: The partner's own identifier for this delivery.
+        external_merchant_id:
           type: string
-          format: uuid
-          description: >-
-            The UUID of the associated order.
-          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+          description: The partner's identifier for the merchant associated with this delivery.
+        external_source:
+          type: string
+          description: The source system that supplied the external identifiers.
+        reference_number:
+          type: string
+          description: A partner-supplied reference number for this delivery.
+    Courier:
+      description: A courier.
+      properties:
+        name:
+          type: string
+          description: The display name of the courier assigned to a delivery.
+          example: Nick
+        delivery_method:
+          type: string
+          description: Means of transportation by which a courier may be delivering.
+          enum:
+          - CAR
+          - BIKE
+          - SCOOTER
+          - WALK
+          example: CAR
+        location:
+          $ref: '#/components/schemas/GeoLocation'
+      required:
+      - delivery_method
+      - location
+      - name
+    CourierAtDropoff:
+      allOf:
+      - $ref: '#/components/schemas/DeliveryEvent'
+      description: An event indicating the assigned courier has arrived at the delivery's dropoff location.
+      required:
+      - timestamp
+      - type
+    CourierAtPickup:
+      allOf:
+      - $ref: '#/components/schemas/DeliveryEvent'
+      description: An event indicating the assigned courier has arrived at the delivery's pickup location.
+      required:
+      - timestamp
+      - type
+    Created:
+      allOf:
+      - $ref: '#/components/schemas/DeliveryEvent'
+      description: An event representing the creation of a delivery.
+      required:
+      - timestamp
+      - type
+    Delivered:
+      allOf:
+      - $ref: '#/components/schemas/DeliveryEvent'
+      - type: object
+        properties:
+          dropoff_image_details:
+            allOf:
+            - $ref: '#/components/schemas/DropoffImageDetails'
+            deprecated: true
+            description: Use `dropoff_image_details` in the `ProofOfDelivery` event instead.
+      description: An event indicating the delivery has been successfully delivered.
+      required:
+      - timestamp
+      - type
+    Delivery:
+      description: The information and historical events associated with a delivery.
+      properties:
         delivery_id:
           type: string
-          description: >-
-            The unique identifier for the delivery.
-          example: id-1234567890
-        refund_status:
+          format: uuid
+          description: A unique identifier of this delivery.
+          example: 0ec346bd-635a-4a07-8f35-44962a8bcc5b
+        events:
+          type: array
+          description: A history of notable events that have occurred for this delivery.
+          items:
+            $ref: '#/components/schemas/DeliveryEvent'
+        estimated_event_times:
+          $ref: '#/components/schemas/EstimatedEventTimes'
+        client_data:
+          $ref: '#/components/schemas/ClientData'
+      required:
+      - delivery_id
+      - estimated_event_times
+      - events
+    DeliveryEvent:
+      description: An event during the course of a single delivery's lifecycle.
+      discriminator:
+        propertyName: type
+      oneOf:
+      - $ref: '#/components/schemas/Created'
+      - $ref: '#/components/schemas/Assigned'
+      - $ref: '#/components/schemas/Unassigned'
+      - $ref: '#/components/schemas/CourierAtPickup'
+      - $ref: '#/components/schemas/PickupVerification'
+      - $ref: '#/components/schemas/PickedUp'
+      - $ref: '#/components/schemas/InTransit'
+      - $ref: '#/components/schemas/CourierAtDropoff'
+      - $ref: '#/components/schemas/Delivered'
+      - $ref: '#/components/schemas/ProofOfDelivery'
+      - $ref: '#/components/schemas/ReturnInitiated'
+      - $ref: '#/components/schemas/ReturnCompleted'
+      - $ref: '#/components/schemas/Canceled'
+      properties:
+        type:
           type: string
-          description: >-
-            Whether the refund was accepted or rejected.
+          description: The type of this event.
           enum:
-          - ACCEPTED
-          - REJECTED
-          example: ACCEPTED
-        refund_amount:
-          type: number
-          format: double
-          description: >-
-            The amount of the refund.
-          example: 0.0
-        decision_reason:
-          type: string
-          description: >-
-            Explanation of the refund decision.
-          example: Out of an item.
-        decided_at:
+          - CREATED
+          - ASSIGNED
+          - UNASSIGNED
+          - COURIER_AT_PICKUP
+          - PICKED_UP
+          - IN_TRANSIT
+          - COURIER_AT_DROPOFF
+          - DELIVERED
+          - PROOF_OF_DELIVERY
+          - RETURN_INITIATED
+          - RETURN_COMPLETED
+          - CANCELED
+          - PICKUP_VERIFICATION
+          example: PICKED_UP
+        timestamp:
           type: string
           format: date-time
-          description: >-
-            When the refund decision was made.
-          example: '2026-06-02T18:30:00Z'
+          description: The time at which this event occurred. Formatted as an ISO-8601 timestamp.
+          example: '2024-05-28T00:00:00Z'
+      required:
+      - timestamp
+      - type
+    DeliveryStatusUpdate:
+      type: object
+      description: Provides information about the status of a delivery and the courier assigned to it,
+        pushed to clients via webhook.
+      properties:
+        update_type:
+          type: string
+          description: The type of a DeliveryStatusUpdate.
+          enum:
+          - DELIVERY_STATUS_UPDATE
+          - COURIER_LOCATION_UPDATE
+          - ETA_UPDATE
+        delivery:
+          $ref: '#/components/schemas/Delivery'
+        courier:
+          $ref: '#/components/schemas/Courier'
+        tracking_url:
+          type: string
+          description: The url for the delivery tracking UI.
+      required:
+      - delivery
+      - update_type
+    DropoffImageDetails:
+      properties:
+        photo_url:
+          type: string
+          description: A URL to the dropoff photo taken by the driver upon completing the delivery.
+          example: http://www.grubhub.com/example.png
+        photo_capture_time:
+          type: string
+          format: date-time
+          description: The timestamp at which the dropoff photo was captured. Formatted as an ISO-8601
+            timestamp.
+          example: '2024-05-28T00:00:00Z'
+        photo_capture_location:
+          $ref: '#/components/schemas/GeoLocation'
+        photo_expiration_time:
+          type: string
+          format: date-time
+          description: The timestamp when the dropoff photo will expire.
+          example: '2024-05-28T00:00:00Z'
+      required:
+      - photo_capture_location
+      - photo_capture_time
+      - photo_expiration_time
+      - photo_url
+    EstimatedEventTimes:
+      description: The latest known estimates for the delivery pickup and dropoff times. Will be the actual
+        times if the event has already occurred.
+      properties:
+        picked_up:
+          type: string
+          format: date-time
+          description: The estimated pickup time, or the actual pickup time if the pickup has already
+            occurred. Formatted as an ISO-8601 timestamp.
+          example: '2024-05-28T00:00:00Z'
+        dropped_off:
+          type: string
+          format: date-time
+          description: The estimated drop-off time, or the actual drop-off time if the pickup has already
+            occurred. Formatted as an ISO-8601 timestamp.
+          example: '2024-05-28T00:00:00Z'
+      required:
+      - dropped_off
+      - picked_up
+    GeoLocation:
+      description: The last known location of the courier.
+      properties:
+        lat:
+          type: number
+          format: double
+          description: The latitude of the location.
+          example: 41.88320791307697
+        lng:
+          type: number
+          format: double
+          description: The longitude of the location.
+          example: -87.63142796027925
+      required:
+      - lat
+      - lng
+    InTransit:
+      allOf:
+      - $ref: '#/components/schemas/DeliveryEvent'
+      description: An event indicating the assigned courier has departed the restaurant with the delivery.
+      required:
+      - timestamp
+      - type
+    PickedUp:
+      allOf:
+      - $ref: '#/components/schemas/DeliveryEvent'
+      description: An event indicating the delivery has been picked up by the assigned courier.
+      required:
+      - timestamp
+      - type
+    PickupVerification:
+      allOf:
+      - $ref: '#/components/schemas/DeliveryEvent'
+      - type: object
+        properties:
+          pickup_verification_details:
+            $ref: '#/components/schemas/PickupVerificationDetails'
+      description: An event containing pickup verification information.
+      required:
+      - timestamp
+      - type
+    PickupVerificationDetails:
+      properties:
+        result:
+          type: string
+          description: The result of the pickup verification.
+          example: SUCCESS
+        capture_method:
+          type: string
+          description: The method used to capture the pickup verification.
+          enum:
+          - MANUAL_ENTRY
+          - QR_SCAN
+          - PHOTO
+          example: QR_SCAN
+        failure_reason:
+          type: string
+          description: The reason for a failed pickup verification. Null when result is SUCCESS.
+        attempts_count:
+          type: integer
+          format: int32
+          description: The total number of verification attempts made.
+        photo_url:
+          type: string
+          description: A URL to the pickup verification photo. Null for code-match events.
+    ProofOfDelivery:
+      allOf:
+      - $ref: '#/components/schemas/DeliveryEvent'
+      - type: object
+        properties:
+          dropoff_image_details:
+            $ref: '#/components/schemas/DropoffImageDetails'
+      description: An event containing proof of delivery information.
+      required:
+      - timestamp
+      - type
+    ReturnCompleted:
+      allOf:
+      - $ref: '#/components/schemas/DeliveryEvent'
+      description: An event indicating that the necessary portion of the delivery's contents have been
+        successfully returned to the pickup location.
+      required:
+      - timestamp
+      - type
+    ReturnInitiated:
+      allOf:
+      - $ref: '#/components/schemas/DeliveryEvent'
+      description: An event indicating the delivery is in-transit back to the pickup location in order
+        to return some portion of the delivery's contents.
+      required:
+      - timestamp
+      - type
+    Unassigned:
+      allOf:
+      - $ref: '#/components/schemas/DeliveryEvent'
+      description: An event indicating the delivery has been unassigned. An unassigned delivery may still
+        be reassigned to another driver later.
+      required:
+      - timestamp
+      - type

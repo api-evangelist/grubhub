@@ -1,0 +1,209 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-linesubstitutiontype-schema.json",
+  "title": "LineSubstitutionType",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-orders-openapi.yml#/components/schemas/LineSubstitutionType",
+  "required": [
+    "type"
+  ],
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string"
+    }
+  },
+  "description": "The type of substitution: ADDED, REMOVED, QUANTITY_CHANGED, QUANTITY_WEIGHT_CHANGED, SUBITEMS_CHANGED, REPLACED",
+  "discriminator": {
+    "propertyName": "type",
+    "mapping": {
+      "ADDED": "#/components/schemas/AddLineSubstitution",
+      "REMOVED": "#/components/schemas/RemoveLineSubstitution",
+      "QUANTITY_CHANGED": "#/components/schemas/QuantityLineSubstitution",
+      "QUANTITY_WEIGHT_CHANGED": "#/components/schemas/QuantityAndWeightLineSubstitution",
+      "SUBITEMS_CHANGED": "#/components/schemas/SubItemLineSubstitution",
+      "REPLACED": "#/components/schemas/ReplaceLineSubstitution"
+    }
+  },
+  "oneOf": [
+    {
+      "$ref": "#/$defs/AddLineSubstitution"
+    },
+    {
+      "$ref": "#/$defs/RemoveLineSubstitution"
+    },
+    {
+      "$ref": "#/$defs/QuantityLineSubstitution"
+    },
+    {
+      "$ref": "#/$defs/QuantityAndWeightLineSubstitution"
+    },
+    {
+      "$ref": "#/$defs/SubItemLineSubstitution"
+    },
+    {
+      "$ref": "#/$defs/ReplaceLineSubstitution"
+    }
+  ],
+  "$defs": {
+    "AddLineSubstitution": {
+      "type": "object",
+      "description": "Add Line Substitution",
+      "allOf": [
+        {
+          "$ref": "#/$defs/LineSubstitutionType"
+        }
+      ]
+    },
+    "LineSubstitutionType": {
+      "required": [
+        "type"
+      ],
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        }
+      },
+      "description": "The type of substitution: ADDED, REMOVED, QUANTITY_CHANGED, QUANTITY_WEIGHT_CHANGED, SUBITEMS_CHANGED, REPLACED",
+      "discriminator": {
+        "propertyName": "type",
+        "mapping": {
+          "ADDED": "#/components/schemas/AddLineSubstitution",
+          "REMOVED": "#/components/schemas/RemoveLineSubstitution",
+          "QUANTITY_CHANGED": "#/components/schemas/QuantityLineSubstitution",
+          "QUANTITY_WEIGHT_CHANGED": "#/components/schemas/QuantityAndWeightLineSubstitution",
+          "SUBITEMS_CHANGED": "#/components/schemas/SubItemLineSubstitution",
+          "REPLACED": "#/components/schemas/ReplaceLineSubstitution"
+        }
+      },
+      "oneOf": [
+        {
+          "$ref": "#/$defs/AddLineSubstitution"
+        },
+        {
+          "$ref": "#/$defs/RemoveLineSubstitution"
+        },
+        {
+          "$ref": "#/$defs/QuantityLineSubstitution"
+        },
+        {
+          "$ref": "#/$defs/QuantityAndWeightLineSubstitution"
+        },
+        {
+          "$ref": "#/$defs/SubItemLineSubstitution"
+        },
+        {
+          "$ref": "#/$defs/ReplaceLineSubstitution"
+        }
+      ]
+    },
+    "QuantityAndWeightLineSubstitution": {
+      "required": [
+        "new_quantity",
+        "new_weight",
+        "old_quantity",
+        "old_weight"
+      ],
+      "type": "object",
+      "description": "Quantity And Weight Line Substitution",
+      "allOf": [
+        {
+          "$ref": "#/$defs/LineSubstitutionType"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "old_quantity": {
+              "type": "integer",
+              "description": "Old quantity",
+              "format": "int32"
+            },
+            "new_quantity": {
+              "type": "integer",
+              "description": "New quantity",
+              "format": "int32"
+            },
+            "old_weight": {
+              "type": "number",
+              "description": "Old weight"
+            },
+            "new_weight": {
+              "type": "number",
+              "description": "New weight"
+            }
+          }
+        }
+      ]
+    },
+    "QuantityLineSubstitution": {
+      "required": [
+        "new_quantity",
+        "old_quantity"
+      ],
+      "type": "object",
+      "description": "Quantity Line Substitution",
+      "allOf": [
+        {
+          "$ref": "#/$defs/LineSubstitutionType"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "old_quantity": {
+              "type": "integer",
+              "description": "Old quantity",
+              "format": "int32"
+            },
+            "new_quantity": {
+              "type": "integer",
+              "description": "New quantity",
+              "format": "int32"
+            }
+          }
+        }
+      ]
+    },
+    "RemoveLineSubstitution": {
+      "required": [
+        "old_quantity"
+      ],
+      "type": "object",
+      "description": "Remove Line Substitution",
+      "allOf": [
+        {
+          "$ref": "#/$defs/LineSubstitutionType"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "old_quantity": {
+              "type": "integer",
+              "description": "Old quantity",
+              "format": "int32"
+            }
+          }
+        }
+      ]
+    },
+    "ReplaceLineSubstitution": {
+      "type": "object",
+      "description": "Replace Line Substitution",
+      "allOf": [
+        {
+          "$ref": "#/$defs/LineSubstitutionType"
+        }
+      ]
+    },
+    "SubItemLineSubstitution": {
+      "type": "object",
+      "description": "Sub Item Line Substitution",
+      "allOf": [
+        {
+          "$ref": "#/$defs/LineSubstitutionType"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-canceldeliveryrequest-schema.json",
+  "title": "CancelDeliveryRequest",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/CancelDeliveryRequest",
+  "required": [
+    "cancel_code"
+  ],
+  "type": "object",
+  "properties": {
+    "cancel_code": {
+      "type": "string",
+      "description": "Codes for reasons why a delivery was canceled.",
+      "example": "CUSTOMER_REFUSED_DELIVERY",
+      "enum": [
+        "CUSTOMER_CONTENTS_ISSUE",
+        "CUSTOMER_DELIVERY_DELAYED",
+        "CUSTOMER_ORDER_CHANGED",
+        "CUSTOMER_OTHER_REASON",
+        "CUSTOMER_REFUSED_DELIVERY",
+        "EXTERNAL_PARTNER_OTHER_REASON",
+        "EXTERNAL_SYSTEM_FAILURE",
+        "MERCHANT_OTHER_REASON",
+        "MERCHANT_PICKUP_DELAYED"
+      ]
+    },
+    "comment": {
+      "maxLength": 256,
+      "minLength": 0,
+      "type": "string",
+      "description": "Additional detail about the cancellation.",
+      "example": "Customer does not want to accept their delivery."
+    }
+  },
+  "description": "A request to cancel a delivery."
+}

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-modifierpromptselectionsettings-schema.json",
+  "title": "ModifierPromptSelectionSettings",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-menu-openapi.yml#/components/schemas/ModifierPromptSelectionSettings",
+  "type": "object",
+  "properties": {
+    "minimum_quantity": {
+      "type": "integer",
+      "description": "The minimum number of unique options that the diner can select for this prompt. Use 0 to set no minimum.",
+      "format": "int32"
+    },
+    "maximum_quantity": {
+      "type": "integer",
+      "description": "The maximum number of unique options that the diner can select for this prompt. *DO NOT use -1 as an integer for unlimited quantity. Instead use a high number, ie 99.*",
+      "format": "int32"
+    }
+  },
+  "description": "The minimum and maximum number of unique modifier options that can be selected within a prompt."
+}

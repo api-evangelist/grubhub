@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-posdeliveryfee-schema.json",
+  "title": "PosDeliveryFee",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-merchant-data-openapi.yml#/components/schemas/PosDeliveryFee",
+  "type": "object",
+  "properties": {
+    "value": {
+      "type": "integer",
+      "description": "The value of the fee applied for a service, in percentage of total order value or US dollars.",
+      "format": "int32"
+    },
+    "type": {
+      "type": "string",
+      "description": "Whether or not a fee value is applied as a percentage of order value or a whole amount of US dollars. Possible values are FLAT or PERCENT",
+      "enum": [
+        "FLAT",
+        "PERCENT"
+      ]
+    }
+  },
+  "description": "A fee that is applied to a merchant for the delivery service."
+}

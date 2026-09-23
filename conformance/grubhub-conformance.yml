@@ -1,0 +1,92 @@
+generated: '2026-09-17'
+method: probed
+source: >-
+  https://api-third-party-gtm.grubhub.com/.well-known/oauth-authorization-server (live, 200) and
+  openapi/_harvested/*.json - the twelve first-party Grubhub OpenAPI documents fetched 2026-09-17
+note: >-
+  Grubhub publishes no compliance or certification page that a crawler can read - trust.grubhub.com
+  returns HTTP 500 and www.grubhub.com/about/security is a 404 - so nothing here is asserted from a
+  marketing claim. Every entry below is read out of a document Grubhub serves.
+conformance:
+- id: oauth2
+  conforms: true
+  evidence: https://api-third-party-gtm.grubhub.com/.well-known/oauth-authorization-server
+  note: >-
+    Live RFC 6749 authorization server with authorization_endpoint and token_endpoint, served
+    anonymously from both partner API hosts.
+- id: rfc8414
+  name: OAuth 2.0 Authorization Server Metadata
+  conforms: true
+  evidence: https://api-third-party-gtm.grubhub.com/.well-known/oauth-authorization-server
+  note: 200 application/json with issuer, authorization_endpoint, token_endpoint, registration_endpoint.
+- id: rfc7591
+  name: OAuth 2.0 Dynamic Client Registration
+  conforms: true
+  evidence: >-
+    registration_endpoint https://api-gtm.grubhub.com/oauth/register advertised in the
+    authorization-server metadata document
+- id: rfc7636
+  name: PKCE
+  conforms: true
+  evidence: 'code_challenge_methods_supported: ["S256", "plain"] in the authorization-server metadata'
+  note: Advertising plain alongside S256 weakens the guarantee; S256-only is the current recommendation.
+- id: oidc
+  name: OpenID Connect
+  conforms: false
+  evidence: >-
+    openid is listed in scopes_supported, but /.well-known/openid-configuration returns 404 on
+    api-gtm.grubhub.com, api-third-party-gtm.grubhub.com, developer.grubhub.com and grubhub.com,
+    and no jwks_uri is published anywhere probed.
+- id: rfc9728
+  name: OAuth 2.0 Protected Resource Metadata
+  conforms: false
+  evidence: https://api-third-party-gtm.grubhub.com/.well-known/oauth-protected-resource returns 404
+- id: rfc9457
+  name: Problem Details for HTTP APIs
+  conforms: false
+  evidence: >-
+    No application/problem+json media type appears in any of the twelve documents. Errors use the
+    proprietary PublicApiError {code, message} and MerchantReportingErrorResponse {message} envelopes,
+    and most Marketplace 4xx responses declare no body schema at all. See errors/grubhub-problem-types.yml.
+- id: idempotency
+  conforms: false
+  evidence: >-
+    No Idempotency-Key header, no idempotency_key field and no replay-protection language appears in
+    any of the twelve documents, across 57 mutating operations.
+- id: pagination
+  conforms: partial
+  evidence: >-
+    openapi/grubhub-reporting-endpoints-openapi.yml and grubhub-onboarding-openapi.yml declare page/size
+    query parameters and 400/422 responses for invalid pagination. No pagination exists on the
+    Marketplace collection endpoints, which are scoped by merchant, status and date range instead.
+- id: rfc8594
+  name: Sunset HTTP Header
+  conforms: false
+  evidence: No Sunset or Deprecation header and no deprecated:true operation in any of the twelve documents.
+- id: openapi
+  name: OpenAPI Specification
+  conforms: true
+  evidence: >-
+    Ten documents at OpenAPI 3.0.1 and two at 3.1.0, served first-party from
+    https://developer.grubhub.com/resource/partner-docs/api-docs/
+- id: openapi-webhooks
+  name: OpenAPI 3.1 webhooks
+  conforms: true
+  evidence: >-
+    grubhub-connect-webhooks-openapi.yml and grubhub-reporting-webhooks-openapi.yml are OpenAPI 3.1.0
+    documents whose entire surface is the top-level webhooks object - three egress webhooks with
+    typed request bodies.
+- id: tls
+  conforms: true
+  evidence: TLSv1.3 on developer.grubhub.com and api-third-party-gtm.grubhub.com (security/grubhub-domain-security.yml)
+domain_standard:
+  applicable: false
+  note: >-
+    Restaurant food ordering and last-mile delivery has no ratified interchange standard the way
+    banking has ISO 20022 or healthcare has HL7/FHIR. Grubhub's "normalized menu" (PosNormalizedMenu)
+    is a Grubhub-proprietary shape, not an implementation of a published menu standard. Recorded as
+    not applicable rather than as a failure - this dimension is reward-only.
+compliance_certifications: []
+compliance_note: >-
+  No SOC 2 / ISO 27001 / PCI DSS attestation page was reachable. trust.grubhub.com -> HTTP 500,
+  www.grubhub.com/about/security -> HTTP 404, and no security.txt is served on any host.

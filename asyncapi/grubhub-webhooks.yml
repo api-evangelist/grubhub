@@ -1,0 +1,68 @@
+generated: '2026-09-17'
+method: derived
+source: >-
+  openapi/_harvested/grubhub-connect-webhooks.json and grubhub-reporting-webhooks.json - the
+  top-level webhooks objects of Grubhub's two OpenAPI 3.1.0 documents, fetched 2026-09-17 from
+  https://developer.grubhub.com/resource/partner-docs/api-docs/ - plus the Marketplace order
+  webhook, which Grubhub documents in prose only.
+note: >-
+  Grubhub ships two of its twelve OpenAPI documents as webhooks-only 3.1.0 documents with zero
+  callable paths. That is a genuine machine-readable event contract, and it is how the delivery and
+  reporting events are recorded here. The Marketplace order webhook - the single most important
+  event on the platform, because that is how new orders arrive - has no machine-readable contract.
+delivery:
+  transport: https
+  direction: egress
+  endpoint: partner-hosted
+  configuration: >-
+    Partners cannot set or change the webhook URL themselves. Grubhub configures it during partner
+    onboarding, and manual verification is required.
+  authentication:
+  - Basic authentication with a username and password chosen at partner signup
+  - HMAC signature in the Authorization header (Grubhub's recommended option)
+  note: The authentication options are documented in prose on the developer portal, not in the contract.
+webhook_count: 4
+webhooks:
+- name: '[Egress] Delivery Status Update Webhook'
+  payload: DeliveryStatusUpdate
+  machine_readable: true
+  spec: openapi/grubhub-connect-webhooks-openapi.yml
+  asyncapi: asyncapi/grubhub-delivery-events-asyncapi.yml
+  event_types:
+  - Created
+  - Assigned
+  - Unassigned
+  - CourierAtPickup
+  - PickedUp
+  - InTransit
+  - CourierAtDropoff
+  - Delivered
+  - Canceled
+  - ReturnInitiated
+  - ReturnCompleted
+  simulator: POST /delivery/daas/v1/test/webhook/emulateStatusUpdateWebhook
+- name: '[Egress] Delivery Refund Update Webhook'
+  payload: DeliveryRefundUpdate
+  machine_readable: true
+  spec: openapi/grubhub-connect-webhooks-openapi.yml
+  asyncapi: asyncapi/grubhub-delivery-events-asyncapi.yml
+  simulator: POST /delivery/daas/v1/test/webhook/emulateRefundUpdateWebhook
+- name: '[Egress] Report Status Update Webhook'
+  payload: MerchantReportStatusWebhook
+  machine_readable: true
+  spec: openapi/grubhub-reporting-webhooks-openapi.yml
+  asyncapi: asyncapi/grubhub-reporting-events-asyncapi.yml
+  note: The intended completion signal for createExportReport.
+- name: Marketplace order webhook
+  payload: unpublished
+  machine_readable: false
+  asyncapi: asyncapi/grubhub-order-events-asyncapi.yml
+  note: >-
+    Documented in prose on developer.grubhub.com/api/orders - new orders are expected to arrive by
+    webhook rather than by polling - but Grubhub publishes no schema, no event enumeration and no
+    contract for it. The AsyncAPI in this repo for that channel is generated from the documentation,
+    and is marked as such.
+gaps:
+- No webhook signature verification scheme is published in any machine-readable document.
+- No delivery-retry, ordering or at-least-once guarantee is stated anywhere.
+- Partners have no API to register, rotate or test their own webhook URL.

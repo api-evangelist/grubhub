@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-posordercoupon-schema.json",
+  "title": "PosOrderCoupon",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-orders-openapi.yml#/components/schemas/PosOrderCoupon",
+  "type": "object",
+  "properties": {
+    "text": {
+      "type": "string",
+      "description": "The coupon description."
+    },
+    "amount": {
+      "type": "integer",
+      "description": "The coupon amount.",
+      "format": "int32"
+    }
+  },
+  "description": "Information relating to a coupon that can be applied to an order"
+}

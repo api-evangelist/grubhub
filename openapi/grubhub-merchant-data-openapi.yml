@@ -1,0 +1,1886 @@
+openapi: 3.0.1
+info:
+  title: Merchant Data
+servers:
+- url: https://api-third-party-gtm-pp.grubhub.com
+  description: preprod
+- url: https://api-third-party-gtm.grubhub.com
+  description: prod
+tags:
+- name: Models
+  description: "# HeartbeatTriggeredPayload \n <SchemaDefinition schemaRef=\"#/components/schemas/HeartbeatTriggeredPayload\"\
+    />\n\n# OrderTypeHeartbeatPayload \n <SchemaDefinition schemaRef=\"#/components/schemas/OrderTypeHeartbeatPayload\"\
+    />\n\n# MerchantOrderTypeHeartbeatPayload \n <SchemaDefinition schemaRef=\"#/components/schemas/MerchantOrderTypeHeartbeatPayload\"\
+    />\n\n# PosMerchantBatchOperationResponse \n <SchemaDefinition schemaRef=\"#/components/schemas/PosMerchantBatchOperationResponse\"\
+    />\n\n# ScheduledOrdersUpdateRequest \n <SchemaDefinition schemaRef=\"#/components/schemas/ScheduledOrdersUpdateRequest\"\
+    />\n\n# JsonNode \n <SchemaDefinition schemaRef=\"#/components/schemas/JsonNode\"/>\n\n# PosEstimatesUpdateRequest\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/PosEstimatesUpdateRequest\"/>\n\n# PosEstimates \n <SchemaDefinition\
+    \ schemaRef=\"#/components/schemas/PosEstimates\"/>\n\n# DeliveryArea \n <SchemaDefinition schemaRef=\"#/components/schemas/DeliveryArea\"\
+    />\n\n# DeliveryAreaStats \n <SchemaDefinition schemaRef=\"#/components/schemas/DeliveryAreaStats\"/>\n\n# MerchantPropertyUpdateRequest\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/MerchantPropertyUpdateRequest\"/>\n\n# MerchantHeartbeatTriggeredPayload\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/MerchantHeartbeatTriggeredPayload\"/>\n\n# PosMerchantIntegrationStatus\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/PosMerchantIntegrationStatus\"/>\n\n# MerchantStatus\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/MerchantStatus\"/>\n\n# PosMerchantBatchOperationStatus\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/PosMerchantBatchOperationStatus\"/>\n\n# ExternalId\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/ExternalId\"/>\n\n# PosDeliveryFee \n <SchemaDefinition\
+    \ schemaRef=\"#/components/schemas/PosDeliveryFee\"/>\n\n# PosMerchantFulfillmentInfo \n <SchemaDefinition schemaRef=\"\
+    #/components/schemas/PosMerchantFulfillmentInfo\"/>\n\n# Address \n <SchemaDefinition schemaRef=\"#/components/schemas/Address\"\
+    />\n\n# DinerPickUpInstructions \n <SchemaDefinition schemaRef=\"#/components/schemas/DinerPickUpInstructions\"\
+    />\n\n# GeoLocation \n <SchemaDefinition schemaRef=\"#/components/schemas/GeoLocation\"/>\n\n# OrderProcessingInfo\
+    \ \n <SchemaDefinition schemaRef=\"#/components/schemas/OrderProcessingInfo\"/>\n\n# OrderTakingInfo \n <SchemaDefinition\
+    \ schemaRef=\"#/components/schemas/OrderTakingInfo\"/>\n\n# PosAccountStatus \n <SchemaDefinition schemaRef=\"\
+    #/components/schemas/PosAccountStatus\"/>\n\n# PosMerchantData \n <SchemaDefinition schemaRef=\"#/components/schemas/PosMerchantData\"\
+    />\n\n# ConfigGroup \n <SchemaDefinition schemaRef=\"#/components/schemas/ConfigGroup\"/>\n\n"
+paths:
+  /pos/v2/merchant/{merchant_id}/pos-status:
+    put:
+      tags:
+      - Endpoints
+      summary: Set the status of a merchant to online or offline for specific order types
+      description: Provides the ability to set the status of a merchant to online or offline on Grubhub for specific
+        order types (STANDARD, CATERING, GROUP). When offline, the merchant will not be listed on the site for that
+        order type; when online, the merchant will be listed on the site and be able to accept orders for that order
+        type.
+      operationId: updateMerchantStatusByOrderType
+      parameters:
+      - name: merchant_id
+        in: path
+        description: The Grubhub ID for the merchant OR the Partner merchant ID.
+        required: true
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Merchant status update request by order type.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderTypeHeartbeatPayload'
+            example:
+              order_type_statuses:
+                STANDARD:
+                  new_pos_status: ONLINE
+                CATERING:
+                  new_pos_status: OFFLINE
+                  reason: Temporarily unavailable
+        required: true
+      responses:
+        '422':
+          description: The data you provided in the request body was invalid or formatted incorrectly. This could
+            be due to an invalid order type, POS integration not being enabled, or the merchant being blocked from
+            updates.
+        '400':
+          description: Invalid request. This could be due to an invalid merchant ID format or an invalid status
+            transition (e.g., attempting to bring a merchant online when not in a pausable state).
+        '404':
+          description: Could not find the merchant to be updated.
+        '204':
+          description: No Content - The merchant status was successfully updated.
+        '403':
+          description: You do not have access to the requested resource.
+  /pos/v2/merchant/pos-status:
+    put:
+      tags:
+      - Endpoints
+      summary: Set the status of a batch of merchants to online or offline by order type
+      description: Provides the ability to set the status of multiple merchants to online or offline on Grubhub
+        for specific order types (STANDARD, CATERING, GROUP). When offline, the merchants will not be listed on
+        the site for that order type; when online, the merchants will be listed on the site and be able to accept
+        orders for that order type.
+      operationId: updateMerchantStatusByOrderTypeBatch
+      requestBody:
+        description: Batch of merchant status update requests by order type.
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/MerchantOrderTypeHeartbeatPayload'
+            example:
+            - merchant_id: '123456'
+              order_type_statuses:
+                STANDARD:
+                  new_pos_status: ONLINE
+                CATERING:
+                  new_pos_status: OFFLINE
+                  reason: Temporarily unavailable
+        required: true
+      responses:
+        '200':
+          description: OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PosMerchantBatchOperationResponse'
+              example:
+                batch_id: BgAPKjIATE6Xmot9N0JLZw
+                merchant_ids:
+                - '123456'
+                - '789012'
+        '422':
+          description: The data you provided in the request body was invalid or formatted incorrectly. It is likely
+            there are duplicate merchant IDs in the provided list, the number of items in batch exceeds the maximum
+            limit allowed, there were no items provided, or one or more merchants are blocked from updates.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PosMerchantBatchOperationResponse'
+        '400':
+          description: Invalid request. This could be due to an invalid merchant ID format in the batch.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PosMerchantBatchOperationResponse'
+        '403':
+          description: You do not have access to the requested resource.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PosMerchantBatchOperationResponse'
+        '404':
+          description: Bulk processing is not enabled for this operation.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PosMerchantBatchOperationResponse'
+  /pos/v1/merchant/{merchant_id}/taxrate:
+    get:
+      tags:
+      - Endpoints
+      summary: Get a merchant's tax rate
+      description: Returns a merchant's overall tax rate. This rate will be used for any menu item or other taxable
+        charge that does not have its own tax rate configuration.
+      operationId: getMerchantTaxRate
+      parameters:
+      - name: merchant_id
+        in: path
+        description: The short Grubhub ID for the merchant. Corresponds to a single location.
+        required: true
+        explode: false
+        schema:
+          type: string
+      responses:
+        '404':
+          description: Could not find the merchant or its tax rate.
+          content:
+            '*/*':
+              schema:
+                type: string
+        '403':
+          description: You do not have access to the requested resource.
+          content:
+            '*/*':
+              schema:
+                type: string
+        '200':
+          description: Successfully retrieved a merchant's tax rate.
+          content:
+            application/json:
+              schema:
+                type: number
+                format: double
+              example: 5.12
+    put:
+      tags:
+      - Endpoints
+      summary: Update a merchant's tax rate
+      description: Updates the overall tax rates for a merchant. These rates will be used for any menu item or other
+        taxable charge that does not have its own tax rate configuration.
+      operationId: updateMerchantTaxRate
+      parameters:
+      - name: merchant_id
+        in: path
+        description: The short Grubhub ID for the merchant. Corresponds to a single location.
+        required: true
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: The default tax rate to apply to all menu items associated with this merchant.
+        content:
+          application/json:
+            schema:
+              type: number
+              format: double
+            example: 5.12
+        required: true
+      responses:
+        '200':
+          description: Successfully updated a merchant's tax rate.
+          content:
+            application/json:
+              schema:
+                type: number
+                format: double
+              example: 5.12
+        '404':
+          description: Could not find this merchant to be updated.
+          content:
+            '*/*':
+              schema:
+                type: string
+        '403':
+          description: You do not have access to the requested resource.
+          content:
+            '*/*':
+              schema:
+                type: string
+  /pos/v1/merchant/{merchant_id}/scheduledorders:
+    put:
+      tags:
+      - Endpoints
+      summary: Toggle a merchant's scheduled ordering capability
+      description: Allows an individual merchant to opt in/out of scheduled ordering.
+      operationId: updateOptInOrOutScheduledOrdersByLegacyId
+      parameters:
+      - name: merchant_id
+        in: path
+        description: The Grubhub ID for the merchant OR the Partner merchant ID (specific configurations are required
+          to enable one or the other).
+        required: true
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Request merchant to opt-in/opt-out from scheduled orders.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScheduledOrdersUpdateRequest'
+            example:
+              enabled: true
+        required: true
+      responses:
+        '422':
+          description: The data you provided in the request body was invalid or formatted incorrectly.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonNode'
+        '404':
+          description: Could not find the merchant to be updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonNode'
+        '403':
+          description: You do not have access to the requested resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonNode'
+        '200':
+          description: Successfully updated scheduled ordering capability.
+          content:
+            application/json:
+              schema:
+                type: string
+              example: Merchant successfully opted-in
+  /pos/v1/merchant/{merchant_id}/preorderwindow:
+    put:
+      tags:
+      - Endpoints
+      summary: Update a merchant's pre-order confirmable window (in minutes)
+      description: The Pre-order confirmable window determines when Grubhub should transition a scheduled order
+        from ANTICIPATED status to RESTAURANT_CONFIRMABLE with relation to the desired fulfillment time. For example,
+        a merchant with a window of 120 minutes would receive the RESTAURANT_CONFIRMABLE webhook 2 hours before
+        desired fulfillment time giving them plenty of time to prep the order. For merchants with faster prep time,
+        this window is usually very small to guarantee food quality.
+      operationId: updateMerchantPreOrderInMinutes
+      parameters:
+      - name: merchant_id
+        in: path
+        description: The short Grubhub ID for the merchant. Corresponds to a single location.
+        required: true
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Duration in which a preorder can be sent to the merchant for confirmation.
+        content:
+          application/json:
+            schema:
+              type: integer
+              format: int32
+            example: 5
+        required: true
+      responses:
+        '422':
+          description: The merchant's pre-order confirmable window (in minutes) is disabled.
+          content:
+            '*/*':
+              schema:
+                type: string
+        '404':
+          description: Could not find the merchant to be updated.
+          content:
+            '*/*':
+              schema:
+                type: string
+        '200':
+          description: OK.
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int32
+              example: 5
+        '403':
+          description: You do not have access to the requested resource.
+          content:
+            '*/*':
+              schema:
+                type: string
+  /pos/v1/merchant/{merchant_id}/pos-status:
+    put:
+      tags:
+      - Endpoints
+      summary: Set a merchant's status to online or offline
+      description: Provides the ability to set a merchant's status to online or offline on Grubhub. When offline,
+        the merchant will not be listed on the site; when online, the merchant will be listed on the site and be
+        able to accept orders.
+      operationId: heartbeatStatusChangeTriggered
+      parameters:
+      - name: merchant_id
+        in: path
+        description: The short Grubhub ID for the merchant. Corresponds to a single location.
+        required: true
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Request body to set store OFFLINE/ONLINE.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HeartbeatTriggeredPayload'
+            example:
+              new_pos_status: ONLINE
+              reason: Heartbeat received
+        required: true
+      responses:
+        '422':
+          description: The data you provided in the request body was invalid or formatted incorrectly.
+        '404':
+          description: Could not find the merchant to be updated.
+        '403':
+          description: You do not have access to the requested resource.
+        '409':
+          description: The merchant's current status matches the new_pos_status provided in the request.
+        '204':
+          description: Successfully set the merchant as online/offline on Grubhub.
+  /pos/v1/merchant/{merchant_id}/fulfillment/{delivery_area_id}/deliveryfee:
+    get:
+      tags:
+      - Endpoints
+      summary: Get a merchant's delivery area fee
+      description: Returns a merchant's delivery fee for a delivery area.
+      operationId: getMerchantDeliveryAreaFeeByLegacyId
+      parameters:
+      - name: merchant_id
+        in: path
+        description: The short Grubhub ID for the merchant. Corresponds to a single location.
+        required: true
+        explode: false
+        schema:
+          type: string
+      - name: delivery_area_id
+        in: path
+        description: ID for delivery area.
+        required: true
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '404':
+          description: Could not find the merchant or its delivery area fee.
+          content:
+            '*/*':
+              schema:
+                type: integer
+                format: int32
+        '200':
+          description: Successfully retrieved the merchant's delivery area fee.
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int32
+              example: 5
+        '403':
+          description: You do not have access to the requested resource.
+          content:
+            '*/*':
+              schema:
+                type: integer
+                format: int32
+    put:
+      tags:
+      - Endpoints
+      summary: Update a merchant's delivery area fee
+      description: Updates a merchant's delivery fee for specified delivery area.
+      operationId: updateMerchantDeliveryAreaFeeByLegacyId
+      parameters:
+      - name: merchant_id
+        in: path
+        description: The short Grubhub ID for the merchant. Corresponds to a single location.
+        required: true
+        explode: false
+        schema:
+          type: string
+      - name: delivery_area_id
+        in: path
+        description: ID for delivery area.
+        required: true
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        description: Delivery fee value.
+        content:
+          application/json:
+            schema:
+              type: integer
+              format: int32
+            example: 5
+        required: true
+      responses:
+        '422':
+          description: The data you provided in the request body was invalid or formatted incorrectly.
+        '404':
+          description: Could not find the merchant to be updated.
+        '200':
+          description: Successfully updated the merchant's delivery area fee.
+        '403':
+          description: You do not have access to the requested resource.
+  /pos/v1/merchant/{merchant_id}/fulfillment/estimates:
+    get:
+      tags:
+      - Endpoints
+      summary: Get a merchant's fulfillment estimates
+      description: Returns the estimated time that a merchant takes to fulfill an order for both pickup and delivery,
+        separately.
+      operationId: getFulfillmentEstimatesByLegacyId
+      parameters:
+      - name: merchant_id
+        in: path
+        description: The short Grubhub ID for the merchant. Corresponds to a single location.
+        required: true
+        explode: false
+        schema:
+          type: string
+      - name: order_type
+        in: query
+        description: 'What kind of order this is. This can be one of the following: - "standard" - A regular, single
+          diner order. - "catering" - A large order intended to provide food for multiple people and is often ordered
+          by a corporate organization. - "group" - An order for multiple diners.'
+        required: false
+        content:
+          application/json:
+            schema:
+              type: string
+              enum:
+              - STANDARD
+              - CATERING
+              - GROUP
+            example: '{"order_type":"standard"}'
+      responses:
+        '200':
+          description: Successfully retrieved a merchant's fulfillment estimates.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PosEstimates'
+              example:
+                pickup_estimate_minutes: 15
+                delivery_estimate_minutes: 30
+        '404':
+          description: Cound not find the merchant or its fulfillment estimates.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PosEstimates'
+        '403':
+          description: You do not have access to the requested resource.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PosEstimates'
+    put:
+      tags:
+      - Endpoints
+      summary: Update a merchant's fulfillment estimates
+      description: Updates the estimated time that the merchant takes to fulfill an order for both pickup and delivery,
+        separately.
+      operationId: updateFulfillmentEstimatesByLegacyId
+      parameters:
+      - name: merchant_id
+        in: path
+        description: The short Grubhub ID for the merchant. Corresponds to a single location.
+        required: true
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: The estimated number of minutes to fulfill a delivery order and a pickup order, separately.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PosEstimatesUpdateRequest'
+            example:
+              pickup_estimate_minutes: 20
+              delivery_estimate_minutes: 45
+              order_type: standard
+        required: true
+      responses:
+        '422':
+          description: The data you provided in the request body was invalid or formatted incorrectly.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PosEstimates'
+        '200':
+          description: Successfully updated a merchant's fulfillment estimates.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PosEstimates'
+              example:
+                pickup_estimate_minutes: 15
+                delivery_estimate_minutes: 30
+        '404':
+          description: Could not find the merchant to be updated.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PosEstimates'
+        '403':
+          description: You do not have access to the requested resource.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PosEstimates'
+  /pos/v1/merchant/{merchant_id}/fulfillment/deliveryboundaries:
+    get:
+      tags:
+      - Endpoints
+      summary: Gets a merchant's delivery boundaries
+      description: Returns a merchant's delivery boundaries.
+      operationId: getDeliveryBoundaries
+      parameters:
+      - name: merchant_id
+        in: path
+        description: The short Grubhub ID for the merchant. Corresponds to a single location.
+        required: true
+        explode: false
+        schema:
+          type: string
+      responses:
+        '404':
+          description: Could not find the merchant or its delivery boundaries.
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DeliveryArea'
+        '200':
+          description: Successfully retrieved the merchant's delivery boundaries.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DeliveryArea'
+              example:
+              - id: d11208c6-4f87-4b5a-8c3e-6b8e4482dd8a
+                name: Downtown
+                fee_cents: 500
+                zone_type: diner
+                geometry: '{"type":"Polygon","coordinates":[[[-122.4081,37.783696],[-122.40008,37.786453],...]]}'
+                stats:
+                  area: 2500.0
+                  approximate_radius: 50.0
+                  height: 100.0
+                  width: 50.0
+              - id: e42842c8-0571-4e53-9a8b-1ea2aa7ef20e
+                name: Uptown
+                fee_cents: 300
+                zone_type: catering
+                geometry: '{"type":"Polygon","coordinates":[[[-122.4201,37.793296],[-122.41208,37.796053],...]]}'
+                stats:
+                  area: 3500.0
+                  approximate_radius: 60.0
+                  height: 120.0
+                  width: 70.0
+        '403':
+          description: You do not have access to the requested resource.
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DeliveryArea'
+    put:
+      tags:
+      - Endpoints
+      summary: Update a merchant's delivery boundaries
+      description: Updates a merchant's delivery boundaries if they have delivery settings configured. Note that
+        the body of this request must include the entire set of all delivery areas, as this change overwrites all
+        current delivery zones.
+      operationId: updateDeliveryBoundaries
+      parameters:
+      - name: merchant_id
+        in: path
+        description: The short Grubhub ID for the merchant. Corresponds to a single location.
+        required: true
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: The new or updated delivery zones.
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/DeliveryArea'
+            example:
+            - id: f43e64d3-2e9c-4d64-a4a1-74e3953e1a68
+              name: Downtown Zone
+              fee_cents: 500
+              zone_type: DINER
+              geometry: '{ "type": "Polygon", "coordinates": [[[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]]] }'
+              stats:
+                area: 0.5
+                approximate_radius: 0.71
+                height: 1.0
+                width: 1.0
+            - id: ac382e8e-4d91-47fb-a724-39e04ac2e07c
+              name: Suburb Zone
+              fee_cents: 800
+              zone_type: DINER
+              geometry: '{ "type": "Polygon", "coordinates": [[[2, 2], [3, 2], [3, 3], [2, 3], [2, 2]]] }'
+              stats:
+                area: 1.0
+                approximate_radius: 1.0
+                height: 1.0
+                width: 1.0
+        required: true
+      responses:
+        '404':
+          description: Could not find the merchant to be updated.
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DeliveryArea'
+        '200':
+          description: Successfully updated a merchant's the delivery areas.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DeliveryArea'
+              example:
+              - id: d11208c6-4f87-4b5a-8c3e-6b8e4482dd8a
+                name: Downtown
+                fee_cents: 500
+                zone_type: diner
+                geometry: '{"type":"Polygon","coordinates":[[[-122.4081,37.783696],[-122.40008,37.786453],...]]}'
+                stats:
+                  area: 2500.0
+                  approximate_radius: 50.0
+                  height: 100.0
+                  width: 50.0
+              - id: e42842c8-0571-4e53-9a8b-1ea2aa7ef20e
+                name: Uptown
+                fee_cents: 300
+                zone_type: catering
+                geometry: '{"type":"Polygon","coordinates":[[[-122.4201,37.793296],[-122.41208,37.796053],...]]}'
+                stats:
+                  area: 3500.0
+                  approximate_radius: 60.0
+                  height: 120.0
+                  width: 70.0
+        '403':
+          description: You do not have access to the requested resource.
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DeliveryArea'
+  /pos/v1/merchant/{merchant_id}/deliveryminimum:
+    get:
+      tags:
+      - Endpoints
+      summary: Get a merchant's delivery minimum
+      description: Returns the merchant's delivery minimum.
+      operationId: getDeliveryMinimumForMerchant
+      parameters:
+      - name: merchant_id
+        in: path
+        description: The short Grubhub ID for the merchant. Corresponds to a single location.
+        required: true
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Returns the merchant's delivery minimum.
+          content:
+            application/json:
+              schema:
+                type: number
+                format: double
+              example: 5.12
+        '404':
+          description: Could not find the merchant or its delivery minimum.
+          content:
+            '*/*':
+              schema:
+                type: string
+        '403':
+          description: You do not have access to the requested resource.
+          content:
+            '*/*':
+              schema:
+                type: string
+    put:
+      tags:
+      - Endpoints
+      summary: Update a merchant's delivery minimum
+      description: Updates a merchant's delivery minimum if they do not do managed delivery.
+      operationId: updateDeliveryMinimumForMerchant
+      parameters:
+      - name: merchant_id
+        in: path
+        description: The short Grubhub ID for the merchant. Corresponds to a single location.
+        required: true
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: The new delivery minimum value.
+        content:
+          application/json:
+            schema:
+              type: number
+              format: double
+            example: 5.12
+        required: true
+      responses:
+        '422':
+          description: The data you provided in the request body was invalid or formatted incorrectly.
+          content:
+            '*/*':
+              schema:
+                type: string
+        '200':
+          description: Successfully retrieved the merchant's updated delivery minimum.
+          content:
+            application/json:
+              schema:
+                type: number
+                format: double
+              example: 5.12
+        '404':
+          description: Could not find the merchant to be updated.
+          content:
+            '*/*':
+              schema:
+                type: string
+        '403':
+          description: You do not have access to the requested resource.
+          content:
+            '*/*':
+              schema:
+                type: string
+  /pos/v1/merchant/properties:
+    put:
+      tags:
+      - Endpoints
+      summary: Update the properties of a batch of merchants
+      description: Updates merchant properties for multiple merchants or individual merchant at a time.
+      operationId: updateMerchantProperties
+      requestBody:
+        description: Request containing the merchant ID/s and the properties to be applied for all of them.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MerchantPropertyUpdateRequest'
+            example:
+              merchant_ids:
+              - store182
+              - store201
+              property_updates:
+                delivery_estimate_minutes: '45'
+                pickup_estimate_minutes: '30'
+                special_instructions_disabled: 'false'
+                sales_tax: '8.5'
+                driver_pickup_instructions: Follow the green signs
+                diner_pickup_contact_phone: 123-456-7890
+                diner_offers_curbside_pickup: 'true'
+                diner_pickup_curbside_instructions: Wait at the marked area
+                order_validation_opt_in: 'true'
+        required: true
+      responses:
+        '422':
+          description: The data you provided in the request body was invalid or formatted incorrectly. It is likely
+            there are duplicate merchant IDs in the provided list, the number of items in batch exceeds the maximum
+            limit allowed, or there were no items provided.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PosMerchantBatchOperationResponse'
+        '200':
+          description: OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PosMerchantBatchOperationResponse'
+              example:
+                batch_id: e12435f1-6dcf-4b14-96f5-42d56e12c8a9
+                merchant_ids:
+                - merchant_001
+                - merchant_002
+                - merchant_003
+  /pos/v1/merchant/pos-status:
+    put:
+      tags:
+      - Endpoints
+      summary: Set the status of a batch of merchants to online or offline
+      description: Provides the ability to set the status of a batch of merchants to online or offline on Grubhub.
+        When offline, the merchants will not be listed on the site; when online, the merchant will be listed on
+        the site and be able to accept orders.
+      operationId: heartbeatStatusChangeTriggeredBatch
+      requestBody:
+        description: Batch of merchant Pos Status requests.
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/MerchantHeartbeatTriggeredPayload'
+            example:
+            - merchant_id: store182
+              new_pos_status: ONLINE
+              reason: Heartbeat received
+            - merchant_id: store201
+              new_pos_status: OFFLINE
+              reason: No heartbeat detected
+        required: true
+      responses:
+        '422':
+          description: The data you provided in the request body was invalid or formatted incorrectly. It is likely
+            there are duplicate merchant IDs in the provided list, the number of items in batch exceeds the maximum
+            limit allowed, or there were no items provided.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PosMerchantBatchOperationResponse'
+        '200':
+          description: OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PosMerchantBatchOperationResponse'
+              example:
+                batch_id: e12435f1-6dcf-4b14-96f5-42d56e12c8a9
+                merchant_ids:
+                - merchant_001
+                - merchant_002
+                - merchant_003
+  /pos/v1/merchant/integrationlive:
+    put:
+      tags:
+      - Endpoints
+      summary: Update the live integration status of a batch of merchants
+      description: Enables / disables live integration status for a batch of merchants. A merchant can have live
+        integration enabled only if it has at least one successful ingestion completed and it's not a GH Direct
+        merchant.
+      operationId: updatePosMerchantIntegration
+      requestBody:
+        description: Batch of merchant integration requests.
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/PosMerchantIntegrationStatus'
+            example:
+            - merchant_id: store182
+              enabled: true
+            - merchant_id: store201
+              enabled: false
+        required: true
+      responses:
+        '422':
+          description: The data you provided in the request body was invalid or formatted incorrectly. It is likely
+            there are duplicate merchant IDs in the provided list, the number of items in batch exceeds the maximum
+            limit allowed, or there were no items provided.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PosMerchantBatchOperationResponse'
+        '200':
+          description: OK.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PosMerchantBatchOperationResponse'
+              example:
+                batch_id: e12435f1-6dcf-4b14-96f5-42d56e12c8a9
+                merchant_ids:
+                - merchant_001
+                - merchant_002
+                - merchant_003
+  /pos/v2/merchant/pos-status/{batch_id}/status:
+    get:
+      tags:
+      - Endpoints
+      summary: Get the online or offline status of a batch of merchants by order type
+      description: Returns the status of the merchant online/offline batch (by order type) together with the progress
+        for each individual merchant, or, if present, only for the specified merchant ID.
+      operationId: getMerchantStatusByOrderTypeBatchStatus
+      parameters:
+      - name: batch_id
+        in: path
+        description: The batch unique identifier.
+        required: true
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      - name: merchant_id
+        in: query
+        description: The merchant ID to get the processing status for.
+        required: false
+        explode: true
+        schema:
+          type: string
+      responses:
+        '404':
+          description: Could not find the batch.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PosMerchantBatchOperationStatus'
+        '403':
+          description: You do not have access to the requested resource.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PosMerchantBatchOperationStatus'
+        '200':
+          description: Batch status was successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PosMerchantBatchOperationStatus'
+              example:
+                batch_id: BgAPKjIATE6Xmot9N0JLZw
+                processing_complete: true
+                merchant_statuses:
+                - merchant_id: '123456'
+                  status: SUCCESSFUL
+                  details: null
+  /pos/v1/merchant/{partner_id}/idmappings:
+    get:
+      tags:
+      - Endpoints
+      summary: Get internal / external ID mappings
+      description: Returns the internal / external merchant ID mappings associated with your partner_id (which a
+        customer includes in every API call), for either up to 100 external merchant IDs (if the externalIds query
+        parameter is populated and valid) or ALL the internal / external merchant IDs (when the externalIds query
+        parameter is not populated or not sent at all). You will have to have ingested a menu before this endpoint
+        will return valuable information.
+      operationId: getIdMappingsByPartnerAndExternalIds
+      parameters:
+      - name: partner_id
+        in: path
+        description: The partner ID for the merchant or merchant group.
+        required: true
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      - name: externalIds
+        in: query
+        description: A string that can contain up to 100 `external_id` values separated by commas. This field can
+          also be left empty or not provided at all.
+        required: false
+        explode: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK.
+          content:
+            application/json:
+              schema:
+                uniqueItems: true
+                type: array
+                items:
+                  $ref: '#/components/schemas/ExternalId'
+              example:
+              - partner_id: 12345678-abcd-efgh-ijkl-9876543210ab
+                internal_id: merchant123
+                external_id: ext_merchant_001
+                type: merchant
+              - partner_id: abcdef12-3456-7890-abcd-efghijklmnop
+                internal_id: merchant456
+                external_id: ext_merchant_002
+                type: merchant
+              - partner_id: 98765432-pqrs-tuvw-xyzw-1234567890ab
+                internal_id: merchant789
+                external_id: ext_merchant_003
+                type: merchant
+  /pos/v1/merchant/{merchant_id}/fulfillment:
+    get:
+      tags:
+      - Endpoints
+      summary: Get a merchant's fulfillment info
+      description: Returns a merchant's fulfillment info.
+      operationId: getFulfillmentInfoByLegacyId
+      parameters:
+      - name: merchant_id
+        in: path
+        description: The short Grubhub ID for the merchant. Corresponds to a single location.
+        required: true
+        explode: false
+        schema:
+          type: string
+      responses:
+        '404':
+          description: Could not find the merchant or its fulfillment info.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PosMerchantFulfillmentInfo'
+        '200':
+          description: Successfully retrieved merchant's fulfillment info.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PosMerchantFulfillmentInfo'
+              example:
+                pos_estimates:
+                  STANDARD:
+                    pickup_estimate_minutes: 30
+                    delivery_estimate_minutes: 45
+                  CATERING:
+                    pickup_estimate_minutes: 60
+                    delivery_estimate_minutes: 90
+                delivery_fee:
+                  value: 500
+                  type: FLAT
+                delivery_minimum: 2000
+                active_delivery_areas:
+                - id: 123e4567-e89b-12d3-a456-426655440000
+                  name: Downtown Area
+                  feeCents: 500
+                  geometry: '{...}'
+                  zoneType: DINER
+                - id: 987e6543-c21d-43a2-a753-426655440000
+                  name: Catering Zone
+                  feeCents: 1000
+                  geometry: '{...}'
+                  zoneType: CATERING
+        '403':
+          description: You do not have access to the requested resource.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PosMerchantFulfillmentInfo'
+  /pos/v1/merchant/{merchant_id}:
+    get:
+      tags:
+      - Endpoints
+      summary: Get a merchant
+      description: Returns summary information about a merchant. Will be extended in the future.
+      operationId: getMerchantByLegacyId
+      parameters:
+      - name: merchant_id
+        in: path
+        description: The short Grubhub ID for the merchant. Corresponds to a single location.
+        required: true
+        explode: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successfully retrieved the merchant.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PosMerchantData'
+              example:
+                merchant_id: abc123
+                name: Merchant Name
+                account_status:
+                  merchant_status: ACTIVE
+                  merchant_status_descriptor: Active
+                  pos_merchant_status: ONLINE
+                  reason: Account is active
+                  holds_active_account: true
+                  accepting_phone_orders: false
+                  accepting_online_orders: true
+                  merchant_status_comments: Merchant is actively conducting business
+                address:
+                  street_address: 123 Main Street
+                  street_address2: Suite 456
+                  locality: Cityville
+                  region: CA
+                  postal_code: '12345'
+                  county: Countyville
+                  county_id: 789
+                  region_code: US
+                  time_zone: America/Los_Angeles
+                  geo_location:
+                    lat: 37.1234
+                    lng: -122.5678
+                service_type: DELIVERY AND PICKUP
+                fulfillment_info:
+                  pos_estimates:
+                    STANDARD:
+                      preparation_time_minutes: 30
+                      delivery_time_minutes: 45
+                    CATERING:
+                      preparation_time_minutes: 60
+                      delivery_time_minutes: 90
+                  delivery_fee:
+                    value: 500
+                    type: FLAT
+                  delivery_minimum: 2000
+                  active_delivery_areas:
+                  - id: 123e4567-e89b-12d3-a456-426655440000
+                    name: Downtown Area
+                    feeCents: 500
+                    geometry: '{...}'
+                    zoneType: DINER
+                  - id: 987e6543-c21d-43a2-a753-426655440000
+                    name: Catering Zone
+                    feeCents: 1000
+                    geometry: '{...}'
+                    zoneType: CATERING
+                order_processing_info:
+                  scheduled_orders: true
+                  pos_integrated: false
+                order_taking_info:
+                  managed_delivery: true
+                  special_instructions_disabled: false
+                  driver_pickup_instructions: Please go to the front desk for pickup.
+                diner_pickup_instructions:
+                  offers_curbside_pickup: true
+                  contact_phone: 555-123-4567
+                  curbside_instructions: Call upon arrival for curbside pickup.
+        '403':
+          description: You do not have access to the requested resource.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PosMerchantData'
+        '404':
+          description: Could not find the merchant.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PosMerchantData'
+  /pos/v1/merchant/properties/{batch_id}/status:
+    get:
+      tags:
+      - Endpoints
+      summary: Get merchant properties batch update status
+      description: Returns the status of the merchant properties update batch together with the progress for each
+        individual merchant, or, if present, only for the specified merchant ID.
+      operationId: getMerchantPropertiesBatchStatus
+      parameters:
+      - name: batch_id
+        in: path
+        description: The merchant properties bulk processing batch unique identifier.
+        required: true
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      - name: merchant_id
+        in: query
+        description: The merchant ID to get the processing status for.
+        required: true
+        explode: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Batch status was successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PosMerchantBatchOperationStatus'
+              example:
+                batch_id: e12435f1-6dcf-4b14-96f5-42d56e12c8a9
+                processing_complete: true
+                merchant_status:
+                  merchant_001: SUCCESS
+                  merchant_002: NOT_FOUND
+                merchant_statuses:
+                - merchantId: merchant_001
+                  status: SUCCESS
+                  details: Merchant operation processed successfully.
+                - merchantId: merchant_002
+                  status: NOT_FOUND
+                  details: Merchant not found. The operation couldn't be processed.
+        '404':
+          description: Could not find the batch.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PosMerchantBatchOperationStatus'
+  /pos/v1/merchant/pos-status/{batch_id}/status:
+    get:
+      tags:
+      - Endpoints
+      summary: Get the online or offline status of a batch of merchants
+      description: Returns the status of the merchant online/offline batch together with the progress for each individual
+        merchant, or, if present, only for the specified merchant ID.
+      operationId: getHeartbeatStatusChangeTriggeredBatchStatus
+      parameters:
+      - name: batch_id
+        in: path
+        description: The batch unique identifier.
+        required: true
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      - name: merchant_id
+        in: query
+        description: The merchant ID to get the processing status for.
+        required: false
+        explode: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Batch status was successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PosMerchantBatchOperationStatus'
+              example:
+                batch_id: e12435f1-6dcf-4b14-96f5-42d56e12c8a9
+                processing_complete: true
+                merchant_status:
+                  merchant_001: SUCCESS
+                  merchant_002: NOT_FOUND
+                merchant_statuses:
+                - merchantId: merchant_001
+                  status: SUCCESS
+                  details: Merchant operation processed successfully.
+                - merchantId: merchant_002
+                  status: NOT_FOUND
+                  details: Merchant not found. The operation couldn't be processed.
+        '404':
+          description: Could not find the batch.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PosMerchantBatchOperationStatus'
+  /pos/v1/merchant/integrationlive/{batch_id}/status:
+    get:
+      tags:
+      - Endpoints
+      summary: Get the live integration status of a batch of merchants
+      description: Returns the status of the merchant live integration batch together with the progress for each
+        individual merchant, or, if present, only for the specified merchant ID.
+      operationId: getPosMerchantIntegrationBatchStatus
+      parameters:
+      - name: batch_id
+        in: path
+        description: The live integration bulk processing batch unique identifier.
+        required: true
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      - name: merchant_id
+        in: query
+        description: The merchant ID to get the processing status for.
+        required: false
+        explode: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Batch status was successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PosMerchantBatchOperationStatus'
+              example:
+                batch_id: e12435f1-6dcf-4b14-96f5-42d56e12c8a9
+                processing_complete: true
+                merchant_status:
+                  merchant_001: SUCCESS
+                  merchant_002: NOT_FOUND
+                merchant_statuses:
+                - merchantId: merchant_001
+                  status: SUCCESS
+                  details: Merchant operation processed successfully.
+                - merchantId: merchant_002
+                  status: NOT_FOUND
+                  details: Merchant not found. The operation couldn't be processed.
+        '404':
+          description: Could not find the batch.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PosMerchantBatchOperationStatus'
+  /pos/v1/config/groups/{group_key}:
+    get:
+      tags:
+      - Endpoints
+      summary: Get a configuration group
+      description: Returns a configuration group, including the merchant IDs included in the group. This group key
+        can be used for polling orders and deliveries to avoid making separate requests for each merchant. Please
+        contact your Grubhub rep for the key
+      operationId: getMerchantsByGroup
+      parameters:
+      - name: group_key
+        in: path
+        description: The group key for which to retrieve merchants.
+        required: true
+        explode: false
+        schema:
+          type: string
+      responses:
+        '404':
+          description: Could not find the configuration group.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ConfigGroup'
+        '200':
+          description: Successfully retrieved a configuration group.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConfigGroup'
+              example:
+                group_name: POS Partner X
+                merchant_ids:
+                - merchant_id_1
+                - merchant_id_2
+                - merchant_id_3
+        '403':
+          description: You do not have access to the requested resource.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ConfigGroup'
+components:
+  schemas:
+    HeartbeatTriggeredPayload:
+      required:
+      - new_pos_status
+      type: object
+      properties:
+        new_pos_status:
+          type: string
+          description: Merchant status, whether online/offline.
+          enum:
+          - OFFLINE
+          - ONLINE
+        reason:
+          type: string
+          description: Reason for status change
+      description: Request to set merchant status online or offline.
+    OrderTypeHeartbeatPayload:
+      required:
+      - order_type_statuses
+      type: object
+      properties:
+        order_type_statuses:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/HeartbeatTriggeredPayload'
+          description: Map of order type to heartbeat payload. Order type keys must be valid.
+      description: Request to set merchant status online or offline for specific order types. Keys must be valid
+        order types (e.g., 'standard', 'catering', 'group').
+    MerchantOrderTypeHeartbeatPayload:
+      required:
+      - merchant_id
+      - order_type_statuses
+      type: object
+      properties:
+        merchant_id:
+          type: string
+          description: The short Grubhub ID for the merchant OR the Partner merchant ID.
+        order_type_statuses:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/HeartbeatTriggeredPayload'
+          description: Map of order type to heartbeat payload. Order type keys must be valid.
+      description: Request to set merchant status online or offline for specific order types, with merchant ID.
+    PosMerchantBatchOperationResponse:
+      type: object
+      properties:
+        batch_id:
+          type: string
+          description: A value that identifies a batch of merchant operation requests.
+          format: uuid
+        merchant_ids:
+          type: array
+          description: A list of merchant IDs representing each request that's going to be processed.
+          items:
+            type: string
+            description: A list of merchant IDs representing each request that's going to be processed.
+      description: Reference ID to a batch of merchant operation requests and all the associated merchant IDs.
+    ScheduledOrdersUpdateRequest:
+      required:
+      - enabled
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          description: When it is true, the merchant will opt-in scheduled ordering; or the merchant will opt-out
+            if it is false.
+      description: Request to opt-in/opt-out from scheduled orders.
+    JsonNode:
+      type: object
+    PosEstimatesUpdateRequest:
+      type: object
+      properties:
+        pickup_estimate_minutes:
+          type: integer
+          description: The estimated number of minutes that the merchant needs to fulfill a pickup order.
+          format: int32
+        delivery_estimate_minutes:
+          type: integer
+          description: The estimated number of minutes that the merchant needs to fulfill a delivery order.
+          format: int32
+        order_type:
+          type: string
+          description: 'What kind of order this is. This can be one of the following: - "standard" - A regular,
+            single diner order. - "catering" - A large order intended to provide food for multiple people and is
+            often ordered by a corporate organization. - "group" - An order for multiple diners.'
+          enum:
+          - STANDARD
+          - CATERING
+          - GROUP
+      description: Estimated pickup and delivery times for a merchant.
+    PosEstimates:
+      type: object
+      properties:
+        pickup_estimate_minutes:
+          type: integer
+          description: Default number of minutes that this merchant requires between confirming an order and it
+            being ready for pickup, if applicable.
+          format: int32
+        delivery_estimate_minutes:
+          type: integer
+          description: Default number of minutes that this merchant requires between confirming an order and completion
+            of delivery, if applicable.
+          format: int32
+      description: Pickup and delivery estimates.
+    DeliveryArea:
+      required:
+      - fee_cents
+      - geometry
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          description: The id for this DeliveryArea (Zone)
+          format: uuid
+        name:
+          type: string
+          description: A name for the delivery zone
+        fee_cents:
+          minimum: 0
+          type: integer
+          description: The delivery cost for this delivery zone, in cents
+          format: int32
+        zone_type:
+          type: string
+          description: They type of delivery zone (i.e. Diner or Catering). Defaults to Diner
+          deprecated: true
+          enum:
+          - CATERING
+          - DINER
+        geometry:
+          type: string
+          description: GeoJSON String representing the geometry of the delivery area
+        stats:
+          $ref: '#/components/schemas/DeliveryAreaStats'
+      description: Delivery area configuration settings.
+    DeliveryAreaStats:
+      type: object
+      properties:
+        area:
+          type: number
+          description: Area in square miles. READ_ONLY
+          readOnly: true
+        approximate_radius:
+          type: number
+          description: Approximate Radius in miles. READ_ONLY
+          readOnly: true
+        height:
+          type: number
+          description: Height in miles. READ_ONLY
+          readOnly: true
+        width:
+          type: number
+          description: Width in miles. READ_ONLY
+          readOnly: true
+      description: Various Calculations about a DeliveryArea, Filled automatically. All units are in miles/square
+        miles.
+    MerchantPropertyUpdateRequest:
+      required:
+      - merchant_ids
+      - property_updates
+      type: object
+      properties:
+        merchant_ids:
+          type: array
+          description: A list of IDs representing either the Grubhub or Partner merchant ID.
+          items:
+            type: string
+            description: A list of IDs representing either the Grubhub or Partner merchant ID.
+        property_updates:
+          type: object
+          additionalProperties:
+            type: string
+            description: Multiple properties associated with Merchant ID/s.
+          description: Multiple properties associated with Merchant ID/s.
+      description: Merchant ID/s and properties to update for multiple merchants or individual merchant at a time.
+    MerchantHeartbeatTriggeredPayload:
+      required:
+      - merchant_id
+      - new_pos_status
+      type: object
+      properties:
+        merchant_id:
+          type: string
+          description: The short Grubhub ID for the merchant OR the Partner merchant ID.
+        new_pos_status:
+          type: string
+          description: Merchant status, whether online/offline.
+          enum:
+          - OFFLINE
+          - ONLINE
+        reason:
+          type: string
+          description: Reason for status change
+      description: Request to set merchant status online or offline.
+    PosMerchantIntegrationStatus:
+      required:
+      - enabled
+      - merchant_id
+      type: object
+      properties:
+        merchant_id:
+          type: string
+          description: The short Grubhub ID for the merchant OR the Partner merchant ID.
+        enabled:
+          type: boolean
+          description: Live integration status.
+      description: Pair of merchant ID and its desired live integration status - true / false.
+    MerchantStatus:
+      type: object
+      properties:
+        merchant_id:
+          type: string
+          description: The Grubhub(internal) or Partner(external) merchant ID.
+        status:
+          type: string
+          description: Status of the bulk processing operation, one of SUCCESSFUL, NOT_FOUND, INVALID, FAILED, FAILED_TO_QUEUE,
+            IN_PROGRESS, REQUESTED.
+        details:
+          type: string
+          description: Additional details present in case of a NOT_FOUND / INVALID status.
+      description: Merchant ID and their bulk processing status, including additional information in case of NOT_FOUND
+        / INVALID statuses.
+    PosMerchantBatchOperationStatus:
+      type: object
+      properties:
+        batch_id:
+          type: string
+          description: A value that identifies a batch of merchant operation requests.
+          format: uuid
+        processing_complete:
+          type: boolean
+          description: True if all requests in this batch have been processed (successful or not), false otherwise.
+        merchant_status:
+          type: object
+          additionalProperties:
+            type: string
+            description: Deprecated - will be replaced by merchant_statuses array. Associations of merchant IDs
+              and their processing status.
+            deprecated: true
+          description: Deprecated - will be replaced by merchant_statuses array. Associations of merchant IDs and
+            their processing status.
+          deprecated: true
+        merchant_statuses:
+          type: array
+          description: List containing the processing status for each merchant ID, including additional information
+            in case of a NOT_FOUND / INVALID status.
+          items:
+            $ref: '#/components/schemas/MerchantStatus'
+      description: Describes the state (completed or not) of an entire batch of merchant operation requests together
+        with the status of each individual request associated to this batch.
+    ExternalId:
+      type: object
+      properties:
+        partner_id:
+          type: string
+          format: uuid
+        internal_id:
+          type: string
+        external_id:
+          type: string
+        type:
+          type: string
+    PosDeliveryFee:
+      type: object
+      properties:
+        value:
+          type: integer
+          description: The value of the fee applied for a service, in percentage of total order value or US dollars.
+          format: int32
+        type:
+          type: string
+          description: Whether or not a fee value is applied as a percentage of order value or a whole amount of
+            US dollars. Possible values are FLAT or PERCENT
+          enum:
+          - FLAT
+          - PERCENT
+      description: A fee that is applied to a merchant for the delivery service.
+    PosMerchantFulfillmentInfo:
+      type: object
+      properties:
+        pos_estimates:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/PosEstimates'
+          description: The merchant's pickup and delivery estimates.
+        delivery_fee:
+          $ref: '#/components/schemas/PosDeliveryFee'
+        delivery_minimum:
+          type: number
+          description: The minimum dollar value a merchant requires for an order to be eligible for delivery.
+          format: double
+        active_delivery_areas:
+          type: array
+          description: A list of delivery areas including the delivery fee for each zone.
+          items:
+            $ref: '#/components/schemas/DeliveryArea'
+      description: Contains pickup and delivery info for a merchant.
+    Address:
+      required:
+      - county_id
+      - locality
+      - market
+      - postal_code
+      - region
+      - street_address
+      type: object
+      properties:
+        street_address:
+          type: string
+          description: Street address line 1
+        street_address2:
+          type: string
+          description: Street address line 2
+        locality:
+          type: string
+          description: City, town, village or any variant thereof
+        region:
+          type: string
+          description: State, province or any variant thereof. 2 digit ISO code for US states.
+          example: AL
+        postal_code:
+          type: string
+          description: ISO standard postal code, varies per country
+        county:
+          type: string
+          description: County, parish or any variant thereof
+        county_id:
+          type: integer
+          description: The unique identifier for the county this merchant is located in
+          format: int32
+        country:
+          type: string
+          description: Country, territory or any variant thereof
+          deprecated: true
+        region_code:
+          type: string
+          description: 2 letter country ISO 3166-1 code
+          example: US
+        market:
+          type: string
+          description: The market that this merchant is enrolled within
+          deprecated: true
+        market_id:
+          type: integer
+          description: The id of the market that this merchant is enrolled within
+          format: int32
+          deprecated: true
+        time_zone:
+          type: string
+          description: A human readable description of what time zone this address is in
+        geo_location:
+          $ref: '#/components/schemas/GeoLocation'
+        confidence_rating:
+          type: string
+          description: How confident geocoder is that this address is accurate
+        confirmed_address:
+          type: boolean
+          description: Whether the address has been confirmed to be accurate
+      description: The address of the physical location for a merchant.
+    DinerPickUpInstructions:
+      type: object
+      properties:
+        offers_curbside_pickup:
+          type: boolean
+          description: Describes whether merchant is opted in to curbside pickup or not.
+        contact_phone:
+          type: string
+          description: Means of contacting a merchant when picking up curbside.
+        curbside_instructions:
+          type: string
+          description: An additional information a merchant can optionally provide to curbside pickup diners.
+      description: Contains diner pickup instructions for a merchant.
+    GeoLocation:
+      type: object
+      properties:
+        lat:
+          type: number
+          description: Latitude coordinate
+          format: double
+        lng:
+          type: number
+          description: Longitude coordinate
+          format: double
+      description: Latitude and longitude coordinates for a location.
+    OrderProcessingInfo:
+      type: object
+      properties:
+        scheduled_orders:
+          type: boolean
+          description: Whether or not the merchant is opt-in scheduled ordering.
+        pos_integrated:
+          type: boolean
+          description: Whether or not the merchant is pos integrated.
+      description: Contains order processing info of a merchant.
+    OrderTakingInfo:
+      type: object
+      properties:
+        managed_delivery:
+          type: boolean
+          description: Whether or not the merchant is managed delivery enabled.
+        special_instructions_disabled:
+          type: boolean
+          description: Describes whether this merchant has disabled special ordering instructions or not.
+        driver_pickup_instructions:
+          type: string
+          description: Describes how a delivery driver should pick up orders from merchant.
+      description: Contains order taking info for a merchant.
+    PosAccountStatus:
+      type: object
+      properties:
+        merchant_status:
+          type: string
+          description: The merchant's current status concerning account creation or ability to receive orders in
+            a machine-readable format
+          deprecated: true
+        merchant_status_descriptor:
+          type: string
+          description: The merchant's current status concerning account creation or ability to receive orders in
+            a human-readable format
+          deprecated: true
+        pos_merchant_status:
+          type: string
+          description: The merchant's current status concerning account creation or ability to receive orders (online/offline)
+        reason:
+          type: string
+          description: Reason explaining why the merchant has a given status
+        holds_active_account:
+          type: boolean
+          description: Whether or not this merchant should be regarded as holding an active account with GrubHub
+        accepting_phone_orders:
+          type: boolean
+          description: Whether or not this merchant is currently capable of receiving orders by phone
+          deprecated: true
+        accepting_online_orders:
+          type: boolean
+          description: Whether or not this merchant is currently capable of receiving orders that have been transmitted
+            online
+          deprecated: true
+        merchant_status_comments:
+          type: string
+          description: The reason that this merchant is in the status it is in, typically reserved for merchants
+            not conducting business
+      description: The current state of the merchant with regards to work flow and how they are conducting business.
+    PosMerchantData:
+      type: object
+      properties:
+        merchant_id:
+          type: string
+          description: The Grubhub or third-party provided external ID for the merchant. Corresponds to a single
+            location.
+        merchant_uuid:
+          type: string
+          description: The UUID of the merchant.
+          format: uuid
+        name:
+          type: string
+          description: The display name of the merchant.
+        account_status:
+          $ref: '#/components/schemas/PosAccountStatus'
+        address:
+          $ref: '#/components/schemas/Address'
+        service_type:
+          type: string
+          description: 'Merchant configuration for providing food to diner. This can be one of the following: -
+            "PICKUP" - Merchant supports pickup only orders. - "DELIVERY" - Merchant supports delivery only orders.
+            - "DELIVERY AND PICKUP" - Merchant supports both delivery and pickup orders.'
+        fulfillment_info:
+          $ref: '#/components/schemas/PosMerchantFulfillmentInfo'
+        order_processing_info:
+          $ref: '#/components/schemas/OrderProcessingInfo'
+        order_taking_info:
+          $ref: '#/components/schemas/OrderTakingInfo'
+        diner_pickup_instructions:
+          $ref: '#/components/schemas/DinerPickUpInstructions'
+        merchant_status_by_order_type:
+          type: object
+          additionalProperties:
+            type: string
+            description: Merchant status by order type (e.g., STANDARD, CATERING, GROUP).
+          description: Merchant status by order type (e.g., STANDARD, CATERING, GROUP).
+      description: Summary information about a merchant. This entity will be expanded over time.
+    ConfigGroup:
+      required:
+      - merchant_ids
+      type: object
+      properties:
+        group_name:
+          type: string
+          description: The name of the group.
+        merchant_ids:
+          uniqueItems: true
+          type: array
+          description: A list of merchant IDs in the configuration group.
+          items:
+            type: string
+            description: A list of merchant IDs in the configuration group.
+      description: A group of merchants sharing a common POS configuration in Grubhub. E.g., Merchants who are configured
+        for POS Partner X.

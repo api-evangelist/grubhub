@@ -1,38 +1,35 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "#/components/schemas/ScheduleOverride",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-scheduleoverride-schema.json",
   "title": "ScheduleOverride",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-menu-openapi.yml#/components/schemas/ScheduleOverride",
+  "required": [
+    "end",
+    "show_or_hide",
+    "start"
+  ],
   "type": "object",
-  "description": "A schedule override with its assigned identifier.",
   "properties": {
-    "override_id": {
+    "start": {
       "type": "string",
-      "description": "The unique identifier for this override."
+      "description": "ISO-8601 format. The beginning of the temporary override period.",
+      "format": "date-time"
     },
-    "start_date": {
+    "end": {
       "type": "string",
-      "format": "date-time",
-      "description": "The start date and time of the override."
+      "description": "ISO-8601 format. The end of the temporary override period. A sentinel value of \"9999-12-31T23:59:00.000Z\" is used to \"archive\" an item.",
+      "format": "date-time"
     },
-    "end_date": {
+    "show_or_hide": {
       "type": "string",
-      "format": "date-time",
-      "description": "The end date and time of the override."
-    },
-    "closed": {
-      "type": "boolean",
-      "description": "Whether the merchant is closed during this override period."
-    },
-    "time_windows": {
-      "type": "array",
-      "description": "Custom operating hours during the override period.",
-      "items": {
-        "$ref": "#/components/schemas/TimeWindow"
-      }
-    },
-    "reason": {
-      "type": "string",
-      "description": "Reason for the schedule override."
+      "description": "The options to use for the override.",
+      "enum": [
+        "SHOW",
+        "HIDE"
+      ]
     }
-  }
+  },
+  "description": "The schedule override details."
 }

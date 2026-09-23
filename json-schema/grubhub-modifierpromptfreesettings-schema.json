@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-modifierpromptfreesettings-schema.json",
+  "title": "ModifierPromptFreeSettings",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-menu-openapi.yml#/components/schemas/ModifierPromptFreeSettings",
+  "type": "object",
+  "properties": {
+    "free_modifiers": {
+      "minimum": 0,
+      "type": "integer",
+      "format": "int32"
+    }
+  },
+  "description": "Free settings for modifier prompts."
+}

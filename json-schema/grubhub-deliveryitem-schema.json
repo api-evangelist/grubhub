@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-deliveryitem-schema.json",
+  "title": "DeliveryItem",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-deliveries-openapi.yml#/components/schemas/DeliveryItem",
+  "required": [
+    "description",
+    "diner_id"
+  ],
+  "type": "object",
+  "properties": {
+    "diner_id": {
+      "type": "string",
+      "description": "UUID of the diner ordering this item",
+      "format": "uuid",
+      "example": "ef1a26c6-b927-49dd-9b66-8fe8d8646837"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the item being delivered",
+      "example": "Cheese Burger"
+    },
+    "size": {
+      "type": "string",
+      "description": "The size of the item from XS to XXL",
+      "example": "M",
+      "enum": [
+        "XS, S, M, L, XL, XXL"
+      ]
+    },
+    "tags": {
+      "type": "array",
+      "description": "Optional flags to identify various transportation constraints (alcohol, spillable, etc.) as well as any tags the customer feel like adding",
+      "items": {
+        "type": "string",
+        "description": "Optional flags to identify various transportation constraints (alcohol, spillable, etc.) as well as any tags the customer feel like adding"
+      }
+    },
+    "quantity": {
+      "minimum": 1,
+      "type": "integer",
+      "description": "Optional quantity with a default quantity of 1",
+      "format": "int32"
+    },
+    "options": {
+      "type": "array",
+      "description": "Optional options on the item (Lettuce, Tomato, Onion, Chicken, Beef)",
+      "items": {
+        "$ref": "#/$defs/DeliveryItemOption"
+      }
+    },
+    "category_name": {
+      "type": "string",
+      "description": "The name of the category of the item",
+      "example": "Burgers"
+    },
+    "sizing": {
+      "$ref": "#/$defs/ItemSizing"
+    }
+  },
+  "description": "An item that is being delivered.",
+  "$defs": {
+    "DeliveryItemOption": {
+      "required": [
+        "description"
+      ],
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "Description of the item being delivered",
+          "example": "SUB ITEM"
+        },
+        "tags": {
+          "type": "array",
+          "description": "Optional flags to identify various transportation constraints (alcohol, spillable, etc.) as well as any tags the customer feel like adding",
+          "items": {
+            "type": "string",
+            "description": "Optional flags to identify various transportation constraints (alcohol, spillable, etc.) as well as any tags the customer feel like adding"
+          }
+        },
+        "quantity": {
+          "minimum": 1,
+          "type": "integer",
+          "description": "Optional quantity with a default quantity of 1",
+          "format": "int32",
+          "example": 1
+        },
+        "options": {
+          "type": "array",
+          "description": "Optional options on the item (No, Light, Heavy)",
+          "items": {
+            "$ref": "#/$defs/DeliveryItemOption"
+          }
+        }
+      },
+      "description": "An option on an item within a delivery"
+    },
+    "ItemDimensions": {
+      "type": "object",
+      "properties": {
+        "unit": {
+          "type": "string",
+          "description": "Unit of measurement, for example, FEET, INCHES, etc.",
+          "enum": [
+            "INCHES",
+            "FEET"
+          ]
+        },
+        "width_range": {
+          "type": "object"
+        },
+        "height_range": {
+          "type": "object"
+        },
+        "depth_range": {
+          "type": "object"
+        }
+      },
+      "description": "The dimensions of an item"
+    },
+    "ItemSizing": {
+      "type": "object",
+      "properties": {
+        "weight": {
+          "$ref": "#/$defs/ItemWeight"
+        },
+        "dimensions": {
+          "$ref": "#/$defs/ItemDimensions"
+        }
+      },
+      "description": "Size of an item within a delivery"
+    },
+    "ItemWeight": {
+      "type": "object",
+      "properties": {
+        "unit": {
+          "type": "string",
+          "description": "Unit of measurement, for example, POUNDS, OUNCES, etc. ",
+          "enum": [
+            "POUNDS"
+          ]
+        },
+        "weight_range": {
+          "type": "object"
+        }
+      },
+      "description": "An item's weight range (and unit of measurement)"
+    }
+  }
+}

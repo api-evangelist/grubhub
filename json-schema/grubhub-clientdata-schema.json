@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-clientdata-schema.json",
+  "title": "ClientData",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/ClientData",
+  "type": "object",
+  "properties": {
+    "external_id": {
+      "maxLength": 128,
+      "minLength": 0,
+      "type": "string",
+      "description": "A stored correlation id that isn't used by Grubhub's platform.",
+      "example": "ABC123"
+    },
+    "external_merchant_id": {
+      "maxLength": 128,
+      "minLength": 0,
+      "type": "string",
+      "description": "A client-provided merchant identifier.",
+      "example": "MERCHANT_123"
+    },
+    "external_source": {
+      "maxLength": 128,
+      "minLength": 0,
+      "type": "string",
+      "description": "The external source API from which the delivery came from.",
+      "example": "RELAY_123"
+    },
+    "reference_number": {
+      "type": "string",
+      "description": "An external delivery identifier that is used by Grubhub's platform for display purposes.",
+      "example": "123XYZ4567ABC890"
+    }
+  },
+  "description": "Client metadata associated with a delivery."
+}

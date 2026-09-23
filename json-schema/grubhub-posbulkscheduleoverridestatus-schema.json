@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-posbulkscheduleoverridestatus-schema.json",
+  "title": "PosBulkScheduleOverrideStatus",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-menu-openapi.yml#/components/schemas/PosBulkScheduleOverrideStatus",
+  "type": "object",
+  "properties": {
+    "job_id": {
+      "type": "string",
+      "description": "A value that identifies a bulk schedule override request.",
+      "format": "uuid"
+    },
+    "processing_complete": {
+      "type": "boolean",
+      "description": "True if this job processing is done (successful or not), false otherwise."
+    },
+    "status": {
+      "type": "string",
+      "description": "The final status of the operation - SUCCESSFUL / FAILED."
+    },
+    "reason": {
+      "type": "string",
+      "description": "Additional details that pertain to the status of the override."
+    },
+    "entity_override_results": {
+      "type": "array",
+      "description": "A list of each entity and its individual override status (specific configurations are required to enable this).",
+      "items": {
+        "$ref": "#/$defs/BulkProcessingItemEntityStatus"
+      }
+    },
+    "merchant_id": {
+      "type": "string",
+      "description": "This field can either be the Grubhub ID for the merchant, or if an external ID is provided, it represents the external ID of the merchant."
+    }
+  },
+  "description": "Describes the state (completed or not) of a bulk schedule override operation request together with its state (successful or not).",
+  "$defs": {
+    "BulkProcessingItemEntityStatus": {
+      "type": "object",
+      "properties": {
+        "entity_index": {
+          "type": "integer",
+          "description": "The index of the entity in the original list of IDs as it was sent to Grubhub.",
+          "format": "int32"
+        },
+        "entity_id": {
+          "type": "string",
+          "description": "Either the menu entity internal (Grubhub) OR external (Partner) IDs."
+        },
+        "status": {
+          "type": "string",
+          "description": "Status of the override operation for this entity."
+        },
+        "details": {
+          "type": "string",
+          "description": "Additional details that pertain to the the individual entity's status."
+        }
+      },
+      "description": "An individual override entity and its status."
+    }
+  }
+}

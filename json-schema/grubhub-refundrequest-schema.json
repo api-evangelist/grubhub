@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-refundrequest-schema.json",
+  "title": "RefundRequest",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/RefundRequest",
+  "required": [
+    "refund_code"
+  ],
+  "type": "object",
+  "properties": {
+    "refund_details": {
+      "maxLength": 512,
+      "minLength": 0,
+      "type": "string",
+      "description": "Additional comment about the refund.",
+      "example": "The store canceled the order."
+    },
+    "refund_code": {
+      "type": "string",
+      "description": "The refund code.",
+      "enum": [
+        "MISSED_DROPOFF_ETA",
+        "WRONG_ADDRESS_DELIVERY",
+        "INCOMPLETE_DELIVERY",
+        "INCOMPLETE_DELIVERY_CONTENTS",
+        "POOR_DELIVERY_EXPERIENCE",
+        "OTHER"
+      ]
+    },
+    "photo_attachment_url": {
+      "maxLength": 512,
+      "minLength": 0,
+      "type": "string",
+      "description": "The photo attachment url for the refund request.",
+      "example": "https://example.com/photo.jpg"
+    }
+  },
+  "description": "The request information for a refund."
+}

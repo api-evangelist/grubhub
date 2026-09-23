@@ -1,0 +1,376 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-posmerchantdata-schema.json",
+  "title": "PosMerchantData",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-merchant-data-openapi.yml#/components/schemas/PosMerchantData",
+  "type": "object",
+  "properties": {
+    "merchant_id": {
+      "type": "string",
+      "description": "The Grubhub or third-party provided external ID for the merchant. Corresponds to a single location."
+    },
+    "merchant_uuid": {
+      "type": "string",
+      "description": "The UUID of the merchant.",
+      "format": "uuid"
+    },
+    "name": {
+      "type": "string",
+      "description": "The display name of the merchant."
+    },
+    "account_status": {
+      "$ref": "#/$defs/PosAccountStatus"
+    },
+    "address": {
+      "$ref": "#/$defs/Address"
+    },
+    "service_type": {
+      "type": "string",
+      "description": "Merchant configuration for providing food to diner. This can be one of the following: - \"PICKUP\" - Merchant supports pickup only orders. - \"DELIVERY\" - Merchant supports delivery only orders. - \"DELIVERY AND PICKUP\" - Merchant supports both delivery and pickup orders."
+    },
+    "fulfillment_info": {
+      "$ref": "#/$defs/PosMerchantFulfillmentInfo"
+    },
+    "order_processing_info": {
+      "$ref": "#/$defs/OrderProcessingInfo"
+    },
+    "order_taking_info": {
+      "$ref": "#/$defs/OrderTakingInfo"
+    },
+    "diner_pickup_instructions": {
+      "$ref": "#/$defs/DinerPickUpInstructions"
+    },
+    "merchant_status_by_order_type": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "description": "Merchant status by order type (e.g., STANDARD, CATERING, GROUP)."
+      },
+      "description": "Merchant status by order type (e.g., STANDARD, CATERING, GROUP)."
+    }
+  },
+  "description": "Summary information about a merchant. This entity will be expanded over time.",
+  "$defs": {
+    "Address": {
+      "required": [
+        "county_id",
+        "locality",
+        "market",
+        "postal_code",
+        "region",
+        "street_address"
+      ],
+      "type": "object",
+      "properties": {
+        "street_address": {
+          "type": "string",
+          "description": "Street address line 1"
+        },
+        "street_address2": {
+          "type": "string",
+          "description": "Street address line 2"
+        },
+        "locality": {
+          "type": "string",
+          "description": "City, town, village or any variant thereof"
+        },
+        "region": {
+          "type": "string",
+          "description": "State, province or any variant thereof. 2 digit ISO code for US states.",
+          "example": "AL"
+        },
+        "postal_code": {
+          "type": "string",
+          "description": "ISO standard postal code, varies per country"
+        },
+        "county": {
+          "type": "string",
+          "description": "County, parish or any variant thereof"
+        },
+        "county_id": {
+          "type": "integer",
+          "description": "The unique identifier for the county this merchant is located in",
+          "format": "int32"
+        },
+        "country": {
+          "type": "string",
+          "description": "Country, territory or any variant thereof",
+          "deprecated": true
+        },
+        "region_code": {
+          "type": "string",
+          "description": "2 letter country ISO 3166-1 code",
+          "example": "US"
+        },
+        "market": {
+          "type": "string",
+          "description": "The market that this merchant is enrolled within",
+          "deprecated": true
+        },
+        "market_id": {
+          "type": "integer",
+          "description": "The id of the market that this merchant is enrolled within",
+          "format": "int32",
+          "deprecated": true
+        },
+        "time_zone": {
+          "type": "string",
+          "description": "A human readable description of what time zone this address is in"
+        },
+        "geo_location": {
+          "$ref": "#/$defs/GeoLocation"
+        },
+        "confidence_rating": {
+          "type": "string",
+          "description": "How confident geocoder is that this address is accurate"
+        },
+        "confirmed_address": {
+          "type": "boolean",
+          "description": "Whether the address has been confirmed to be accurate"
+        }
+      },
+      "description": "The address of the physical location for a merchant."
+    },
+    "DeliveryArea": {
+      "required": [
+        "fee_cents",
+        "geometry",
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The id for this DeliveryArea (Zone)",
+          "format": "uuid"
+        },
+        "name": {
+          "type": "string",
+          "description": "A name for the delivery zone"
+        },
+        "fee_cents": {
+          "minimum": 0,
+          "type": "integer",
+          "description": "The delivery cost for this delivery zone, in cents",
+          "format": "int32"
+        },
+        "zone_type": {
+          "type": "string",
+          "description": "They type of delivery zone (i.e. Diner or Catering). Defaults to Diner",
+          "deprecated": true,
+          "enum": [
+            "CATERING",
+            "DINER"
+          ]
+        },
+        "geometry": {
+          "type": "string",
+          "description": "GeoJSON String representing the geometry of the delivery area"
+        },
+        "stats": {
+          "$ref": "#/$defs/DeliveryAreaStats"
+        }
+      },
+      "description": "Delivery area configuration settings."
+    },
+    "DeliveryAreaStats": {
+      "type": "object",
+      "properties": {
+        "area": {
+          "type": "number",
+          "description": "Area in square miles. READ_ONLY",
+          "readOnly": true
+        },
+        "approximate_radius": {
+          "type": "number",
+          "description": "Approximate Radius in miles. READ_ONLY",
+          "readOnly": true
+        },
+        "height": {
+          "type": "number",
+          "description": "Height in miles. READ_ONLY",
+          "readOnly": true
+        },
+        "width": {
+          "type": "number",
+          "description": "Width in miles. READ_ONLY",
+          "readOnly": true
+        }
+      },
+      "description": "Various Calculations about a DeliveryArea, Filled automatically. All units are in miles/square miles."
+    },
+    "DinerPickUpInstructions": {
+      "type": "object",
+      "properties": {
+        "offers_curbside_pickup": {
+          "type": "boolean",
+          "description": "Describes whether merchant is opted in to curbside pickup or not."
+        },
+        "contact_phone": {
+          "type": "string",
+          "description": "Means of contacting a merchant when picking up curbside."
+        },
+        "curbside_instructions": {
+          "type": "string",
+          "description": "An additional information a merchant can optionally provide to curbside pickup diners."
+        }
+      },
+      "description": "Contains diner pickup instructions for a merchant."
+    },
+    "GeoLocation": {
+      "type": "object",
+      "properties": {
+        "lat": {
+          "type": "number",
+          "description": "Latitude coordinate",
+          "format": "double"
+        },
+        "lng": {
+          "type": "number",
+          "description": "Longitude coordinate",
+          "format": "double"
+        }
+      },
+      "description": "Latitude and longitude coordinates for a location."
+    },
+    "OrderProcessingInfo": {
+      "type": "object",
+      "properties": {
+        "scheduled_orders": {
+          "type": "boolean",
+          "description": "Whether or not the merchant is opt-in scheduled ordering."
+        },
+        "pos_integrated": {
+          "type": "boolean",
+          "description": "Whether or not the merchant is pos integrated."
+        }
+      },
+      "description": "Contains order processing info of a merchant."
+    },
+    "OrderTakingInfo": {
+      "type": "object",
+      "properties": {
+        "managed_delivery": {
+          "type": "boolean",
+          "description": "Whether or not the merchant is managed delivery enabled."
+        },
+        "special_instructions_disabled": {
+          "type": "boolean",
+          "description": "Describes whether this merchant has disabled special ordering instructions or not."
+        },
+        "driver_pickup_instructions": {
+          "type": "string",
+          "description": "Describes how a delivery driver should pick up orders from merchant."
+        }
+      },
+      "description": "Contains order taking info for a merchant."
+    },
+    "PosAccountStatus": {
+      "type": "object",
+      "properties": {
+        "merchant_status": {
+          "type": "string",
+          "description": "The merchant's current status concerning account creation or ability to receive orders in a machine-readable format",
+          "deprecated": true
+        },
+        "merchant_status_descriptor": {
+          "type": "string",
+          "description": "The merchant's current status concerning account creation or ability to receive orders in a human-readable format",
+          "deprecated": true
+        },
+        "pos_merchant_status": {
+          "type": "string",
+          "description": "The merchant's current status concerning account creation or ability to receive orders (online/offline)"
+        },
+        "reason": {
+          "type": "string",
+          "description": "Reason explaining why the merchant has a given status"
+        },
+        "holds_active_account": {
+          "type": "boolean",
+          "description": "Whether or not this merchant should be regarded as holding an active account with GrubHub"
+        },
+        "accepting_phone_orders": {
+          "type": "boolean",
+          "description": "Whether or not this merchant is currently capable of receiving orders by phone",
+          "deprecated": true
+        },
+        "accepting_online_orders": {
+          "type": "boolean",
+          "description": "Whether or not this merchant is currently capable of receiving orders that have been transmitted online",
+          "deprecated": true
+        },
+        "merchant_status_comments": {
+          "type": "string",
+          "description": "The reason that this merchant is in the status it is in, typically reserved for merchants not conducting business"
+        }
+      },
+      "description": "The current state of the merchant with regards to work flow and how they are conducting business."
+    },
+    "PosDeliveryFee": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "integer",
+          "description": "The value of the fee applied for a service, in percentage of total order value or US dollars.",
+          "format": "int32"
+        },
+        "type": {
+          "type": "string",
+          "description": "Whether or not a fee value is applied as a percentage of order value or a whole amount of US dollars. Possible values are FLAT or PERCENT",
+          "enum": [
+            "FLAT",
+            "PERCENT"
+          ]
+        }
+      },
+      "description": "A fee that is applied to a merchant for the delivery service."
+    },
+    "PosEstimates": {
+      "type": "object",
+      "properties": {
+        "pickup_estimate_minutes": {
+          "type": "integer",
+          "description": "Default number of minutes that this merchant requires between confirming an order and it being ready for pickup, if applicable.",
+          "format": "int32"
+        },
+        "delivery_estimate_minutes": {
+          "type": "integer",
+          "description": "Default number of minutes that this merchant requires between confirming an order and completion of delivery, if applicable.",
+          "format": "int32"
+        }
+      },
+      "description": "Pickup and delivery estimates."
+    },
+    "PosMerchantFulfillmentInfo": {
+      "type": "object",
+      "properties": {
+        "pos_estimates": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/PosEstimates"
+          },
+          "description": "The merchant's pickup and delivery estimates."
+        },
+        "delivery_fee": {
+          "$ref": "#/$defs/PosDeliveryFee"
+        },
+        "delivery_minimum": {
+          "type": "number",
+          "description": "The minimum dollar value a merchant requires for an order to be eligible for delivery.",
+          "format": "double"
+        },
+        "active_delivery_areas": {
+          "type": "array",
+          "description": "A list of delivery areas including the delivery fee for each zone.",
+          "items": {
+            "$ref": "#/$defs/DeliveryArea"
+          }
+        }
+      },
+      "description": "Contains pickup and delivery info for a merchant."
+    }
+  }
+}

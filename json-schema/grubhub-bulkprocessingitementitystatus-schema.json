@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-bulkprocessingitementitystatus-schema.json",
+  "title": "BulkProcessingItemEntityStatus",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-menu-openapi.yml#/components/schemas/BulkProcessingItemEntityStatus",
+  "type": "object",
+  "properties": {
+    "entity_index": {
+      "type": "integer",
+      "description": "The index of the entity in the original list of IDs as it was sent to Grubhub.",
+      "format": "int32"
+    },
+    "entity_id": {
+      "type": "string",
+      "description": "Either the menu entity internal (Grubhub) OR external (Partner) IDs."
+    },
+    "status": {
+      "type": "string",
+      "description": "Status of the override operation for this entity."
+    },
+    "details": {
+      "type": "string",
+      "description": "Additional details that pertain to the the individual entity's status."
+    }
+  },
+  "description": "An individual override entity and its status."
+}

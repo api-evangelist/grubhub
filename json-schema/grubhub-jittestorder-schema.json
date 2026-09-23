@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-jittestorder-schema.json",
+  "title": "JitTestOrder",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-testing-openapi.yml#/components/schemas/JitTestOrder",
+  "type": "object",
+  "properties": {
+    "order_id": {
+      "type": "string",
+      "description": "The UUID of the order for which you want to create a test JIT order event. This can be a a real or fake order ID. If it's a real order, then it will pull use that order data to transmit the JIT event. Otherwise dummy data will be used.",
+      "format": "uuid"
+    },
+    "order_merchant_id": {
+      "type": "string",
+      "description": "Order merchant id.",
+      "format": "uuid"
+    },
+    "order_number": {
+      "type": "string",
+      "description": "Order number."
+    },
+    "order_status": {
+      "type": "string",
+      "description": "The status of an order as it passes through the Grubhub fulfillment flow.<br /><br />ANTICIPATED: denotes a future order, which may be cancelled by diner.<br />RESTAURANT_CONFIRMABLE: pending confirmation of receipt by the restaurant. These are effectively new ASAP orders. ANTICIPATED orders will automatically become RESTAURANT_CONFIRMABLE at the promise time, less the restaurant's configured pickup or delivery prep time.<br />DINER_CONFIRMABLE: a status held for future use.<br />CONFIRMED: denotes that the order was received by restaurant, even if the restaurant is unable to fulfill it.<br />REJECTED: an error status. For example, if an order is unable to be inserted to the POS, due to menu item mismatch, restaurant offline, etc., the status should be updated to REJECTED. This is not to be used when the order was successfully transmitted, but the restaurant is unable to fulfill it for operational reasons. In that scenario, a Change Request should be submitted to cancel the order.<br />CANCELLED: a cancellation request by the diner or restaurant has been processed by Grubhub Customer Care.<br />PICKUP_READY: indicates that the food is prepared and ready for pickup by the diner or a Grubhub delivery courier.<br />OUT_FOR_DELIVERY: the food is on the way to the diner.<br />FULFILLED: denotes that the food has been delivered to or picked up by the diner.<br />UNKNOWN: provided for error handling of strings unmappable to known enumeration values.",
+      "enum": [
+        "REJECTED",
+        "READY_FOR_PICKUP",
+        "ANTICIPATED",
+        "RESTAURANT_CONFIRMABLE",
+        "CONFIRMED",
+        "CANCELLED",
+        "DELIVERY_CONFIRMABLE",
+        "DINER_CONFIRMABLE",
+        "UNKNOWN",
+        "PICKUP_READY",
+        "OUT_FOR_DELIVERY",
+        "FULFILLED",
+        "POS_VALIDATING",
+        "POS_VALIDATED",
+        "POS_VALIDATION_REJECTED"
+      ]
+    }
+  },
+  "description": "Jit test Order"
+}

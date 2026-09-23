@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-posnormalizedmenuupdaterequest-schema.json",
+  "title": "PosNormalizedMenuUpdateRequest",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-menu-openapi.yml#/components/schemas/PosNormalizedMenuUpdateRequest",
+  "required": [
+    "menu_url",
+    "merchant_ids"
+  ],
+  "type": "object",
+  "properties": {
+    "merchant_ids": {
+      "type": "array",
+      "description": "An array containing only a single merchant ID for applying an uploaded menu to a specific location.",
+      "items": {
+        "type": "string",
+        "description": "An array containing only a single merchant ID for applying an uploaded menu to a specific location."
+      }
+    },
+    "menu_url": {
+      "type": "string",
+      "description": "The location or webhook where the Grubhub API can download a PosNormalizedMenu object, either as a gzip file or uncompressed."
+    },
+    "normalized_menu": {
+      "type": "boolean",
+      "description": "Indicated whether this endpoint expects the normalized menu object structured as a series of object types linked by references (`true`). Make sure to use `true` for normalized menu."
+    },
+    "apply_existing_schedule_overrides": {
+      "type": "boolean",
+      "description": "Should the schedule overrides that are currently in the Grubhub system be applied to this menu."
+    }
+  },
+  "description": "A normalized menu update request."
+}

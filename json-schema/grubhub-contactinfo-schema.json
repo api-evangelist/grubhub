@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-contactinfo-schema.json",
+  "title": "ContactInfo",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-orders-openapi.yml#/components/schemas/ContactInfo",
+  "type": "object",
+  "properties": {
+    "phone": {
+      "type": "string",
+      "description": "Phone number of the diner. This number can only be used for the fulfillment of the order and may not be stored and used for any sort of marketing, research or other contacts not directly related to the delivery or pickup of this specific order."
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the diner"
+    },
+    "email": {
+      "type": "string",
+      "description": "E-mail address of the diner"
+    }
+  },
+  "description": "Basic diner contact information"
+}

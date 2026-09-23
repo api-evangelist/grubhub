@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-taxrate-schema.json",
+  "title": "TaxRate",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-menu-openapi.yml#/components/schemas/TaxRate",
+  "required": [
+    "external_id",
+    "name"
+  ],
+  "type": "object",
+  "properties": {
+    "external_id": {
+      "type": "string",
+      "description": "The merchant-set ID for this tax rate, which can be used to link it in the `PosNormalizedMenu`."
+    },
+    "name": {
+      "type": "string",
+      "description": "The name of the tax rate shown in Grubhub menu management user interfaces."
+    },
+    "rate": {
+      "type": "number",
+      "description": "Decimal tax rate. Must be between 0 and 1. This object must have a value for either this field or the `flat` field.",
+      "format": "double"
+    },
+    "flat": {
+      "type": "number",
+      "description": "The absolute amount of tax applied to orders from this merchant. This object must have a value for either this field or the `rate` field.",
+      "format": "double"
+    }
+  },
+  "description": "Information about a tax rate in a normalized menu format. Tax rate to be applied at order checkout, if the diner is not tax-exempt. The tax rate listed here applies only to the items and modifiers with which it is associated. All other menu items will use the merchant tax rate."
+}

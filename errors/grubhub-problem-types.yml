@@ -1,0 +1,234 @@
+generated: '2026-09-17'
+method: derived
+source: openapi/_harvested/*.json - the twelve first-party Grubhub OpenAPI documents fetched 2026-09-17
+format: proprietary
+note: Grubhub does NOT use RFC 9457 application/problem+json. Errors on the Grubhub Connect (DaaS) surface
+  use the PublicApiError envelope {code, message}; the Reporting surface uses MerchantReportingErrorResponse
+  {message}; most Marketplace (pos/v1) error responses declare a status code and a human description but
+  no response body schema at all.
+envelopes:
+- name: PublicApiError
+  schema: json-schema/grubhub-publicapierror-schema.json
+  fields:
+  - name: code
+    type: string
+    required: true
+    description: A code representing the type of error that occurred.
+  - name: message
+    type: string
+    required: true
+    description: A detailed description of the error that occurred.
+  used_by: Grubhub Connect (DaaS) delivery endpoints
+  note: The spec declares the envelope but publishes no enumeration of the code values it can carry.
+- name: MerchantReportingErrorResponse
+  schema: json-schema/grubhub-merchantreportingerrorresponse-schema.json
+  fields:
+  - name: message
+    type: string
+    required: false
+  used_by: Merchant Reporting endpoints
+operations_analyzed: 91
+status_code_count: 8
+problem_types:
+- status: 400
+  type: https://developer.grubhub.com/api#error-400
+  title: Bad Request - the request was malformed, a parameter failed validation, or a delivery quote has
+    expired.
+  occurrences: 16
+  response_schemas:
+  - MerchantReportingErrorResponse
+  - PosMerchantBatchOperationResponse
+  - ReferralResponse
+  specs:
+  - connect-endpoints
+  - merchant-data
+  - merchant-schedules
+  - onboarding
+  - orders
+  - reporting-endpoints
+  remediation: Fix the request body or parameters and retry. For an expired delivery quote, request a
+    new quote.
+  published_descriptions:
+  - Bad Request
+  - Bad Request - Input validation failed
+  - Bad Request - Invalid input or merchant not eligible
+  - Bad Request - page or size is not a valid number
+  - Delivery quote expired
+  - Error generating delivery quotes
+  - Invalid courier tip update
+  - Invalid delivery dropoff information update
+  - Invalid pickup verification
+  - Invalid request. This could be due to an invalid merchant ID format in the batch.
+  - Invalid request. This could be due to an invalid merchant ID format or an invalid status transition
+    (e.g., attempting to bring a merchant online when not in a pausable state).
+  - No user id in request information, or number of availability overrides of exceeds max limit.
+- status: 403
+  type: https://developer.grubhub.com/api#error-403
+  title: Forbidden - the partner key does not grant access to the requested merchant or resource.
+  occurrences: 36
+  response_schemas:
+  - ConfigGroup
+  - JsonNode
+  - MerchantReportingErrorResponse
+  - PosDelivery
+  - PosEstimates
+  - PosMerchantBatchOperationResponse
+  - PosMerchantBatchOperationStatus
+  - PosMerchantData
+  - PosMerchantFulfillmentInfo
+  specs:
+  - connect-endpoints
+  - deliveries
+  - merchant-data
+  - reporting-endpoints
+  remediation: Confirm the X-GH-PARTNER-KEY header is present and that the merchant is associated with
+    this partner.
+  published_descriptions:
+  - Request Forbidden
+  - Request forbidden
+  - These usually indicate that the configuration for the Reporting API is not set up correctly for the
+    partner or that the requested report is not available for the merchants in the request.
+  - You do not have access to the requested resource
+  - You do not have access to the requested resource.
+- status: 404
+  type: https://developer.grubhub.com/api#error-404
+  title: Not Found - the merchant, order, delivery, menu, job, batch or report does not exist.
+  occurrences: 48
+  response_schemas:
+  - ConfigGroup
+  - JsonNode
+  - MerchantAssociationResponse
+  - MerchantReportingErrorResponse
+  - PosDelivery
+  - PosEstimates
+  - PosMerchantBatchOperationResponse
+  - PosMerchantBatchOperationStatus
+  - PosMerchantData
+  - PosMerchantFulfillmentInfo
+  specs:
+  - connect-endpoints
+  - deliveries
+  - menu
+  - merchant-data
+  - merchant-schedules
+  - onboarding
+  - orders
+  - reporting-endpoints
+  remediation: Verify the identifier. Merchant endpoints accept either the legacy merchant ID or the long
+    merchant ID depending on the operation; check which the path expects.
+  published_descriptions:
+  - Bulk processing is not enabled for this operation.
+  - Could not find any change requests.
+  - Could not find the batch.
+  - Could not find the configuration group.
+  - Could not find the merchant or its delivery area fee.
+  - Could not find the merchant or its delivery boundaries.
+  - Could not find the merchant or its delivery minimum.
+  - Could not find the merchant or its fulfillment info.
+  - Could not find the merchant or its tax rate.
+  - Could not find the merchant to be updated.
+  - Could not find the merchant.
+  - Could not find this merchant to be updated.
+- status: 409
+  type: https://developer.grubhub.com/api#error-409
+  title: Conflict - the resource is already in the requested state, a schedule override overlaps an existing
+    one, an async update is already running, or webhooks are not enabled for the merchant.
+  occurrences: 6
+  response_schemas: null
+  specs:
+  - connect-endpoints
+  - menu
+  - merchant-data
+  - merchant-schedules
+  - testing
+  remediation: Read the current state first and reconcile before retrying; do not blind-retry, the conflict
+    is not transient.
+  published_descriptions:
+  - Conflict
+  - Merchant(s) already has an active async update process.
+  - Schedule override overlaps existing override.
+  - The merchant's current status matches the new_pos_status provided in the request.
+  - Unable to send delivery - merchant does not have webhooks enabled
+- status: 422
+  type: https://developer.grubhub.com/api#error-422
+  title: 'Unprocessable Entity - syntactically valid but semantically rejected: duplicate merchant IDs,
+    batch over the maximum size, invalid order type, POS integration not enabled, or the merchant is blocked
+    from updates.'
+  occurrences: 20
+  response_schemas:
+  - JsonNode
+  - MerchantAssociationResponse
+  - MerchantReportingErrorResponse
+  - PosDelivery
+  - PosEstimates
+  - PosMerchantBatchOperationResponse
+  - Triage
+  specs:
+  - busy-intervals
+  - deliveries
+  - menu
+  - merchant-data
+  - onboarding
+  - reporting-endpoints
+  remediation: Reduce the batch size, de-duplicate merchant IDs, and confirm the merchant is enabled for
+    the operation.
+  published_descriptions:
+  - One or more of the fields passed could not be used
+  - Syntax of the request content was correct, but unable to process the contained instructions.
+  - The data you provided in the request body was invalid or formatted incorrectly.
+  - The data you provided in the request body was invalid or formatted incorrectly. It is likely there
+    are duplicate merchant IDs in the provided list, the number of items in batch exceeds the maximum
+    limit allowed, or there were no items provided.
+  - The data you provided in the request body was invalid or formatted incorrectly. It is likely there
+    are duplicate merchant IDs in the provided list, the number of items in batch exceeds the maximum
+    limit allowed, there were no items provided, or one or more merchants are blocked from updates.
+  - The data you provided in the request body was invalid or formatted incorrectly. This could be due
+    to an invalid order type, POS integration not being enabled, or the merchant being blocked from updates.
+  - The merchant's pre-order confirmable window (in minutes) is disabled.
+  - The provided partner ID is invalid or does not exist.
+  - The request body is missing required fields or is otherwise invalid.
+  - Unprocessable Entity
+  - Unprocessable Entity - Malformed Request
+  - Unprocessable Entity - Merchant has too many or no merchants to process, or invalid pagination parameters
+    (page < 1, size < 1, or size above the maximum)
+- status: 429
+  type: https://developer.grubhub.com/api#error-429
+  title: Too Many Requests - too many API calls were sent in a short period of time.
+  occurrences: 1
+  response_schemas:
+  - PosDelivery
+  specs:
+  - deliveries
+  remediation: Back off and retry. Batch entity operations and subscribe to webhooks instead of polling.
+  published_descriptions:
+  - You have sent too many API calls in a short period of time
+- status: 500
+  type: https://developer.grubhub.com/api#error-500
+  title: Internal Server Error - unexpected server-side failure.
+  occurrences: 19
+  response_schemas:
+  - MerchantReportingErrorResponse
+  - PosDelivery
+  specs:
+  - connect-endpoints
+  - deliveries
+  - reporting-endpoints
+  remediation: Retry with exponential backoff. If it persists, open a ticket with Grubhub developer support.
+  published_descriptions:
+  - The server has returned an unexpected error
+  - There was an error getting data for the partner ID.
+  - There was an internal server error.
+  - Unexpected internal error
+- status: 503
+  type: https://developer.grubhub.com/api#error-503
+  title: Service Unavailable - the downstream service requires reconciliation to be enabled, or menu validation
+    timed out.
+  occurrences: 3
+  response_schemas: null
+  specs:
+  - menu
+  - merchant-schedules
+  remediation: Retry later; for menu validation, resubmit the menu.
+  published_descriptions:
+  - Service requires reconciliation to be enabled
+  - The menu validation has timed out.

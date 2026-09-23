@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-deliverysizing-schema.json",
+  "title": "DeliverySizing",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/DeliverySizing",
+  "type": "object",
+  "properties": {
+    "weight": {
+      "type": "string",
+      "description": "The weight category of a delivery.\n\n**STANDARD** <= 15 lbs\n\n**HEAVY** > 15 lbs",
+      "example": "STANDARD",
+      "enum": [
+        "STANDARD",
+        "HEAVY"
+      ]
+    },
+    "dimensions": {
+      "type": "string",
+      "description": "The size category of a delivery based on its dimensions.\n\n**SMALL** - single item, may be carried in one hand\n\n**MEDIUM** - requires a bag, may be carried in one hand\n\n**LARGE** - may require two hands\n\n**EXTRA_LARGE** - may require multiple trips or equipment",
+      "example": "MEDIUM",
+      "enum": [
+        "SMALL",
+        "MEDIUM",
+        "LARGE",
+        "EXTRA_LARGE"
+      ]
+    }
+  },
+  "description": "Information about delivery-level sizing."
+}

@@ -1,0 +1,825 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-diner-schema.json",
+  "title": "Diner",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-orders-openapi.yml#/components/schemas/Diner",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "ACTIVE",
+        "CANCELLED",
+        "ADJUSTED",
+        "UNKNOWN"
+      ]
+    },
+    "diner_info": {
+      "$ref": "#/$defs/ContactInfo"
+    },
+    "charges": {
+      "$ref": "#/$defs/Charges"
+    },
+    "payments": {
+      "$ref": "#/$defs/Payments"
+    },
+    "order_diner_number": {
+      "type": "string"
+    },
+    "cart_uuid": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "participation": {
+      "type": "string",
+      "enum": [
+        "HOST",
+        "INVITEE",
+        "UNKNOWN"
+      ]
+    }
+  },
+  "description": "List of diners on this order including much related information such as Line and LineOption routingTags.",
+  "$defs": {
+    "Charges": {
+      "type": "object",
+      "properties": {
+        "fees": {
+          "$ref": "#/$defs/Fees"
+        },
+        "taxes": {
+          "$ref": "#/$defs/Taxes"
+        },
+        "exempted_taxes": {
+          "$ref": "#/$defs/Taxes"
+        },
+        "tip": {
+          "$ref": "#/$defs/Tip"
+        },
+        "diner_grand_total": {
+          "type": "integer",
+          "description": "Deprecated. Use &quot;merchant_total&quot; instead.",
+          "format": "int32",
+          "deprecated": true
+        },
+        "grand_total": {
+          "type": "integer",
+          "description": "Deprecated. Use &quot;merchant_total&quot; instead.",
+          "format": "int32",
+          "deprecated": true
+        },
+        "adjusted_grand_total": {
+          "type": "integer",
+          "description": "Deprecated. Use &quot;merchantTotal&quot; instead",
+          "format": "int32",
+          "deprecated": true
+        },
+        "line_groups": {
+          "type": "array",
+          "description": "The items ordered by the diner",
+          "items": {
+            "$ref": "#/$defs/LineGroup"
+          }
+        },
+        "coupons": {
+          "type": "array",
+          "description": "Coupons applied to the order",
+          "items": {
+            "$ref": "#/$defs/PosOrderCoupon"
+          }
+        },
+        "merchant_total": {
+          "type": "integer",
+          "description": "The total charges for the order in US Cents. Sum of subtotal, fees, taxes and tips.",
+          "format": "int64"
+        },
+        "diner_total": {
+          "type": "integer",
+          "description": "The total amount paid by the diner, including all charges and discounts.",
+          "format": "int64"
+        },
+        "merchant_subtotal": {
+          "type": "integer",
+          "description": "Charges for all line items in US Cents. Excludes taxes, tips and fees.",
+          "format": "int64"
+        },
+        "restaurant_subtotal": {
+          "type": "integer",
+          "description": "The subtotal amount for the restaurant, before any additional charges or discounts.",
+          "format": "int64"
+        },
+        "merchant_subtotal_before_coupons": {
+          "type": "integer",
+          "description": "The subtotal amount for the restaurant before applying any rewards or promotions.",
+          "format": "int64"
+        },
+        "diner_subtotal_before_coupons": {
+          "type": "integer",
+          "description": "The subtotal amount for the diner's order before applying any rewards or promotions.",
+          "format": "int64"
+        },
+        "diner_subtotal": {
+          "type": "integer",
+          "description": "The subtotal amount for the diner's order after applying rewards or promotions.",
+          "format": "int64"
+        }
+      },
+      "description": "Contains information about the contents of the order including the financial totals and items ordered."
+    },
+    "ContactInfo": {
+      "type": "object",
+      "properties": {
+        "phone": {
+          "type": "string",
+          "description": "Phone number of the diner. This number can only be used for the fulfillment of the order and may not be stored and used for any sort of marketing, research or other contacts not directly related to the delivery or pickup of this specific order."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the diner"
+        },
+        "email": {
+          "type": "string",
+          "description": "E-mail address of the diner"
+        }
+      },
+      "description": "Basic diner contact information"
+    },
+    "DefaultContext": {
+      "type": "object",
+      "properties": {
+        "removed": {
+          "type": "boolean",
+          "description": "True if boolean line or line sub option has been removed"
+        },
+        "default_quantity": {
+          "type": "integer",
+          "description": "Present for line or line sub option with quantity if NormalizedModifierPrompt.modifier_prompt_quantity_settings",
+          "format": "int64"
+        },
+        "unit_price": {
+          "type": "integer",
+          "description": "Present for line or line sub option with default_quantity, quantity_free, and selected quantity is greater than quantity_free",
+          "format": "int64"
+        }
+      },
+      "description": "Contextual information to compare a line or line sub option to its default state"
+    },
+    "Dimensions": {
+      "type": "object",
+      "properties": {
+        "depth_in_inches": {
+          "type": "number",
+          "format": "float"
+        },
+        "width_in_inches": {
+          "type": "number",
+          "format": "float"
+        },
+        "height_in_inches": {
+          "type": "number",
+          "format": "float"
+        }
+      }
+    },
+    "Fees": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "type": "integer",
+          "description": "Total of all fees in US Cents",
+          "format": "int32"
+        },
+        "delivery": {
+          "type": "integer",
+          "description": "Delivery charges in US Cents",
+          "format": "int32"
+        }
+      },
+      "description": "Base fees paid by the diner for the line items and delivery charges before taxes and tip"
+    },
+    "Line": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "A description of the line item."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the line item."
+        },
+        "special_instructions": {
+          "type": "string",
+          "description": "Free form text special instructions added by the diner."
+        },
+        "line_options": {
+          "type": "array",
+          "description": "The options selected.",
+          "items": {
+            "$ref": "#/$defs/LineOption"
+          }
+        },
+        "price": {
+          "type": "integer",
+          "description": "Deprecated. Use &quot;merchant_price&quot; instead.",
+          "format": "int32",
+          "deprecated": true
+        },
+        "merchant_price": {
+          "type": "integer",
+          "description": "The price of this item in US Cents.",
+          "format": "int64"
+        },
+        "quantity": {
+          "type": "integer",
+          "description": "The number of this item to include.",
+          "format": "int32"
+        },
+        "id": {
+          "type": "string",
+          "description": "The Grubhub ID for this line item, may be null."
+        },
+        "menu_item_id": {
+          "type": "string",
+          "description": "The Grubhub menu item ID (legacy_id)."
+        },
+        "menu_item_uuid": {
+          "type": "string",
+          "description": "Grubhub menu item uuid.",
+          "format": "uuid"
+        },
+        "diner_total": {
+          "type": "integer",
+          "description": "The total cost of this item (and options) in US Cents.",
+          "format": "int32"
+        },
+        "total": {
+          "type": "integer",
+          "description": "Deprecated. Use &quot;merchant_total&quot; instead.",
+          "format": "int32",
+          "deprecated": true
+        },
+        "merchant_total": {
+          "type": "integer",
+          "description": "The total cost of this item (and options) in US Cents.",
+          "format": "int64"
+        },
+        "item_type": {
+          "type": "string",
+          "description": "A categorization of this item."
+        },
+        "variation_id": {
+          "type": "string",
+          "description": "Deprecated. A Grubhub Id for a specific variation of this line item."
+        },
+        "tags": {
+          "type": "array",
+          "description": "Grubhub tag IDs that apply to this line item.",
+          "items": {
+            "type": "integer",
+            "description": "Grubhub tag IDs that apply to this line item.",
+            "format": "int32"
+          }
+        },
+        "tag_names": {
+          "type": "array",
+          "description": "Grubhub tag names that apply to this line item.",
+          "items": {
+            "type": "string",
+            "description": "Grubhub tag names that apply to this line item."
+          }
+        },
+        "external_id": {
+          "type": "string",
+          "description": "The external ID that was stored in Grubhub for this menu item id."
+        },
+        "metadata": {
+          "type": "string",
+          "description": "Metadata associated with the line item."
+        },
+        "routing_tags": {
+          "uniqueItems": true,
+          "type": "array",
+          "description": "Tags for use in Ultimate Pickup system",
+          "items": {
+            "type": "string",
+            "description": "Tags for use in Ultimate Pickup system"
+          }
+        },
+        "line_uuid": {
+          "type": "string",
+          "description": "Unique line item id for this order instance (i.e. 2 lines of Hamburger will have the same line Id, but will have different line item Ids).",
+          "format": "uuid"
+        },
+        "packaging_options": {
+          "uniqueItems": true,
+          "type": "array",
+          "description": "Packaging information (i.e. packaging style, ect.)",
+          "items": {
+            "type": "string",
+            "description": "Packaging information (i.e. packaging style, ect.)"
+          }
+        },
+        "physical_info": {
+          "$ref": "#/$defs/PhysicalInfo"
+        },
+        "item_gtin": {
+          "type": "string"
+        },
+        "item_image_url": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
+        "weight": {
+          "type": "number",
+          "description": "Weight after driver pick-up"
+        },
+        "requested_weight": {
+          "type": "number",
+          "description": "Diner requested weight"
+        },
+        "measurement_unit": {
+          "type": "string",
+          "description": "Measurement unit for a weighted line eg: pound, ounce etc",
+          "enum": [
+            "POUND",
+            "GRAM",
+            "KILOGRAM",
+            "OUNCE",
+            "FLUID_OUNCE",
+            "UNKNOWN"
+          ]
+        },
+        "measurement_type": {
+          "type": "string",
+          "description": "Measurement type can be QUANTITY, COUNTABLE_WEIGHT, NON_COUNTABLE_WEIGHT"
+        },
+        "estimated_units_per_item": {
+          "type": "number",
+          "description": "Estimated units per item"
+        }
+      },
+      "description": "A line item for the order."
+    },
+    "LineGroup": {
+      "required": [
+        "lines"
+      ],
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string",
+          "description": "A label for the group of line items. This will be used in the future for the name of a diner on a group order."
+        },
+        "lines": {
+          "type": "array",
+          "description": "The lines items for this portion of the order.",
+          "items": {
+            "$ref": "#/$defs/Line"
+          }
+        }
+      },
+      "description": "A group of line items. Currently, the entire order is within one line group; as group ordering features are rolled out, orders will include multiple line groups."
+    },
+    "LineOption": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string",
+          "description": "DEPRECATED. A label for this line item option."
+        },
+        "price": {
+          "type": "integer",
+          "description": "The price of this item in US Cents.",
+          "format": "int32"
+        },
+        "id": {
+          "type": "string",
+          "description": "A Grubhub id (legacy_id) for this option."
+        },
+        "uuid": {
+          "type": "string",
+          "description": "Unique line option id for this order instance.",
+          "format": "uuid"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of this option."
+        },
+        "line_sub_options": {
+          "type": "array",
+          "description": "Sub-options applied to this option.",
+          "items": {
+            "$ref": "#/$defs/LineSubOption"
+          }
+        },
+        "external_id": {
+          "type": "string",
+          "description": "The external ID that was stored in Grubhub for this option."
+        },
+        "metadata": {
+          "type": "string",
+          "description": "Metadata associated with the line option."
+        },
+        "quantity": {
+          "type": "integer",
+          "description": "The number of this line options to include.",
+          "format": "int32"
+        },
+        "routing_tags": {
+          "uniqueItems": true,
+          "type": "array",
+          "description": "Used to route where a line option is printed and/or displayed.",
+          "items": {
+            "type": "string",
+            "description": "Used to route where a line option is printed and/or displayed."
+          }
+        },
+        "default_context": {
+          "$ref": "#/$defs/DefaultContext"
+        }
+      },
+      "description": "Options applied to a Line Item"
+    },
+    "LineSubOption": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The Grubhub ID of the sub option."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the sub option, which will be shown to diners."
+        },
+        "price": {
+          "type": "integer",
+          "description": "Deprecated. Use &quot;merchant_price&quot; instead.",
+          "format": "int32",
+          "deprecated": true
+        },
+        "merchant_price": {
+          "type": "integer",
+          "description": "The price of this item in US Cents.",
+          "format": "int64"
+        },
+        "diner_price": {
+          "type": "integer",
+          "description": "Cost to diner, in cents.",
+          "format": "int64"
+        },
+        "choice_category_id": {
+          "type": "string",
+          "description": "The category Id the choice belongs to."
+        },
+        "quantity": {
+          "type": "integer",
+          "description": "The amount of this option to add to the previous option. This can indicate combos (single menu items with multiple selectable items), options with variable amounts, or options that can be selected multiple times.",
+          "format": "int32"
+        },
+        "tags": {
+          "type": "array",
+          "description": "Grubhub tag IDs that apply to this line item.",
+          "items": {
+            "$ref": "#/$defs/LineTag"
+          }
+        },
+        "line_sub_options": {
+          "type": "array",
+          "description": "Further sub options that apply to this sub option. These can be nested up to ten levels deep.",
+          "items": {
+            "$ref": "#/$defs/LineSubOption"
+          }
+        },
+        "external_id": {
+          "type": "string",
+          "description": "The external ID that was stored in Grubhub for this menu suboption."
+        },
+        "metadata": {
+          "type": "string",
+          "description": "Metadata associated with the line option."
+        },
+        "routing_tags": {
+          "uniqueItems": true,
+          "type": "array",
+          "description": "Used to route where a line option is printed and/or displayed.",
+          "items": {
+            "type": "string",
+            "description": "Used to route where a line option is printed and/or displayed."
+          }
+        },
+        "default_context": {
+          "$ref": "#/$defs/DefaultContext"
+        }
+      },
+      "description": "Sub Options that are applied to an Option or other Sub Option. These can be nested up to ten levels deep."
+    },
+    "LineTag": {
+      "type": "object",
+      "properties": {
+        "ghc_tag_id": {
+          "type": "integer",
+          "description": "The Grubhub Id for the tag.",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the tag."
+        }
+      },
+      "description": "Tags that are associated with line items."
+    },
+    "Payment": {
+      "type": "object",
+      "properties": {
+        "payment_type": {
+          "type": "string",
+          "description": "The payment type. Note all non-CASH payment types should be treated as pre-paid to a Grubhub tender or house account in the POS.",
+          "enum": [
+            "CREDIT_CARD",
+            "PROMO_CODE",
+            "UNIFIED_REWARD",
+            "REWARD",
+            "GRUBCASH",
+            "SUBSCRIPTION",
+            "GIFT_CARD",
+            "CREDIT_CARD",
+            "APPLE_PAY",
+            "PAYPAL_EXPRESS",
+            "CORPORATE_LINE_OF_CREDIT",
+            "ANDROID_PAY",
+            "VENMO_PAY",
+            "CASH",
+            "CAMPUS_CARD",
+            "AMEX_EXPRESS",
+            "AMAZON_PAY",
+            "THIRDPARTY_CREDIT",
+            "THIRDPARTY_GIFT_CARD",
+            "THIRDPARTY_PROMO",
+            "CASH_APP"
+          ]
+        },
+        "amount": {
+          "type": "integer",
+          "description": "The payment amount in US Cents",
+          "format": "int32"
+        },
+        "payment_source": {
+          "type": "string",
+          "description": "The source of payment Possible values are `DINER`, `MERCHANT`, `GRUBHUB`, `OTHER`, or `UNKNOWN",
+          "enum": [
+            "DINER",
+            "MERCHANT",
+            "GRUBHUB",
+            "OTHER",
+            "UNKNOWN"
+          ]
+        },
+        "tax_application": {
+          "type": "string",
+          "description": "Whether this payment is applied `POST_TAX`, `PRE_TAX`, or that the tax applied to this payment is`UNKNOWN`. Most payment types will be applied `POST_TAX`; however, loyalty rewards are applied by the merchant and therefore lower the taxable amount of the order. These payments from the merchant will generally be listed as `PRE_TAX'.",
+          "enum": [
+            "PRE_TAX",
+            "POST_TAX",
+            "UNKNOWN"
+          ]
+        },
+        "promotion_title": {
+          "type": "string",
+          "description": "The name of the applied promotion."
+        },
+        "external_promotion_id": {
+          "type": "string",
+          "description": "The external ID that the partner uses to reference the applied promotion"
+        }
+      },
+      "description": "A single payment source",
+      "example": "{\n\"payment_type\": \"UNIFIED_REWARD\",\n\"amount\": 1000,\n\"payment_source\": \"MERCHANT\",\n\"tax_application\": \"PRE_TAX\"\n\"promotion_title\": \"$5 off $25 or more\"\n\"external_promotion_id\": \"12345\"\n}"
+    },
+    "Payments": {
+      "type": "object",
+      "properties": {
+        "payments": {
+          "type": "array",
+          "description": "A payment source",
+          "example": "[{ \"payment_type\": \"UNIFIED_REWARD\", \"amount\": 1000, \"payment_source\": \"MERCHANT\", \"tax_application\": \"PRE_TAX\" }\n\"promotion_title\": \"$5 off $25 or more\"\n\"external_promotion_id\": \"12345\"\n,\n{\n\"payment_type\": \"CREDIT_CARD\",\n\"amount\": 1620,\n\"payment_source\": \"UNKNOWN\",\n\"tax_application\": \"POST_TAX\"\n\"promotion_title\": \"$5 off $25 or more\"\n\"external_promotion_id\": \"12345\"\n}]",
+          "items": {
+            "$ref": "#/$defs/Payment"
+          }
+        },
+        "rewards": {
+          "type": "array",
+          "description": "List of rewards applied to the order.",
+          "items": {
+            "$ref": "#/$defs/Reward"
+          }
+        },
+        "promo_codes": {
+          "type": "array",
+          "writeOnly": true,
+          "items": {
+            "$ref": "#/$defs/Promotion"
+          }
+        },
+        "total": {
+          "type": "integer",
+          "description": "Initial total for an order in US Cents",
+          "format": "int32",
+          "example": 2620
+        },
+        "adjusted_total": {
+          "type": "integer",
+          "description": "Total payments after adjustments in US Cents",
+          "format": "int32",
+          "example": 2620
+        },
+        "promotions": {
+          "type": "array",
+          "description": "List of promotions applied to the order.",
+          "items": {
+            "$ref": "#/$defs/Promotion"
+          }
+        }
+      },
+      "description": "Information relating to any payments/rewards/promotions applied to the order"
+    },
+    "PhysicalInfo": {
+      "type": "object",
+      "properties": {
+        "dimensions": {
+          "$ref": "#/$defs/Dimensions"
+        },
+        "weight_in_pounds": {
+          "type": "number",
+          "format": "float"
+        },
+        "location_in_store": {
+          "type": "string"
+        }
+      }
+    },
+    "PosOrderCoupon": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string",
+          "description": "The coupon description."
+        },
+        "amount": {
+          "type": "integer",
+          "description": "The coupon amount.",
+          "format": "int32"
+        }
+      },
+      "description": "Information relating to a coupon that can be applied to an order"
+    },
+    "Promotion": {
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "integer",
+          "description": "Amount of the payment type.",
+          "format": "int32"
+        },
+        "payment_source": {
+          "type": "string",
+          "description": "Source of the payment (DINER, MERCHANT, GRUBHUB, OTHER).",
+          "enum": [
+            "DINER",
+            "MERCHANT",
+            "GRUBHUB",
+            "OTHER",
+            "UNKNOWN"
+          ]
+        },
+        "tax_application": {
+          "type": "string",
+          "description": "How this order was taxed (PRE_TAX, POST_TAX, UNKNOWN).",
+          "enum": [
+            "PRE_TAX",
+            "POST_TAX",
+            "UNKNOWN"
+          ]
+        }
+      },
+      "description": "Information relating to any promotion applied to an order"
+    },
+    "Reward": {
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "integer",
+          "description": "Amount of the payment type.",
+          "format": "int32"
+        },
+        "payment_source": {
+          "type": "string",
+          "description": "Source of the payment (DINER, MERCHANT, GRUBHUB, OTHER).",
+          "enum": [
+            "DINER",
+            "MERCHANT",
+            "GRUBHUB",
+            "OTHER",
+            "UNKNOWN"
+          ]
+        },
+        "tax_application": {
+          "type": "string",
+          "description": "How this order was taxed (PRE_TAX, POST_TAX, UNKNOWN).",
+          "enum": [
+            "PRE_TAX",
+            "POST_TAX",
+            "UNKNOWN"
+          ]
+        }
+      },
+      "description": "Information relating to any rewards applied to an order"
+    },
+    "Taxes": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "type": "integer",
+          "description": "Deprecated. Use &quot;merchantTotal&quot; instead",
+          "format": "int32",
+          "deprecated": true
+        },
+        "sales": {
+          "type": "integer",
+          "description": "Deprecated. Use &quot;merchantSalesTotal&quot; instead",
+          "format": "int32",
+          "deprecated": true
+        },
+        "delivery": {
+          "type": "integer",
+          "description": "Tax portion attributed to delivery fees",
+          "format": "int32"
+        },
+        "restaurant": {
+          "type": "integer",
+          "description": "Deprecated. Use merchantTotal instead",
+          "format": "int32",
+          "deprecated": true
+        },
+        "merchant_sales_total": {
+          "type": "integer",
+          "description": "Total sales amount generated by the merchant transaction, inclusive of taxes.",
+          "format": "int64"
+        },
+        "diner_sales_total": {
+          "type": "integer",
+          "description": "Total sales amount generated from the diner transaction, inclusive of taxes.",
+          "format": "int64"
+        },
+        "merchant_total": {
+          "type": "integer",
+          "description": "Total amount earned by the merchant after deducting taxes from their sales.",
+          "format": "int64"
+        },
+        "diner_total": {
+          "type": "integer",
+          "description": "Total amount paid by the diner, including taxes.",
+          "format": "int64"
+        },
+        "tax_source": {
+          "type": "string",
+          "description": "Indicates if either the merchant, Vertex, or an unknown source provided the rates leading to tax calculation.",
+          "enum": [
+            "UNKNOWN",
+            "MERCHANT",
+            "VERTEX"
+          ]
+        },
+        "tax_area_id": {
+          "type": "string",
+          "description": "The tax area id associated with this order."
+        }
+      },
+      "description": "Taxes paid by the diner"
+    },
+    "Tip": {
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "integer",
+          "description": "Tip amount",
+          "format": "int32"
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of Tip. CASH or INCLUDE_IN_BILL",
+          "enum": [
+            "CASH",
+            "INCLUDE_IN_BILL",
+            "UNKNOWN"
+          ]
+        }
+      },
+      "description": "Tip for the order"
+    }
+  }
+}

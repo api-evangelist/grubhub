@@ -1,0 +1,248 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-modifier-schema.json",
+  "title": "Modifier",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-menu-openapi.yml#/components/schemas/Modifier",
+  "required": [
+    "default_price",
+    "external_id",
+    "name"
+  ],
+  "type": "object",
+  "properties": {
+    "external_id": {
+      "type": "string",
+      "description": "The merchant-set ID for this modifier, which can be used to link it in the `PosNormalizedMenu`."
+    },
+    "name": {
+      "type": "string",
+      "description": "The display name of the modifier."
+    },
+    "internal_name": {
+      "type": "string",
+      "description": "Optional. If present, name displayed on Grubhub menu management tools"
+    },
+    "description": {
+      "type": "string",
+      "description": "The description displayed to the diner."
+    },
+    "calorie_count": {
+      "type": "string",
+      "description": "The calorie content for this modifier."
+    },
+    "default_price": {
+      "type": "number",
+      "description": "Default price of the modifier. Applies if the item has no sizes or if there is no modifier `sized_price` for the size selected."
+    },
+    "tags": {
+      "type": "array",
+      "description": "A list of indicators that flag this modifier for special delivery handling, regulatory treatment, or to indicate specific properties of the food - spicy, kosher, etc. - for the diner. Modifier tags can differ from menu item tags as they can add ingredients, i.e. a modifier that adds cheese could make a menu item no longer vegan and add dairy.",
+      "items": {
+        "$ref": "#/$defs/Tag"
+      }
+    },
+    "tax_rate": {
+      "type": "string",
+      "description": "The `external_id` value of the tax rate that applies to this modifier if that rate differs from the overall menu or the specific menu item rate."
+    },
+    "tax_category": {
+      "$ref": "#/$defs/TaxCategory"
+    },
+    "flexible_tax_fields": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "description": "Flexible fields can be used to include unique rules for an item, for example bottle deposit or cup fees. These rules, including bottle deposit and cup fees, may require additional activation in the Grubhub system. Contact your Grubhub representative for further information. This is a map of flexible fields associated with this item whose values are Strings.<br /><br />Allowed entries are:<br /><br />   'SERVING_METHOD': \"BTL-GLASS\", \"BTL-PLASTIC\", \"CANNED\", or \"CUP\". <br/>   'PREMISIS_CONSUMPTION: \"ON\", \"OFF\"."
+      },
+      "description": "Flexible fields can be used to include unique rules for an item, for example bottle deposit or cup fees. These rules, including bottle deposit and cup fees, may require additional activation in the Grubhub system. Contact your Grubhub representative for further information. This is a map of flexible fields associated with this item whose values are Strings.<br /><br />Allowed entries are:<br /><br />   'SERVING_METHOD': \"BTL-GLASS\", \"BTL-PLASTIC\", \"CANNED\", or \"CUP\". <br/>   'PREMISIS_CONSUMPTION: \"ON\", \"OFF\"."
+    },
+    "flexible_tax_numeric_fields": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "number",
+        "description": "Flexible fields can be used to include unique rules for an item, for example bottle deposit or cup fees. These rules, including bottle deposit and cup fees, may require additional activation in the Grubhub system. Contact your Grubhub representative for further information. This is a map of flexible fields associated with this item whose values are numeric.<br /><br />Allowed entries are:<br /><br />   'VOLUME': <volume in fluid oz. eg. '16.0'> <br />   'NUMBER_OF_UNITS': <number of units, eg. '6' for a six pack> .",
+        "format": "double"
+      },
+      "description": "Flexible fields can be used to include unique rules for an item, for example bottle deposit or cup fees. These rules, including bottle deposit and cup fees, may require additional activation in the Grubhub system. Contact your Grubhub representative for further information. This is a map of flexible fields associated with this item whose values are numeric.<br /><br />Allowed entries are:<br /><br />   'VOLUME': <volume in fluid oz. eg. '16.0'> <br />   'NUMBER_OF_UNITS': <number of units, eg. '6' for a six pack> ."
+    },
+    "miscellaneous_taxes": {
+      "type": "array",
+      "description": "A list of `external_id` values that indicate additional tax rates that apply to this modifier selection.",
+      "items": {
+        "type": "string",
+        "description": "A list of `external_id` values that indicate additional tax rates that apply to this modifier selection."
+      }
+    },
+    "media": {
+      "$ref": "#/$defs/PosNormalizedMenuMedia"
+    },
+    "sized_prices": {
+      "type": "array",
+      "description": "Optional. An ordered list of sized prices for this modifier, i.e., the modifier price depends on the Size selected for the Item.",
+      "items": {
+        "$ref": "#/$defs/SizedPrice"
+      }
+    },
+    "submodifiers": {
+      "type": "array",
+      "description": "A list of `external_id` values for the modifier prompts that are available on this individual modifier option. In enhanced menus, modifiers can recurse up to six levels deep.",
+      "items": {
+        "type": "string",
+        "description": "A list of `external_id` values for the modifier prompts that are available on this individual modifier option. In enhanced menus, modifiers can recurse up to six levels deep."
+      }
+    },
+    "metadata": {
+      "type": "string",
+      "description": "User-configured text stored with and returned as part of this object. This text is not used by the Grubhub system; it is solely for the POS user's purposes. Character limit is restricted to 2560 characters. A validation error will be returned if this limit is exceeded."
+    },
+    "schedule_ids": {
+      "type": "array",
+      "description": "A list of `external_id` values for `PosNormalizedRepeatingSchedule` schedules that indicate when this modifier is available during the week. This can differ from the schedules for the menu item itself, though the modifier will only be available during the times when both schedules are active.",
+      "items": {
+        "type": "string",
+        "description": "A list of `external_id` values for `PosNormalizedRepeatingSchedule` schedules that indicate when this modifier is available during the week. This can differ from the schedules for the menu item itself, though the modifier will only be available during the times when both schedules are active."
+      }
+    },
+    "availability_ranges": {
+      "type": "array",
+      "description": "A list of `external_id` values for `PosNormalizedAvailabiltyRanges` objects that indicate the date ranges when this menu item will be available for ordering. This can differ from the availability range for the menu item itself, though the modifier will only be available during the times when both ranges are active.",
+      "items": {
+        "type": "string",
+        "description": "A list of `external_id` values for `PosNormalizedAvailabiltyRanges` objects that indicate the date ranges when this menu item will be available for ordering. This can differ from the availability range for the menu item itself, though the modifier will only be available during the times when both ranges are active."
+      }
+    },
+    "availability_override": {
+      "type": "string",
+      "description": "The `external_id` value for `availability_overrides` object that indicate the date ranges when this modifier will not be available for ordering."
+    },
+    "fulfillment_type_settings": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/NormalizedModifierFulfillmentTypeSettings"
+      },
+      "description": "OrderServiceType-specific configurations for this modifier. All keys should be strings representing order-service types (valid options include \"STANDARD_DELIVERY\", \"STANDARD_PICKUP\", \"CATERING_DELIVERY\", and \"GROUP_DELIVERY\". All values should be of type NormalizedModifierFulfillmentTypeSettings."
+    }
+  },
+  "description": "A selectable option within a modifier prompt that changes a menu item. That change may include price and calorie variations, and may be affected by size selections.",
+  "$defs": {
+    "NormalizedModifierFulfillmentTypeSettings": {
+      "type": "object",
+      "properties": {
+        "price": {
+          "type": "number",
+          "description": "The additional cost applied to an order if a diner selects this modifier for a given OrderServiceType."
+        }
+      },
+      "description": "ModifierFulfillmentTypeSettings include configurations to be used for an Modifier only for oneOrderServiceType."
+    },
+    "NormalizedSizedPriceFulfillmentTypeSettings": {
+      "type": "object",
+      "properties": {
+        "price": {
+          "type": "number",
+          "description": "The price for the referenced Size for a given OrderServiceType."
+        }
+      },
+      "description": "SizedPriceFulfillmentTypeSettings include configurations to be used for a SizedPrice onlyfor one OrderServiceType."
+    },
+    "PosNormalizedMenuMedia": {
+      "type": "object",
+      "properties": {
+        "source_url": {
+          "type": "string",
+          "description": "The URL where the image file can be downloaded."
+        }
+      },
+      "description": "Information about media used in the PosNormalizedMenu format."
+    },
+    "SizedPrice": {
+      "required": [
+        "price",
+        "size"
+      ],
+      "type": "object",
+      "properties": {
+        "size": {
+          "type": "string",
+          "description": "The `external_id` reference to a PosNormalizedSize."
+        },
+        "price": {
+          "type": "number",
+          "description": "Price for the referenced size."
+        },
+        "calorie_content": {
+          "type": "string",
+          "description": "Number of calories for the size."
+        },
+        "display_name": {
+          "type": "string",
+          "description": "Optional. If present, overrides the name of the referenced size, for display to diners."
+        },
+        "fulfillment_type_settings": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/NormalizedSizedPriceFulfillmentTypeSettings"
+          },
+          "description": "OrderServiceType-specific configurations for this SizedPrice. All keys should be strings representing order-service types (valid options include \"STANDARD_DELIVERY\", \"STANDARD_PICKUP\", \"CATERING_DELIVERY\", and \"GROUP_DELIVERY\". All values should be of type NormalizedSizedPriceFulfillmentTypeSettings."
+        }
+      },
+      "description": "Additional price information about size within a normalized menu. For use in Size Prompts for the item pricing model."
+    },
+    "Tag": {
+      "required": [
+        "group",
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "group": {
+          "type": "string",
+          "description": "Tag group. Currently, the only valid group is 'LEGACY'"
+        },
+        "name": {
+          "type": "string",
+          "description": "Tag name or code.",
+          "enum": [
+            "ADVANCED_ORDERING",
+            "ALCOHOL",
+            "DESSERT",
+            "DAIRY_FREE",
+            "DRINK",
+            "GLUTEN_FREE",
+            "KOSHER",
+            "LOW_FAT",
+            "NOT_FOR_BIKER",
+            "NUT_FREE",
+            "RAW_FOOD_WARNING",
+            "SPECIALTY",
+            "SPICY",
+            "SODIUM_WARNING",
+            "TAX_EXEMPT",
+            "VEGAN",
+            "VEGETARIAN",
+            "FIFTEEN_TWENTY_LBS",
+            "TWENTY_TWENTYFIVE_LBS",
+            "TWENTYFIVE_THIRTY_LBS",
+            "THIRTY_PLUS_LBS",
+            "TWO_TWOHALF_FT",
+            "TWOHALF_THREE_FT",
+            "THREE_PLUS_FT"
+          ]
+        }
+      },
+      "description": "Tags for menu items are used to flag certain items for special delivery handling, regulatory treatment, and to denote an item is eligible for certain flags and icons on Grubhub diner properties."
+    },
+    "TaxCategory": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "A valid Grubhub internal tax category code."
+        }
+      },
+      "description": "Tax category."
+    }
+  }
+}

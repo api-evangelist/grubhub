@@ -1,0 +1,171 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-deliveryinfo-schema.json",
+  "title": "DeliveryInfo",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-orders-openapi.yml#/components/schemas/DeliveryInfo",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "An id for this delivery"
+    },
+    "address": {
+      "$ref": "#/$defs/Address"
+    },
+    "is_managed_delivery": {
+      "type": "boolean",
+      "description": "This delivery will be provided by Grubhub and not by the restaurant"
+    },
+    "estimated_delivery_time": {
+      "$ref": "#/$defs/Instant"
+    },
+    "is_green_indicated": {
+      "type": "boolean",
+      "description": "If set to true, the restaurant should not include napkins, utensils and other items that would just become waste as the diner has access to their own dishes and utensils"
+    },
+    "instruction": {
+      "type": "string",
+      "description": "Special instructions for delivery"
+    },
+    "contact_info": {
+      "$ref": "#/$defs/ContactInfo"
+    },
+    "managed-delivery-delivered": {
+      "$ref": "#/$defs/Instant"
+    },
+    "managed-delivery-estimated_pickup": {
+      "$ref": "#/$defs/Instant"
+    },
+    "order_delivery_type": {
+      "type": "string",
+      "description": "This indicates whether food is delivered by Grubhub or the restaurant.",
+      "enum": [
+        "SELF",
+        "GRUBHUB",
+        "SUPPLEMENTAL_DELIVERY_AS_GHD",
+        "SUPPLEMENTAL_DELIVERY_WITH_GHD_AS_PICKUP",
+        "UNKNOWN"
+      ]
+    },
+    "managed_delivery_delivered": {
+      "$ref": "#/$defs/Instant"
+    },
+    "managed_delivery_estimated_pickup": {
+      "$ref": "#/$defs/Instant"
+    }
+  },
+  "description": "Information on how to deliver the order to the diner",
+  "$defs": {
+    "Address": {
+      "type": "object",
+      "properties": {
+        "address_line1": {
+          "type": "string",
+          "description": "First address line"
+        },
+        "address_line2": {
+          "type": "string",
+          "description": "Optional second address line"
+        },
+        "city": {
+          "type": "string",
+          "description": "The city"
+        },
+        "state": {
+          "type": "string",
+          "description": "The state as a two letter abbreviation"
+        },
+        "country": {
+          "type": "string",
+          "description": "The country as a two letter abbreviation"
+        },
+        "zip_code": {
+          "type": "string",
+          "description": "The zip code. This is a string because it may in certain cases contain a +4 zip."
+        },
+        "latitude": {
+          "type": "number",
+          "description": "The geolocated addresses latitude"
+        },
+        "longitude": {
+          "type": "number",
+          "description": "The geolocated addresses longitude"
+        },
+        "cross_streets": {
+          "type": "string",
+          "description": "The closest major cross streets as entered by the diner"
+        },
+        "company_name": {
+          "type": "string",
+          "description": "Name of the company for a corporate order"
+        }
+      },
+      "description": "Physical street address"
+    },
+    "Chronology": {
+      "type": "object",
+      "properties": {
+        "zone": {
+          "$ref": "#/$defs/DateTimeZone"
+        }
+      }
+    },
+    "ContactInfo": {
+      "type": "object",
+      "properties": {
+        "phone": {
+          "type": "string",
+          "description": "Phone number of the diner. This number can only be used for the fulfillment of the order and may not be stored and used for any sort of marketing, research or other contacts not directly related to the delivery or pickup of this specific order."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the diner"
+        },
+        "email": {
+          "type": "string",
+          "description": "E-mail address of the diner"
+        }
+      },
+      "description": "Basic diner contact information"
+    },
+    "DateTimeZone": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "fixed": {
+          "type": "boolean"
+        }
+      },
+      "description": "The timezone of the restaurant"
+    },
+    "Instant": {
+      "type": "object",
+      "properties": {
+        "chronology": {
+          "$ref": "#/$defs/Chronology"
+        },
+        "millis": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "zone": {
+          "$ref": "#/$defs/DateTimeZone"
+        },
+        "after_now": {
+          "type": "boolean"
+        },
+        "before_now": {
+          "type": "boolean"
+        },
+        "equal_now": {
+          "type": "boolean"
+        }
+      },
+      "description": "The time that the diner placed the order"
+    }
+  }
+}

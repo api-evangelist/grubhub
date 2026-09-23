@@ -1,0 +1,159 @@
+generated: '2026-09-17'
+method: probed
+source: live GET of the RFC 8615 named path list on every host this record knows
+note: >-
+  Probed 2026-09-17. The only real documents Grubhub serves are RFC 8414 OAuth Authorization
+  Server Metadata on the two partner API hosts. grubhub.com / www.grubhub.com answer HTTP 200
+  with the marketplace single-page-app shell (13,660 bytes of text/html) for EVERY /.well-known/
+  path, and developer.grubhub.com answers 200 with the partner developer portal shell (6,223
+  bytes) - those are SPA catch-alls, not documents, and are recorded below as soft-404 misses.
+hosts:
+- host: api-third-party-gtm.grubhub.com
+  note: Production partner API host named in servers[] of all twelve first-party OpenAPI documents.
+  documents:
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    content_type: application/json
+    file: grubhub-oauth-authorization-server.json
+    note: >-
+      Real RFC 8414 document. issuer https://api-gtm.grubhub.com, PKCE S256 + plain,
+      dynamic client registration endpoint (RFC 7591), scopes_supported [openid, diner].
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/jwks.json
+    status: 404
+- host: api-third-party-gtm-pp.grubhub.com
+  note: Preproduction partner API host named in servers[] of all twelve first-party OpenAPI documents.
+  documents:
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    content_type: application/json
+    file: grubhub-pp-oauth-authorization-server.json
+    note: Preproduction issuer https://api-order-taking-pp.grubhub.com.
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: api-gtm.grubhub.com
+  note: Issuer host named by the production authorization-server metadata document.
+  documents:
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    content_type: application/json
+    file: grubhub-oauth-authorization-server.json
+    note: Byte-identical to the document served on api-third-party-gtm.grubhub.com.
+  - path: /.well-known/openid-configuration
+    status: 404
+- host: developer.grubhub.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 200
+    note: SOFT 404 - returns the 6,223-byte developer-portal SPA shell (text/html), not a document.
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    note: SOFT 404 - returns the 6,223-byte developer-portal SPA shell (text/html), not a document.
+  - path: /.well-known/api-catalog
+    status: 200
+    note: SOFT 404 - returns the 6,223-byte developer-portal SPA shell (text/html), not a document.
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: grubhub.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    note: SOFT 404 - returns the 13,660-byte marketplace SPA shell (text/html), not a document.
+  - path: /.well-known/openid-configuration
+    status: 200
+    note: SOFT 404 - marketplace SPA shell.
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    note: SOFT 404 - marketplace SPA shell.
+  - path: /.well-known/api-catalog
+    status: 200
+    note: SOFT 404 - marketplace SPA shell.
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: www.grubhub.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    note: SOFT 404 - marketplace SPA shell, identical bytes to the apex host.
+  - path: /.well-known/openid-configuration
+    status: 200
+    note: SOFT 404 - marketplace SPA shell.
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    note: SOFT 404 - marketplace SPA shell.
+  - path: /.well-known/api-catalog
+    status: 200
+    note: SOFT 404 - marketplace SPA shell.
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: get.grubhub.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: auth.grubhub.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+summary:
+  hosts_probed: 8
+  documents_served: 2
+  security_txt: false
+  api_catalog: false
+  agent_card: false

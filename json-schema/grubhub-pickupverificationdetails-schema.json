@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-pickupverificationdetails-schema.json",
+  "title": "PickupVerificationDetails",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/PickupVerificationDetails",
+  "type": "object",
+  "properties": {
+    "result": {
+      "type": "string",
+      "description": "The result of pickup verification process.",
+      "enum": [
+        "SUCCESS",
+        "FAILURE",
+        "UNKNOWN"
+      ]
+    },
+    "capture_method": {
+      "type": "string",
+      "description": "The method used to capture the pickup verification code.",
+      "enum": [
+        "QR_SCAN",
+        "PHOTO"
+      ]
+    },
+    "failure_reason": {
+      "type": "string",
+      "description": "The reason for the verification failure, if applicable."
+    },
+    "attempts_count": {
+      "type": "integer",
+      "description": "The number of verification attempts made.",
+      "format": "int32"
+    },
+    "photo_url": {
+      "type": "string",
+      "description": "A URL to the pickup verification photo, if applicable."
+    }
+  }
+}

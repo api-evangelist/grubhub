@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-scheduledordersupdaterequest-schema.json",
+  "title": "ScheduledOrdersUpdateRequest",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-merchant-data-openapi.yml#/components/schemas/ScheduledOrdersUpdateRequest",
+  "required": [
+    "enabled"
+  ],
+  "type": "object",
+  "properties": {
+    "enabled": {
+      "type": "boolean",
+      "description": "When it is true, the merchant will opt-in scheduled ordering; or the merchant will opt-out if it is false."
+    }
+  },
+  "description": "Request to opt-in/opt-out from scheduled orders."
+}

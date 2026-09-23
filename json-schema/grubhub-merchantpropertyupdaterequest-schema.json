@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-merchantpropertyupdaterequest-schema.json",
+  "title": "MerchantPropertyUpdateRequest",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-merchant-data-openapi.yml#/components/schemas/MerchantPropertyUpdateRequest",
+  "required": [
+    "merchant_ids",
+    "property_updates"
+  ],
+  "type": "object",
+  "properties": {
+    "merchant_ids": {
+      "type": "array",
+      "description": "A list of IDs representing either the Grubhub or Partner merchant ID.",
+      "items": {
+        "type": "string",
+        "description": "A list of IDs representing either the Grubhub or Partner merchant ID."
+      }
+    },
+    "property_updates": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "description": "Multiple properties associated with Merchant ID/s."
+      },
+      "description": "Multiple properties associated with Merchant ID/s."
+    }
+  },
+  "description": "Merchant ID/s and properties to update for multiple merchants or individual merchant at a time."
+}

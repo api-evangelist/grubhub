@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-posscheduleoverridemultioperationresult-schema.json",
+  "title": "PosScheduleOverrideMultiOperationResult",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-menu-openapi.yml#/components/schemas/PosScheduleOverrideMultiOperationResult",
+  "type": "object",
+  "properties": {
+    "entity_ids": {
+      "type": "array",
+      "description": "Array of either menu entity internal (Grubhub) OR external (Partner) IDs. This list will contain all the entity IDs sent in the associated request.",
+      "items": {
+        "type": "string",
+        "description": "Array of either menu entity internal (Grubhub) OR external (Partner) IDs. This list will contain all the entity IDs sent in the associated request."
+      }
+    },
+    "job_id": {
+      "type": "string",
+      "description": "A unique reference used to identify the status of this operation.",
+      "format": "uuid"
+    },
+    "status": {
+      "type": "string",
+      "description": "Status of a menu entity schedule override operation.",
+      "enum": [
+        "QUEUED",
+        "OK",
+        "INVALID",
+        "ERROR"
+      ]
+    },
+    "message": {
+      "type": "string",
+      "description": "Text description providing more detail on the status."
+    }
+  },
+  "description": "Result of a bulk schedule override add/update request."
+}

@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-deliverytime-schema.json",
+  "title": "DeliveryTime",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-deliveries-openapi.yml#/components/schemas/DeliveryTime",
+  "required": [
+    "timestamp",
+    "type"
+  ],
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "Whether or not this is an estimated time of activity or it has already taken place",
+      "example": "estimate",
+      "enum": [
+        "estimate, actual"
+      ]
+    },
+    "timestamp": {
+      "type": "string",
+      "description": "Time that this action occurred or is estimated to occur",
+      "format": "date-time",
+      "example": "2019-08-24T14:15:22Z"
+    }
+  },
+  "description": "Estimated or actual time that some activity (contents picked up or dropped off) will or has taken place."
+}

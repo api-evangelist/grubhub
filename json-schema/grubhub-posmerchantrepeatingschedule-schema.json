@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-posmerchantrepeatingschedule-schema.json",
+  "title": "PosMerchantRepeatingSchedule",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-merchant-schedules-openapi.yml#/components/schemas/PosMerchantRepeatingSchedule",
+  "required": [
+    "merchant_id",
+    "name",
+    "repeating_schedule_content",
+    "schedule_id"
+  ],
+  "type": "object",
+  "properties": {
+    "merchant_id": {
+      "type": "string",
+      "description": "The Grubhub or third-party provided external ID for the merchant."
+    },
+    "schedule_id": {
+      "type": "string",
+      "description": "The ID of this schedule.",
+      "format": "uuid"
+    },
+    "name": {
+      "type": "string",
+      "description": "Type of schedule. If not specified, defaults to \"DELIVERY\"",
+      "enum": [
+        "DELIVERY",
+        "PICKUP",
+        "CATERING",
+        "GROUP"
+      ]
+    },
+    "version_id": {
+      "type": "string",
+      "description": "The ID of the version of this schedule which changes upon updates to the schedule.",
+      "format": "uuid"
+    },
+    "repeating_schedule_content": {
+      "$ref": "#/$defs/RepeatingSchedule"
+    },
+    "metadata": {
+      "$ref": "#/$defs/RepeatingScheduleMetadata"
+    }
+  },
+  "description": "The repeating weekly schedule of a merchant.",
+  "$defs": {
+    "RepeatingSchedule": {
+      "required": [
+        "external_id",
+        "name",
+        "rules"
+      ],
+      "type": "object",
+      "properties": {
+        "external_id": {
+          "type": "string",
+          "description": "The merchant-set ID for this schedule, which can be used to link it in the `PosNormalizedMenu`."
+        },
+        "name": {
+          "type": "string",
+          "description": "The display name for this schedule, e.g. \"Sunday Brunch\""
+        },
+        "type": {
+          "type": "string",
+          "description": "How often this schedule repeats. Currently the only valid value is \"WEEKLY\".",
+          "enum": [
+            "WEEKLY"
+          ]
+        },
+        "rules": {
+          "type": "array",
+          "description": "A set of non-overlapping time periods.",
+          "items": {
+            "$ref": "#/$defs/RepeatingScheduleRule"
+          }
+        }
+      },
+      "description": "Information about a weekly schedule during which a menu item may be made available. Typical usages include Breakfast, Lunch, Dinner, Weekend Brunch, etc."
+    },
+    "RepeatingScheduleMetadata": {
+      "required": [
+        "source"
+      ],
+      "type": "object",
+      "properties": {
+        "created_by": {
+          "type": "string",
+          "description": "The creator of the schedule"
+        },
+        "updated_by": {
+          "type": "string",
+          "description": "The last credential to update the schedule"
+        },
+        "created_date": {
+          "type": "string",
+          "description": "The creation date of the schedule",
+          "format": "date-time"
+        },
+        "updated_date": {
+          "type": "string",
+          "description": "The last update date of the schedule",
+          "format": "date-time"
+        },
+        "legacy_id": {
+          "type": "string",
+          "description": "The legacy ID of the schedule in MySQL"
+        },
+        "description": {
+          "type": "string",
+          "description": "The description for the schedule"
+        },
+        "source": {
+          "type": "string",
+          "description": "The source of the creation or update of the repeating schedule"
+        }
+      },
+      "description": "The metadata associated to a specific repeating schedule"
+    },
+    "RepeatingScheduleRule": {
+      "required": [
+        "end_time",
+        "start_time"
+      ],
+      "type": "object",
+      "properties": {
+        "days": {
+          "uniqueItems": true,
+          "type": "array",
+          "description": "Days of the week for which the time period applies. Must be one of [MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY]",
+          "items": {
+            "type": "string",
+            "description": "Days of the week for which the time period applies. Must be one of [MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY]",
+            "enum": [
+              "MONDAY",
+              "TUESDAY",
+              "WEDNESDAY",
+              "THURSDAY",
+              "FRIDAY",
+              "SATURDAY",
+              "SUNDAY"
+            ]
+          }
+        },
+        "start_time": {
+          "type": "string",
+          "description": "The time when this schedule begins on the days listed, in the merchant's local time. Must conform to ISO date and time format",
+          "example": "09:30:00.000"
+        },
+        "end_time": {
+          "type": "string",
+          "description": "The time when this schedule ends on the days listed, in the merchant's local time. Must conform to ISO date and time format",
+          "example": "22:30:00.000"
+        }
+      },
+      "description": "A time period and repetition rule."
+    }
+  }
+}

@@ -1,0 +1,186 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-posmerchantrepeatingintervalrequest-schema.json",
+  "title": "PosMerchantRepeatingIntervalRequest",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-merchant-schedules-openapi.yml#/components/schemas/PosMerchantRepeatingIntervalRequest",
+  "required": [
+    "end",
+    "repeating_schedule_rule",
+    "start"
+  ],
+  "type": "object",
+  "properties": {
+    "repeating_schedule_rule": {
+      "uniqueItems": true,
+      "type": "array",
+      "description": "The day of the week that this interval request applies to.",
+      "items": {
+        "type": "string",
+        "description": "The day of the week that this interval request applies to.",
+        "enum": [
+          "MONDAY",
+          "TUESDAY",
+          "WEDNESDAY",
+          "THURSDAY",
+          "FRIDAY",
+          "SATURDAY",
+          "SUNDAY"
+        ]
+      }
+    },
+    "start": {
+      "$ref": "#/$defs/LocalTime"
+    },
+    "end": {
+      "$ref": "#/$defs/LocalTime"
+    }
+  },
+  "description": "The schedule of a single day of the week within a schedule update request.",
+  "$defs": {
+    "Chronology": {
+      "type": "object",
+      "properties": {
+        "zone": {
+          "$ref": "#/$defs/DateTimeZone"
+        }
+      }
+    },
+    "DateTimeField": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/$defs/DateTimeFieldType"
+        },
+        "supported": {
+          "type": "boolean"
+        },
+        "lenient": {
+          "type": "boolean"
+        },
+        "duration_field": {
+          "$ref": "#/$defs/DurationField"
+        },
+        "range_duration_field": {
+          "$ref": "#/$defs/DurationField"
+        },
+        "leap_duration_field": {
+          "$ref": "#/$defs/DurationField"
+        },
+        "minimum_value": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "maximum_value": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "DateTimeFieldType": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "duration_type": {
+          "$ref": "#/$defs/DurationFieldType"
+        },
+        "range_duration_type": {
+          "$ref": "#/$defs/DurationFieldType"
+        }
+      }
+    },
+    "DateTimeZone": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "fixed": {
+          "type": "boolean"
+        }
+      }
+    },
+    "DurationField": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/$defs/DurationFieldType"
+        },
+        "supported": {
+          "type": "boolean"
+        },
+        "unit_millis": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "precise": {
+          "type": "boolean"
+        }
+      }
+    },
+    "DurationFieldType": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "LocalTime": {
+      "type": "object",
+      "properties": {
+        "chronology": {
+          "$ref": "#/$defs/Chronology"
+        },
+        "millis_of_day": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "hour_of_day": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "minute_of_hour": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "second_of_minute": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "millis_of_second": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/DateTimeField"
+          }
+        },
+        "values": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "field_types": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/DateTimeFieldType"
+          }
+        }
+      }
+    }
+  }
+}

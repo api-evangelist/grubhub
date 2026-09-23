@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-configgroup-schema.json",
+  "title": "ConfigGroup",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-merchant-data-openapi.yml#/components/schemas/ConfigGroup",
+  "required": [
+    "merchant_ids"
+  ],
+  "type": "object",
+  "properties": {
+    "group_name": {
+      "type": "string",
+      "description": "The name of the group."
+    },
+    "merchant_ids": {
+      "uniqueItems": true,
+      "type": "array",
+      "description": "A list of merchant IDs in the configuration group.",
+      "items": {
+        "type": "string",
+        "description": "A list of merchant IDs in the configuration group."
+      }
+    }
+  },
+  "description": "A group of merchants sharing a common POS configuration in Grubhub. E.g., Merchants who are configured for POS Partner X."
+}

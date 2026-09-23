@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-deliveryaddress-schema.json",
+  "title": "DeliveryAddress",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-connect-endpoints-openapi.yml#/components/schemas/DeliveryAddress",
+  "required": [
+    "city",
+    "country_area",
+    "country_code",
+    "postal_code",
+    "street_address"
+  ],
+  "type": "object",
+  "properties": {
+    "country_code": {
+      "maxLength": 8,
+      "minLength": 0,
+      "type": "string",
+      "description": "The ISO-3166 country code of the address.",
+      "example": "US"
+    },
+    "country_area": {
+      "maxLength": 64,
+      "minLength": 0,
+      "type": "string",
+      "description": "The country area or state of the address.",
+      "example": "IL"
+    },
+    "city": {
+      "maxLength": 64,
+      "minLength": 0,
+      "type": "string",
+      "description": "The city of the address.",
+      "example": "Chicago"
+    },
+    "street_address": {
+      "maxItems": 5,
+      "minItems": 1,
+      "type": "array",
+      "description": "The street address details of the address.",
+      "example": [
+        "123 Washington Lane"
+      ],
+      "items": {
+        "maxLength": 128,
+        "minLength": 0,
+        "type": "string"
+      }
+    },
+    "postal_code": {
+      "maxLength": 16,
+      "minLength": 0,
+      "type": "string",
+      "description": "The postal code of the address.",
+      "example": "60642"
+    },
+    "company_name": {
+      "maxLength": 128,
+      "minLength": 0,
+      "type": "string",
+      "description": "The company name of the address.",
+      "example": "Fake Savings and Loans Co."
+    }
+  },
+  "description": "The information associated with an address."
+}

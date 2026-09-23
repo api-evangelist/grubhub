@@ -1,35 +1,78 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "#/components/schemas/Address",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-address-schema.json",
   "title": "Address",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-deliveries-openapi.yml#/components/schemas/Address",
   "type": "object",
-  "description": "A physical address.",
   "properties": {
-    "street_address": {
+    "region_code": {
       "type": "string",
-      "description": "The street address line."
+      "description": "ISO 3166-1 alpha-2 country code, e.g. US, GB"
     },
-    "city": {
+    "address_lines": {
+      "type": "array",
+      "description": "In order street address line 1, 2, etc.",
+      "items": {
+        "type": "string",
+        "description": "In order street address line 1, 2, etc."
+      }
+    },
+    "cross_streets": {
       "type": "string",
-      "description": "The city name."
+      "description": "Usually a rough description of the intersection for delivery."
     },
-    "state": {
+    "locality": {
       "type": "string",
-      "description": "The state abbreviation."
+      "description": "Usually refers to postal town or city."
     },
-    "zip": {
+    "sublocality": {
       "type": "string",
-      "description": "The ZIP code."
+      "description": "Borough, district, an entity with an administrative boundary."
     },
-    "latitude": {
-      "type": "number",
-      "format": "double",
-      "description": "The latitude coordinate."
+    "neighborhood": {
+      "type": "string",
+      "description": "A subdivision of sublocality, with or without a an administrative boundary.<br />It might also refer to a common name that is associated with the location."
     },
-    "longitude": {
-      "type": "number",
-      "format": "double",
-      "description": "The longitude coordinate."
+    "administrative_area": {
+      "type": "string",
+      "description": "State, or some sort of highest level subdivision of the region."
+    },
+    "postal_code": {
+      "type": "string",
+      "description": "Postal code."
+    },
+    "sorting_code": {
+      "type": "string",
+      "description": "Not used in most regions. Sorting code for addressing purposes."
+    },
+    "coordinates": {
+      "$ref": "#/$defs/Coordinates"
+    },
+    "organization_name": {
+      "type": "string",
+      "description": "Name of the organization."
+    },
+    "detailed_pin_coordinates": {
+      "$ref": "#/$defs/Coordinates"
+    }
+  },
+  "description": "Physical street address",
+  "$defs": {
+    "Coordinates": {
+      "type": "object",
+      "properties": {
+        "latitude": {
+          "type": "number",
+          "description": "Latitude of the address."
+        },
+        "longitude": {
+          "type": "number",
+          "description": "Longitude of the address."
+        }
+      },
+      "description": "Coordinates of the address."
     }
   }
 }

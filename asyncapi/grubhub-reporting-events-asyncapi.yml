@@ -1,0 +1,73 @@
+asyncapi: 3.0.0
+info:
+  title: Grubhub Merchant Reporting Events
+  version: 1.0.0
+  description: Egress webhook Grubhub sends when a requested merchant export report changes state. This
+    is the intended completion signal for the asynchronous Reporting API - poll only as a fallback.
+  x-generated: '2026-09-17'
+  x-method: derived
+  x-source: openapi/grubhub-reporting-webhooks-openapi.yml - the top-level webhooks object of Grubhub's
+    own OpenAPI 3.1.0 document, fetched 2026-09-17 from https://developer.grubhub.com/resource/partner-docs/api-docs/
+  x-note: Paired with createExportReport and getDownloadUrl in openapi/grubhub-reporting-endpoints-openapi.yml.
+servers:
+  partnerWebhook:
+    host: '{webhookUrl}'
+    protocol: https
+    description: Partner-hosted HTTPS endpoint. Grubhub POSTs the payload to this URL. Partners cannot
+      set or change the webhook URL themselves - Grubhub configures it during onboarding.
+    variables:
+      webhookUrl:
+        description: The partner endpoint Grubhub was configured to call.
+channels:
+  reportStatusUpdateWebhook:
+    address: '{webhookUrl}'
+    title: '[Egress] Report Status Update Webhook'
+    description: Information about a requested report
+    messages:
+      MerchantReportStatusWebhook:
+        $ref: '#/components/messages/MerchantReportStatusWebhook'
+operations:
+  receiveMerchantReportStatusWebhook:
+    action: receive
+    channel:
+      $ref: '#/channels/reportStatusUpdateWebhook'
+    summary: Report status update
+    messages:
+    - $ref: '#/channels/reportStatusUpdateWebhook/messages/MerchantReportStatusWebhook'
+components:
+  messages:
+    MerchantReportStatusWebhook:
+      name: MerchantReportStatusWebhook
+      title: Report status update
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/MerchantReportStatusWebhook'
+  schemas:
+    MerchantReportStatusWebhook:
+      type: object
+      description: Webhook for reporting status updates.
+      properties:
+        report_uuid:
+          type: string
+          format: uuid
+          description: A unique identifier for the report.
+          example: f47ac10b-58cc-4372-a567-0e02b2c3d479
+        download_report_request_url:
+          type: string
+          description: URL to download the report. Make a GET request to this URL to get the s3 download
+            link. This field is empty for NO_DATA or ERROR status.
+          example: https://api-gtm.grubhub.com/merchant/reporting/v1/reports/f47ac10b-58cc-4372-a567-0e02b2c3d479
+        report_status:
+          type: string
+          description: Status of the report. Possible values are COMPLETE, ERROR, or NO_DATA.
+          example: COMPLETE
+        message:
+          type: string
+          description: Message providing additional information about the report status. This field is
+            empty for COMPLETE status.
+      required:
+      - download_report_request_url
+      - message
+      - report_status
+      - report_uuid
+      title: Merchant Report Status Webhook

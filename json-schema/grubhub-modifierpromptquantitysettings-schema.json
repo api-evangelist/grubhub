@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-modifierpromptquantitysettings-schema.json",
+  "title": "ModifierPromptQuantitySettings",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-menu-openapi.yml#/components/schemas/ModifierPromptQuantitySettings",
+  "type": "object",
+  "properties": {
+    "minimum_units": {
+      "type": "integer",
+      "description": "The total minimum quantity that must be selected across all modifiers in a prompt.",
+      "format": "int32"
+    },
+    "maximum_units": {
+      "type": "integer",
+      "description": "The total maximum quantity that can be selected across all modifiers in a prompt. *DO NOT use -1 as an integer for unlimited quantity. Instead use a high number, ie 99.*",
+      "format": "int32"
+    }
+  },
+  "description": "The total minimum and maximum quantities that can be added for all modifier options in this prompt."
+}

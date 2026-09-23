@@ -1,25 +1,43 @@
-generated: '2026-07-15'
+generated: '2026-09-17'
 method: generated
-source: openapi/grubhub-deliveries-openapi.yml, openapi/grubhub-menu-openapi.yml, openapi/grubhub-merchant-data-openapi.yml,
-  openapi/grubhub-merchant-schedules-openapi.yml, openapi/grubhub-onboarding-openapi.yml, openapi/grubhub-orders-openapi.yml
+source: openapi/grubhub-busy-intervals-openapi.yml, openapi/grubhub-connect-endpoints-openapi.yml,
+  openapi/grubhub-deliveries-openapi.yml, openapi/grubhub-menu-openapi.yml, openapi/grubhub-merchant-data-openapi.yml,
+  openapi/grubhub-merchant-schedules-openapi.yml, openapi/grubhub-onboarding-openapi.yml, openapi/grubhub-orders-openapi.yml,
+  openapi/grubhub-reporting-endpoints-openapi.yml, openapi/grubhub-testing-openapi.yml
 description: Recommended x-agentic-access execution contracts, classified heuristically from
   the OpenAPI. A governance starting point for exposing this API to AI agents — review and bind
   audience per deployment. See research/curity/agentic-governance/.
 summary:
-  operations: 35
+  operations: 91
   by_action_class:
-    connected: 17
-    acting: 18
+    acting: 56
+    connected: 35
   by_consequence:
-    read: 17
-    physical: 3
-    write: 12
-    safety-critical: 3
-  human_in_the_loop_required: 3
+    write: 35
+    read: 35
+    physical: 16
+    safety-critical: 5
+  human_in_the_loop_required: 5
 operations:
-- path: /pos/v1/merchant/{merchant_long_id}/orders/{order_uuid}/delivery
+- path: /pos/v1/merchant/{merchant_id}/busy/{busy_interval_id}
+  method: put
+  operationId: updateBusyMode
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /pos/v1/merchant/{merchant_id}/busy
   method: get
-  operationId: getDeliveryStatus
+  operationId: getBusyMode
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -27,9 +45,57 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /pos/v1/merchant/{merchant_long_id}/orders/{order_uuid}/delivery/proxy-phone
+- path: /pos/v1/merchant/{merchant_id}/busy
   method: post
-  operationId: createProxyCourierPhone
+  operationId: setBusyMode
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /pos/v1/merchant/{merchant_id}/busy
+  method: delete
+  operationId: deleteActiveBusyMode
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /delivery/daas/v1/{deliveryId}/tip
+  method: post
+  operationId: updateCourierTip
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /delivery/daas/v1/{deliveryId}/refund
+  method: post
+  operationId: requestRefund
   x-agentic-access:
     action-class: acting
     consequence: physical
@@ -45,9 +111,9 @@ operations:
       - abnormal
       - high-value
     audit: required
-- path: /pos/v1/menu/ingestion
+- path: /delivery/daas/v1/{deliveryId}/proxy
   method: post
-  operationId: ingestMenu
+  operationId: createProxyPhoneNumber
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -61,9 +127,173 @@ operations:
       - abnormal
       - high-value
     audit: required
-- path: /pos/v1/menu/ingestion/jobs/{job_id}
+- path: /delivery/daas/v1/{deliveryId}/pickupVerification
+  method: post
+  operationId: updatePickupVerification
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /delivery/daas/v1/{deliveryId}/pickupReady
+  method: post
+  operationId: pickupReady
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /delivery/daas/v1/{deliveryId}/dropoff
+  method: post
+  operationId: updateDeliveryDropoffLocation
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /delivery/daas/v1/{deliveryId}/cancel
+  method: post
+  operationId: cancelDelivery
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /delivery/daas/v1/test/{deliveryId}/refund
+  method: post
+  operationId: progressRefund
+  x-agentic-access:
+    action-class: acting
+    consequence: physical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 300
+      exchange: true
+      purpose-required: true
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /delivery/daas/v1/test/{deliveryId}/deliveryState
+  method: post
+  operationId: progressDelivery
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /delivery/daas/v1/test/webhook/emulateStatusUpdateWebhook
+  method: post
+  operationId: emulateStatusUpdateWebhook
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /delivery/daas/v1/test/webhook/emulateRefundUpdateWebhook
+  method: post
+  operationId: emulateRefundUpdateWebhook
+  x-agentic-access:
+    action-class: acting
+    consequence: physical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 300
+      exchange: true
+      purpose-required: true
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /delivery/daas/v1/quote/{quoteId}/accept
+  method: post
+  operationId: acceptDeliveryQuote
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /delivery/daas/v1/quote
+  method: post
+  operationId: requestDeliveryQuote
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /delivery/daas/v1/{deliveryId}
   method: get
-  operationId: getMenuIngestionStatus
+  operationId: getStatus
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -71,9 +301,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /pos/v1/merchant/{merchant_id}/ingestion/menu
+- path: /delivery/daas/v1/servicearea
   method: get
-  operationId: getMerchantMenu
+  operationId: getServiceAreas
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -81,9 +311,61 @@ operations:
     token:
       max-ttl: 3600
     audit: none
+- path: /pos/v1/merchant/{merchant_long_id}/orders/{order_uuid}/delivery
+  method: get
+  operationId: getExternalDeliveryByOrderUuid
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /pos/v1/deliveries/{delivery_id}
+  method: get
+  operationId: getExternalDeliveryByDeliveryId
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /pos/v1/menu/ingestion/validate
+  method: post
+  operationId: validatePosMenu
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /pos/v1/menu/ingestion
+  method: post
+  operationId: addOrUpdatePosFullMenu
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
 - path: /pos/v1/merchant/{merchant_id}/menu/schedules/overrides/external
-  method: put
-  operationId: updateMenuScheduleOverrides
+  method: patch
+  operationId: bulkAddOrUpdateSchedulesOverridesByExternalIds
   x-agentic-access:
     action-class: acting
     consequence: safety-critical
@@ -97,9 +379,9 @@ operations:
     escalation:
       human-in-the-loop: required
     audit: required
-- path: /pos/v1/merchant/{merchant_id}/menu/schedules/overrides/{job_id}/status
+- path: /pos/v1/merchant/{merchant_id}/menu/schedules/overrides
   method: get
-  operationId: getMenuScheduleOverrideStatus
+  operationId: getSchedulesOverridesForMerchant
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -107,39 +389,25 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /pos/v1/merchants
-  method: get
-  operationId: listMerchants
+- path: /pos/v1/merchant/{merchant_id}/menu/schedules/overrides
+  method: patch
+  operationId: bulkAddOrUpdateSchedulesOverridesByInternalIds
   x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
     token:
-      max-ttl: 3600
-    audit: none
-- path: /pos/v1/merchant/{merchant_id}
-  method: get
-  operationId: getMerchant
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /pos/v1/merchant/{merchant_id}/fulfillment
-  method: get
-  operationId: getMerchantFulfillment
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /pos/v1/merchants/status
-  method: put
-  operationId: updateMerchantStatus
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /pos/v1/merchant/{merchant_id}/menu/entities/tags/alcohol
+  method: patch
+  operationId: tagProductsAsAlcoholic
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -153,9 +421,9 @@ operations:
       - abnormal
       - high-value
     audit: required
-- path: /pos/v1/merchants/status/{batch_id}
+- path: /pos/v1/merchant/{merchant_id}/menu/schedules/overrides/{job_id}/status
   method: get
-  operationId: getMerchantStatusBatch
+  operationId: getBulkScheduleOverrideStatus
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -163,7 +431,261 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /pos/v1/merchants/properties
+- path: /pos/v1/merchant/{merchant_id}/menu/normalized
+  method: get
+  operationId: findNormalizedMenu
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /pos/v1/merchant/{merchant_id}/menu/entities/tags/{job_id}/status
+  method: get
+  operationId: getBulkSupplementalTagStatus
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /pos/v1/menu/ingestion/jobs/{job_id}
+  method: get
+  operationId: getMenuIngestionStatus
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /pos/v2/merchant/{merchant_id}/pos-status
+  method: put
+  operationId: updateMerchantStatusByOrderType
+  x-agentic-access:
+    action-class: acting
+    consequence: physical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 300
+      exchange: true
+      purpose-required: true
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /pos/v2/merchant/pos-status
+  method: put
+  operationId: updateMerchantStatusByOrderTypeBatch
+  x-agentic-access:
+    action-class: acting
+    consequence: physical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 300
+      exchange: true
+      purpose-required: true
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /pos/v1/merchant/{merchant_id}/taxrate
+  method: get
+  operationId: getMerchantTaxRate
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /pos/v1/merchant/{merchant_id}/taxrate
+  method: put
+  operationId: updateMerchantTaxRate
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /pos/v1/merchant/{merchant_id}/scheduledorders
+  method: put
+  operationId: updateOptInOrOutScheduledOrdersByLegacyId
+  x-agentic-access:
+    action-class: acting
+    consequence: physical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 300
+      exchange: true
+      purpose-required: true
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /pos/v1/merchant/{merchant_id}/preorderwindow
+  method: put
+  operationId: updateMerchantPreOrderInMinutes
+  x-agentic-access:
+    action-class: acting
+    consequence: physical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 300
+      exchange: true
+      purpose-required: true
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /pos/v1/merchant/{merchant_id}/pos-status
+  method: put
+  operationId: heartbeatStatusChangeTriggered
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /pos/v1/merchant/{merchant_id}/fulfillment/{delivery_area_id}/deliveryfee
+  method: get
+  operationId: getMerchantDeliveryAreaFeeByLegacyId
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /pos/v1/merchant/{merchant_id}/fulfillment/{delivery_area_id}/deliveryfee
+  method: put
+  operationId: updateMerchantDeliveryAreaFeeByLegacyId
+  x-agentic-access:
+    action-class: acting
+    consequence: physical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 300
+      exchange: true
+      purpose-required: true
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /pos/v1/merchant/{merchant_id}/fulfillment/estimates
+  method: get
+  operationId: getFulfillmentEstimatesByLegacyId
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /pos/v1/merchant/{merchant_id}/fulfillment/estimates
+  method: put
+  operationId: updateFulfillmentEstimatesByLegacyId
+  x-agentic-access:
+    action-class: acting
+    consequence: physical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 300
+      exchange: true
+      purpose-required: true
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /pos/v1/merchant/{merchant_id}/fulfillment/deliveryboundaries
+  method: get
+  operationId: getDeliveryBoundaries
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /pos/v1/merchant/{merchant_id}/fulfillment/deliveryboundaries
+  method: put
+  operationId: updateDeliveryBoundaries
+  x-agentic-access:
+    action-class: acting
+    consequence: physical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 300
+      exchange: true
+      purpose-required: true
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /pos/v1/merchant/{merchant_id}/deliveryminimum
+  method: get
+  operationId: getDeliveryMinimumForMerchant
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /pos/v1/merchant/{merchant_id}/deliveryminimum
+  method: put
+  operationId: updateDeliveryMinimumForMerchant
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /pos/v1/merchant/properties
   method: put
   operationId: updateMerchantProperties
   x-agentic-access:
@@ -179,9 +701,271 @@ operations:
       - abnormal
       - high-value
     audit: required
-- path: /pos/v1/merchants/properties/{batch_id}
+- path: /pos/v1/merchant/pos-status
+  method: put
+  operationId: heartbeatStatusChangeTriggeredBatch
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /pos/v1/merchant/integrationlive
+  method: put
+  operationId: updatePosMerchantIntegration
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /pos/v2/merchant/pos-status/{batch_id}/status
   method: get
-  operationId: getMerchantPropertiesBatch
+  operationId: getMerchantStatusByOrderTypeBatchStatus
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /pos/v1/merchant/{partner_id}/idmappings
+  method: get
+  operationId: getIdMappingsByPartnerAndExternalIds
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /pos/v1/merchant/{merchant_id}/fulfillment
+  method: get
+  operationId: getFulfillmentInfoByLegacyId
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /pos/v1/merchant/{merchant_id}
+  method: get
+  operationId: getMerchantByLegacyId
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /pos/v1/merchant/properties/{batch_id}/status
+  method: get
+  operationId: getMerchantPropertiesBatchStatus
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /pos/v1/merchant/pos-status/{batch_id}/status
+  method: get
+  operationId: getHeartbeatStatusChangeTriggeredBatchStatus
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /pos/v1/merchant/integrationlive/{batch_id}/status
+  method: get
+  operationId: getPosMerchantIntegrationBatchStatus
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /pos/v1/config/groups/{group_key}
+  method: get
+  operationId: getMerchantsByGroup
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /pos/v1/merchant/{merchant_id}/schedules/repeating
+  method: get
+  operationId: getRepeatingSchedule
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /pos/v1/merchant/{merchant_id}/schedules/repeating
+  method: put
+  operationId: putRepeatingSchedule
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /pos/v1/merchant/{merchant_id}/schedules/pickup/{schedule_version}
+  method: put
+  operationId: updatePickupSchedule
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /pos/v1/merchant/{merchant_id}/schedules/delivery/{schedule_version}
+  method: put
+  operationId: updateDeliverySchedule
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /pos/v1/merchant/{merchant_id}/schedules/catering/{schedule_version}
+  method: put
+  operationId: updateCateringSchedule
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /pos/v1/merchant/{merchant_id}/schedules/overrides
+  method: get
+  operationId: getScheduledOverrides
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /pos/v1/merchant/{merchant_id}/schedules/overrides
+  method: post
+  operationId: overrideSchedule
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /pos/v1/merchant/{merchant_id}/schedules/overrides
+  method: delete
+  operationId: deleteScheduleOverride
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /pos/v1/merchant/{merchant_id}/schedules/opennow
+  method: post
+  operationId: openNow
+  x-agentic-access:
+    action-class: acting
+    consequence: physical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 300
+      exchange: true
+      purpose-required: true
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /pos/v1/merchant/{merchant_id}/schedules/closenow
+  method: post
+  operationId: closeNow
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /pos/v1/merchant/{merchant_id}/schedules/pickup
+  method: get
+  operationId: getPickupSchedule
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -199,48 +983,6 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /pos/v1/merchant/{merchant_id}/schedules/delivery
-  method: put
-  operationId: updateDeliverySchedule
-  x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
-    token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /pos/v1/merchant/{merchant_id}/schedules/pickup
-  method: get
-  operationId: getPickupSchedule
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /pos/v1/merchant/{merchant_id}/schedules/pickup
-  method: put
-  operationId: updatePickupSchedule
-  x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
-    token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
 - path: /pos/v1/merchant/{merchant_id}/schedules/catering
   method: get
   operationId: getCateringSchedule
@@ -251,9 +993,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /pos/v1/merchant/{merchant_id}/schedules/catering
-  method: put
-  operationId: updateCateringSchedule
+- path: /merchant/onboarding/v1/triage
+  method: post
+  operationId: triage
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -267,41 +1009,9 @@ operations:
       - abnormal
       - high-value
     audit: required
-- path: /pos/v1/merchant/{merchant_id}/schedules/overrides
+- path: /merchant/onboarding/v1/referral
   method: post
-  operationId: createScheduleOverride
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /pos/v1/merchant/{merchant_id}/schedules/overrides
-  method: delete
-  operationId: cancelScheduleOverride
-  x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
-- path: /pos/v1/onboarding/referral
-  method: post
-  operationId: createMerchantReferral
+  operationId: referralSignup
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -315,9 +1025,9 @@ operations:
       - abnormal
       - high-value
     audit: required
-- path: /pos/v1/onboarding/activate
+- path: /merchant/onboarding/v1/partner/deactivate
   method: post
-  operationId: activateMerchant
+  operationId: partnerDeactivate
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -331,9 +1041,9 @@ operations:
       - abnormal
       - high-value
     audit: required
-- path: /pos/v1/onboarding/deactivate
+- path: /merchant/onboarding/v1/partner/activate
   method: post
-  operationId: deactivateMerchant
+  operationId: partnerActivateMerchants
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -347,9 +1057,9 @@ operations:
       - abnormal
       - high-value
     audit: required
-- path: /pos/v1/onboarding/deactivate/partner
+- path: /merchant/onboarding/v1/deactivate
   method: post
-  operationId: deactivateMerchantPartner
+  operationId: deactivate
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -363,7 +1073,7 @@ operations:
       - abnormal
       - high-value
     audit: required
-- path: /pos/v1/onboarding/associate
+- path: /merchant/onboarding/v1/associate
   method: post
   operationId: associateMerchants
   x-agentic-access:
@@ -379,19 +1089,9 @@ operations:
       - abnormal
       - high-value
     audit: required
-- path: /pos/v1/onboarding/eligibility/{merchant_id}
-  method: get
-  operationId: getMerchantEligibility
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /pos/v1/onboarding/issue
+- path: /merchant/onboarding/v1/activate
   method: post
-  operationId: reportOnboardingIssue
+  operationId: activateMerchants
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -405,9 +1105,9 @@ operations:
       - abnormal
       - high-value
     audit: required
-- path: /pos/v1/merchant/{merchant_long_id}/orders/{order_uuid}
+- path: /merchant/onboarding/v1/merchants
   method: get
-  operationId: getOrder
+  operationId: getEligibleMerchants
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -415,47 +1115,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /pos/v1/merchant/{merchant_long_id}/orders
-  method: get
-  operationId: listMerchantOrders
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /pos/v1/orders/poll
-  method: get
-  operationId: pollOrders
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /pos/v1/merchant/{merchant_long_id}/orders/{order_uuid}/confirm
-  method: post
-  operationId: confirmOrder
-  x-agentic-access:
-    action-class: acting
-    consequence: physical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 300
-      exchange: true
-      purpose-required: true
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
 - path: /pos/v1/merchant/{merchant_long_id}/orders/{order_uuid}/status
   method: put
-  operationId: updateOrderStatus
+  operationId: updateExternalOrderStatusByOrderUuid
   x-agentic-access:
     action-class: acting
     consequence: physical
@@ -473,7 +1135,7 @@ operations:
     audit: required
 - path: /pos/v1/merchant/{merchant_long_id}/orders/{order_uuid}/changerequests
   method: get
-  operationId: getOrderChangeRequests
+  operationId: getChangeRequests
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -481,3 +1143,157 @@ operations:
     token:
       max-ttl: 3600
     audit: none
+- path: /pos/v1/merchant/{merchant_long_id}/orders/{order_uuid}/changerequests
+  method: post
+  operationId: changeExternalOrder
+  x-agentic-access:
+    action-class: acting
+    consequence: physical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 300
+      exchange: true
+      purpose-required: true
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /pos/v1/merchant/{merchant_id}/orders/{order_uuid}/addpickupinstructions
+  method: post
+  operationId: addPickupInstructionsToOrder
+  x-agentic-access:
+    action-class: acting
+    consequence: physical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 300
+      exchange: true
+      purpose-required: true
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /pos/v1/merchant/{merchant_long_id}/orders/{order_uuid}
+  method: get
+  operationId: getPosOrderByOrderUuid
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /pos/v1/merchant/{merchant_long_id}/orders
+  method: get
+  operationId: getPosOrdersByMerchantStatusDateRange
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /pos/v1/group/{group_key}/orders
+  method: get
+  operationId: getPosOrdersByGroupStatusDateRange
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /merchant/reporting/v1/reports
+  method: post
+  operationId: createExportReport
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /merchant/reporting/v1/reports/{reportUuid}
+  method: get
+  operationId: getDownloadUrl
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /merchant/reporting/v1/merchants
+  method: get
+  operationId: getEnabledMerchants
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /pos/v1/merchant/{merchant_long_id}/test/transmission
+  method: post
+  operationId: postTestOrderRequest
+  x-agentic-access:
+    action-class: acting
+    consequence: physical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 300
+      exchange: true
+      purpose-required: true
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /pos/v1/merchant/{merchant_long_id}/test/jitevent
+  method: post
+  operationId: simulateJitOrderEvent
+  x-agentic-access:
+    action-class: acting
+    consequence: physical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 300
+      exchange: true
+      purpose-required: true
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /pos/v1/merchant/{merchant_long_id}/test/delivery
+  method: post
+  operationId: postTestDeliveryRequest
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required

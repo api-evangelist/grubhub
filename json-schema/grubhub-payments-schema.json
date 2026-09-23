@@ -1,0 +1,184 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/grubhub/main/json-schema/grubhub-payments-schema.json",
+  "title": "Payments",
+  "x-generated": "2026-09-17",
+  "x-method": "derived",
+  "x-source": "openapi/grubhub-orders-openapi.yml#/components/schemas/Payments",
+  "type": "object",
+  "properties": {
+    "payments": {
+      "type": "array",
+      "description": "A payment source",
+      "example": "[{ \"payment_type\": \"UNIFIED_REWARD\", \"amount\": 1000, \"payment_source\": \"MERCHANT\", \"tax_application\": \"PRE_TAX\" }\n\"promotion_title\": \"$5 off $25 or more\"\n\"external_promotion_id\": \"12345\"\n,\n{\n\"payment_type\": \"CREDIT_CARD\",\n\"amount\": 1620,\n\"payment_source\": \"UNKNOWN\",\n\"tax_application\": \"POST_TAX\"\n\"promotion_title\": \"$5 off $25 or more\"\n\"external_promotion_id\": \"12345\"\n}]",
+      "items": {
+        "$ref": "#/$defs/Payment"
+      }
+    },
+    "rewards": {
+      "type": "array",
+      "description": "List of rewards applied to the order.",
+      "items": {
+        "$ref": "#/$defs/Reward"
+      }
+    },
+    "promo_codes": {
+      "type": "array",
+      "writeOnly": true,
+      "items": {
+        "$ref": "#/$defs/Promotion"
+      }
+    },
+    "total": {
+      "type": "integer",
+      "description": "Initial total for an order in US Cents",
+      "format": "int32",
+      "example": 2620
+    },
+    "adjusted_total": {
+      "type": "integer",
+      "description": "Total payments after adjustments in US Cents",
+      "format": "int32",
+      "example": 2620
+    },
+    "promotions": {
+      "type": "array",
+      "description": "List of promotions applied to the order.",
+      "items": {
+        "$ref": "#/$defs/Promotion"
+      }
+    }
+  },
+  "description": "Information relating to any payments/rewards/promotions applied to the order",
+  "$defs": {
+    "Payment": {
+      "type": "object",
+      "properties": {
+        "payment_type": {
+          "type": "string",
+          "description": "The payment type. Note all non-CASH payment types should be treated as pre-paid to a Grubhub tender or house account in the POS.",
+          "enum": [
+            "CREDIT_CARD",
+            "PROMO_CODE",
+            "UNIFIED_REWARD",
+            "REWARD",
+            "GRUBCASH",
+            "SUBSCRIPTION",
+            "GIFT_CARD",
+            "CREDIT_CARD",
+            "APPLE_PAY",
+            "PAYPAL_EXPRESS",
+            "CORPORATE_LINE_OF_CREDIT",
+            "ANDROID_PAY",
+            "VENMO_PAY",
+            "CASH",
+            "CAMPUS_CARD",
+            "AMEX_EXPRESS",
+            "AMAZON_PAY",
+            "THIRDPARTY_CREDIT",
+            "THIRDPARTY_GIFT_CARD",
+            "THIRDPARTY_PROMO",
+            "CASH_APP"
+          ]
+        },
+        "amount": {
+          "type": "integer",
+          "description": "The payment amount in US Cents",
+          "format": "int32"
+        },
+        "payment_source": {
+          "type": "string",
+          "description": "The source of payment Possible values are `DINER`, `MERCHANT`, `GRUBHUB`, `OTHER`, or `UNKNOWN",
+          "enum": [
+            "DINER",
+            "MERCHANT",
+            "GRUBHUB",
+            "OTHER",
+            "UNKNOWN"
+          ]
+        },
+        "tax_application": {
+          "type": "string",
+          "description": "Whether this payment is applied `POST_TAX`, `PRE_TAX`, or that the tax applied to this payment is`UNKNOWN`. Most payment types will be applied `POST_TAX`; however, loyalty rewards are applied by the merchant and therefore lower the taxable amount of the order. These payments from the merchant will generally be listed as `PRE_TAX'.",
+          "enum": [
+            "PRE_TAX",
+            "POST_TAX",
+            "UNKNOWN"
+          ]
+        },
+        "promotion_title": {
+          "type": "string",
+          "description": "The name of the applied promotion."
+        },
+        "external_promotion_id": {
+          "type": "string",
+          "description": "The external ID that the partner uses to reference the applied promotion"
+        }
+      },
+      "description": "A single payment source",
+      "example": "{\n\"payment_type\": \"UNIFIED_REWARD\",\n\"amount\": 1000,\n\"payment_source\": \"MERCHANT\",\n\"tax_application\": \"PRE_TAX\"\n\"promotion_title\": \"$5 off $25 or more\"\n\"external_promotion_id\": \"12345\"\n}"
+    },
+    "Promotion": {
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "integer",
+          "description": "Amount of the payment type.",
+          "format": "int32"
+        },
+        "payment_source": {
+          "type": "string",
+          "description": "Source of the payment (DINER, MERCHANT, GRUBHUB, OTHER).",
+          "enum": [
+            "DINER",
+            "MERCHANT",
+            "GRUBHUB",
+            "OTHER",
+            "UNKNOWN"
+          ]
+        },
+        "tax_application": {
+          "type": "string",
+          "description": "How this order was taxed (PRE_TAX, POST_TAX, UNKNOWN).",
+          "enum": [
+            "PRE_TAX",
+            "POST_TAX",
+            "UNKNOWN"
+          ]
+        }
+      },
+      "description": "Information relating to any promotion applied to an order"
+    },
+    "Reward": {
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "integer",
+          "description": "Amount of the payment type.",
+          "format": "int32"
+        },
+        "payment_source": {
+          "type": "string",
+          "description": "Source of the payment (DINER, MERCHANT, GRUBHUB, OTHER).",
+          "enum": [
+            "DINER",
+            "MERCHANT",
+            "GRUBHUB",
+            "OTHER",
+            "UNKNOWN"
+          ]
+        },
+        "tax_application": {
+          "type": "string",
+          "description": "How this order was taxed (PRE_TAX, POST_TAX, UNKNOWN).",
+          "enum": [
+            "PRE_TAX",
+            "POST_TAX",
+            "UNKNOWN"
+          ]
+        }
+      },
+      "description": "Information relating to any rewards applied to an order"
+    }
+  }
+}
