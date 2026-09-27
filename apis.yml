@@ -21,6 +21,7 @@ tags:
 - Menu Management
 - Hospitality
 - Local Commerce
+- Delivery
 tags_raw:
 - Food Delivery
 - Restaurants
@@ -32,6 +33,7 @@ tags_raw:
 - Menu Management
 - Hospitality
 - Local Commerce
+- Delivery
 maintainers:
 - FN: Kin Lane
   email: info@apievangelist.com
@@ -63,405 +65,712 @@ accessModel:
   generated: '2026-07-22'
   method: derived
 apis:
-- aid: grubhub:grubhub-menu
-  name: Grubhub Menu API
-  description: 'Create, update and manage Grubhub Marketplace menus. Ingestion is diff-based against external IDs:
-    validate a normalized menu, submit it, poll the ingestion job, and read back what Grubhub stored. Also carries
-    menu-item schedule overrides (by internal or external ID, in bulk) and alcohol tagging.'
+- aid: grubhub:grubhub-delivery-quotes-api
+  name: Grubhub Delivery Quotes API
+  description: The Delivery Quotes API from Grubhub — 2 operation(s) for delivery quotes.
   humanURL: https://developer.grubhub.com/api/menu
   baseURL: https://api-third-party-gtm.grubhub.com
   tags:
-  - Menus
-  - Menu Ingestion
-  - Catalog
-  - Restaurant
-  - Point-of-Sale
-  tags_raw:
-  - Menu
-  - Menu Ingestion
-  - Catalog
-  - Restaurants
-  - Point of Sale
+  - Delivery Quotes
   properties:
   - type: OpenAPI
-    url: openapi/grubhub-menu-openapi.yml
-    name: Menu OpenAPI (harvested from Grubhub)
-  - type: OpenAPI
-    url: https://developer.grubhub.com/resource/partner-docs/api-docs/menu_api_final.json
-    name: OpenAPI (provider-hosted)
+    url: openapi/grubhub-delivery-quotes-api-openapi.yml
   - type: Documentation
     url: https://developer.grubhub.com/api/menu
   - type: APIReference
     url: https://developer.grubhub.com/api/menu
-  - type: Overlay
-    url: overlays/grubhub-menu-overlay.yaml
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/grubhub.png
-- aid: grubhub:grubhub-orders
-  name: Grubhub Orders API
-  description: Receive and manage Grubhub Marketplace orders. Retrieve an order by UUID, list a merchant's or a
-    group's orders by status and date range, advance an order through its status lifecycle, raise and poll order
-    change requests, and attach pickup instructions. New orders arrive by webhook; polling is the fallback.
-  humanURL: https://developer.grubhub.com/api/orders
-  baseURL: https://api-third-party-gtm.grubhub.com
-  tags:
-  - Order
-  - Order Management
-  - Marketplace
-  - Restaurant
-  - Point-of-Sale
-  tags_raw:
-  - Orders
-  - Order Management
-  - Marketplace
-  - Restaurants
-  - Point of Sale
-  properties:
-  - type: OpenAPI
-    url: openapi/grubhub-orders-openapi.yml
-    name: Orders OpenAPI (harvested from Grubhub)
-  - type: OpenAPI
-    url: https://developer.grubhub.com/resource/partner-docs/api-docs/order_api_final.json
-    name: OpenAPI (provider-hosted)
   - type: Documentation
     url: https://developer.grubhub.com/api/orders
   - type: APIReference
     url: https://developer.grubhub.com/api/orders
-  - type: Overlay
-    url: overlays/grubhub-orders-overlay.yaml
   - type: AsyncAPI
     url: asyncapi/grubhub-order-events-asyncapi.yml
   - type: Webhooks
     url: asyncapi/grubhub-webhooks.yml
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/grubhub.png
-- aid: grubhub:grubhub-merchant-data
-  name: Grubhub Merchant Data API
-  description: 'Read and maintain merchant configuration on Grubhub: profile, tax rate, delivery minimum, delivery
-    boundaries and area fees, fulfillment estimates, pre-order window, scheduled-ordering opt-in, and online/offline
-    status by order type. Batch writes return a batch handle that is polled to completion.'
-  humanURL: https://developer.grubhub.com/api/merchant-data
-  baseURL: https://api-third-party-gtm.grubhub.com
-  tags:
-  - Merchants
-  - Merchant Data
-  - Configuration
-  - Restaurant
-  - Store Management
-  tags_raw:
-  - Merchants
-  - Merchant Data
-  - Configuration
-  - Restaurants
-  - Store Management
-  properties:
-  - type: OpenAPI
-    url: openapi/grubhub-merchant-data-openapi.yml
-    name: Merchant Data OpenAPI (harvested from Grubhub)
-  - type: OpenAPI
-    url: https://developer.grubhub.com/resource/partner-docs/api-docs/merchant_data_api_final.json
-    name: OpenAPI (provider-hosted)
   - type: Documentation
     url: https://developer.grubhub.com/api/merchant-data
   - type: APIReference
     url: https://developer.grubhub.com/api/merchant-data
-  - type: Overlay
-    url: overlays/grubhub-merchant-data-overlay.yaml
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/grubhub.png
-- aid: grubhub:grubhub-merchant-schedules
-  name: Grubhub Merchant Schedules API
-  description: 'Manage restaurant operating hours on Grubhub: repeating weekly schedules for delivery, pickup and
-    catering, one-off schedule overrides for closures and special hours, and immediate open-now / close-now control.'
-  humanURL: https://developer.grubhub.com/api/merchant-schedules
-  baseURL: https://api-third-party-gtm.grubhub.com
-  tags:
-  - Schedule
-  - Availability
-  - Hours
-  - Restaurant
-  - Store Management
-  tags_raw:
-  - Schedules
-  - Availability
-  - Hours
-  - Restaurants
-  - Store Management
-  properties:
-  - type: OpenAPI
-    url: openapi/grubhub-merchant-schedules-openapi.yml
-    name: Merchant Schedules OpenAPI (harvested from Grubhub)
-  - type: OpenAPI
-    url: https://developer.grubhub.com/resource/partner-docs/api-docs/merchant_schedule_api_final.json
-    name: OpenAPI (provider-hosted)
   - type: Documentation
     url: https://developer.grubhub.com/api/merchant-schedules
   - type: APIReference
     url: https://developer.grubhub.com/api/merchant-schedules
-  - type: Overlay
-    url: overlays/grubhub-merchant-schedules-overlay.yaml
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/grubhub.png
-- aid: grubhub:grubhub-busy-intervals
-  name: Grubhub Busy Intervals API
-  description: Mark a restaurant as busy for a bounded interval so Grubhub extends quoted times or pauses new orders,
-    then read, update or clear the active interval.
-  humanURL: https://developer.grubhub.com/api/busy-intervals
-  baseURL: https://api-third-party-gtm.grubhub.com
-  tags:
-  - Availability
-  - Busy Mode
-  - Restaurant
-  - Store Management
-  tags_raw:
-  - Availability
-  - Busy Mode
-  - Operations
-  - Restaurants
-  - Store Management
-  properties:
-  - type: OpenAPI
-    url: openapi/grubhub-busy-intervals-openapi.yml
-    name: Busy Intervals OpenAPI (harvested from Grubhub)
-  - type: OpenAPI
-    url: https://developer.grubhub.com/resource/partner-docs/api-docs/busy_mode_api_final.json
-    name: OpenAPI (provider-hosted)
   - type: Documentation
     url: https://developer.grubhub.com/api/busy-intervals
   - type: APIReference
     url: https://developer.grubhub.com/api/busy-intervals
-  - type: Overlay
-    url: overlays/grubhub-busy-intervals-overlay.yaml
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/grubhub.png
-- aid: grubhub:grubhub-deliveries
-  name: Grubhub Deliveries API
-  description: Read the delivery state of a Grubhub Marketplace order, by order UUID or by delivery ID. The only
-    operation in the whole Grubhub contract that declares a 429 lives here.
-  humanURL: https://developer.grubhub.com/api/deliveries
-  baseURL: https://api-third-party-gtm.grubhub.com
-  tags:
-  - Deliveries
-  - Delivery Tracking
-  - Logistics
-  - Restaurant
-  - Last Mile
-  tags_raw:
-  - Deliveries
-  - Delivery Tracking
-  - Logistics
-  - Restaurants
-  - Last Mile
-  properties:
-  - type: OpenAPI
-    url: openapi/grubhub-deliveries-openapi.yml
-    name: Deliveries OpenAPI (harvested from Grubhub)
-  - type: OpenAPI
-    url: https://developer.grubhub.com/resource/partner-docs/api-docs/delivery_api_final.json
-    name: OpenAPI (provider-hosted)
   - type: Documentation
     url: https://developer.grubhub.com/api/deliveries
   - type: APIReference
     url: https://developer.grubhub.com/api/deliveries
-  - type: Overlay
-    url: overlays/grubhub-deliveries-overlay.yaml
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/grubhub.png
-- aid: grubhub:grubhub-connect-endpoints
-  name: Grubhub Connect (Delivery as a Service) API
-  description: Grubhub Connect is delivery-as-a-service on Grubhub's national courier network for aggregators, marketplaces
-    and enterprise merchants. Request and accept delivery quotes, check service areas, track status, update dropoff
-    and pickup verification, mint a masked courier proxy phone number, increase a courier tip, cancel a delivery
-    and request a refund - plus a full production-safe test path.
-  humanURL: https://developer.grubhub.com/api/daas-endpoints
-  baseURL: https://api-third-party-gtm.grubhub.com
-  tags:
-  - Delivery
-  - Logistics
-  - Last Mile
-  - Couriers
-  - Delivery as a Service
-  properties:
-  - type: OpenAPI
-    url: openapi/grubhub-connect-endpoints-openapi.yml
-    name: Grubhub Connect Endpoints OpenAPI (harvested from Grubhub)
-  - type: OpenAPI
-    url: https://developer.grubhub.com/resource/partner-docs/api-docs/daas_api_final.json
-    name: OpenAPI (provider-hosted)
   - type: Documentation
     url: https://developer.grubhub.com/api/daas-endpoints
   - type: APIReference
     url: https://developer.grubhub.com/api/daas-endpoints
-  - type: Overlay
-    url: overlays/grubhub-connect-endpoints-overlay.yaml
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/grubhub.png
-- aid: grubhub:grubhub-connect-webhooks
-  name: Grubhub Connect Webhooks
-  description: 'The egress event contract for Grubhub Connect, published as an OpenAPI 3.1.0 webhooks-only document:
-    Delivery Status Update (Created, Assigned, Unassigned, CourierAtPickup, PickedUp, InTransit, CourierAtDropoff,
-    Delivered, Canceled, ReturnInitiated, ReturnCompleted) and Delivery Refund Update.'
-  humanURL: https://developer.grubhub.com/api/daas-webhooks
-  baseURL: https://api-third-party-gtm.grubhub.com
-  tags:
-  - Webhook
-  - Event
-  - Delivery
-  - Logistics
-  - Event-Driven
-  tags_raw:
-  - Webhooks
-  - Events
-  - Delivery
-  - Logistics
-  - Event Driven
-  properties:
-  - type: OpenAPI
-    url: openapi/grubhub-connect-webhooks-openapi.yml
-    name: Grubhub Connect Webhooks OpenAPI (harvested from Grubhub)
-  - type: OpenAPI
-    url: https://developer.grubhub.com/resource/partner-docs/api-docs/daas_webhooks_final.json
-    name: OpenAPI (provider-hosted)
   - type: Documentation
     url: https://developer.grubhub.com/api/daas-webhooks
   - type: APIReference
     url: https://developer.grubhub.com/api/daas-webhooks
-  - type: Overlay
-    url: overlays/grubhub-connect-webhooks-overlay.yaml
   - type: AsyncAPI
     url: asyncapi/grubhub-delivery-events-asyncapi.yml
-  - type: Webhooks
-    url: asyncapi/grubhub-webhooks.yml
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/grubhub.png
-- aid: grubhub:grubhub-onboarding
-  name: Grubhub Onboarding API
-  description: 'Self-service merchant onboarding for partners: list eligible merchants, refer a restaurant that
-    is not yet on Grubhub, associate an existing merchant with the integration, activate and deactivate merchants
-    (partner-scoped variants included), and file an onboarding issue for triage.'
-  humanURL: https://developer.grubhub.com/api/onboarding
-  baseURL: https://api-third-party-gtm.grubhub.com
-  tags:
-  - Onboarding
-  - Merchants
-  - Provisioning
-  - Partners
-  - Restaurant
-  tags_raw:
-  - Onboarding
-  - Merchants
-  - Provisioning
-  - Partners
-  - Restaurants
-  properties:
-  - type: OpenAPI
-    url: openapi/grubhub-onboarding-openapi.yml
-    name: Onboarding OpenAPI (harvested from Grubhub)
-  - type: OpenAPI
-    url: https://developer.grubhub.com/resource/partner-docs/api-docs/onboarding_api_final.json
-    name: OpenAPI (provider-hosted)
   - type: Documentation
     url: https://developer.grubhub.com/api/onboarding
   - type: APIReference
     url: https://developer.grubhub.com/api/onboarding
-  - type: Overlay
-    url: overlays/grubhub-onboarding-overlay.yaml
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/grubhub.png
-- aid: grubhub:grubhub-reporting-endpoints
-  name: Grubhub Merchant Reporting API
-  description: 'Asynchronous merchant report export: list the merchants enabled for reporting under a partner ID,
-    request a report, and fetch its download URL once the report-status webhook fires.'
-  humanURL: https://developer.grubhub.com/api/reporting-endpoints
-  baseURL: https://api-third-party-gtm.grubhub.com
-  tags:
-  - Reporting
-  - Analytics
-  - Export
-  - Merchants
-  - Restaurant
-  tags_raw:
-  - Reporting
-  - Analytics
-  - Exports
-  - Merchants
-  - Restaurants
-  properties:
-  - type: OpenAPI
-    url: openapi/grubhub-reporting-endpoints-openapi.yml
-    name: Reporting Endpoints OpenAPI (harvested from Grubhub)
-  - type: OpenAPI
-    url: https://developer.grubhub.com/resource/partner-docs/api-docs/reporting_api_final.json
-    name: OpenAPI (provider-hosted)
   - type: Documentation
     url: https://developer.grubhub.com/api/reporting-endpoints
   - type: APIReference
     url: https://developer.grubhub.com/api/reporting-endpoints
-  - type: Overlay
-    url: overlays/grubhub-reporting-endpoints-overlay.yaml
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/grubhub.png
-- aid: grubhub:grubhub-reporting-webhooks
-  name: Grubhub Reporting Webhooks
-  description: 'The egress event contract for merchant report exports, published as an OpenAPI 3.1.0 webhooks-only
-    document: Report Status Update. This is the intended completion signal for a requested report.'
-  humanURL: https://developer.grubhub.com/api/reporting-webhooks
-  baseURL: https://api-third-party-gtm.grubhub.com
-  tags:
-  - Webhook
-  - Event
-  - Reporting
-  - Event-Driven
-  - Merchants
-  tags_raw:
-  - Webhooks
-  - Events
-  - Reporting
-  - Event Driven
-  - Merchants
-  properties:
-  - type: OpenAPI
-    url: openapi/grubhub-reporting-webhooks-openapi.yml
-    name: Reporting Webhooks OpenAPI (harvested from Grubhub)
-  - type: OpenAPI
-    url: https://developer.grubhub.com/resource/partner-docs/api-docs/reporting_webhooks_final.json
-    name: OpenAPI (provider-hosted)
   - type: Documentation
     url: https://developer.grubhub.com/api/reporting-webhooks
   - type: APIReference
     url: https://developer.grubhub.com/api/reporting-webhooks
-  - type: Overlay
-    url: overlays/grubhub-reporting-webhooks-overlay.yaml
   - type: AsyncAPI
     url: asyncapi/grubhub-reporting-events-asyncapi.yml
-  - type: Webhooks
-    url: asyncapi/grubhub-webhooks.yml
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/grubhub.png
-- aid: grubhub:grubhub-testing
-  name: Grubhub Testing API
-  description: 'Grubhub ships its partner test surface as part of the published contract: create a transmission
-    test, simulate a just-in-time order event, and create a test delivery against a preproduction merchant.'
-  humanURL: https://developer.grubhub.com/api/testing
-  baseURL: https://api-third-party-gtm.grubhub.com
-  tags:
-  - Testing
-  - Sandbox
-  - Developer Experience
-  - Simulation
-  - Restaurant
-  tags_raw:
-  - Testing
-  - Sandbox
-  - Developer Experience
-  - Simulation
-  - Restaurants
-  properties:
-  - type: OpenAPI
-    url: openapi/grubhub-testing-openapi.yml
-    name: Testing OpenAPI (harvested from Grubhub)
-  - type: OpenAPI
-    url: https://developer.grubhub.com/resource/partner-docs/api-docs/test_api_final.json
-    name: OpenAPI (provider-hosted)
   - type: Documentation
     url: https://developer.grubhub.com/api/testing
   - type: APIReference
     url: https://developer.grubhub.com/api/testing
-  - type: Overlay
-    url: overlays/grubhub-testing-overlay.yaml
   - type: Sandbox
     url: sandbox/grubhub-sandbox.yml
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/grubhub.png
+- aid: grubhub:grubhub-delivery-refunds-api
+  name: Grubhub Delivery Refunds API
+  description: The Delivery Refunds API from Grubhub — 1 operation(s) for delivery refunds.
+  humanURL: https://developer.grubhub.com/api/menu
+  baseURL: https://api-third-party-gtm.grubhub.com
+  tags:
+  - Delivery Refunds
+  properties:
+  - type: OpenAPI
+    url: openapi/grubhub-delivery-refunds-api-openapi.yml
+  - type: Documentation
+    url: https://developer.grubhub.com/api/menu
+  - type: APIReference
+    url: https://developer.grubhub.com/api/menu
+  - type: Documentation
+    url: https://developer.grubhub.com/api/orders
+  - type: APIReference
+    url: https://developer.grubhub.com/api/orders
+  - type: AsyncAPI
+    url: asyncapi/grubhub-order-events-asyncapi.yml
+  - type: Webhooks
+    url: asyncapi/grubhub-webhooks.yml
+  - type: Documentation
+    url: https://developer.grubhub.com/api/merchant-data
+  - type: APIReference
+    url: https://developer.grubhub.com/api/merchant-data
+  - type: Documentation
+    url: https://developer.grubhub.com/api/merchant-schedules
+  - type: APIReference
+    url: https://developer.grubhub.com/api/merchant-schedules
+  - type: Documentation
+    url: https://developer.grubhub.com/api/busy-intervals
+  - type: APIReference
+    url: https://developer.grubhub.com/api/busy-intervals
+  - type: Documentation
+    url: https://developer.grubhub.com/api/deliveries
+  - type: APIReference
+    url: https://developer.grubhub.com/api/deliveries
+  - type: Documentation
+    url: https://developer.grubhub.com/api/daas-endpoints
+  - type: APIReference
+    url: https://developer.grubhub.com/api/daas-endpoints
+  - type: Documentation
+    url: https://developer.grubhub.com/api/daas-webhooks
+  - type: APIReference
+    url: https://developer.grubhub.com/api/daas-webhooks
+  - type: AsyncAPI
+    url: asyncapi/grubhub-delivery-events-asyncapi.yml
+  - type: Documentation
+    url: https://developer.grubhub.com/api/onboarding
+  - type: APIReference
+    url: https://developer.grubhub.com/api/onboarding
+  - type: Documentation
+    url: https://developer.grubhub.com/api/reporting-endpoints
+  - type: APIReference
+    url: https://developer.grubhub.com/api/reporting-endpoints
+  - type: Documentation
+    url: https://developer.grubhub.com/api/reporting-webhooks
+  - type: APIReference
+    url: https://developer.grubhub.com/api/reporting-webhooks
+  - type: AsyncAPI
+    url: asyncapi/grubhub-reporting-events-asyncapi.yml
+  - type: Documentation
+    url: https://developer.grubhub.com/api/testing
+  - type: APIReference
+    url: https://developer.grubhub.com/api/testing
+  - type: Sandbox
+    url: sandbox/grubhub-sandbox.yml
+- aid: grubhub:grubhub-delivery-service-areas-api
+  name: Grubhub Delivery Service Areas API
+  description: The Delivery Service Areas API from Grubhub — 1 operation(s) for delivery service areas.
+  humanURL: https://developer.grubhub.com/api/menu
+  baseURL: https://api-third-party-gtm.grubhub.com
+  tags:
+  - Delivery Service Areas
+  properties:
+  - type: OpenAPI
+    url: openapi/grubhub-delivery-service-areas-api-openapi.yml
+  - type: Documentation
+    url: https://developer.grubhub.com/api/menu
+  - type: APIReference
+    url: https://developer.grubhub.com/api/menu
+  - type: Documentation
+    url: https://developer.grubhub.com/api/orders
+  - type: APIReference
+    url: https://developer.grubhub.com/api/orders
+  - type: AsyncAPI
+    url: asyncapi/grubhub-order-events-asyncapi.yml
+  - type: Webhooks
+    url: asyncapi/grubhub-webhooks.yml
+  - type: Documentation
+    url: https://developer.grubhub.com/api/merchant-data
+  - type: APIReference
+    url: https://developer.grubhub.com/api/merchant-data
+  - type: Documentation
+    url: https://developer.grubhub.com/api/merchant-schedules
+  - type: APIReference
+    url: https://developer.grubhub.com/api/merchant-schedules
+  - type: Documentation
+    url: https://developer.grubhub.com/api/busy-intervals
+  - type: APIReference
+    url: https://developer.grubhub.com/api/busy-intervals
+  - type: Documentation
+    url: https://developer.grubhub.com/api/deliveries
+  - type: APIReference
+    url: https://developer.grubhub.com/api/deliveries
+  - type: Documentation
+    url: https://developer.grubhub.com/api/daas-endpoints
+  - type: APIReference
+    url: https://developer.grubhub.com/api/daas-endpoints
+  - type: Documentation
+    url: https://developer.grubhub.com/api/daas-webhooks
+  - type: APIReference
+    url: https://developer.grubhub.com/api/daas-webhooks
+  - type: AsyncAPI
+    url: asyncapi/grubhub-delivery-events-asyncapi.yml
+  - type: Documentation
+    url: https://developer.grubhub.com/api/onboarding
+  - type: APIReference
+    url: https://developer.grubhub.com/api/onboarding
+  - type: Documentation
+    url: https://developer.grubhub.com/api/reporting-endpoints
+  - type: APIReference
+    url: https://developer.grubhub.com/api/reporting-endpoints
+  - type: Documentation
+    url: https://developer.grubhub.com/api/reporting-webhooks
+  - type: APIReference
+    url: https://developer.grubhub.com/api/reporting-webhooks
+  - type: AsyncAPI
+    url: asyncapi/grubhub-reporting-events-asyncapi.yml
+  - type: Documentation
+    url: https://developer.grubhub.com/api/testing
+  - type: APIReference
+    url: https://developer.grubhub.com/api/testing
+  - type: Sandbox
+    url: sandbox/grubhub-sandbox.yml
+- aid: grubhub:grubhub-delivery-status-api
+  name: Grubhub Delivery Status API
+  description: The Delivery Status API from Grubhub — 2 operation(s) for delivery status.
+  humanURL: https://developer.grubhub.com/api/menu
+  baseURL: https://api-third-party-gtm.grubhub.com
+  tags:
+  - Delivery Status
+  properties:
+  - type: OpenAPI
+    url: openapi/grubhub-delivery-status-api-openapi.yml
+  - type: Documentation
+    url: https://developer.grubhub.com/api/menu
+  - type: APIReference
+    url: https://developer.grubhub.com/api/menu
+  - type: Documentation
+    url: https://developer.grubhub.com/api/orders
+  - type: APIReference
+    url: https://developer.grubhub.com/api/orders
+  - type: AsyncAPI
+    url: asyncapi/grubhub-order-events-asyncapi.yml
+  - type: Webhooks
+    url: asyncapi/grubhub-webhooks.yml
+  - type: Documentation
+    url: https://developer.grubhub.com/api/merchant-data
+  - type: APIReference
+    url: https://developer.grubhub.com/api/merchant-data
+  - type: Documentation
+    url: https://developer.grubhub.com/api/merchant-schedules
+  - type: APIReference
+    url: https://developer.grubhub.com/api/merchant-schedules
+  - type: Documentation
+    url: https://developer.grubhub.com/api/busy-intervals
+  - type: APIReference
+    url: https://developer.grubhub.com/api/busy-intervals
+  - type: Documentation
+    url: https://developer.grubhub.com/api/deliveries
+  - type: APIReference
+    url: https://developer.grubhub.com/api/deliveries
+  - type: Documentation
+    url: https://developer.grubhub.com/api/daas-endpoints
+  - type: APIReference
+    url: https://developer.grubhub.com/api/daas-endpoints
+  - type: Documentation
+    url: https://developer.grubhub.com/api/daas-webhooks
+  - type: APIReference
+    url: https://developer.grubhub.com/api/daas-webhooks
+  - type: AsyncAPI
+    url: asyncapi/grubhub-delivery-events-asyncapi.yml
+  - type: Documentation
+    url: https://developer.grubhub.com/api/onboarding
+  - type: APIReference
+    url: https://developer.grubhub.com/api/onboarding
+  - type: Documentation
+    url: https://developer.grubhub.com/api/reporting-endpoints
+  - type: APIReference
+    url: https://developer.grubhub.com/api/reporting-endpoints
+  - type: Documentation
+    url: https://developer.grubhub.com/api/reporting-webhooks
+  - type: APIReference
+    url: https://developer.grubhub.com/api/reporting-webhooks
+  - type: AsyncAPI
+    url: asyncapi/grubhub-reporting-events-asyncapi.yml
+  - type: Documentation
+    url: https://developer.grubhub.com/api/testing
+  - type: APIReference
+    url: https://developer.grubhub.com/api/testing
+  - type: Sandbox
+    url: sandbox/grubhub-sandbox.yml
+- aid: grubhub:grubhub-delivery-tests-api
+  name: Grubhub Delivery Tests API
+  description: The Delivery Tests API from Grubhub — 2 operation(s) for delivery tests.
+  humanURL: https://developer.grubhub.com/api/menu
+  baseURL: https://api-third-party-gtm.grubhub.com
+  tags:
+  - Delivery Tests
+  properties:
+  - type: OpenAPI
+    url: openapi/grubhub-delivery-tests-api-openapi.yml
+  - type: Documentation
+    url: https://developer.grubhub.com/api/menu
+  - type: APIReference
+    url: https://developer.grubhub.com/api/menu
+  - type: Documentation
+    url: https://developer.grubhub.com/api/orders
+  - type: APIReference
+    url: https://developer.grubhub.com/api/orders
+  - type: AsyncAPI
+    url: asyncapi/grubhub-order-events-asyncapi.yml
+  - type: Webhooks
+    url: asyncapi/grubhub-webhooks.yml
+  - type: Documentation
+    url: https://developer.grubhub.com/api/merchant-data
+  - type: APIReference
+    url: https://developer.grubhub.com/api/merchant-data
+  - type: Documentation
+    url: https://developer.grubhub.com/api/merchant-schedules
+  - type: APIReference
+    url: https://developer.grubhub.com/api/merchant-schedules
+  - type: Documentation
+    url: https://developer.grubhub.com/api/busy-intervals
+  - type: APIReference
+    url: https://developer.grubhub.com/api/busy-intervals
+  - type: Documentation
+    url: https://developer.grubhub.com/api/deliveries
+  - type: APIReference
+    url: https://developer.grubhub.com/api/deliveries
+  - type: Documentation
+    url: https://developer.grubhub.com/api/daas-endpoints
+  - type: APIReference
+    url: https://developer.grubhub.com/api/daas-endpoints
+  - type: Documentation
+    url: https://developer.grubhub.com/api/daas-webhooks
+  - type: APIReference
+    url: https://developer.grubhub.com/api/daas-webhooks
+  - type: AsyncAPI
+    url: asyncapi/grubhub-delivery-events-asyncapi.yml
+  - type: Documentation
+    url: https://developer.grubhub.com/api/onboarding
+  - type: APIReference
+    url: https://developer.grubhub.com/api/onboarding
+  - type: Documentation
+    url: https://developer.grubhub.com/api/reporting-endpoints
+  - type: APIReference
+    url: https://developer.grubhub.com/api/reporting-endpoints
+  - type: Documentation
+    url: https://developer.grubhub.com/api/reporting-webhooks
+  - type: APIReference
+    url: https://developer.grubhub.com/api/reporting-webhooks
+  - type: AsyncAPI
+    url: asyncapi/grubhub-reporting-events-asyncapi.yml
+  - type: Documentation
+    url: https://developer.grubhub.com/api/testing
+  - type: APIReference
+    url: https://developer.grubhub.com/api/testing
+  - type: Sandbox
+    url: sandbox/grubhub-sandbox.yml
+- aid: grubhub:grubhub-delivery-updates-api
+  name: Grubhub Delivery Updates API
+  description: The Delivery Updates API from Grubhub — 5 operation(s) for delivery updates.
+  humanURL: https://developer.grubhub.com/api/menu
+  baseURL: https://api-third-party-gtm.grubhub.com
+  tags:
+  - Delivery Updates
+  properties:
+  - type: OpenAPI
+    url: openapi/grubhub-delivery-updates-api-openapi.yml
+  - type: Documentation
+    url: https://developer.grubhub.com/api/menu
+  - type: APIReference
+    url: https://developer.grubhub.com/api/menu
+  - type: Documentation
+    url: https://developer.grubhub.com/api/orders
+  - type: APIReference
+    url: https://developer.grubhub.com/api/orders
+  - type: AsyncAPI
+    url: asyncapi/grubhub-order-events-asyncapi.yml
+  - type: Webhooks
+    url: asyncapi/grubhub-webhooks.yml
+  - type: Documentation
+    url: https://developer.grubhub.com/api/merchant-data
+  - type: APIReference
+    url: https://developer.grubhub.com/api/merchant-data
+  - type: Documentation
+    url: https://developer.grubhub.com/api/merchant-schedules
+  - type: APIReference
+    url: https://developer.grubhub.com/api/merchant-schedules
+  - type: Documentation
+    url: https://developer.grubhub.com/api/busy-intervals
+  - type: APIReference
+    url: https://developer.grubhub.com/api/busy-intervals
+  - type: Documentation
+    url: https://developer.grubhub.com/api/deliveries
+  - type: APIReference
+    url: https://developer.grubhub.com/api/deliveries
+  - type: Documentation
+    url: https://developer.grubhub.com/api/daas-endpoints
+  - type: APIReference
+    url: https://developer.grubhub.com/api/daas-endpoints
+  - type: Documentation
+    url: https://developer.grubhub.com/api/daas-webhooks
+  - type: APIReference
+    url: https://developer.grubhub.com/api/daas-webhooks
+  - type: AsyncAPI
+    url: asyncapi/grubhub-delivery-events-asyncapi.yml
+  - type: Documentation
+    url: https://developer.grubhub.com/api/onboarding
+  - type: APIReference
+    url: https://developer.grubhub.com/api/onboarding
+  - type: Documentation
+    url: https://developer.grubhub.com/api/reporting-endpoints
+  - type: APIReference
+    url: https://developer.grubhub.com/api/reporting-endpoints
+  - type: Documentation
+    url: https://developer.grubhub.com/api/reporting-webhooks
+  - type: APIReference
+    url: https://developer.grubhub.com/api/reporting-webhooks
+  - type: AsyncAPI
+    url: asyncapi/grubhub-reporting-events-asyncapi.yml
+  - type: Documentation
+    url: https://developer.grubhub.com/api/testing
+  - type: APIReference
+    url: https://developer.grubhub.com/api/testing
+  - type: Sandbox
+    url: sandbox/grubhub-sandbox.yml
+- aid: grubhub:grubhub-delivery-webhooks-emulation-api
+  name: Grubhub Delivery Webhooks Emulation API
+  description: >-
+    The Delivery Webhooks Emulation API from Grubhub — 2 operation(s) for delivery webhooks emulation.
+  humanURL: https://developer.grubhub.com/api/menu
+  baseURL: https://api-third-party-gtm.grubhub.com
+  tags:
+  - Delivery Webhooks Emulation
+  properties:
+  - type: OpenAPI
+    url: openapi/grubhub-delivery-webhooks-emulation-api-openapi.yml
+  - type: Documentation
+    url: https://developer.grubhub.com/api/menu
+  - type: APIReference
+    url: https://developer.grubhub.com/api/menu
+  - type: Documentation
+    url: https://developer.grubhub.com/api/orders
+  - type: APIReference
+    url: https://developer.grubhub.com/api/orders
+  - type: AsyncAPI
+    url: asyncapi/grubhub-order-events-asyncapi.yml
+  - type: Webhooks
+    url: asyncapi/grubhub-webhooks.yml
+  - type: Documentation
+    url: https://developer.grubhub.com/api/merchant-data
+  - type: APIReference
+    url: https://developer.grubhub.com/api/merchant-data
+  - type: Documentation
+    url: https://developer.grubhub.com/api/merchant-schedules
+  - type: APIReference
+    url: https://developer.grubhub.com/api/merchant-schedules
+  - type: Documentation
+    url: https://developer.grubhub.com/api/busy-intervals
+  - type: APIReference
+    url: https://developer.grubhub.com/api/busy-intervals
+  - type: Documentation
+    url: https://developer.grubhub.com/api/deliveries
+  - type: APIReference
+    url: https://developer.grubhub.com/api/deliveries
+  - type: Documentation
+    url: https://developer.grubhub.com/api/daas-endpoints
+  - type: APIReference
+    url: https://developer.grubhub.com/api/daas-endpoints
+  - type: Documentation
+    url: https://developer.grubhub.com/api/daas-webhooks
+  - type: APIReference
+    url: https://developer.grubhub.com/api/daas-webhooks
+  - type: AsyncAPI
+    url: asyncapi/grubhub-delivery-events-asyncapi.yml
+  - type: Documentation
+    url: https://developer.grubhub.com/api/onboarding
+  - type: APIReference
+    url: https://developer.grubhub.com/api/onboarding
+  - type: Documentation
+    url: https://developer.grubhub.com/api/reporting-endpoints
+  - type: APIReference
+    url: https://developer.grubhub.com/api/reporting-endpoints
+  - type: Documentation
+    url: https://developer.grubhub.com/api/reporting-webhooks
+  - type: APIReference
+    url: https://developer.grubhub.com/api/reporting-webhooks
+  - type: AsyncAPI
+    url: asyncapi/grubhub-reporting-events-asyncapi.yml
+  - type: Documentation
+    url: https://developer.grubhub.com/api/testing
+  - type: APIReference
+    url: https://developer.grubhub.com/api/testing
+  - type: Sandbox
+    url: sandbox/grubhub-sandbox.yml
+- aid: grubhub:grubhub-endpoints-api
+  name: Grubhub Endpoints API
+  description: The Endpoints API from Grubhub — 61 operation(s) for endpoints.
+  humanURL: https://developer.grubhub.com/api/menu
+  baseURL: https://api-third-party-gtm.grubhub.com
+  tags:
+  - Endpoints
+  properties:
+  - type: OpenAPI
+    url: openapi/grubhub-endpoints-api-openapi.yml
+  - type: Documentation
+    url: https://developer.grubhub.com/api/menu
+  - type: APIReference
+    url: https://developer.grubhub.com/api/menu
+  - type: Documentation
+    url: https://developer.grubhub.com/api/orders
+  - type: APIReference
+    url: https://developer.grubhub.com/api/orders
+  - type: AsyncAPI
+    url: asyncapi/grubhub-order-events-asyncapi.yml
+  - type: Webhooks
+    url: asyncapi/grubhub-webhooks.yml
+  - type: Documentation
+    url: https://developer.grubhub.com/api/merchant-data
+  - type: APIReference
+    url: https://developer.grubhub.com/api/merchant-data
+  - type: Documentation
+    url: https://developer.grubhub.com/api/merchant-schedules
+  - type: APIReference
+    url: https://developer.grubhub.com/api/merchant-schedules
+  - type: Documentation
+    url: https://developer.grubhub.com/api/busy-intervals
+  - type: APIReference
+    url: https://developer.grubhub.com/api/busy-intervals
+  - type: Documentation
+    url: https://developer.grubhub.com/api/deliveries
+  - type: APIReference
+    url: https://developer.grubhub.com/api/deliveries
+  - type: Documentation
+    url: https://developer.grubhub.com/api/daas-endpoints
+  - type: APIReference
+    url: https://developer.grubhub.com/api/daas-endpoints
+  - type: Documentation
+    url: https://developer.grubhub.com/api/daas-webhooks
+  - type: APIReference
+    url: https://developer.grubhub.com/api/daas-webhooks
+  - type: AsyncAPI
+    url: asyncapi/grubhub-delivery-events-asyncapi.yml
+  - type: Documentation
+    url: https://developer.grubhub.com/api/onboarding
+  - type: APIReference
+    url: https://developer.grubhub.com/api/onboarding
+  - type: Documentation
+    url: https://developer.grubhub.com/api/reporting-endpoints
+  - type: APIReference
+    url: https://developer.grubhub.com/api/reporting-endpoints
+  - type: Documentation
+    url: https://developer.grubhub.com/api/reporting-webhooks
+  - type: APIReference
+    url: https://developer.grubhub.com/api/reporting-webhooks
+  - type: AsyncAPI
+    url: asyncapi/grubhub-reporting-events-asyncapi.yml
+  - type: Documentation
+    url: https://developer.grubhub.com/api/testing
+  - type: APIReference
+    url: https://developer.grubhub.com/api/testing
+  - type: Sandbox
+    url: sandbox/grubhub-sandbox.yml
+- aid: grubhub:grubhub-requesting-reports-api
+  name: Grubhub Requesting Reports API
+  description: The Requesting Reports API from Grubhub — 3 operation(s) for requesting reports.
+  humanURL: https://developer.grubhub.com/api/menu
+  baseURL: https://api-third-party-gtm.grubhub.com
+  tags:
+  - Requesting Reports
+  properties:
+  - type: OpenAPI
+    url: openapi/grubhub-requesting-reports-api-openapi.yml
+  - type: Documentation
+    url: https://developer.grubhub.com/api/menu
+  - type: APIReference
+    url: https://developer.grubhub.com/api/menu
+  - type: Documentation
+    url: https://developer.grubhub.com/api/orders
+  - type: APIReference
+    url: https://developer.grubhub.com/api/orders
+  - type: AsyncAPI
+    url: asyncapi/grubhub-order-events-asyncapi.yml
+  - type: Webhooks
+    url: asyncapi/grubhub-webhooks.yml
+  - type: Documentation
+    url: https://developer.grubhub.com/api/merchant-data
+  - type: APIReference
+    url: https://developer.grubhub.com/api/merchant-data
+  - type: Documentation
+    url: https://developer.grubhub.com/api/merchant-schedules
+  - type: APIReference
+    url: https://developer.grubhub.com/api/merchant-schedules
+  - type: Documentation
+    url: https://developer.grubhub.com/api/busy-intervals
+  - type: APIReference
+    url: https://developer.grubhub.com/api/busy-intervals
+  - type: Documentation
+    url: https://developer.grubhub.com/api/deliveries
+  - type: APIReference
+    url: https://developer.grubhub.com/api/deliveries
+  - type: Documentation
+    url: https://developer.grubhub.com/api/daas-endpoints
+  - type: APIReference
+    url: https://developer.grubhub.com/api/daas-endpoints
+  - type: Documentation
+    url: https://developer.grubhub.com/api/daas-webhooks
+  - type: APIReference
+    url: https://developer.grubhub.com/api/daas-webhooks
+  - type: AsyncAPI
+    url: asyncapi/grubhub-delivery-events-asyncapi.yml
+  - type: Documentation
+    url: https://developer.grubhub.com/api/onboarding
+  - type: APIReference
+    url: https://developer.grubhub.com/api/onboarding
+  - type: Documentation
+    url: https://developer.grubhub.com/api/reporting-endpoints
+  - type: APIReference
+    url: https://developer.grubhub.com/api/reporting-endpoints
+  - type: Documentation
+    url: https://developer.grubhub.com/api/reporting-webhooks
+  - type: APIReference
+    url: https://developer.grubhub.com/api/reporting-webhooks
+  - type: AsyncAPI
+    url: asyncapi/grubhub-reporting-events-asyncapi.yml
+  - type: Documentation
+    url: https://developer.grubhub.com/api/testing
+  - type: APIReference
+    url: https://developer.grubhub.com/api/testing
+  - type: Sandbox
+    url: sandbox/grubhub-sandbox.yml
+- aid: grubhub:grubhub-webhooks-api
+  name: Grubhub Webhooks API
+  description: The Webhooks API from Grubhub — 0 operation(s) for webhooks.
+  humanURL: https://developer.grubhub.com/api/menu
+  baseURL: https://api-third-party-gtm.grubhub.com
+  tags:
+  - Webhooks
+  properties:
+  - type: OpenAPI
+    url: openapi/grubhub-webhooks-api-openapi.yml
+  - type: Documentation
+    url: https://developer.grubhub.com/api/menu
+  - type: APIReference
+    url: https://developer.grubhub.com/api/menu
+  - type: Documentation
+    url: https://developer.grubhub.com/api/orders
+  - type: APIReference
+    url: https://developer.grubhub.com/api/orders
+  - type: AsyncAPI
+    url: asyncapi/grubhub-order-events-asyncapi.yml
+  - type: Webhooks
+    url: asyncapi/grubhub-webhooks.yml
+  - type: Documentation
+    url: https://developer.grubhub.com/api/merchant-data
+  - type: APIReference
+    url: https://developer.grubhub.com/api/merchant-data
+  - type: Documentation
+    url: https://developer.grubhub.com/api/merchant-schedules
+  - type: APIReference
+    url: https://developer.grubhub.com/api/merchant-schedules
+  - type: Documentation
+    url: https://developer.grubhub.com/api/busy-intervals
+  - type: APIReference
+    url: https://developer.grubhub.com/api/busy-intervals
+  - type: Documentation
+    url: https://developer.grubhub.com/api/deliveries
+  - type: APIReference
+    url: https://developer.grubhub.com/api/deliveries
+  - type: Documentation
+    url: https://developer.grubhub.com/api/daas-endpoints
+  - type: APIReference
+    url: https://developer.grubhub.com/api/daas-endpoints
+  - type: Documentation
+    url: https://developer.grubhub.com/api/daas-webhooks
+  - type: APIReference
+    url: https://developer.grubhub.com/api/daas-webhooks
+  - type: AsyncAPI
+    url: asyncapi/grubhub-delivery-events-asyncapi.yml
+  - type: Documentation
+    url: https://developer.grubhub.com/api/onboarding
+  - type: APIReference
+    url: https://developer.grubhub.com/api/onboarding
+  - type: Documentation
+    url: https://developer.grubhub.com/api/reporting-endpoints
+  - type: APIReference
+    url: https://developer.grubhub.com/api/reporting-endpoints
+  - type: Documentation
+    url: https://developer.grubhub.com/api/reporting-webhooks
+  - type: APIReference
+    url: https://developer.grubhub.com/api/reporting-webhooks
+  - type: AsyncAPI
+    url: asyncapi/grubhub-reporting-events-asyncapi.yml
+  - type: Documentation
+    url: https://developer.grubhub.com/api/testing
+  - type: APIReference
+    url: https://developer.grubhub.com/api/testing
+  - type: Sandbox
+    url: sandbox/grubhub-sandbox.yml
 common:
+- type: Overlay
+  url: overlays/grubhub-menu-overlay.yaml
+- type: Overlay
+  url: overlays/grubhub-orders-overlay.yaml
+- type: Overlay
+  url: overlays/grubhub-merchant-data-overlay.yaml
+- type: Overlay
+  url: overlays/grubhub-merchant-schedules-overlay.yaml
+- type: Overlay
+  url: overlays/grubhub-busy-intervals-overlay.yaml
+- type: Overlay
+  url: overlays/grubhub-deliveries-overlay.yaml
+- type: Overlay
+  url: overlays/grubhub-connect-endpoints-overlay.yaml
+- type: Overlay
+  url: overlays/grubhub-connect-webhooks-overlay.yaml
+- type: Overlay
+  url: overlays/grubhub-onboarding-overlay.yaml
+- type: Overlay
+  url: overlays/grubhub-reporting-endpoints-overlay.yaml
+- type: Overlay
+  url: overlays/grubhub-reporting-webhooks-overlay.yaml
+- type: Overlay
+  url: overlays/grubhub-testing-overlay.yaml
 - type: Website
   url: https://www.grubhub.com
 - type: DeveloperPortal

@@ -1,0 +1,504 @@
+openapi: 3.2.0
+info:
+  title: Endpoints Delivery Updates API
+servers:
+- url: https://api-third-party-gtm-pp.grubhub.com
+  description: preprod
+- url: https://api-third-party-gtm.grubhub.com
+  description: prod
+tags:
+- name: Delivery Updates
+paths:
+  /delivery/daas/v1/{deliveryId}/tip:
+    post:
+      tags:
+      - Delivery Updates
+      summary: Increase courier tip
+      description: Updates the courier tip for a delivery to the requested value. Tips may only be increased.
+      operationId: updateCourierTip
+      parameters:
+      - name: deliveryId
+        in: path
+        description: The UUID of the delivery associated with the tip update.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+        example: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+      - name: X-GH-PARTNER-KEY
+        in: header
+        description: The Grubhub-provided partner key.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+        example: 123e4567-e89b-12d3-a456-426614174000
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IncreaseTipRequest'
+        required: true
+      responses:
+        '500':
+          description: Unexpected internal error
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicApiError'
+              example:
+                errors:
+                - code: REQUEST_FAILED
+                  message: Internal Server Error
+        '400':
+          description: Invalid courier tip update
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicApiError'
+              example:
+                errors:
+                - code: tip_decrease_not_allowed
+                  message: Requested tip amount must be higher than existing tip amount.
+        '403':
+          description: Request Forbidden
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicApiError'
+              example:
+                errors:
+                - code: REQUEST_FORBIDDEN
+                  message: Request forbidden
+        '200':
+          description: Courier tip updated
+          content:
+            application/json:
+              example: {}
+        '404':
+          description: Delivery not found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicApiError'
+              example:
+                errors:
+                - code: DELIVERY_NOT_FOUND
+                  message: Delivery not found with id=00000000-0000-0000-0000-000000000000
+  /delivery/daas/v1/{deliveryId}/pickupVerification:
+    post:
+      tags:
+      - Delivery Updates
+      summary: Update pickup verification
+      description: Provide the pickup verification info for a delivery. To be used after the delivery has been created and before pickup.
+      operationId: updatePickupVerification
+      parameters:
+      - name: deliveryId
+        in: path
+        description: The UUID of the delivery being updated.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+        example: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+      - name: X-GH-PARTNER-KEY
+        in: header
+        description: The Grubhub-provided partner key.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+        example: 123e4567-e89b-12d3-a456-426614174000
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/com.grubhub.pos.generic.delivery.fulfillment.common.model.PickupVerification'
+        required: true
+      responses:
+        '500':
+          description: Unexpected internal error
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicApiError'
+              example:
+                errors:
+                - code: REQUEST_FAILED
+                  message: Internal Server Error
+        '403':
+          description: Request Forbidden
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicApiError'
+              example:
+                errors:
+                - code: REQUEST_FORBIDDEN
+                  message: Request forbidden
+        '400':
+          description: Invalid pickup verification
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicApiError'
+              example:
+                errors:
+                - code: INVALID
+                  message: Invalid capture method provided
+        '200':
+          description: Pickup verification updated
+          content:
+            application/json:
+              example: {}
+        '404':
+          description: Delivery not found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicApiError'
+              example:
+                errors:
+                - code: DELIVERY_NOT_FOUND
+                  message: Delivery not found with id=00000000-0000-0000-0000-000000000000
+  /delivery/daas/v1/{deliveryId}/pickupReady:
+    post:
+      tags:
+      - Delivery Updates
+      summary: Update delivery to pickup ready
+      description: Provide a signal that indicates the delivery is ready for pickup.
+      operationId: pickupReady
+      parameters:
+      - name: deliveryId
+        in: path
+        description: The UUID of the delivery being updated.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+        example: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+      - name: X-GH-PARTNER-KEY
+        in: header
+        description: The Grubhub-provided partner key.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+        example: 123e4567-e89b-12d3-a456-426614174000
+      responses:
+        '200':
+          description: Delivery marked as pickup ready
+          content:
+            application/json:
+              example: {}
+        '500':
+          description: Unexpected internal error
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicApiError'
+              example:
+                errors:
+                - code: REQUEST_FAILED
+                  message: Internal Server Error
+        '403':
+          description: Request Forbidden
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicApiError'
+              example:
+                errors:
+                - code: REQUEST_FORBIDDEN
+                  message: Request forbidden
+        '404':
+          description: Delivery not found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicApiError'
+              example:
+                errors:
+                - code: DELIVERY_NOT_FOUND
+                  message: Delivery not found with id=00000000-0000-0000-0000-000000000000
+  /delivery/daas/v1/{deliveryId}/dropoff:
+    post:
+      tags:
+      - Delivery Updates
+      summary: Update delivery information
+      description: Updates the dropoff information for a delivery. Only available before delivery has been picked up.
+      operationId: updateDeliveryDropoffLocation
+      parameters:
+      - name: deliveryId
+        in: path
+        description: The UUID of the delivery being updated.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+        example: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+      - name: X-GH-PARTNER-KEY
+        in: header
+        description: The Grubhub-provided partner key.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+        example: 123e4567-e89b-12d3-a456-426614174000
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateDeliveryDropoffLocationRequest'
+        required: true
+      responses:
+        '400':
+          description: Invalid delivery dropoff information update
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicApiError'
+              example:
+                errors:
+                - code: invalid_delivery_status
+                  message: Delivery is in an invalid state to update dropoff location.
+        '500':
+          description: Unexpected internal error
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicApiError'
+              example:
+                errors:
+                - code: REQUEST_FAILED
+                  message: Internal Server Error
+        '403':
+          description: Request Forbidden
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicApiError'
+              example:
+                errors:
+                - code: REQUEST_FORBIDDEN
+                  message: Request forbidden
+        '200':
+          description: Delivery dropoff information updated
+          content:
+            application/json:
+              example: {}
+        '404':
+          description: Delivery not found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicApiError'
+              example:
+                errors:
+                - code: DELIVERY_NOT_FOUND
+                  message: Delivery not found with id=00000000-0000-0000-0000-000000000000
+  /delivery/daas/v1/{deliveryId}/cancel:
+    post:
+      tags:
+      - Delivery Updates
+      summary: Cancel a delivery
+      description: Requests the cancellation of a delivery.
+      operationId: cancelDelivery
+      parameters:
+      - name: deliveryId
+        in: path
+        description: The UUID of the delivery being canceled.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+        example: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+      - name: X-GH-PARTNER-KEY
+        in: header
+        description: The Grubhub-provided partner key.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+        example: 123e4567-e89b-12d3-a456-426614174000
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CancelDeliveryRequest'
+        required: true
+      responses:
+        '500':
+          description: Unexpected internal error
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicApiError'
+              example:
+                errors:
+                - code: REQUEST_FAILED
+                  message: Internal Server Error
+        '403':
+          description: Request Forbidden
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicApiError'
+              example:
+                errors:
+                - code: REQUEST_FORBIDDEN
+                  message: Request forbidden
+        '200':
+          description: Delivery cancelled
+          content:
+            application/json:
+              example: {}
+        '404':
+          description: Delivery not found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicApiError'
+              example:
+                errors:
+                - code: DELIVERY_NOT_FOUND
+                  message: Delivery not found with id=00000000-0000-0000-0000-000000000000
+components:
+  schemas:
+    CancelDeliveryRequest:
+      required:
+      - cancel_code
+      type: object
+      properties:
+        cancel_code:
+          type: string
+          description: Codes for reasons why a delivery was canceled.
+          example: CUSTOMER_REFUSED_DELIVERY
+          enum:
+          - CUSTOMER_CONTENTS_ISSUE
+          - CUSTOMER_DELIVERY_DELAYED
+          - CUSTOMER_ORDER_CHANGED
+          - CUSTOMER_OTHER_REASON
+          - CUSTOMER_REFUSED_DELIVERY
+          - EXTERNAL_PARTNER_OTHER_REASON
+          - EXTERNAL_SYSTEM_FAILURE
+          - MERCHANT_OTHER_REASON
+          - MERCHANT_PICKUP_DELAYED
+        comment:
+          maxLength: 256
+          minLength: 0
+          type: string
+          description: Additional detail about the cancellation.
+          example: Customer does not want to accept their delivery.
+      description: A request to cancel a delivery.
+    PublicApiError:
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: string
+          description: A code representing the type of error that occurred.
+        message:
+          type: string
+          description: A detailed description of the error that occurred.
+      description: An error returned by the delivery API.
+    com.grubhub.pos.generic.delivery.fulfillment.common.model.PickupVerification:
+      required:
+      - capture_method
+      - verification_code
+      type: object
+      properties:
+        capture_method:
+          type: string
+          description: The method used to capture the pickup verification code.
+          enum:
+          - QR_SCAN
+        verification_code:
+          type: string
+          description: The verification code provided by the partner.
+      description: Pickup verification provided by the partner.
+    UpdateDeliveryDropoffLocationRequest:
+      type: object
+      properties:
+        instructions:
+          maxLength: 500
+          minLength: 0
+          type: string
+          description: Dropoff instructions to apply to delivery
+          example: Leave at door - ring doorbell.
+        phone:
+          pattern: ^\+\d{11}$
+          type: string
+          description: A E.164 formatted dropoff contact phone number.
+          example: '+16145552332'
+      description: A request for when a diner decides to update dropoff location information for a delivery. Only allowed before the courier has left the pickup location.
+    IncreaseTipRequest:
+      required:
+      - tip
+      type: object
+      properties:
+        tip:
+          minimum: 0
+          type: integer
+          description: The total tip amount the courier receives, formatted as cents.
+          format: int32
+          example: 500
+      description: A request for when a diner decides to increase a courier tip. Can be performed within 24 hours after delivery.

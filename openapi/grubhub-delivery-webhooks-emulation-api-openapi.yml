@@ -1,0 +1,137 @@
+openapi: 3.2.0
+info:
+  title: Endpoints Delivery Webhooks Emulation API
+servers:
+- url: https://api-third-party-gtm-pp.grubhub.com
+  description: preprod
+- url: https://api-third-party-gtm.grubhub.com
+  description: prod
+tags:
+- name: Delivery Webhooks Emulation
+paths:
+  /delivery/daas/v1/test/webhook/emulateStatusUpdateWebhook:
+    post:
+      tags:
+      - Delivery Webhooks Emulation
+      summary: Emulate a delivery status update webhook
+      description: Emulates a delivery status update webhook for the partner. It is meant just for testing purposes.
+      operationId: emulateStatusUpdateWebhook
+      parameters:
+      - name: X-GH-PARTNER-KEY
+        in: header
+        description: The Grubhub-provided partner key.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+        example: 123e4567-e89b-12d3-a456-426614174000
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmulateDeliveryStatusUpdateWebhookRequest'
+        required: true
+      responses:
+        '500':
+          description: Unexpected internal error
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicApiError'
+              example:
+                errors:
+                - code: REQUEST_FAILED
+                  message: Internal Server Error
+        '202':
+          description: Delivery status update webhook successfully triggered
+          content:
+            application/json:
+              example: {}
+        '403':
+          description: Request Forbidden
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicApiError'
+              example:
+                errors:
+                - code: REQUEST_FORBIDDEN
+                  message: Request forbidden
+  /delivery/daas/v1/test/webhook/emulateRefundUpdateWebhook:
+    post:
+      tags:
+      - Delivery Webhooks Emulation
+      summary: Emulate a delivery refund update webhook
+      description: Emulates a delivery refund update webhook for the partner. It is meant just for testing purposes.
+      operationId: emulateRefundUpdateWebhook
+      parameters:
+      - name: X-GH-PARTNER-KEY
+        in: header
+        description: The Grubhub-provided partner key.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+        example: 123e4567-e89b-12d3-a456-426614174000
+      responses:
+        '500':
+          description: Unexpected internal error
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicApiError'
+              example:
+                errors:
+                - code: REQUEST_FAILED
+                  message: Internal Server Error
+        '403':
+          description: Request Forbidden
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicApiError'
+              example:
+                errors:
+                - code: REQUEST_FORBIDDEN
+                  message: Request forbidden
+        '202':
+          description: Delivery refund update webhook successfully triggered
+          content:
+            application/json:
+              example: {}
+components:
+  schemas:
+    PublicApiError:
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: string
+          description: A code representing the type of error that occurred.
+        message:
+          type: string
+          description: A detailed description of the error that occurred.
+      description: An error returned by the delivery API.
+    EmulateDeliveryStatusUpdateWebhookRequest:
+      type: object
+      properties:
+        external_delivery_id:
+          maxLength: 256
+          minLength: 0
+          type: string
+          description: The external ID of the delivery to trigger the webhook for
+      description: The request information for emulating a delivery status update webhook.

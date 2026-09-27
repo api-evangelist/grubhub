@@ -1,0 +1,130 @@
+openapi: 3.2.0
+info:
+  title: Endpoints Delivery Refunds API
+servers:
+- url: https://api-third-party-gtm-pp.grubhub.com
+  description: preprod
+- url: https://api-third-party-gtm.grubhub.com
+  description: prod
+tags:
+- name: Delivery Refunds
+paths:
+  /delivery/daas/v1/{deliveryId}/refund:
+    post:
+      tags:
+      - Delivery Refunds
+      summary: Request a delivery refund
+      description: Submits a refund request for a delivery. Invoking this endpoint begins the asynchronous process of accepting or rejecting the refund request.
+      operationId: requestRefund
+      parameters:
+      - name: deliveryId
+        in: path
+        description: The UUID of the delivery associated with the refund request.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+        example: 497f6eca-6276-4993-bfeb-53cbbbba6f08
+      - name: X-GH-PARTNER-KEY
+        in: header
+        description: The Grubhub-provided partner key.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+        example: 123e4567-e89b-12d3-a456-426614174000
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefundRequest'
+        required: true
+      responses:
+        '500':
+          description: Unexpected internal error
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicApiError'
+              example:
+                errors:
+                - code: REQUEST_FAILED
+                  message: Internal Server Error
+        '403':
+          description: Request Forbidden
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicApiError'
+              example:
+                errors:
+                - code: REQUEST_FORBIDDEN
+                  message: Request forbidden
+        '202':
+          description: Delivery refund request accepted
+          content:
+            application/json:
+              example: {}
+        '404':
+          description: Delivery not found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PublicApiError'
+              example:
+                errors:
+                - code: DELIVERY_NOT_FOUND
+                  message: Delivery not found with id=00000000-0000-0000-0000-000000000000
+components:
+  schemas:
+    PublicApiError:
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: string
+          description: A code representing the type of error that occurred.
+        message:
+          type: string
+          description: A detailed description of the error that occurred.
+      description: An error returned by the delivery API.
+    RefundRequest:
+      required:
+      - refund_code
+      type: object
+      properties:
+        refund_details:
+          maxLength: 512
+          minLength: 0
+          type: string
+          description: Additional comment about the refund.
+          example: The store canceled the order.
+        refund_code:
+          type: string
+          description: The refund code.
+          enum:
+          - MISSED_DROPOFF_ETA
+          - WRONG_ADDRESS_DELIVERY
+          - INCOMPLETE_DELIVERY
+          - INCOMPLETE_DELIVERY_CONTENTS
+          - POOR_DELIVERY_EXPERIENCE
+          - OTHER
+        photo_attachment_url:
+          maxLength: 512
+          minLength: 0
+          type: string
+          description: The photo attachment url for the refund request.
+          example: https://example.com/photo.jpg
+      description: The request information for a refund.
