@@ -68,17 +68,17 @@ webhooks:
       description: prod
 components:
   schemas:
-    CourierAtPickup:
+    PickedUp:
       allOf:
       - $ref: '#/components/schemas/DeliveryEvent'
-      description: An event indicating the assigned courier has arrived at the delivery's pickup location.
+      description: An event indicating the delivery has been picked up by the assigned courier.
       required:
       - timestamp
       - type
-    Assigned:
+    Created:
       allOf:
       - $ref: '#/components/schemas/DeliveryEvent'
-      description: An event indicating the delivery has been assigned.
+      description: An event representing the creation of a delivery.
       required:
       - timestamp
       - type
@@ -103,37 +103,6 @@ components:
       - delivery_id
       - estimated_event_times
       - events
-    PickupVerificationDetails:
-      properties:
-        result:
-          type: string
-          description: The result of the pickup verification.
-          example: SUCCESS
-        capture_method:
-          type: string
-          description: The method used to capture the pickup verification.
-          enum:
-          - MANUAL_ENTRY
-          - QR_SCAN
-          - PHOTO
-          example: QR_SCAN
-        failure_reason:
-          type: string
-          description: The reason for a failed pickup verification. Null when result is SUCCESS.
-        attempts_count:
-          type: integer
-          format: int32
-          description: The total number of verification attempts made.
-        photo_url:
-          type: string
-          description: A URL to the pickup verification photo. Null for code-match events.
-    CourierAtDropoff:
-      allOf:
-      - $ref: '#/components/schemas/DeliveryEvent'
-      description: An event indicating the assigned courier has arrived at the delivery's dropoff location.
-      required:
-      - timestamp
-      - type
     RefundAmount:
       description: The amount of the refund requested, broken down into various categories.
       properties:
@@ -166,71 +135,21 @@ components:
       - delivery_fee
       - return_fee
       - tip
-    EstimatedEventTimes:
-      description: The latest known estimates for the delivery pickup and dropoff times. Will be the actual times if the event has already occurred.
-      properties:
-        picked_up:
-          type: string
-          format: date-time
-          description: The estimated pickup time, or the actual pickup time if the pickup has already occurred. Formatted as an ISO-8601 timestamp.
-          example: '2024-05-28T00:00:00Z'
-        dropped_off:
-          type: string
-          format: date-time
-          description: The estimated drop-off time, or the actual drop-off time if the pickup has already occurred. Formatted as an ISO-8601 timestamp.
-          example: '2024-05-28T00:00:00Z'
-      required:
-      - dropped_off
-      - picked_up
-    ClientData:
-      description: Partner/client-supplied reference identifiers for this delivery.
-      properties:
-        external_id:
-          type: string
-          description: The partner's own identifier for this delivery.
-        external_merchant_id:
-          type: string
-          description: The partner's identifier for the merchant associated with this delivery.
-        external_source:
-          type: string
-          description: The source system that supplied the external identifiers.
-        reference_number:
-          type: string
-          description: A partner-supplied reference number for this delivery.
-    DropoffImageDetails:
-      properties:
-        photo_url:
-          type: string
-          description: A URL to the dropoff photo taken by the driver upon completing the delivery.
-          example: http://www.grubhub.com/example.png
-        photo_capture_time:
-          type: string
-          format: date-time
-          description: The timestamp at which the dropoff photo was captured. Formatted as an ISO-8601 timestamp.
-          example: '2024-05-28T00:00:00Z'
-        photo_capture_location:
-          $ref: '#/components/schemas/GeoLocation'
-        photo_expiration_time:
-          type: string
-          format: date-time
-          description: The timestamp when the dropoff photo will expire.
-          example: '2024-05-28T00:00:00Z'
-      required:
-      - photo_capture_location
-      - photo_capture_time
-      - photo_expiration_time
-      - photo_url
-    Delivered:
+    ProofOfDelivery:
       allOf:
       - $ref: '#/components/schemas/DeliveryEvent'
       - type: object
         properties:
           dropoff_image_details:
-            allOf:
-            - $ref: '#/components/schemas/DropoffImageDetails'
-            deprecated: true
-            description: Use `dropoff_image_details` in the `ProofOfDelivery` event instead.
-      description: An event indicating the delivery has been successfully delivered.
+            $ref: '#/components/schemas/DropoffImageDetails'
+      description: An event containing proof of delivery information.
+      required:
+      - timestamp
+      - type
+    Unassigned:
+      allOf:
+      - $ref: '#/components/schemas/DeliveryEvent'
+      description: An event indicating the delivery has been unassigned. An unassigned delivery may still be reassigned to another driver later.
       required:
       - timestamp
       - type
@@ -255,47 +174,6 @@ components:
       required:
       - delivery
       - update_type
-    ReturnCompleted:
-      allOf:
-      - $ref: '#/components/schemas/DeliveryEvent'
-      description: An event indicating that the necessary portion of the delivery's contents have been successfully returned to the pickup location.
-      required:
-      - timestamp
-      - type
-    ReturnInitiated:
-      allOf:
-      - $ref: '#/components/schemas/DeliveryEvent'
-      description: An event indicating the delivery is in-transit back to the pickup location in order to return some portion of the delivery's contents.
-      required:
-      - timestamp
-      - type
-    DeliveryRefundUpdate:
-      type: object
-      description: Reports the final decision regarding a submitted delivery refund request to clients via webhook.
-      properties:
-        delivery_id:
-          type: string
-          format: uuid
-          description: The UUID associated with the delivery.
-          example: 0ec346bd-635a-4a07-8f35-44962a8bcc5b
-        accepted:
-          type: boolean
-          description: Whether the refund was accepted or not.
-          example: true
-        reason:
-          type: string
-          description: The reason for accepting or rejecting the refund.
-          example: DriverNotCourteous
-        description:
-          type: string
-          description: Additional descriptive notes about the refund decision.
-          example: Grubhub accepts the full refund amount.
-        amounts:
-          $ref: '#/components/schemas/RefundAmount'
-      required:
-      - accepted
-      - delivery_id
-      - reason
     DeliveryEvent:
       description: An event during the course of a single delivery's lifecycle.
       discriminator:
@@ -341,17 +219,41 @@ components:
       required:
       - timestamp
       - type
-    PickedUp:
-      allOf:
-      - $ref: '#/components/schemas/DeliveryEvent'
-      description: An event indicating the delivery has been picked up by the assigned courier.
+    ClientData:
+      description: Partner/client-supplied reference identifiers for this delivery.
+      properties:
+        external_id:
+          type: string
+          description: The partner's own identifier for this delivery.
+        external_merchant_id:
+          type: string
+          description: The partner's identifier for the merchant associated with this delivery.
+        external_source:
+          type: string
+          description: The source system that supplied the external identifiers.
+        reference_number:
+          type: string
+          description: A partner-supplied reference number for this delivery.
+    EstimatedEventTimes:
+      description: The latest known estimates for the delivery pickup and dropoff times. Will be the actual times if the event has already occurred.
+      properties:
+        picked_up:
+          type: string
+          format: date-time
+          description: The estimated pickup time, or the actual pickup time if the pickup has already occurred. Formatted as an ISO-8601 timestamp.
+          example: '2024-05-28T00:00:00Z'
+        dropped_off:
+          type: string
+          format: date-time
+          description: The estimated drop-off time, or the actual drop-off time if the pickup has already occurred. Formatted as an ISO-8601 timestamp.
+          example: '2024-05-28T00:00:00Z'
       required:
-      - timestamp
-      - type
-    Unassigned:
+      - dropped_off
+      - picked_up
+    CourierAtDropoff:
       allOf:
       - $ref: '#/components/schemas/DeliveryEvent'
-      description: An event indicating the delivery has been unassigned. An unassigned delivery may still be reassigned to another driver later.
+      description: An event indicating the assigned courier has arrived at the delivery's dropoff location.
       required:
       - timestamp
       - type
@@ -362,33 +264,29 @@ components:
       required:
       - timestamp
       - type
-    ProofOfDelivery:
-      allOf:
-      - $ref: '#/components/schemas/DeliveryEvent'
-      - type: object
-        properties:
-          dropoff_image_details:
-            $ref: '#/components/schemas/DropoffImageDetails'
-      description: An event containing proof of delivery information.
-      required:
-      - timestamp
-      - type
-    GeoLocation:
-      description: The last known location of the courier.
+    DropoffImageDetails:
       properties:
-        lat:
-          type: number
-          format: double
-          description: The latitude of the location.
-          example: 41.88320791307697
-        lng:
-          type: number
-          format: double
-          description: The longitude of the location.
-          example: -87.63142796027925
+        photo_url:
+          type: string
+          description: A URL to the dropoff photo taken by the driver upon completing the delivery.
+          example: http://www.grubhub.com/example.png
+        photo_capture_time:
+          type: string
+          format: date-time
+          description: The timestamp at which the dropoff photo was captured. Formatted as an ISO-8601 timestamp.
+          example: '2024-05-28T00:00:00Z'
+        photo_capture_location:
+          $ref: '#/components/schemas/GeoLocation'
+        photo_expiration_time:
+          type: string
+          format: date-time
+          description: The timestamp when the dropoff photo will expire.
+          example: '2024-05-28T00:00:00Z'
       required:
-      - lat
-      - lng
+      - photo_capture_location
+      - photo_capture_time
+      - photo_expiration_time
+      - photo_url
     Canceled:
       allOf:
       - $ref: '#/components/schemas/DeliveryEvent'
@@ -424,13 +322,6 @@ components:
       required:
       - timestamp
       - type
-    Created:
-      allOf:
-      - $ref: '#/components/schemas/DeliveryEvent'
-      description: An event representing the creation of a delivery.
-      required:
-      - timestamp
-      - type
     PickupVerification:
       allOf:
       - $ref: '#/components/schemas/DeliveryEvent'
@@ -439,6 +330,20 @@ components:
           pickup_verification_details:
             $ref: '#/components/schemas/PickupVerificationDetails'
       description: An event containing pickup verification information.
+      required:
+      - timestamp
+      - type
+    Delivered:
+      allOf:
+      - $ref: '#/components/schemas/DeliveryEvent'
+      - type: object
+        properties:
+          dropoff_image_details:
+            allOf:
+            - $ref: '#/components/schemas/DropoffImageDetails'
+            deprecated: true
+            description: Use `dropoff_image_details` in the `ProofOfDelivery` event instead.
+      description: An event indicating the delivery has been successfully delivered.
       required:
       - timestamp
       - type
@@ -464,6 +369,101 @@ components:
       - delivery_method
       - location
       - name
+    ReturnCompleted:
+      allOf:
+      - $ref: '#/components/schemas/DeliveryEvent'
+      description: An event indicating that the necessary portion of the delivery's contents have been successfully returned to the pickup location.
+      required:
+      - timestamp
+      - type
+    PickupVerificationDetails:
+      properties:
+        result:
+          type: string
+          description: The result of the pickup verification.
+          example: SUCCESS
+        capture_method:
+          type: string
+          description: The method used to capture the pickup verification.
+          enum:
+          - MANUAL_ENTRY
+          - QR_SCAN
+          - PHOTO
+          example: QR_SCAN
+        failure_reason:
+          type: string
+          description: The reason for a failed pickup verification. Null when result is SUCCESS.
+        attempts_count:
+          type: integer
+          format: int32
+          description: The total number of verification attempts made.
+        photo_url:
+          type: string
+          description: A URL to the pickup verification photo. Null for code-match events.
+    GeoLocation:
+      description: The last known location of the courier.
+      properties:
+        lat:
+          type: number
+          format: double
+          description: The latitude of the location.
+          example: 41.88320791307697
+        lng:
+          type: number
+          format: double
+          description: The longitude of the location.
+          example: -87.63142796027925
+      required:
+      - lat
+      - lng
+    ReturnInitiated:
+      allOf:
+      - $ref: '#/components/schemas/DeliveryEvent'
+      description: An event indicating the delivery is in-transit back to the pickup location in order to return some portion of the delivery's contents.
+      required:
+      - timestamp
+      - type
+    CourierAtPickup:
+      allOf:
+      - $ref: '#/components/schemas/DeliveryEvent'
+      description: An event indicating the assigned courier has arrived at the delivery's pickup location.
+      required:
+      - timestamp
+      - type
+    Assigned:
+      allOf:
+      - $ref: '#/components/schemas/DeliveryEvent'
+      description: An event indicating the delivery has been assigned.
+      required:
+      - timestamp
+      - type
+    DeliveryRefundUpdate:
+      type: object
+      description: Reports the final decision regarding a submitted delivery refund request to clients via webhook.
+      properties:
+        delivery_id:
+          type: string
+          format: uuid
+          description: The UUID associated with the delivery.
+          example: 0ec346bd-635a-4a07-8f35-44962a8bcc5b
+        accepted:
+          type: boolean
+          description: Whether the refund was accepted or not.
+          example: true
+        reason:
+          type: string
+          description: The reason for accepting or rejecting the refund.
+          example: DriverNotCourteous
+        description:
+          type: string
+          description: Additional descriptive notes about the refund decision.
+          example: Grubhub accepts the full refund amount.
+        amounts:
+          $ref: '#/components/schemas/RefundAmount'
+      required:
+      - accepted
+      - delivery_id
+      - reason
     MerchantReportStatusWebhook:
       type: object
       description: Webhook for reporting status updates.

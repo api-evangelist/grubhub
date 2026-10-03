@@ -87,19 +87,6 @@ paths:
                   message: Delivery not found with id=00000000-0000-0000-0000-000000000000
 components:
   schemas:
-    PublicApiError:
-      required:
-      - code
-      - message
-      type: object
-      properties:
-        code:
-          type: string
-          description: A code representing the type of error that occurred.
-        message:
-          type: string
-          description: A detailed description of the error that occurred.
-      description: An error returned by the delivery API.
     RefundRequest:
       required:
       - refund_code
@@ -128,3 +115,16 @@ components:
           description: The photo attachment url for the refund request.
           example: https://example.com/photo.jpg
       description: The request information for a refund.
+    PublicApiError:
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: string
+          description: A code representing the type of error that occurred.
+        message:
+          type: string
+          description: A detailed description of the error that occurred.
+      description: An error returned by the delivery API.

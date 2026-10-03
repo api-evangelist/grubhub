@@ -81,61 +81,6 @@ paths:
                   message: Request forbidden
 components:
   schemas:
-    Feature:
-      required:
-      - geometry
-      - properties
-      - type
-      type: object
-      properties:
-        type:
-          type: string
-          description: The type of feature.
-          example: Feature
-        properties:
-          $ref: '#/components/schemas/Properties'
-        geometry:
-          $ref: '#/components/schemas/Geometry'
-      description: The feature information of the delivery area.
-    ResponseWrapperServiceAreaResponse:
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/ServiceAreaResponse'
-        errors:
-          type: array
-          description: A list of errors returned.
-          items:
-            $ref: '#/components/schemas/PublicApiError'
-    PublicApiError:
-      required:
-      - code
-      - message
-      type: object
-      properties:
-        code:
-          type: string
-          description: A code representing the type of error that occurred.
-        message:
-          type: string
-          description: A detailed description of the error that occurred.
-      description: An error returned by the delivery API.
-    DeliveryArea:
-      required:
-      - features
-      - type
-      type: object
-      properties:
-        type:
-          type: string
-          description: The type of delivery area.
-          example: FeatureCollection
-        features:
-          type: array
-          description: The list of features that make up the delivery area.
-          items:
-            $ref: '#/components/schemas/Feature'
-      description: The delivery area information.
     Geometry:
       required:
       - coordinates
@@ -193,6 +138,45 @@ components:
                 description: The coordinates of the delivery area.
                 format: double
       description: The geometry of the delivery area.
+    PublicApiError:
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: string
+          description: A code representing the type of error that occurred.
+        message:
+          type: string
+          description: A detailed description of the error that occurred.
+      description: An error returned by the delivery API.
+    Properties:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the delivery area.
+          example: CHICAGO-IL
+      description: The properties of the delivery area.
+    Feature:
+      required:
+      - geometry
+      - properties
+      - type
+      type: object
+      properties:
+        type:
+          type: string
+          description: The type of feature.
+          example: Feature
+        properties:
+          $ref: '#/components/schemas/Properties'
+        geometry:
+          $ref: '#/components/schemas/Geometry'
+      description: The feature information of the delivery area.
     ServiceAreaResponse:
       required:
       - delivery_areas
@@ -204,13 +188,29 @@ components:
           items:
             $ref: '#/components/schemas/DeliveryArea'
       description: The response information for delivery service areas.
-    Properties:
+    DeliveryArea:
       required:
-      - name
+      - features
+      - type
       type: object
       properties:
-        name:
+        type:
           type: string
-          description: The name of the delivery area.
-          example: CHICAGO-IL
-      description: The properties of the delivery area.
+          description: The type of delivery area.
+          example: FeatureCollection
+        features:
+          type: array
+          description: The list of features that make up the delivery area.
+          items:
+            $ref: '#/components/schemas/Feature'
+      description: The delivery area information.
+    ResponseWrapperServiceAreaResponse:
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/ServiceAreaResponse'
+        errors:
+          type: array
+          description: A list of errors returned.
+          items:
+            $ref: '#/components/schemas/PublicApiError'

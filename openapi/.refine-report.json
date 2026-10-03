@@ -1,18 +1,18 @@
 {
   "provider": "grubhub",
   "sources": [
-    "grubhub-busy-intervals-openapi.yml",
-    "grubhub-connect-endpoints-openapi.yml",
-    "grubhub-connect-webhooks-openapi.yml",
-    "grubhub-deliveries-openapi.yml",
-    "grubhub-menu-openapi.yml",
-    "grubhub-merchant-data-openapi.yml",
-    "grubhub-merchant-schedules-openapi.yml",
-    "grubhub-onboarding-openapi.yml",
-    "grubhub-orders-openapi.yml",
-    "grubhub-reporting-endpoints-openapi.yml",
-    "grubhub-reporting-webhooks-openapi.yml",
-    "grubhub-testing-openapi.yml"
+    "_original/grubhub-busy-intervals-openapi.yml",
+    "_original/grubhub-connect-endpoints-openapi.yml",
+    "_original/grubhub-connect-webhooks-openapi.yml",
+    "_original/grubhub-deliveries-openapi.yml",
+    "_original/grubhub-menu-openapi.yml",
+    "_original/grubhub-merchant-data-openapi.yml",
+    "_original/grubhub-merchant-schedules-openapi.yml",
+    "_original/grubhub-onboarding-openapi.yml",
+    "_original/grubhub-orders-openapi.yml",
+    "_original/grubhub-reporting-endpoints-openapi.yml",
+    "_original/grubhub-reporting-webhooks-openapi.yml",
+    "_original/grubhub-testing-openapi.yml"
   ],
   "outputs": [
     "grubhub-endpoints-api-openapi.yml",
@@ -26,20 +26,7 @@
     "grubhub-webhooks-api-openapi.yml",
     "grubhub-requesting-reports-api-openapi.yml"
   ],
-  "archived": [
-    "archived openapi/grubhub-busy-intervals-openapi.yml",
-    "archived openapi/grubhub-connect-endpoints-openapi.yml",
-    "archived openapi/grubhub-connect-webhooks-openapi.yml",
-    "archived openapi/grubhub-deliveries-openapi.yml",
-    "archived openapi/grubhub-menu-openapi.yml",
-    "archived openapi/grubhub-merchant-data-openapi.yml",
-    "archived openapi/grubhub-merchant-schedules-openapi.yml",
-    "archived openapi/grubhub-onboarding-openapi.yml",
-    "archived openapi/grubhub-orders-openapi.yml",
-    "archived openapi/grubhub-reporting-endpoints-openapi.yml",
-    "archived openapi/grubhub-reporting-webhooks-openapi.yml",
-    "archived openapi/grubhub-testing-openapi.yml"
-  ],
+  "archived": [],
   "errors": [],
   "warnings": [
     "grubhub-busy-intervals-openapi.yml: info.version missing",
@@ -56,6 +43,7 @@
     "grubhub-testing-openapi.yml: info.version missing"
   ],
   "notes": [
+    "sourced from openapi/_original/ (12 archived document(s)); previously refined output at the top level was skipped rather than re-split",
     "grubhub-busy-intervals-openapi.yml: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
     "grubhub-busy-intervals-openapi.yml: declared missing tag: Endpoints",
     "grubhub-connect-endpoints-openapi.yml: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
@@ -90,7 +78,18 @@
     "grubhub-testing-openapi.yml: declared missing tag: Endpoints",
     "tag 'Endpoints' spans 8 source specs (grubhub-busy-intervals-openapi.yml, grubhub-deliveries-openapi.yml, grubhub-menu-openapi.yml, grubhub-merchant-data-openapi.yml, grubhub-merchant-schedules-openapi.yml, grubhub-onboarding-openapi.yml, grubhub-orders-openapi.yml, grubhub-testing-openapi.yml): per-path servers applied",
     "tag 'Webhooks' spans 2 source specs (grubhub-connect-webhooks-openapi.yml, grubhub-reporting-webhooks-openapi.yml): per-path servers applied",
-    "apis.yml register: written (+10 apis, 10 total)"
+    "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "grubhub-delivery-quotes-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "grubhub-delivery-refunds-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "grubhub-delivery-service-areas-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "grubhub-delivery-status-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "grubhub-delivery-tests-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "grubhub-delivery-updates-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "grubhub-delivery-webhooks-emulation-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "grubhub-endpoints-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "grubhub-requesting-reports-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "grubhub-webhooks-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

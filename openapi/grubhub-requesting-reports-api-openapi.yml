@@ -195,14 +195,6 @@ paths:
                 message: 'Error fetching enabled merchants for partnerId: 0f3b62bc-37db-11f0-9cd2-0242ac120002'
 components:
   schemas:
-    GetEnabledMerchantsResponse:
-      type: object
-      properties:
-        merchant_ids:
-          uniqueItems: true
-          type: array
-          items:
-            type: string
     DateRange:
       required:
       - end_date
@@ -219,14 +211,6 @@ components:
       example:
         start_date: '2025-01-01'
         end_date: '2025-01-31'
-    ReportRequestParametersByPartner:
-      required:
-      - date_range
-      type: object
-      properties:
-        date_range:
-          $ref: '#/components/schemas/DateRange'
-      description: The parameters to request the report. Currently, the only supported parameter is date range.
     GetDownloadUrlResponseByPartner:
       type: object
       properties:
@@ -236,19 +220,14 @@ components:
           format: url
           example: https://s3.amazonaws.com/grubhub-reports/report.csv
       description: Response body containing the S3 download URL for the requested report.
-    CreateExportReportResponseByPartner:
+    GetEnabledMerchantsResponse:
       type: object
       properties:
-        report_uuid:
-          type: string
-          description: UUID for the requested report.
-          example: cd6b2420-47bc-11f0-a421-b79eaad8f2c3
-      description: Response returned after a successful report request.
-    MerchantReportingErrorResponse:
-      type: object
-      properties:
-        message:
-          type: string
+        merchant_ids:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
     CreateExportReportRequestByPartner:
       required:
       - merchant_ids
@@ -290,3 +269,24 @@ components:
         report_parameters:
           $ref: '#/components/schemas/ReportRequestParametersByPartner'
       description: The request body for requesting a report.
+    MerchantReportingErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+    CreateExportReportResponseByPartner:
+      type: object
+      properties:
+        report_uuid:
+          type: string
+          description: UUID for the requested report.
+          example: cd6b2420-47bc-11f0-a421-b79eaad8f2c3
+      description: Response returned after a successful report request.
+    ReportRequestParametersByPartner:
+      required:
+      - date_range
+      type: object
+      properties:
+        date_range:
+          $ref: '#/components/schemas/DateRange'
+      description: The parameters to request the report. Currently, the only supported parameter is date range.
