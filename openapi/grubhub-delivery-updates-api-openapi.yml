@@ -421,33 +421,6 @@ paths:
                   message: Delivery not found with id=00000000-0000-0000-0000-000000000000
 components:
   schemas:
-    com.grubhub.pos.generic.delivery.fulfillment.common.model.PickupVerification:
-      required:
-      - capture_method
-      - verification_code
-      type: object
-      properties:
-        capture_method:
-          type: string
-          description: The method used to capture the pickup verification code.
-          enum:
-          - QR_SCAN
-        verification_code:
-          type: string
-          description: The verification code provided by the partner.
-      description: Pickup verification provided by the partner.
-    IncreaseTipRequest:
-      required:
-      - tip
-      type: object
-      properties:
-        tip:
-          minimum: 0
-          type: integer
-          description: The total tip amount the courier receives, formatted as cents.
-          format: int32
-          example: 500
-      description: A request for when a diner decides to increase a courier tip. Can be performed within 24 hours after delivery.
     PublicApiError:
       required:
       - code
@@ -502,3 +475,30 @@ components:
           description: Additional detail about the cancellation.
           example: Customer does not want to accept their delivery.
       description: A request to cancel a delivery.
+    IncreaseTipRequest:
+      required:
+      - tip
+      type: object
+      properties:
+        tip:
+          minimum: 0
+          type: integer
+          description: The total tip amount the courier receives, formatted as cents.
+          format: int32
+          example: 500
+      description: A request for when a diner decides to increase a courier tip. Can be performed within 24 hours after delivery.
+    com.grubhub.pos.generic.delivery.fulfillment.common.model.PickupVerification:
+      required:
+      - capture_method
+      - verification_code
+      type: object
+      properties:
+        capture_method:
+          type: string
+          description: The method used to capture the pickup verification code.
+          enum:
+          - QR_SCAN
+        verification_code:
+          type: string
+          description: The verification code provided by the partner.
+      description: Pickup verification provided by the partner.

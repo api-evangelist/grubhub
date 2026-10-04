@@ -211,23 +211,6 @@ components:
       example:
         start_date: '2025-01-01'
         end_date: '2025-01-31'
-    GetDownloadUrlResponseByPartner:
-      type: object
-      properties:
-        download_url:
-          type: string
-          description: The S3 URL to download the report.
-          format: url
-          example: https://s3.amazonaws.com/grubhub-reports/report.csv
-      description: Response body containing the S3 download URL for the requested report.
-    GetEnabledMerchantsResponse:
-      type: object
-      properties:
-        merchant_ids:
-          uniqueItems: true
-          type: array
-          items:
-            type: string
     CreateExportReportRequestByPartner:
       required:
       - merchant_ids
@@ -269,11 +252,6 @@ components:
         report_parameters:
           $ref: '#/components/schemas/ReportRequestParametersByPartner'
       description: The request body for requesting a report.
-    MerchantReportingErrorResponse:
-      type: object
-      properties:
-        message:
-          type: string
     CreateExportReportResponseByPartner:
       type: object
       properties:
@@ -290,3 +268,25 @@ components:
         date_range:
           $ref: '#/components/schemas/DateRange'
       description: The parameters to request the report. Currently, the only supported parameter is date range.
+    GetDownloadUrlResponseByPartner:
+      type: object
+      properties:
+        download_url:
+          type: string
+          description: The S3 URL to download the report.
+          format: url
+          example: https://s3.amazonaws.com/grubhub-reports/report.csv
+      description: Response body containing the S3 download URL for the requested report.
+    GetEnabledMerchantsResponse:
+      type: object
+      properties:
+        merchant_ids:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+    MerchantReportingErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string

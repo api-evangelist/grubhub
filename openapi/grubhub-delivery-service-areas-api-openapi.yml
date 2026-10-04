@@ -81,6 +81,19 @@ paths:
                   message: Request forbidden
 components:
   schemas:
+    PublicApiError:
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: string
+          description: A code representing the type of error that occurred.
+        message:
+          type: string
+          description: A detailed description of the error that occurred.
+      description: An error returned by the delivery API.
     Geometry:
       required:
       - coordinates
@@ -138,19 +151,6 @@ components:
                 description: The coordinates of the delivery area.
                 format: double
       description: The geometry of the delivery area.
-    PublicApiError:
-      required:
-      - code
-      - message
-      type: object
-      properties:
-        code:
-          type: string
-          description: A code representing the type of error that occurred.
-        message:
-          type: string
-          description: A detailed description of the error that occurred.
-      description: An error returned by the delivery API.
     Properties:
       required:
       - name
@@ -161,6 +161,16 @@ components:
           description: The name of the delivery area.
           example: CHICAGO-IL
       description: The properties of the delivery area.
+    ResponseWrapperServiceAreaResponse:
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/ServiceAreaResponse'
+        errors:
+          type: array
+          description: A list of errors returned.
+          items:
+            $ref: '#/components/schemas/PublicApiError'
     Feature:
       required:
       - geometry
@@ -177,17 +187,6 @@ components:
         geometry:
           $ref: '#/components/schemas/Geometry'
       description: The feature information of the delivery area.
-    ServiceAreaResponse:
-      required:
-      - delivery_areas
-      type: object
-      properties:
-        delivery_areas:
-          type: array
-          description: The list of delivery areas that are currently active.
-          items:
-            $ref: '#/components/schemas/DeliveryArea'
-      description: The response information for delivery service areas.
     DeliveryArea:
       required:
       - features
@@ -204,13 +203,14 @@ components:
           items:
             $ref: '#/components/schemas/Feature'
       description: The delivery area information.
-    ResponseWrapperServiceAreaResponse:
+    ServiceAreaResponse:
+      required:
+      - delivery_areas
       type: object
       properties:
-        response:
-          $ref: '#/components/schemas/ServiceAreaResponse'
-        errors:
+        delivery_areas:
           type: array
-          description: A list of errors returned.
+          description: The list of delivery areas that are currently active.
           items:
-            $ref: '#/components/schemas/PublicApiError'
+            $ref: '#/components/schemas/DeliveryArea'
+      description: The response information for delivery service areas.

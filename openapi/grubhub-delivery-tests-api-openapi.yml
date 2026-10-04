@@ -167,16 +167,6 @@ paths:
                   message: Delivery not found with id=00000000-0000-0000-0000-000000000000
 components:
   schemas:
-    ResponseWrapperProgressDeliveryResponse:
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/ProgressDeliveryResponse'
-        errors:
-          type: array
-          description: A list of errors returned.
-          items:
-            $ref: '#/components/schemas/PublicApiError'
     PublicApiError:
       required:
       - code
@@ -190,6 +180,52 @@ components:
           type: string
           description: A detailed description of the error that occurred.
       description: An error returned by the delivery API.
+    ProgressDeliveryResponse:
+      required:
+      - expected_progression_time
+      type: object
+      properties:
+        expected_progression_time:
+          type: string
+          description: The expected timestamp at which the delivery will be progressed to the requested state. Formatted as an ISO-8601 timestamp.
+          format: date-time
+          example: '2024-05-28T00:00:00Z'
+      description: The response information of a delivery progression request.
+    ResponseWrapperProgressDeliveryResponse:
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/ProgressDeliveryResponse'
+        errors:
+          type: array
+          description: A list of errors returned.
+          items:
+            $ref: '#/components/schemas/PublicApiError'
+    ProgressDeliveryRequest:
+      required:
+      - delivery_state
+      type: object
+      properties:
+        delivery_state:
+          type: string
+          description: The subset of delivery states that a partner can progress a delivery to.
+          enum:
+          - ASSIGNED
+          - UNASSIGNED
+          - COURIER_AT_PICKUP
+          - PICKED_UP
+          - IN_TRANSIT
+          - COURIER_AT_DROPOFF
+          - DELIVERED
+          - CANCELED
+        speed_mph:
+          minimum: 0
+          type: integer
+          description: The speed (in mph) at which the courier should move to the given delivery state. If no value is provided, the default speed of 30 mph will be used.
+          format: int32
+          example: 30
+          default: 30
+      description: The request information for progressing a test delivery.
     ProgressRefundRequest:
       required:
       - decision
@@ -249,39 +285,3 @@ components:
           format: int32
           example: 200
       description: The amount of the refund requested, broken down into various categories.
-    ProgressDeliveryResponse:
-      required:
-      - expected_progression_time
-      type: object
-      properties:
-        expected_progression_time:
-          type: string
-          description: The expected timestamp at which the delivery will be progressed to the requested state. Formatted as an ISO-8601 timestamp.
-          format: date-time
-          example: '2024-05-28T00:00:00Z'
-      description: The response information of a delivery progression request.
-    ProgressDeliveryRequest:
-      required:
-      - delivery_state
-      type: object
-      properties:
-        delivery_state:
-          type: string
-          description: The subset of delivery states that a partner can progress a delivery to.
-          enum:
-          - ASSIGNED
-          - UNASSIGNED
-          - COURIER_AT_PICKUP
-          - PICKED_UP
-          - IN_TRANSIT
-          - COURIER_AT_DROPOFF
-          - DELIVERED
-          - CANCELED
-        speed_mph:
-          minimum: 0
-          type: integer
-          description: The speed (in mph) at which the courier should move to the given delivery state. If no value is provided, the default speed of 30 mph will be used.
-          format: int32
-          example: 30
-          default: 30
-      description: The request information for progressing a test delivery.
