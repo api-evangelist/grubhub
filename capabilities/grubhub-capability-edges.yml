@@ -1,9 +1,10 @@
 slug: grubhub
-provider: grubhub
+provider: Grubhub
 generated_by: planning/capability-mapping/scripts/classify_capabilities.py
 model: claude-opus-5
 frame:
 - Agriculture & Food Production
+- Software & Technology
 min_confidence: 0.7
 capability_model:
   source: https://github.com/vincentmakes/turbo-ea-capabilities
@@ -11,7 +12,7 @@ capability_model:
   attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
     CC BY 4.0
   notice: NOTICE
-edge_count: 1
+edge_count: 3
 edges:
 - tag: Delivery Status
   spec_file: grubhub-delivery-status-api-openapi.yml
@@ -22,3 +23,27 @@ edges:
   evidence: 'getDeliveryStatus  Grubhub Get Delivery Status for an Order; schemas: Driver, Delivery'
   reason: Courier delivery tracking for an order is last-mile logistics operations; no agri-food capability
     applies to a restaurant delivery marketplace.
+- tag: Delivery Updates
+  spec_file: grubhub-delivery-updates-api-openapi.yml
+  capability_id: BC-520.50
+  capability_id_l1: BC-520
+  capability_name: Logistics Operations Management
+  confidence: 0.72
+  evidence: POST /delivery/daas/v1/{deliveryId}/dropoff updateDeliveryDropoffLocation 'Update delivery
+    information'; 'Increase courier tip'; 'Update delivery to pickup ready'; 'Cancel a delivery' with
+    schemas Courier, Vehicle
+  reason: Operations control an in-flight last-mile courier delivery — pickup readiness, pickup verification,
+    dropoff location, cancellation, courier tip. That is execution of transport/logistics operations,
+    best fit BC-520.50 Logistics Operations Management. Not order capture or fulfilment promising, so
+    the narrower logistics L2 is chosen with moderate confidence.
+- tag: Delivery Quotes
+  spec_file: grubhub-delivery-quotes-api-openapi.yml
+  capability_id: BC-520.50
+  capability_id_l1: BC-520
+  capability_name: Logistics Operations Management
+  confidence: 0.7
+  evidence: POST /delivery/daas/v1/quote 'Request delivery quotes'; schemas Delivery, ProofOfDelivery,
+    CourierAtDropoff, InTransit
+  reason: Operations obtain and accept last-mile courier delivery offers, with courier pickup/dropoff
+    and proof-of-delivery event schemas — transport/logistics execution. Not CPQ sales quoting despite
+    the 'Quote' noun; confidence moderated by that ambiguity.
