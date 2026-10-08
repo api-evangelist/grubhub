@@ -116,3 +116,39 @@ notes: >-
   Plus 15%, All-access 20%, and the tier is called All-access, not Premium. New York City has
   separate published pricing (the page links to it) because of the municipal fee cap; exact rates
   are still set per restaurant contract and vary by market.
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - negotiated
+  - revenue-share
+  units:
+  - money
+  plans:
+  - name: Basic
+    access: partner
+    model: revenue-share
+    model_how: stated
+    units:
+    - money
+    periods: []
+  - name: Plus
+    access: partner
+    model: revenue-share
+    model_how: stated
+    units:
+    - money
+    periods: []
+  - name: All-access
+    access: partner
+    model: revenue-share
+    model_how: stated
+    units:
+    - money
+    periods: []
+  - name: Partner Integration (API access)
+    access: enterprise
+    model: negotiated
+    model_how: derived
+    units: []
+    periods: []
