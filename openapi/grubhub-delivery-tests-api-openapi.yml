@@ -167,40 +167,6 @@ paths:
                   message: Delivery not found with id=00000000-0000-0000-0000-000000000000
 components:
   schemas:
-    PublicApiError:
-      required:
-      - code
-      - message
-      type: object
-      properties:
-        code:
-          type: string
-          description: A code representing the type of error that occurred.
-        message:
-          type: string
-          description: A detailed description of the error that occurred.
-      description: An error returned by the delivery API.
-    ProgressDeliveryResponse:
-      required:
-      - expected_progression_time
-      type: object
-      properties:
-        expected_progression_time:
-          type: string
-          description: The expected timestamp at which the delivery will be progressed to the requested state. Formatted as an ISO-8601 timestamp.
-          format: date-time
-          example: '2024-05-28T00:00:00Z'
-      description: The response information of a delivery progression request.
-    ResponseWrapperProgressDeliveryResponse:
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/ProgressDeliveryResponse'
-        errors:
-          type: array
-          description: A list of errors returned.
-          items:
-            $ref: '#/components/schemas/PublicApiError'
     ProgressDeliveryRequest:
       required:
       - delivery_state
@@ -226,33 +192,6 @@ components:
           example: 30
           default: 30
       description: The request information for progressing a test delivery.
-    ProgressRefundRequest:
-      required:
-      - decision
-      type: object
-      properties:
-        decision:
-          type: string
-          description: The refund request decision.
-          enum:
-          - ACCEPTED
-          - REJECTED
-        reason:
-          maxLength: 512
-          minLength: 0
-          type: string
-          description: The reason code associated with the refund decision.
-          example: DriverMissedDropoffEta
-          default: DriverMissedDropoffEta
-        description:
-          maxLength: 512
-          minLength: 0
-          type: string
-          description: Additional details about the refund decision.
-          example: Driver was 30 minutes late to the dropoff location.
-        refund_amounts:
-          $ref: '#/components/schemas/RefundAmount'
-      description: The request information for progressing a test refund.
     RefundAmount:
       required:
       - contents_value
@@ -285,3 +224,64 @@ components:
           format: int32
           example: 200
       description: The amount of the refund requested, broken down into various categories.
+    ResponseWrapperProgressDeliveryResponse:
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/ProgressDeliveryResponse'
+        errors:
+          type: array
+          description: A list of errors returned.
+          items:
+            $ref: '#/components/schemas/PublicApiError'
+    ProgressRefundRequest:
+      required:
+      - decision
+      type: object
+      properties:
+        decision:
+          type: string
+          description: The refund request decision.
+          enum:
+          - ACCEPTED
+          - REJECTED
+        reason:
+          maxLength: 512
+          minLength: 0
+          type: string
+          description: The reason code associated with the refund decision.
+          example: DriverMissedDropoffEta
+          default: DriverMissedDropoffEta
+        description:
+          maxLength: 512
+          minLength: 0
+          type: string
+          description: Additional details about the refund decision.
+          example: Driver was 30 minutes late to the dropoff location.
+        refund_amounts:
+          $ref: '#/components/schemas/RefundAmount'
+      description: The request information for progressing a test refund.
+    PublicApiError:
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: string
+          description: A code representing the type of error that occurred.
+        message:
+          type: string
+          description: A detailed description of the error that occurred.
+      description: An error returned by the delivery API.
+    ProgressDeliveryResponse:
+      required:
+      - expected_progression_time
+      type: object
+      properties:
+        expected_progression_time:
+          type: string
+          description: The expected timestamp at which the delivery will be progressed to the requested state. Formatted as an ISO-8601 timestamp.
+          format: date-time
+          example: '2024-05-28T00:00:00Z'
+      description: The response information of a delivery progression request.

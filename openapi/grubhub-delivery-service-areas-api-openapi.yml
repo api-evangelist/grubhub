@@ -81,6 +81,22 @@ paths:
                   message: Request forbidden
 components:
   schemas:
+    DeliveryArea:
+      required:
+      - features
+      - type
+      type: object
+      properties:
+        type:
+          type: string
+          description: The type of delivery area.
+          example: FeatureCollection
+        features:
+          type: array
+          description: The list of features that make up the delivery area.
+          items:
+            $ref: '#/components/schemas/Feature'
+      description: The delivery area information.
     PublicApiError:
       required:
       - code
@@ -94,6 +110,32 @@ components:
           type: string
           description: A detailed description of the error that occurred.
       description: An error returned by the delivery API.
+    ResponseWrapperServiceAreaResponse:
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/ServiceAreaResponse'
+        errors:
+          type: array
+          description: A list of errors returned.
+          items:
+            $ref: '#/components/schemas/PublicApiError'
+    Feature:
+      required:
+      - geometry
+      - properties
+      - type
+      type: object
+      properties:
+        type:
+          type: string
+          description: The type of feature.
+          example: Feature
+        properties:
+          $ref: '#/components/schemas/Properties'
+        geometry:
+          $ref: '#/components/schemas/Geometry'
+      description: The feature information of the delivery area.
     Geometry:
       required:
       - coordinates
@@ -151,58 +193,6 @@ components:
                 description: The coordinates of the delivery area.
                 format: double
       description: The geometry of the delivery area.
-    Properties:
-      required:
-      - name
-      type: object
-      properties:
-        name:
-          type: string
-          description: The name of the delivery area.
-          example: CHICAGO-IL
-      description: The properties of the delivery area.
-    ResponseWrapperServiceAreaResponse:
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/ServiceAreaResponse'
-        errors:
-          type: array
-          description: A list of errors returned.
-          items:
-            $ref: '#/components/schemas/PublicApiError'
-    Feature:
-      required:
-      - geometry
-      - properties
-      - type
-      type: object
-      properties:
-        type:
-          type: string
-          description: The type of feature.
-          example: Feature
-        properties:
-          $ref: '#/components/schemas/Properties'
-        geometry:
-          $ref: '#/components/schemas/Geometry'
-      description: The feature information of the delivery area.
-    DeliveryArea:
-      required:
-      - features
-      - type
-      type: object
-      properties:
-        type:
-          type: string
-          description: The type of delivery area.
-          example: FeatureCollection
-        features:
-          type: array
-          description: The list of features that make up the delivery area.
-          items:
-            $ref: '#/components/schemas/Feature'
-      description: The delivery area information.
     ServiceAreaResponse:
       required:
       - delivery_areas
@@ -214,3 +204,13 @@ components:
           items:
             $ref: '#/components/schemas/DeliveryArea'
       description: The response information for delivery service areas.
+    Properties:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the delivery area.
+          example: CHICAGO-IL
+      description: The properties of the delivery area.

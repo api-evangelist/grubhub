@@ -190,48 +190,219 @@ paths:
                   message: Request forbidden
 components:
   schemas:
-    NotificationPreferences:
+    GeoLocation:
+      required:
+      - lat
+      - lng
       type: object
       properties:
-        send_dropoff_contact_notifications:
-          type: boolean
-          description: Whether to send notifications to the dropoff contact for this delivery - defaults to sending notifications.
-          default: true
-      description: Notification-related preferences for the delivery request
-    Assigned:
+        lat:
+          type: number
+          description: The latitude of the location.
+          format: double
+          example: 41.88320791307697
+        lng:
+          type: number
+          description: The longitude of the location.
+          format: double
+          example: -87.63142796027925
+      description: The last known location of the courier.
+    DeliverySizing:
+      type: object
+      properties:
+        weight:
+          type: string
+          description: 'The weight category of a delivery.
+
+
+            **STANDARD** <= 15 lbs
+
+
+            **HEAVY** > 15 lbs'
+          example: STANDARD
+          enum:
+          - STANDARD
+          - HEAVY
+        dimensions:
+          type: string
+          description: 'The size category of a delivery based on its dimensions.
+
+
+            **SMALL** - single item, may be carried in one hand
+
+
+            **MEDIUM** - requires a bag, may be carried in one hand
+
+
+            **LARGE** - may require two hands
+
+
+            **EXTRA_LARGE** - may require multiple trips or equipment'
+          example: MEDIUM
+          enum:
+          - SMALL
+          - MEDIUM
+          - LARGE
+          - EXTRA_LARGE
+      description: Information about delivery-level sizing.
+    PickedUp:
       required:
       - timestamp
       - type
       type: object
-      description: An event indicating the delivery has been assigned.
+      description: An event indicating the delivery has been picked up by the assigned courier.
       allOf:
       - $ref: '#/components/schemas/DeliveryEvent'
-    ReturnInitiated:
+    InTransit:
       required:
       - timestamp
       - type
       type: object
-      description: An event indicating the delivery is in-transit back to the pickup location in order to return some portion of the delivery's contents.
+      description: An event indicating the assigned courier has departed the restaurant with the delivery.
       allOf:
       - $ref: '#/components/schemas/DeliveryEvent'
-      - type: object
-        properties:
-          return_reason:
-            type: string
-            description: The reason the delivery's contents are being returned.
-            example: DINER_MISSING_ID
-    ProofOfDelivery:
+    ItemWeight:
+      required:
+      - unit
+      - weight
+      type: object
+      properties:
+        unit:
+          type: string
+          description: Unit of measurement
+          example: POUNDS
+          enum:
+          - POUNDS
+        weight:
+          type: number
+          description: Weight of the item
+          format: double
+          example: 5.0
+      description: Weight of the item
+    Charges:
+      required:
+      - contents_value
+      - tip
+      type: object
+      properties:
+        tip:
+          minimum: 0
+          type: integer
+          description: The tip amount the courier receives, formatted as cents.
+          format: int32
+          example: 200
+        contents_value:
+          minimum: 0
+          type: integer
+          description: The amount the items being delivered are worth minus taxes, formatted as cents.
+          format: int32
+          example: 200
+      description: The charges associated with a delivery.
+    ItemSizing:
+      type: object
+      properties:
+        weight:
+          $ref: '#/components/schemas/ItemWeight'
+        dimensions:
+          $ref: '#/components/schemas/ItemDimensions'
+      description: Information about item-level sizing
+    PublicApiError:
+      required:
+      - code
+      - message
+      type: object
+      properties:
+        code:
+          type: string
+          description: A code representing the type of error that occurred.
+        message:
+          type: string
+          description: A detailed description of the error that occurred.
+      description: An error returned by the delivery API.
+    DropoffImageDetails:
+      required:
+      - photo_capture_location
+      - photo_capture_time
+      - photo_expiration_time
+      - photo_url
+      type: object
+      properties:
+        photo_url:
+          type: string
+          description: A URL to the dropoff photo taken by the driver upon completing the delivery.
+          example: http://www.grubhub.com/example.png
+        photo_capture_time:
+          type: string
+          description: The timestamp at which the dropoff photo was captured. Formatted as an ISO-8601 timestamp.
+          format: date-time
+          example: '2024-05-28T00:00:00Z'
+        photo_capture_location:
+          $ref: '#/components/schemas/GeoLocation'
+        photo_expiration_time:
+          type: string
+          description: The timestamp when the dropoff photo will expire. Formatted as an ISO-8601 timestamp.
+          format: date-time
+          example: '2024-05-28T00:00:00Z'
+    com.grubhub.pos.generic.delivery.fulfillment.common.model.PickupVerification:
+      required:
+      - capture_method
+      - verification_code
+      type: object
+      properties:
+        capture_method:
+          type: string
+          description: The method used to capture the pickup verification code.
+          enum:
+          - QR_SCAN
+        verification_code:
+          type: string
+          description: The verification code provided by the partner.
+      description: Pickup verification provided by the partner.
+    ItemDimensions:
+      required:
+      - depth
+      - height
+      - unit
+      - width
+      type: object
+      properties:
+        unit:
+          type: string
+          description: Unit of measurement
+          example: INCHES
+          enum:
+          - INCHES
+          - FEET
+        width:
+          type: number
+          description: Width of the item
+          format: double
+          example: 10.0
+        height:
+          type: number
+          description: Height of the item
+          format: double
+          example: 5.0
+        depth:
+          type: number
+          description: Depth of the item
+          format: double
+          example: 3.0
+      description: Dimensions of the item
+    CourierAtPickup:
       required:
       - timestamp
       - type
       type: object
-      description: An event containing proof of delivery information.
+      description: An event indicating the assigned courier has arrived at the delivery's pickup location.
       allOf:
       - $ref: '#/components/schemas/DeliveryEvent'
-      - type: object
-        properties:
-          dropoff_image_details:
-            $ref: '#/components/schemas/DropoffImageDetails'
+    AcceptQuoteResponse:
+      type: object
+      properties:
+        delivery:
+          $ref: '#/components/schemas/Delivery'
+      description: The response information for a quote acceptance request.
     DropoffPreferences:
       type: object
       properties:
@@ -245,70 +416,23 @@ components:
             enum:
             - CONTACTLESS
       description: Preferences for how the delivery dropoff should be handled.
-    PickupVerificationDetails:
-      type: object
-      properties:
-        result:
-          type: string
-          description: The result of pickup verification process.
-          enum:
-          - SUCCESS
-          - FAILURE
-          - UNKNOWN
-        capture_method:
-          type: string
-          description: The method used to capture the pickup verification code.
-          enum:
-          - QR_SCAN
-          - PHOTO
-        failure_reason:
-          type: string
-          description: The reason for the verification failure, if applicable.
-        attempts_count:
-          type: integer
-          description: The number of verification attempts made.
-          format: int32
-        photo_url:
-          type: string
-          description: A URL to the pickup verification photo, if applicable.
-    Quote:
+    EstimatedEventTimes:
       required:
-      - cost_amount
-      - estimated_dropoff_time
-      - estimated_pickup_time
-      - expiration
-      - quote_id
-      - return_fee
+      - dropped_off
+      - picked_up
       type: object
       properties:
-        quote_id:
+        picked_up:
           type: string
-          description: The unique identifier for this quote. This must be referenced when accepting the quote.
-          format: uuid
-          example: 0ec346bd-635a-4a07-8f35-44962a8bcc5b
-        cost_amount:
-          minimum: 0
-          type: integer
-          description: The cost of the delivery, formatted in cents.
-          format: int32
-        estimated_pickup_time:
-          type: string
-          description: The courier's estimated pickup time of the delivery. Formatted as an ISO-8601 timestamp.
+          description: The estimated pickup time, or the actual pickup time if the pickup has already occurred. Formatted as an ISO-8601 timestamp.
           format: date-time
-        estimated_dropoff_time:
+          example: '2024-05-28T00:00:00Z'
+        dropped_off:
           type: string
-          description: The courier's estimated dropoff time of the delivery. Formatted as an ISO-8601 timestamp.
+          description: The estimated drop-off time, or the actual drop-off time if the pickup has already occurred. Formatted as an ISO-8601 timestamp.
           format: date-time
-        return_fee:
-          minimum: 0
-          type: integer
-          description: The return fee of the delivery, formatted in cents.
-          format: int32
-        expiration:
-          type: string
-          description: When the quote expires and new quote must be requested. Formatted as an ISO-8601 timestamp.
-          format: date-time
-      description: The information associated with a delivery fulfillment quote.
+          example: '2024-05-28T00:00:00Z'
+      description: The latest known estimates for the delivery pickup and dropoff times. Will be the actual times if the event has already occurred.
     PickupLocation:
       required:
       - address
@@ -363,6 +487,270 @@ components:
           description: A reference name for grouping locations.
           example: All NY Stores
       description: The information associated with a pickup location.
+    QuoteRequest:
+      required:
+      - charges
+      - dropoff
+      - pickup
+      - time_preferences
+      type: object
+      properties:
+        pickup:
+          $ref: '#/components/schemas/PickupLocation'
+        dropoff:
+          $ref: '#/components/schemas/DropoffLocation'
+        items:
+          type: array
+          description: A collection of items describing what is included in the delivery.
+          items:
+            $ref: '#/components/schemas/Item'
+        charges:
+          $ref: '#/components/schemas/Charges'
+        time_preferences:
+          $ref: '#/components/schemas/TimePreferences'
+        dropoff_preferences:
+          $ref: '#/components/schemas/DropoffPreferences'
+        client_data:
+          $ref: '#/components/schemas/ClientData'
+        notification_preferences:
+          $ref: '#/components/schemas/NotificationPreferences'
+        pickup_verification:
+          $ref: '#/components/schemas/com.grubhub.pos.generic.delivery.fulfillment.common.model.PickupVerification'
+        delivery_sizing:
+          $ref: '#/components/schemas/DeliverySizing'
+        tags:
+          uniqueItems: true
+          type: array
+          description: Tags that can be applied to a delivery to assist with categorization, pricing and filtering.
+          items:
+            type: string
+            description: Tags that can be applied to a delivery to assist with categorization, pricing and filtering.
+            example: FOOD
+            enum:
+            - FOOD
+            - FLORAL
+            - GROCERY
+      description: A request for delivery fulfillment quotes.
+    Delivery:
+      required:
+      - delivery_id
+      - estimated_event_times
+      - events
+      type: object
+      properties:
+        delivery_id:
+          type: string
+          description: A unique identifier of this delivery.
+          format: uuid
+          example: 0ec346bd-635a-4a07-8f35-44962a8bcc5b
+        events:
+          type: array
+          description: A history of notable events that have occurred for this delivery.
+          items:
+            $ref: '#/components/schemas/DeliveryEvent'
+        estimated_event_times:
+          $ref: '#/components/schemas/EstimatedEventTimes'
+        client_data:
+          $ref: '#/components/schemas/ClientData'
+      description: The information and historical events associated with a delivery.
+    Unassigned:
+      required:
+      - timestamp
+      - type
+      type: object
+      description: An event indicating the delivery has been unassigned. An unassigned delivery may still be reassigned to another driver later.
+      allOf:
+      - $ref: '#/components/schemas/DeliveryEvent'
+    SubItem:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          maxLength: 64
+          minLength: 0
+          type: string
+          description: The name of the subitem.
+          example: Add cheese
+        description:
+          maxLength: 128
+          minLength: 0
+          type: string
+          description: The description of the subitem.
+          example: Single slice of American cheese.
+        quantity:
+          minimum: 0
+          type: integer
+          description: The quantity of this subitem, if applicable.
+          format: int32
+          default: 0
+      description: The information associated with a delivery subitem.
+    NotificationPreferences:
+      type: object
+      properties:
+        send_dropoff_contact_notifications:
+          type: boolean
+          description: Whether to send notifications to the dropoff contact for this delivery - defaults to sending notifications.
+          default: true
+      description: Notification-related preferences for the delivery request
+    Quote:
+      required:
+      - cost_amount
+      - estimated_dropoff_time
+      - estimated_pickup_time
+      - expiration
+      - quote_id
+      - return_fee
+      type: object
+      properties:
+        quote_id:
+          type: string
+          description: The unique identifier for this quote. This must be referenced when accepting the quote.
+          format: uuid
+          example: 0ec346bd-635a-4a07-8f35-44962a8bcc5b
+        cost_amount:
+          minimum: 0
+          type: integer
+          description: The cost of the delivery, formatted in cents.
+          format: int32
+        estimated_pickup_time:
+          type: string
+          description: The courier's estimated pickup time of the delivery. Formatted as an ISO-8601 timestamp.
+          format: date-time
+        estimated_dropoff_time:
+          type: string
+          description: The courier's estimated dropoff time of the delivery. Formatted as an ISO-8601 timestamp.
+          format: date-time
+        return_fee:
+          minimum: 0
+          type: integer
+          description: The return fee of the delivery, formatted in cents.
+          format: int32
+        expiration:
+          type: string
+          description: When the quote expires and new quote must be requested. Formatted as an ISO-8601 timestamp.
+          format: date-time
+      description: The information associated with a delivery fulfillment quote.
+    ResponseWrapperQuoteResponse:
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/QuoteResponse'
+        errors:
+          type: array
+          description: A list of errors returned.
+          items:
+            $ref: '#/components/schemas/PublicApiError'
+    ReturnArrived:
+      required:
+      - timestamp
+      - type
+      type: object
+      description: An event indicating the courier has arrived back at the pickup location with the portion of the delivery's contents being returned.
+      allOf:
+      - $ref: '#/components/schemas/DeliveryEvent'
+    Canceled:
+      required:
+      - timestamp
+      - type
+      type: object
+      description: An event indicating that the delivery was canceled.
+      allOf:
+      - $ref: '#/components/schemas/DeliveryEvent'
+      - type: object
+        properties:
+          source:
+            type: string
+            description: Types of actors who may update a delivery.
+            example: CLIENT
+            enum:
+            - CLIENT
+            - GRUBHUB
+          reason_code:
+            type: string
+            description: Codes for reasons why a delivery was canceled.
+            example: CUSTOMER_OTHER_REASON
+            enum:
+            - MERCHANT_NOT_READY_FOR_PICKUP
+            - MERCHANT_UNABLE_TO_FULFILL_ORDER
+            - MERCHANT_CLOSED
+            - MERCHANT_PICKUP_DELAYED
+            - MERCHANT_ITEM_MISSING
+            - MERCHANT_OTHER_REASON
+            - EXTERNAL_SYSTEM_FAILURE
+            - CUSTOMER_CONTENTS_ISSUE
+            - CUSTOMER_ORDER_CHANGED
+            - CUSTOMER_REFUSED_DELIVERY
+            - CUSTOMER_DELIVERY_DELAYED
+            - CUSTOMER_OTHER_REASON
+            - ORDER_PICKED_UP_BY_ANOTHER_DRIVER
+            - DRIVER_UNABLE_TO_FINISH_DELIVERY
+            - UNABLE_TO_ASSIGN_DRIVER
+            - EXTERNAL_PARTNER_OTHER_REASON
+            - DELIVERY_CANCELLATION_OTHER_REASON
+            - UNKNOWN
+          reason_comment:
+            type: string
+            description: Additional detail about the cancellation.
+            example: Customer no longer wants delivery.
+    ReturnInitiated:
+      required:
+      - timestamp
+      - type
+      type: object
+      description: An event indicating the delivery is in-transit back to the pickup location in order to return some portion of the delivery's contents.
+      allOf:
+      - $ref: '#/components/schemas/DeliveryEvent'
+      - type: object
+        properties:
+          return_reason:
+            type: string
+            description: The reason the delivery's contents are being returned.
+            example: DINER_MISSING_ID
+    Delivered:
+      required:
+      - timestamp
+      - type
+      type: object
+      description: An event indicating the delivery has been successfully delivered.
+      allOf:
+      - $ref: '#/components/schemas/DeliveryEvent'
+      - type: object
+        properties:
+          dropoff_image_details:
+            description: Use `dropoff_image_details` in the `ProofOfDelivery` event instead.
+            deprecated: true
+            allOf:
+            - $ref: '#/components/schemas/DropoffImageDetails'
+    ProofOfDelivery:
+      required:
+      - timestamp
+      - type
+      type: object
+      description: An event containing proof of delivery information.
+      allOf:
+      - $ref: '#/components/schemas/DeliveryEvent'
+      - type: object
+        properties:
+          dropoff_image_details:
+            $ref: '#/components/schemas/DropoffImageDetails'
+    CourierAtDropoff:
+      required:
+      - timestamp
+      - type
+      type: object
+      description: An event indicating the assigned courier has arrived at the delivery's dropoff location.
+      allOf:
+      - $ref: '#/components/schemas/DeliveryEvent'
+    QuoteResponse:
+      type: object
+      properties:
+        quotes:
+          type: array
+          description: A list of delivery options to select from.
+          items:
+            $ref: '#/components/schemas/Quote'
+      description: The response information of a delivery fulfillment quote request.
     Item:
       required:
       - name
@@ -393,78 +781,14 @@ components:
         item_sizing:
           $ref: '#/components/schemas/ItemSizing'
       description: The information associated with a delivery item.
-    DropoffImageDetails:
+    Assigned:
       required:
-      - photo_capture_location
-      - photo_capture_time
-      - photo_expiration_time
-      - photo_url
+      - timestamp
+      - type
       type: object
-      properties:
-        photo_url:
-          type: string
-          description: A URL to the dropoff photo taken by the driver upon completing the delivery.
-          example: http://www.grubhub.com/example.png
-        photo_capture_time:
-          type: string
-          description: The timestamp at which the dropoff photo was captured. Formatted as an ISO-8601 timestamp.
-          format: date-time
-          example: '2024-05-28T00:00:00Z'
-        photo_capture_location:
-          $ref: '#/components/schemas/GeoLocation'
-        photo_expiration_time:
-          type: string
-          description: The timestamp when the dropoff photo will expire. Formatted as an ISO-8601 timestamp.
-          format: date-time
-          example: '2024-05-28T00:00:00Z'
-    ResponseWrapperQuoteResponse:
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/QuoteResponse'
-        errors:
-          type: array
-          description: A list of errors returned.
-          items:
-            $ref: '#/components/schemas/PublicApiError'
-    DeliverySizing:
-      type: object
-      properties:
-        weight:
-          type: string
-          description: 'The weight category of a delivery.
-
-
-            **STANDARD** <= 15 lbs
-
-
-            **HEAVY** > 15 lbs'
-          example: STANDARD
-          enum:
-          - STANDARD
-          - HEAVY
-        dimensions:
-          type: string
-          description: 'The size category of a delivery based on its dimensions.
-
-
-            **SMALL** - single item, may be carried in one hand
-
-
-            **MEDIUM** - requires a bag, may be carried in one hand
-
-
-            **LARGE** - may require two hands
-
-
-            **EXTRA_LARGE** - may require multiple trips or equipment'
-          example: MEDIUM
-          enum:
-          - SMALL
-          - MEDIUM
-          - LARGE
-          - EXTRA_LARGE
-      description: Information about delivery-level sizing.
+      description: An event indicating the delivery has been assigned.
+      allOf:
+      - $ref: '#/components/schemas/DeliveryEvent'
     Created:
       required:
       - timestamp
@@ -473,35 +797,102 @@ components:
       description: An event representing the creation of a delivery.
       allOf:
       - $ref: '#/components/schemas/DeliveryEvent'
-    ItemSizing:
+    TimePreferences:
       type: object
       properties:
-        weight:
-          $ref: '#/components/schemas/ItemWeight'
-        dimensions:
-          $ref: '#/components/schemas/ItemDimensions'
-      description: Information about item-level sizing
-    PublicApiError:
-      required:
-      - code
-      - message
-      type: object
-      properties:
-        code:
+        pickup_time:
           type: string
-          description: A code representing the type of error that occurred.
-        message:
+          description: The preferred pickup time for the courier. Formatted as an ISO-8601 timestamp.
+          format: date-time
+          example: '2024-03-14T19:22:51.999Z'
+        dropoff_time:
           type: string
-          description: A detailed description of the error that occurred.
-      description: An error returned by the delivery API.
-    ReturnArrived:
+          description: The preferred dropoff time for the courier. Formatted as an ISO-8601 timestamp.
+          format: date-time
+          example: '2024-03-14T19:22:51.999Z'
+      description: The preferred pickup or dropoff time for the courier. Only use one of them.
+    ReturnCompleted:
       required:
       - timestamp
       - type
       type: object
-      description: An event indicating the courier has arrived back at the pickup location with the portion of the delivery's contents being returned.
+      description: An event indicating that the necessary portion of the delivery's contents have been successfully returned to the pickup location.
       allOf:
       - $ref: '#/components/schemas/DeliveryEvent'
+    DeliveryEvent:
+      required:
+      - timestamp
+      - type
+      type: object
+      properties:
+        type:
+          type: string
+          description: The type of this event.
+          example: PICKED_UP
+          enum:
+          - CREATED
+          - ASSIGNED
+          - UNASSIGNED
+          - COURIER_AT_PICKUP
+          - PICKED_UP
+          - IN_TRANSIT
+          - COURIER_AT_DROPOFF
+          - DELIVERED
+          - PROOF_OF_DELIVERY
+          - RETURN_INITIATED
+          - RETURN_ARRIVED
+          - RETURN_COMPLETED
+          - PICKUP_VERIFICATION
+          - CANCELED
+        timestamp:
+          type: string
+          description: The time at which this event occurred. Formatted as an ISO-8601 timestamp.
+          format: date-time
+          example: '2024-05-28T00:00:00Z'
+      description: An event during the course of a single delivery's lifecycle.
+      discriminator:
+        propertyName: type
+      oneOf:
+      - $ref: '#/components/schemas/Created'
+      - $ref: '#/components/schemas/Assigned'
+      - $ref: '#/components/schemas/Unassigned'
+      - $ref: '#/components/schemas/CourierAtPickup'
+      - $ref: '#/components/schemas/PickedUp'
+      - $ref: '#/components/schemas/InTransit'
+      - $ref: '#/components/schemas/CourierAtDropoff'
+      - $ref: '#/components/schemas/Delivered'
+      - $ref: '#/components/schemas/ProofOfDelivery'
+      - $ref: '#/components/schemas/PickupVerification'
+      - $ref: '#/components/schemas/ReturnInitiated'
+      - $ref: '#/components/schemas/ReturnArrived'
+      - $ref: '#/components/schemas/ReturnCompleted'
+      - $ref: '#/components/schemas/Canceled'
+    PickupVerificationDetails:
+      type: object
+      properties:
+        result:
+          type: string
+          description: The result of pickup verification process.
+          enum:
+          - SUCCESS
+          - FAILURE
+          - UNKNOWN
+        capture_method:
+          type: string
+          description: The method used to capture the pickup verification code.
+          enum:
+          - QR_SCAN
+          - PHOTO
+        failure_reason:
+          type: string
+          description: The reason for the verification failure, if applicable.
+        attempts_count:
+          type: integer
+          description: The number of verification attempts made.
+          format: int32
+        photo_url:
+          type: string
+          description: A URL to the pickup verification photo, if applicable.
     ClientData:
       type: object
       properties:
@@ -557,112 +948,6 @@ components:
         geo_location:
           $ref: '#/components/schemas/GeoLocation'
       description: The information associated with a dropoff location.
-    SubItem:
-      required:
-      - name
-      type: object
-      properties:
-        name:
-          maxLength: 64
-          minLength: 0
-          type: string
-          description: The name of the subitem.
-          example: Add cheese
-        description:
-          maxLength: 128
-          minLength: 0
-          type: string
-          description: The description of the subitem.
-          example: Single slice of American cheese.
-        quantity:
-          minimum: 0
-          type: integer
-          description: The quantity of this subitem, if applicable.
-          format: int32
-          default: 0
-      description: The information associated with a delivery subitem.
-    EstimatedEventTimes:
-      required:
-      - dropped_off
-      - picked_up
-      type: object
-      properties:
-        picked_up:
-          type: string
-          description: The estimated pickup time, or the actual pickup time if the pickup has already occurred. Formatted as an ISO-8601 timestamp.
-          format: date-time
-          example: '2024-05-28T00:00:00Z'
-        dropped_off:
-          type: string
-          description: The estimated drop-off time, or the actual drop-off time if the pickup has already occurred. Formatted as an ISO-8601 timestamp.
-          format: date-time
-          example: '2024-05-28T00:00:00Z'
-      description: The latest known estimates for the delivery pickup and dropoff times. Will be the actual times if the event has already occurred.
-    Charges:
-      required:
-      - contents_value
-      - tip
-      type: object
-      properties:
-        tip:
-          minimum: 0
-          type: integer
-          description: The tip amount the courier receives, formatted as cents.
-          format: int32
-          example: 200
-        contents_value:
-          minimum: 0
-          type: integer
-          description: The amount the items being delivered are worth minus taxes, formatted as cents.
-          format: int32
-          example: 200
-      description: The charges associated with a delivery.
-    Unassigned:
-      required:
-      - timestamp
-      - type
-      type: object
-      description: An event indicating the delivery has been unassigned. An unassigned delivery may still be reassigned to another driver later.
-      allOf:
-      - $ref: '#/components/schemas/DeliveryEvent'
-    Delivery:
-      required:
-      - delivery_id
-      - estimated_event_times
-      - events
-      type: object
-      properties:
-        delivery_id:
-          type: string
-          description: A unique identifier of this delivery.
-          format: uuid
-          example: 0ec346bd-635a-4a07-8f35-44962a8bcc5b
-        events:
-          type: array
-          description: A history of notable events that have occurred for this delivery.
-          items:
-            $ref: '#/components/schemas/DeliveryEvent'
-        estimated_event_times:
-          $ref: '#/components/schemas/EstimatedEventTimes'
-        client_data:
-          $ref: '#/components/schemas/ClientData'
-      description: The information and historical events associated with a delivery.
-    CourierAtDropoff:
-      required:
-      - timestamp
-      - type
-      type: object
-      description: An event indicating the assigned courier has arrived at the delivery's dropoff location.
-      allOf:
-      - $ref: '#/components/schemas/DeliveryEvent'
-    InTransit:
-      required:
-      - timestamp
-      - type
-      type: object
-      description: An event indicating the assigned courier has departed the restaurant with the delivery.
-      allOf:
-      - $ref: '#/components/schemas/DeliveryEvent'
     PickupVerification:
       required:
       - timestamp
@@ -675,23 +960,6 @@ components:
         properties:
           pickup_verification_details:
             $ref: '#/components/schemas/PickupVerificationDetails'
-    PickedUp:
-      required:
-      - timestamp
-      - type
-      type: object
-      description: An event indicating the delivery has been picked up by the assigned courier.
-      allOf:
-      - $ref: '#/components/schemas/DeliveryEvent'
-    QuoteResponse:
-      type: object
-      properties:
-        quotes:
-          type: array
-          description: A list of delivery options to select from.
-          items:
-            $ref: '#/components/schemas/Quote'
-      description: The response information of a delivery fulfillment quote request.
     DeliveryAddress:
       required:
       - city
@@ -743,186 +1011,6 @@ components:
           description: The company name of the address.
           example: Fake Savings and Loans Co.
       description: The information associated with an address.
-    ReturnCompleted:
-      required:
-      - timestamp
-      - type
-      type: object
-      description: An event indicating that the necessary portion of the delivery's contents have been successfully returned to the pickup location.
-      allOf:
-      - $ref: '#/components/schemas/DeliveryEvent'
-    Canceled:
-      required:
-      - timestamp
-      - type
-      type: object
-      description: An event indicating that the delivery was canceled.
-      allOf:
-      - $ref: '#/components/schemas/DeliveryEvent'
-      - type: object
-        properties:
-          source:
-            type: string
-            description: Types of actors who may update a delivery.
-            example: CLIENT
-            enum:
-            - CLIENT
-            - GRUBHUB
-          reason_code:
-            type: string
-            description: Codes for reasons why a delivery was canceled.
-            example: CUSTOMER_OTHER_REASON
-            enum:
-            - MERCHANT_NOT_READY_FOR_PICKUP
-            - MERCHANT_UNABLE_TO_FULFILL_ORDER
-            - MERCHANT_CLOSED
-            - MERCHANT_PICKUP_DELAYED
-            - MERCHANT_ITEM_MISSING
-            - MERCHANT_OTHER_REASON
-            - EXTERNAL_SYSTEM_FAILURE
-            - CUSTOMER_CONTENTS_ISSUE
-            - CUSTOMER_ORDER_CHANGED
-            - CUSTOMER_REFUSED_DELIVERY
-            - CUSTOMER_DELIVERY_DELAYED
-            - CUSTOMER_OTHER_REASON
-            - ORDER_PICKED_UP_BY_ANOTHER_DRIVER
-            - DRIVER_UNABLE_TO_FINISH_DELIVERY
-            - UNABLE_TO_ASSIGN_DRIVER
-            - EXTERNAL_PARTNER_OTHER_REASON
-            - DELIVERY_CANCELLATION_OTHER_REASON
-            - UNKNOWN
-          reason_comment:
-            type: string
-            description: Additional detail about the cancellation.
-            example: Customer no longer wants delivery.
-    QuoteRequest:
-      required:
-      - charges
-      - dropoff
-      - pickup
-      - time_preferences
-      type: object
-      properties:
-        pickup:
-          $ref: '#/components/schemas/PickupLocation'
-        dropoff:
-          $ref: '#/components/schemas/DropoffLocation'
-        items:
-          type: array
-          description: A collection of items describing what is included in the delivery.
-          items:
-            $ref: '#/components/schemas/Item'
-        charges:
-          $ref: '#/components/schemas/Charges'
-        time_preferences:
-          $ref: '#/components/schemas/TimePreferences'
-        dropoff_preferences:
-          $ref: '#/components/schemas/DropoffPreferences'
-        client_data:
-          $ref: '#/components/schemas/ClientData'
-        notification_preferences:
-          $ref: '#/components/schemas/NotificationPreferences'
-        pickup_verification:
-          $ref: '#/components/schemas/com.grubhub.pos.generic.delivery.fulfillment.common.model.PickupVerification'
-        delivery_sizing:
-          $ref: '#/components/schemas/DeliverySizing'
-        tags:
-          uniqueItems: true
-          type: array
-          description: Tags that can be applied to a delivery to assist with categorization, pricing and filtering.
-          items:
-            type: string
-            description: Tags that can be applied to a delivery to assist with categorization, pricing and filtering.
-            example: FOOD
-            enum:
-            - FOOD
-            - FLORAL
-            - GROCERY
-      description: A request for delivery fulfillment quotes.
-    ItemDimensions:
-      required:
-      - depth
-      - height
-      - unit
-      - width
-      type: object
-      properties:
-        unit:
-          type: string
-          description: Unit of measurement
-          example: INCHES
-          enum:
-          - INCHES
-          - FEET
-        width:
-          type: number
-          description: Width of the item
-          format: double
-          example: 10.0
-        height:
-          type: number
-          description: Height of the item
-          format: double
-          example: 5.0
-        depth:
-          type: number
-          description: Depth of the item
-          format: double
-          example: 3.0
-      description: Dimensions of the item
-    Delivered:
-      required:
-      - timestamp
-      - type
-      type: object
-      description: An event indicating the delivery has been successfully delivered.
-      allOf:
-      - $ref: '#/components/schemas/DeliveryEvent'
-      - type: object
-        properties:
-          dropoff_image_details:
-            description: Use `dropoff_image_details` in the `ProofOfDelivery` event instead.
-            deprecated: true
-            allOf:
-            - $ref: '#/components/schemas/DropoffImageDetails'
-    TimePreferences:
-      type: object
-      properties:
-        pickup_time:
-          type: string
-          description: The preferred pickup time for the courier. Formatted as an ISO-8601 timestamp.
-          format: date-time
-          example: '2024-03-14T19:22:51.999Z'
-        dropoff_time:
-          type: string
-          description: The preferred dropoff time for the courier. Formatted as an ISO-8601 timestamp.
-          format: date-time
-          example: '2024-03-14T19:22:51.999Z'
-      description: The preferred pickup or dropoff time for the courier. Only use one of them.
-    AcceptQuoteResponse:
-      type: object
-      properties:
-        delivery:
-          $ref: '#/components/schemas/Delivery'
-      description: The response information for a quote acceptance request.
-    ItemWeight:
-      required:
-      - unit
-      - weight
-      type: object
-      properties:
-        unit:
-          type: string
-          description: Unit of measurement
-          example: POUNDS
-          enum:
-          - POUNDS
-        weight:
-          type: number
-          description: Weight of the item
-          format: double
-          example: 5.0
-      description: Weight of the item
     ResponseWrapperAcceptQuoteResponse:
       type: object
       properties:
@@ -933,91 +1021,3 @@ components:
           description: A list of errors returned.
           items:
             $ref: '#/components/schemas/PublicApiError'
-    DeliveryEvent:
-      required:
-      - timestamp
-      - type
-      type: object
-      properties:
-        type:
-          type: string
-          description: The type of this event.
-          example: PICKED_UP
-          enum:
-          - CREATED
-          - ASSIGNED
-          - UNASSIGNED
-          - COURIER_AT_PICKUP
-          - PICKED_UP
-          - IN_TRANSIT
-          - COURIER_AT_DROPOFF
-          - DELIVERED
-          - PROOF_OF_DELIVERY
-          - RETURN_INITIATED
-          - RETURN_ARRIVED
-          - RETURN_COMPLETED
-          - PICKUP_VERIFICATION
-          - CANCELED
-        timestamp:
-          type: string
-          description: The time at which this event occurred. Formatted as an ISO-8601 timestamp.
-          format: date-time
-          example: '2024-05-28T00:00:00Z'
-      description: An event during the course of a single delivery's lifecycle.
-      discriminator:
-        propertyName: type
-      oneOf:
-      - $ref: '#/components/schemas/Created'
-      - $ref: '#/components/schemas/Assigned'
-      - $ref: '#/components/schemas/Unassigned'
-      - $ref: '#/components/schemas/CourierAtPickup'
-      - $ref: '#/components/schemas/PickedUp'
-      - $ref: '#/components/schemas/InTransit'
-      - $ref: '#/components/schemas/CourierAtDropoff'
-      - $ref: '#/components/schemas/Delivered'
-      - $ref: '#/components/schemas/ProofOfDelivery'
-      - $ref: '#/components/schemas/PickupVerification'
-      - $ref: '#/components/schemas/ReturnInitiated'
-      - $ref: '#/components/schemas/ReturnArrived'
-      - $ref: '#/components/schemas/ReturnCompleted'
-      - $ref: '#/components/schemas/Canceled'
-    GeoLocation:
-      required:
-      - lat
-      - lng
-      type: object
-      properties:
-        lat:
-          type: number
-          description: The latitude of the location.
-          format: double
-          example: 41.88320791307697
-        lng:
-          type: number
-          description: The longitude of the location.
-          format: double
-          example: -87.63142796027925
-      description: The last known location of the courier.
-    CourierAtPickup:
-      required:
-      - timestamp
-      - type
-      type: object
-      description: An event indicating the assigned courier has arrived at the delivery's pickup location.
-      allOf:
-      - $ref: '#/components/schemas/DeliveryEvent'
-    com.grubhub.pos.generic.delivery.fulfillment.common.model.PickupVerification:
-      required:
-      - capture_method
-      - verification_code
-      type: object
-      properties:
-        capture_method:
-          type: string
-          description: The method used to capture the pickup verification code.
-          enum:
-          - QR_SCAN
-        verification_code:
-          type: string
-          description: The verification code provided by the partner.
-      description: Pickup verification provided by the partner.
