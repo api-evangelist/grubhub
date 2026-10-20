@@ -1,9 +1,18 @@
-generated: '2026-10-14'
+generated: '2026-10-20'
 method: searched
+source:
+- olo/integrations/olo-integration-edges.yml
+- toast/integrations/toast-integration-edges.yml
+- https://get.grubhub.com/integrations/
 checked:
 - https://get.grubhub.com/integrations/
 - olo/integrations/olo-integration-edges.yml
 - toast/integrations/toast-integration-edges.yml
+- https://composio.dev/toolkits/grubhub
+- https://monid.ai/tools/grubhub
+- https://n8n.io/integrations/grubhub/
+- https://zapier.com/apps/grubhub/integrations
+summary: null
 marketplace_apps:
 - marketplace: own
   channel: partner-built
@@ -48,6 +57,4 @@ edges:
   detected: '2026-10-14'
   detected_by: mirror-platform-listings.py
   category: Online Ordering
-source:
-- olo/integrations/olo-integration-edges.yml
-- toast/integrations/toast-integration-edges.yml
+templates: []
