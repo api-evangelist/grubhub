@@ -12,6 +12,16 @@ checked:
 - https://monid.ai/tools/grubhub
 - https://n8n.io/integrations/grubhub/
 - https://zapier.com/apps/grubhub/integrations
+- https://apps.dfi.wi.gov/apps/FranchiseSearch/MainSearch.aspx
+- https://cards.web.commerce.state.mn.us/franchise-registrations
+- https://dfpi.ca.gov/regulated-industries/regulated-entities-list/
+- https://docqnet.dfpi.ca.gov/
+- https://pos.toasttab.com/franchise
+- https://squareup.com/us/en/franchises
+- https://www.franchise.org/franchise-opportunities/
+- https://www.franchise.org/suppliers/
+- https://www.franchise.org/wp-json/wp/v2/member
+- https://www.servicetitan.com/market/franchise-management-software
 summary: null
 marketplace_apps:
 - marketplace: own
@@ -57,4 +67,20 @@ edges:
   detected: '2026-10-14'
   detected_by: mirror-platform-listings.py
   category: Online Ordering
+- partner_name: Square franchise partners
+  partner: square
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://squareup.com/us/en/franchises
+  mirror_of: square/integrations/square-integration-edges.yml
+  apps:
+  - Grubhub
+  detected: '2026-10-21'
+  detected_by: sweep-franchise-registries.py
+  identity_source: wikidata P856 (labelled provenance step; Kin 2026-10-15 decision 1)
 templates: []

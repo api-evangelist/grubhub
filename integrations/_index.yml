@@ -29,3 +29,15 @@
   relationship: platform-app
   status: not-a-workflow
   arazzo: null
+- slug: grubhub-square-franchise-partners
+  label: Square franchise partners
+  partner: square
+  partner_name: Square franchise partners
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://squareup.com/us/en/franchises
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null
