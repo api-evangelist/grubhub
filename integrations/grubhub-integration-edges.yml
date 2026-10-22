@@ -22,6 +22,9 @@ checked:
 - https://www.franchise.org/suppliers/
 - https://www.franchise.org/wp-json/wp/v2/member
 - https://www.servicetitan.com/market/franchise-management-software
+- https://openmobilityfoundation.org
+- https://raw.githubusercontent.com/openmobilityfoundation/mobility-data-specification/main/agencies.csv
+- https://raw.githubusercontent.com/openmobilityfoundation/mobility-data-specification/main/providers.csv
 summary: null
 marketplace_apps:
 - marketplace: own
@@ -83,4 +86,33 @@ edges:
   detected: '2026-10-21'
   detected_by: sweep-franchise-registries.py
   identity_source: wikidata P856 (labelled provenance step; Kin 2026-10-15 decision 1)
+- partner_name: Open Mobility Foundation MDS registered providers
+  partner: null
+  partner_match: register
+  type: register
+  channel: standard-directory
+  relationship: standard-participant
+  direction: partner-built
+  evidence: https://raw.githubusercontent.com/openmobilityfoundation/mobility-data-specification/main/providers.csv
+  category: MDS provider registration
+  contract_reference:
+    register: Open Mobility Foundation MDS registered providers
+    standard: Mobility Data Specification (MDS)
+    spec_file: null
+    role: mds-provider
+    registrations:
+    - registered_name: Grubhub
+      mode: delivery
+      provider_id: 7e56185f-790c-4ace-9ec7-7223a31f9df6
+      matched_domain: grubhub.com
+      matched_by: domain
+      mds_api_host: null
+      gbfs_api_host: null
+      evidence_url: https://github.com/openmobilityfoundation/mobility-data-specification/blob/main/providers.csv
+    signal_note: 'participation only: an OMF provider registration (provider_id issued); the OMF publishes no MDS
+      conformance certification'
+    detected_by: sweep-open-mobility-foundation-mds.py
+    detected: '2026-10-22'
+  detected_by: sweep-open-mobility-foundation-mds.py
+  first_seen: '2026-10-22'
 templates: []
