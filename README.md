@@ -1,4 +1,4 @@
-# grubhub (grubhub)
+# Grubhub
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,345 +66,317 @@
 
 Grubhub is a US online food-ordering and delivery marketplace connecting diners with local restaurants across Grubhub and Seamless. Its partner platform lets point-of-sale vendors, online-ordering providers, delivery aggregators and enterprise restaurant brands integrate directly: ingest normalized menus, receive and fulfil Marketplace orders, control merchant availability and schedules, run last-mile delivery on Grubhub's national courier network through Grubhub Connect, onboard merchants self-service, and export merchant reports. Grubhub publishes twelve first-party OpenAPI documents covering 91 operations and three egress webhooks from its partner developer portal.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/grubhub/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/grubhub/refs/heads/main/apis.yml)
-
-## Timestamps
-
-- **Modified:** 2026-09-17
-
-## APIs
-
-### Grubhub Menu API
-
-Create, update and manage Grubhub Marketplace menus. Ingestion is diff-based against external IDs: validate a normalized menu, submit it, poll the ingestion job, and read back what Grubhub stored. Also carries menu-item schedule overrides (by internal or external ID, in bulk) and alcohol tagging.
-
-- **Human URL:** [https://developer.grubhub.com/api/menu](https://developer.grubhub.com/api/menu)
-- **Base URL:** `https://api-third-party-gtm.grubhub.com`
-
-#### Tags
-
-- Menu
-- Menu Ingestion
-- Catalog
-- Restaurants
-- Point of Sale
-
-#### Properties
-
-- [Menu OpenAPI (harvested from Grubhub)](openapi/grubhub-menu-openapi.yml) — [OpenAPI specification](https://spec.openapis.org/oas/latest.html)
-- [OpenAPI (provider-hosted)](https://developer.grubhub.com/resource/partner-docs/api-docs/menu_api_final.json) — [OpenAPI specification](https://spec.openapis.org/oas/latest.html)
-- [Documentation](https://developer.grubhub.com/api/menu)
-- [APIReference](https://developer.grubhub.com/api/menu)
-- [Overlay](overlays/grubhub-menu-overlay.yaml) — [Overlay specification](https://spec.openapis.org/overlay/latest.html)
-
-### Grubhub Orders API
-
-Receive and manage Grubhub Marketplace orders. Retrieve an order by UUID, list a merchant's or a group's orders by status and date range, advance an order through its status lifecycle, raise and poll order change requests, and attach pickup instructions. New orders arrive by webhook; polling is the fallback.
-
-- **Human URL:** [https://developer.grubhub.com/api/orders](https://developer.grubhub.com/api/orders)
-- **Base URL:** `https://api-third-party-gtm.grubhub.com`
-
-#### Tags
-
-- Orders
-- Order Management
-- Marketplace
-- Restaurants
-- Point of Sale
-
-#### Properties
-
-- [Orders OpenAPI (harvested from Grubhub)](openapi/grubhub-orders-openapi.yml) — [OpenAPI specification](https://spec.openapis.org/oas/latest.html)
-- [OpenAPI (provider-hosted)](https://developer.grubhub.com/resource/partner-docs/api-docs/order_api_final.json) — [OpenAPI specification](https://spec.openapis.org/oas/latest.html)
-- [Documentation](https://developer.grubhub.com/api/orders)
-- [APIReference](https://developer.grubhub.com/api/orders)
-- [Overlay](overlays/grubhub-orders-overlay.yaml) — [Overlay specification](https://spec.openapis.org/overlay/latest.html)
-- [AsyncAPI](asyncapi/grubhub-order-events-asyncapi.yml) — [AsyncAPI specification](https://www.asyncapi.com/docs/reference/specification/latest)
-- [Webhooks](asyncapi/grubhub-webhooks.yml)
-
-### Grubhub Merchant Data API
-
-Read and maintain merchant configuration on Grubhub: profile, tax rate, delivery minimum, delivery boundaries and area fees, fulfillment estimates, pre-order window, scheduled-ordering opt-in, and online/offline status by order type. Batch writes return a batch handle that is polled to completion.
-
-- **Human URL:** [https://developer.grubhub.com/api/merchant-data](https://developer.grubhub.com/api/merchant-data)
-- **Base URL:** `https://api-third-party-gtm.grubhub.com`
-
-#### Tags
-
-- Merchants
-- Merchant Data
-- Configuration
-- Restaurants
-- Store Management
-
-#### Properties
-
-- [Merchant Data OpenAPI (harvested from Grubhub)](openapi/grubhub-merchant-data-openapi.yml) — [OpenAPI specification](https://spec.openapis.org/oas/latest.html)
-- [OpenAPI (provider-hosted)](https://developer.grubhub.com/resource/partner-docs/api-docs/merchant_data_api_final.json) — [OpenAPI specification](https://spec.openapis.org/oas/latest.html)
-- [Documentation](https://developer.grubhub.com/api/merchant-data)
-- [APIReference](https://developer.grubhub.com/api/merchant-data)
-- [Overlay](overlays/grubhub-merchant-data-overlay.yaml) — [Overlay specification](https://spec.openapis.org/overlay/latest.html)
-
-### Grubhub Merchant Schedules API
-
-Manage restaurant operating hours on Grubhub: repeating weekly schedules for delivery, pickup and catering, one-off schedule overrides for closures and special hours, and immediate open-now / close-now control.
-
-- **Human URL:** [https://developer.grubhub.com/api/merchant-schedules](https://developer.grubhub.com/api/merchant-schedules)
-- **Base URL:** `https://api-third-party-gtm.grubhub.com`
-
-#### Tags
-
-- Schedules
-- Availability
-- Hours
-- Restaurants
-- Store Management
-
-#### Properties
-
-- [Merchant Schedules OpenAPI (harvested from Grubhub)](openapi/grubhub-merchant-schedules-openapi.yml) — [OpenAPI specification](https://spec.openapis.org/oas/latest.html)
-- [OpenAPI (provider-hosted)](https://developer.grubhub.com/resource/partner-docs/api-docs/merchant_schedule_api_final.json) — [OpenAPI specification](https://spec.openapis.org/oas/latest.html)
-- [Documentation](https://developer.grubhub.com/api/merchant-schedules)
-- [APIReference](https://developer.grubhub.com/api/merchant-schedules)
-- [Overlay](overlays/grubhub-merchant-schedules-overlay.yaml) — [Overlay specification](https://spec.openapis.org/overlay/latest.html)
-
-### Grubhub Busy Intervals API
-
-Mark a restaurant as busy for a bounded interval so Grubhub extends quoted times or pauses new orders, then read, update or clear the active interval.
-
-- **Human URL:** [https://developer.grubhub.com/api/busy-intervals](https://developer.grubhub.com/api/busy-intervals)
-- **Base URL:** `https://api-third-party-gtm.grubhub.com`
-
-#### Tags
-
-- Availability
-- Busy Mode
-- Operations
-- Restaurants
-- Store Management
-
-#### Properties
-
-- [Busy Intervals OpenAPI (harvested from Grubhub)](openapi/grubhub-busy-intervals-openapi.yml) — [OpenAPI specification](https://spec.openapis.org/oas/latest.html)
-- [OpenAPI (provider-hosted)](https://developer.grubhub.com/resource/partner-docs/api-docs/busy_mode_api_final.json) — [OpenAPI specification](https://spec.openapis.org/oas/latest.html)
-- [Documentation](https://developer.grubhub.com/api/busy-intervals)
-- [APIReference](https://developer.grubhub.com/api/busy-intervals)
-- [Overlay](overlays/grubhub-busy-intervals-overlay.yaml) — [Overlay specification](https://spec.openapis.org/overlay/latest.html)
-
-### Grubhub Deliveries API
-
-Read the delivery state of a Grubhub Marketplace order, by order UUID or by delivery ID. The only operation in the whole Grubhub contract that declares a 429 lives here.
-
-- **Human URL:** [https://developer.grubhub.com/api/deliveries](https://developer.grubhub.com/api/deliveries)
-- **Base URL:** `https://api-third-party-gtm.grubhub.com`
-
-#### Tags
-
-- Deliveries
-- Delivery Tracking
-- Logistics
-- Restaurants
-- Last Mile
-
-#### Properties
-
-- [Deliveries OpenAPI (harvested from Grubhub)](openapi/grubhub-deliveries-openapi.yml) — [OpenAPI specification](https://spec.openapis.org/oas/latest.html)
-- [OpenAPI (provider-hosted)](https://developer.grubhub.com/resource/partner-docs/api-docs/delivery_api_final.json) — [OpenAPI specification](https://spec.openapis.org/oas/latest.html)
-- [Documentation](https://developer.grubhub.com/api/deliveries)
-- [APIReference](https://developer.grubhub.com/api/deliveries)
-- [Overlay](overlays/grubhub-deliveries-overlay.yaml) — [Overlay specification](https://spec.openapis.org/overlay/latest.html)
-
-### Grubhub Connect (Delivery as a Service) API
-
-Grubhub Connect is delivery-as-a-service on Grubhub's national courier network for aggregators, marketplaces and enterprise merchants. Request and accept delivery quotes, check service areas, track status, update dropoff and pickup verification, mint a masked courier proxy phone number, increase a courier tip, cancel a delivery and request a refund - plus a full production-safe test path.
-
-- **Human URL:** [https://developer.grubhub.com/api/daas-endpoints](https://developer.grubhub.com/api/daas-endpoints)
-- **Base URL:** `https://api-third-party-gtm.grubhub.com`
-
-#### Tags
-
-- Delivery
-- Logistics
-- Last Mile
-- Couriers
-- Delivery as a Service
-
-#### Properties
-
-- [Grubhub Connect Endpoints OpenAPI (harvested from Grubhub)](openapi/grubhub-connect-endpoints-openapi.yml) — [OpenAPI specification](https://spec.openapis.org/oas/latest.html)
-- [OpenAPI (provider-hosted)](https://developer.grubhub.com/resource/partner-docs/api-docs/daas_api_final.json) — [OpenAPI specification](https://spec.openapis.org/oas/latest.html)
-- [Documentation](https://developer.grubhub.com/api/daas-endpoints)
-- [APIReference](https://developer.grubhub.com/api/daas-endpoints)
-- [Overlay](overlays/grubhub-connect-endpoints-overlay.yaml) — [Overlay specification](https://spec.openapis.org/overlay/latest.html)
-
-### Grubhub Connect Webhooks
-
-The egress event contract for Grubhub Connect, published as an OpenAPI 3.1.0 webhooks-only document: Delivery Status Update (Created, Assigned, Unassigned, CourierAtPickup, PickedUp, InTransit, CourierAtDropoff, Delivered, Canceled, ReturnInitiated, ReturnCompleted) and Delivery Refund Update.
-
-- **Human URL:** [https://developer.grubhub.com/api/daas-webhooks](https://developer.grubhub.com/api/daas-webhooks)
-- **Base URL:** `https://api-third-party-gtm.grubhub.com`
-
-#### Tags
-
-- Webhooks
-- Events
-- Delivery
-- Logistics
-- Event Driven
-
-#### Properties
-
-- [Grubhub Connect Webhooks OpenAPI (harvested from Grubhub)](openapi/grubhub-connect-webhooks-openapi.yml) — [OpenAPI specification](https://spec.openapis.org/oas/latest.html)
-- [OpenAPI (provider-hosted)](https://developer.grubhub.com/resource/partner-docs/api-docs/daas_webhooks_final.json) — [OpenAPI specification](https://spec.openapis.org/oas/latest.html)
-- [Documentation](https://developer.grubhub.com/api/daas-webhooks)
-- [APIReference](https://developer.grubhub.com/api/daas-webhooks)
-- [Overlay](overlays/grubhub-connect-webhooks-overlay.yaml) — [Overlay specification](https://spec.openapis.org/overlay/latest.html)
-- [AsyncAPI](asyncapi/grubhub-delivery-events-asyncapi.yml) — [AsyncAPI specification](https://www.asyncapi.com/docs/reference/specification/latest)
-- [Webhooks](asyncapi/grubhub-webhooks.yml)
-
-### Grubhub Onboarding API
-
-Self-service merchant onboarding for partners: list eligible merchants, refer a restaurant that is not yet on Grubhub, associate an existing merchant with the integration, activate and deactivate merchants (partner-scoped variants included), and file an onboarding issue for triage.
-
-- **Human URL:** [https://developer.grubhub.com/api/onboarding](https://developer.grubhub.com/api/onboarding)
-- **Base URL:** `https://api-third-party-gtm.grubhub.com`
-
-#### Tags
-
-- Onboarding
-- Merchants
-- Provisioning
-- Partners
-- Restaurants
-
-#### Properties
-
-- [Onboarding OpenAPI (harvested from Grubhub)](openapi/grubhub-onboarding-openapi.yml) — [OpenAPI specification](https://spec.openapis.org/oas/latest.html)
-- [OpenAPI (provider-hosted)](https://developer.grubhub.com/resource/partner-docs/api-docs/onboarding_api_final.json) — [OpenAPI specification](https://spec.openapis.org/oas/latest.html)
-- [Documentation](https://developer.grubhub.com/api/onboarding)
-- [APIReference](https://developer.grubhub.com/api/onboarding)
-- [Overlay](overlays/grubhub-onboarding-overlay.yaml) — [Overlay specification](https://spec.openapis.org/overlay/latest.html)
-
-### Grubhub Merchant Reporting API
-
-Asynchronous merchant report export: list the merchants enabled for reporting under a partner ID, request a report, and fetch its download URL once the report-status webhook fires.
-
-- **Human URL:** [https://developer.grubhub.com/api/reporting-endpoints](https://developer.grubhub.com/api/reporting-endpoints)
-- **Base URL:** `https://api-third-party-gtm.grubhub.com`
-
-#### Tags
-
-- Reporting
-- Analytics
-- Exports
-- Merchants
-- Restaurants
-
-#### Properties
-
-- [Reporting Endpoints OpenAPI (harvested from Grubhub)](openapi/grubhub-reporting-endpoints-openapi.yml) — [OpenAPI specification](https://spec.openapis.org/oas/latest.html)
-- [OpenAPI (provider-hosted)](https://developer.grubhub.com/resource/partner-docs/api-docs/reporting_api_final.json) — [OpenAPI specification](https://spec.openapis.org/oas/latest.html)
-- [Documentation](https://developer.grubhub.com/api/reporting-endpoints)
-- [APIReference](https://developer.grubhub.com/api/reporting-endpoints)
-- [Overlay](overlays/grubhub-reporting-endpoints-overlay.yaml) — [Overlay specification](https://spec.openapis.org/overlay/latest.html)
-
-### Grubhub Reporting Webhooks
-
-The egress event contract for merchant report exports, published as an OpenAPI 3.1.0 webhooks-only document: Report Status Update. This is the intended completion signal for a requested report.
-
-- **Human URL:** [https://developer.grubhub.com/api/reporting-webhooks](https://developer.grubhub.com/api/reporting-webhooks)
-- **Base URL:** `https://api-third-party-gtm.grubhub.com`
-
-#### Tags
-
-- Webhooks
-- Events
-- Reporting
-- Event Driven
-- Merchants
-
-#### Properties
-
-- [Reporting Webhooks OpenAPI (harvested from Grubhub)](openapi/grubhub-reporting-webhooks-openapi.yml) — [OpenAPI specification](https://spec.openapis.org/oas/latest.html)
-- [OpenAPI (provider-hosted)](https://developer.grubhub.com/resource/partner-docs/api-docs/reporting_webhooks_final.json) — [OpenAPI specification](https://spec.openapis.org/oas/latest.html)
-- [Documentation](https://developer.grubhub.com/api/reporting-webhooks)
-- [APIReference](https://developer.grubhub.com/api/reporting-webhooks)
-- [Overlay](overlays/grubhub-reporting-webhooks-overlay.yaml) — [Overlay specification](https://spec.openapis.org/overlay/latest.html)
-- [AsyncAPI](asyncapi/grubhub-reporting-events-asyncapi.yml) — [AsyncAPI specification](https://www.asyncapi.com/docs/reference/specification/latest)
-- [Webhooks](asyncapi/grubhub-webhooks.yml)
-
-### Grubhub Testing API
-
-Grubhub ships its partner test surface as part of the published contract: create a transmission test, simulate a just-in-time order event, and create a test delivery against a preproduction merchant.
-
-- **Human URL:** [https://developer.grubhub.com/api/testing](https://developer.grubhub.com/api/testing)
-- **Base URL:** `https://api-third-party-gtm.grubhub.com`
-
-#### Tags
-
-- Testing
-- Sandbox
-- Developer Experience
-- Simulation
-- Restaurants
-
-#### Properties
-
-- [Testing OpenAPI (harvested from Grubhub)](openapi/grubhub-testing-openapi.yml) — [OpenAPI specification](https://spec.openapis.org/oas/latest.html)
-- [OpenAPI (provider-hosted)](https://developer.grubhub.com/resource/partner-docs/api-docs/test_api_final.json) — [OpenAPI specification](https://spec.openapis.org/oas/latest.html)
-- [Documentation](https://developer.grubhub.com/api/testing)
-- [APIReference](https://developer.grubhub.com/api/testing)
-- [Overlay](overlays/grubhub-testing-overlay.yaml) — [Overlay specification](https://spec.openapis.org/overlay/latest.html)
-- [Sandbox](sandbox/grubhub-sandbox.yml)
-
-## Common Properties
+**Areas:** Food Delivery · Restaurant · Marketplace · Online Ordering · Point-of-Sale · Logistics · Last Mile Delivery · Menu Management · Hospitality · Local Commerce · Delivery
+
+## Grubhub on APIs.io
+
+Everything profiled for Grubhub is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/grubhub/](https://apis.io/providers/grubhub/)** — or go straight to one of the APIs or properties below.
+
+### APIs (10)
+
+- [Grubhub Delivery Quotes API](https://apis.io/apis/grubhub/grubhub-delivery-quotes-api/) — The Delivery Quotes API from Grubhub — 2 operation(s) for delivery quotes.
+- [Grubhub Delivery Refunds API](https://apis.io/apis/grubhub/grubhub-delivery-refunds-api/) — The Delivery Refunds API from Grubhub — 1 operation(s) for delivery refunds.
+- [Grubhub Delivery Service Areas API](https://apis.io/apis/grubhub/grubhub-delivery-service-areas-api/) — The Delivery Service Areas API from Grubhub — 1 operation(s) for delivery service areas.
+- [Grubhub Delivery Status API](https://apis.io/apis/grubhub/grubhub-delivery-status-api/) — The Delivery Status API from Grubhub — 2 operation(s) for delivery status.
+- [Grubhub Delivery Tests API](https://apis.io/apis/grubhub/grubhub-delivery-tests-api/) — The Delivery Tests API from Grubhub — 2 operation(s) for delivery tests.
+- [Grubhub Delivery Updates API](https://apis.io/apis/grubhub/grubhub-delivery-updates-api/) — The Delivery Updates API from Grubhub — 5 operation(s) for delivery updates.
+- [Grubhub Delivery Webhooks Emulation API](https://apis.io/apis/grubhub/grubhub-delivery-webhooks-emulation-api/) — The Delivery Webhooks Emulation API from Grubhub — 2 operation(s) for delivery webhooks emulation.
+- [Grubhub Endpoints API](https://apis.io/apis/grubhub/grubhub-endpoints-api/) — The Endpoints API from Grubhub — 61 operation(s) for endpoints.
+- [Grubhub Requesting Reports API](https://apis.io/apis/grubhub/grubhub-requesting-reports-api/) — The Requesting Reports API from Grubhub — 3 operation(s) for requesting reports.
+- [Grubhub Webhooks API](https://apis.io/apis/grubhub/grubhub-webhooks-api/) — The Webhooks API from Grubhub — 0 operation(s) for webhooks.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### AsyncAPI (4)
+
+Event-driven and webhook contracts.
+
+- [Grubhub Connect Delivery Events](https://apis.io/asyncapis/grubhub/grubhub-delivery-events-asyncapi/)
+- [Grubhub Order Events](https://apis.io/asyncapis/grubhub/grubhub-order-events-asyncapi/)
+- [Grubhub Merchant Reporting Events](https://apis.io/asyncapis/grubhub/grubhub-reporting-events-asyncapi/)
+- [Grubhub Webhooks](https://apis.io/asyncapis/grubhub/grubhub-webhooks/)
+
+#### Event channels (6)
+
+Individual events and webhooks the provider emits.
+
+- [{webhookUrl}](https://apis.io/channels/grubhub/grubhub-connect-delivery-events-webhookurl/)
+- [{webhookUrl}](https://apis.io/channels/grubhub/grubhub-merchant-reporting-events-webhookurl/)
+- [/webhook/delivery-refund](https://apis.io/channels/grubhub/webhook-delivery-refund/)
+- [/webhook/delivery-status](https://apis.io/channels/grubhub/webhook-delivery-status/)
+- [/webhook/orders](https://apis.io/channels/grubhub/webhook-orders/)
+- [{webhookUrl}](https://apis.io/channels/grubhub/webhookurl/)
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [grubhub-mcp.yml](https://apis.io/servers/grubhub/grubhub-mcp-yml/)
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Grubhub Agentic Access](https://apis.io/agentic-access/grubhub/grubhub-agentic-access/)
+
+#### JSON Schema (292)
+
+The data models the API reads and writes.
+
+- [AcceptQuoteResponse](https://apis.io/schemas/grubhub/grubhub-acceptquoteresponse/)
+- [ActivateRequest](https://apis.io/schemas/grubhub/grubhub-activaterequest/)
+- [AddLineSubstitution](https://apis.io/schemas/grubhub/grubhub-addlinesubstitution/)
+- [Address](https://apis.io/schemas/grubhub/grubhub-address/)
+- [Affiliate](https://apis.io/schemas/grubhub/grubhub-affiliate/)
+- [Assigned](https://apis.io/schemas/grubhub/grubhub-assigned/)
+- [AssociationResponse](https://apis.io/schemas/grubhub/grubhub-associationresponse/)
+- [Moved to /providers/grubhub/](https://apis.io/schemas/grubhub/grubhub-availability/)
+- [AvailabilityOverride](https://apis.io/schemas/grubhub/grubhub-availabilityoverride/)
+- [AvailabilityRange](https://apis.io/schemas/grubhub/grubhub-availabilityrange/)
+- [Moved to /providers/grubhub/](https://apis.io/schemas/grubhub/grubhub-batchjobresponse/)
+- [Moved to /providers/grubhub/](https://apis.io/schemas/grubhub/grubhub-batchjobstatus/)
+- [BulkProcessingItemEntityStatus](https://apis.io/schemas/grubhub/grubhub-bulkprocessingitementitystatus/)
+- [CancelDeliveryRequest](https://apis.io/schemas/grubhub/grubhub-canceldeliveryrequest/)
+- [Canceled](https://apis.io/schemas/grubhub/grubhub-canceled/)
+- [CatalogVersion](https://apis.io/schemas/grubhub/grubhub-catalogversion/)
+- [Catering](https://apis.io/schemas/grubhub/grubhub-catering/)
+- [Charges](https://apis.io/schemas/grubhub/grubhub-charges/)
+- [Chronology](https://apis.io/schemas/grubhub/grubhub-chronology/)
+- [ClientData](https://apis.io/schemas/grubhub/grubhub-clientdata/)
+- [com.grubhub.pos.generic.delivery.fulfillment.common.model.PickupVerification](https://apis.io/schemas/grubhub/grubhub-com-grubhub-pos-generic-delivery-fulfillment-common-model-pickupverification/)
+- [ConfigGroup](https://apis.io/schemas/grubhub/grubhub-configgroup/)
+- [Moved to /providers/grubhub/](https://apis.io/schemas/grubhub/grubhub-contact/)
+- [ContactInfo](https://apis.io/schemas/grubhub/grubhub-contactinfo/)
+- [Coordinates](https://apis.io/schemas/grubhub/grubhub-coordinates/)
+- …and 267 more published on APIs.io
+
+#### JSON Structure (54)
+
+Data models expressed in JSON Structure.
+
+- [Moved to /providers/grubhub/](https://apis.io/json-structure/grubhub/grubhub-address-structure/)
+- [Moved to /providers/grubhub/](https://apis.io/json-structure/grubhub/grubhub-availability-structure/)
+- [Moved to /providers/grubhub/](https://apis.io/json-structure/grubhub/grubhub-batchjobresponse-structure/)
+- [Moved to /providers/grubhub/](https://apis.io/json-structure/grubhub/grubhub-batchjobstatus-structure/)
+- [Moved to /providers/grubhub/](https://apis.io/json-structure/grubhub/grubhub-contact-structure/)
+- [Moved to /providers/grubhub/](https://apis.io/json-structure/grubhub/grubhub-courierlocationpayload-structure/)
+- [Moved to /providers/grubhub/](https://apis.io/json-structure/grubhub/grubhub-customer-structure/)
+- [Moved to /providers/grubhub/](https://apis.io/json-structure/grubhub/grubhub-dayschedule-structure/)
+- [Moved to /providers/grubhub/](https://apis.io/json-structure/grubhub/grubhub-delivery-structure/)
+- [Moved to /providers/grubhub/](https://apis.io/json-structure/grubhub/grubhub-deliverycancelledpayload-structure/)
+- [Moved to /providers/grubhub/](https://apis.io/json-structure/grubhub/grubhub-deliveryrefundpayload-structure/)
+- [Moved to /providers/grubhub/](https://apis.io/json-structure/grubhub/grubhub-deliverystatuspayload-structure/)
+- [Moved to /providers/grubhub/](https://apis.io/json-structure/grubhub/grubhub-driver-structure/)
+- [Moved to /providers/grubhub/](https://apis.io/json-structure/grubhub/grubhub-driverassignedpayload-structure/)
+- [Moved to /providers/grubhub/](https://apis.io/json-structure/grubhub/grubhub-eligibilityresponse-structure/)
+- [Moved to /providers/grubhub/](https://apis.io/json-structure/grubhub/grubhub-error-structure/)
+- [Moved to /providers/grubhub/](https://apis.io/json-structure/grubhub/grubhub-fulfillmentinfo-structure/)
+- [Moved to /providers/grubhub/](https://apis.io/json-structure/grubhub/grubhub-ingestionjobresponse-structure/)
+- [Moved to /providers/grubhub/](https://apis.io/json-structure/grubhub/grubhub-ingestionjobstatus-structure/)
+- [Moved to /providers/grubhub/](https://apis.io/json-structure/grubhub/grubhub-menu-structure/)
+- [Moved to /providers/grubhub/](https://apis.io/json-structure/grubhub/grubhub-menuitem-structure/)
+- [Moved to /providers/grubhub/](https://apis.io/json-structure/grubhub/grubhub-menuschedule-structure/)
+- [Moved to /providers/grubhub/](https://apis.io/json-structure/grubhub/grubhub-menuscheduleoverriderequest-structure/)
+- [Moved to /providers/grubhub/](https://apis.io/json-structure/grubhub/grubhub-menusection-structure/)
+- [Moved to /providers/grubhub/](https://apis.io/json-structure/grubhub/grubhub-merchant-structure/)
+- …and 29 more published on APIs.io
+
+#### JSON-LD (1)
+
+Linked-data contexts for the provider's vocabulary.
+
+- [Grubhub Context](https://apis.io/jsonld/grubhub/grubhub-context/)
+
+#### Vocabulary (1)
+
+The provider's domain terms, defined.
+
+- [Grubhub Vocabulary](https://apis.io/vocabularies/grubhub/grubhub-vocabulary/)
+
+#### Examples (54)
+
+Example requests and responses.
+
+- [Moved to /providers/grubhub/](https://apis.io/examples/grubhub/grubhub-address-example/)
+- [Moved to /providers/grubhub/](https://apis.io/examples/grubhub/grubhub-availability-example/)
+- [Moved to /providers/grubhub/](https://apis.io/examples/grubhub/grubhub-batchjobresponse-example/)
+- [Moved to /providers/grubhub/](https://apis.io/examples/grubhub/grubhub-batchjobstatus-example/)
+- [Moved to /providers/grubhub/](https://apis.io/examples/grubhub/grubhub-contact-example/)
+- [Moved to /providers/grubhub/](https://apis.io/examples/grubhub/grubhub-courierlocationpayload-example/)
+- [Moved to /providers/grubhub/](https://apis.io/examples/grubhub/grubhub-customer-example/)
+- [Moved to /providers/grubhub/](https://apis.io/examples/grubhub/grubhub-dayschedule-example/)
+- [Moved to /providers/grubhub/](https://apis.io/examples/grubhub/grubhub-delivery-example/)
+- [Moved to /providers/grubhub/](https://apis.io/examples/grubhub/grubhub-deliverycancelledpayload-example/)
+- [Moved to /providers/grubhub/](https://apis.io/examples/grubhub/grubhub-deliveryrefundpayload-example/)
+- [Moved to /providers/grubhub/](https://apis.io/examples/grubhub/grubhub-deliverystatuspayload-example/)
+- [Moved to /providers/grubhub/](https://apis.io/examples/grubhub/grubhub-driver-example/)
+- [Moved to /providers/grubhub/](https://apis.io/examples/grubhub/grubhub-driverassignedpayload-example/)
+- [Moved to /providers/grubhub/](https://apis.io/examples/grubhub/grubhub-eligibilityresponse-example/)
+- [Moved to /providers/grubhub/](https://apis.io/examples/grubhub/grubhub-error-example/)
+- [Moved to /providers/grubhub/](https://apis.io/examples/grubhub/grubhub-fulfillmentinfo-example/)
+- [Moved to /providers/grubhub/](https://apis.io/examples/grubhub/grubhub-ingestionjobresponse-example/)
+- [Moved to /providers/grubhub/](https://apis.io/examples/grubhub/grubhub-ingestionjobstatus-example/)
+- [Moved to /providers/grubhub/](https://apis.io/examples/grubhub/grubhub-menu-example/)
+- [Moved to /providers/grubhub/](https://apis.io/examples/grubhub/grubhub-menuitem-example/)
+- [Moved to /providers/grubhub/](https://apis.io/examples/grubhub/grubhub-menuschedule-example/)
+- [Moved to /providers/grubhub/](https://apis.io/examples/grubhub/grubhub-menuscheduleoverriderequest-example/)
+- [Moved to /providers/grubhub/](https://apis.io/examples/grubhub/grubhub-menusection-example/)
+- [Moved to /providers/grubhub/](https://apis.io/examples/grubhub/grubhub-merchant-example/)
+- …and 29 more published on APIs.io
+
+#### Collections (23)
+
+Postman and Open Collection request collections.
+
+- [Moved to /providers/grubhub/](https://apis.io/collections/grubhub/open-grubhub-deliveries/)
+- [Moved to /providers/grubhub/](https://apis.io/collections/grubhub/open-grubhub-delivery-status-api/)
+- [Moved to /providers/grubhub/](https://apis.io/collections/grubhub/open-grubhub-driver-communication-api/)
+- [Moved to /providers/grubhub/](https://apis.io/collections/grubhub/open-grubhub-issue-reporting-api/)
+- [Moved to /providers/grubhub/](https://apis.io/collections/grubhub/open-grubhub-menu/)
+- [Moved to /providers/grubhub/](https://apis.io/collections/grubhub/open-grubhub-menu-ingestion-api/)
+- [Moved to /providers/grubhub/](https://apis.io/collections/grubhub/open-grubhub-menu-retrieval-api/)
+- [Moved to /providers/grubhub/](https://apis.io/collections/grubhub/open-grubhub-menu-schedule-overrides-api/)
+- [Moved to /providers/grubhub/](https://apis.io/collections/grubhub/open-grubhub-merchant-data/)
+- [Moved to /providers/grubhub/](https://apis.io/collections/grubhub/open-grubhub-merchant-eligibility-api/)
+- [Moved to /providers/grubhub/](https://apis.io/collections/grubhub/open-grubhub-merchant-onboarding-api/)
+- [Moved to /providers/grubhub/](https://apis.io/collections/grubhub/open-grubhub-merchant-properties-api/)
+- [Moved to /providers/grubhub/](https://apis.io/collections/grubhub/open-grubhub-merchant-schedules/)
+- [Moved to /providers/grubhub/](https://apis.io/collections/grubhub/open-grubhub-merchant-status-api/)
+- [Moved to /providers/grubhub/](https://apis.io/collections/grubhub/open-grubhub-merchants-api/)
+- [Moved to /providers/grubhub/](https://apis.io/collections/grubhub/open-grubhub-onboarding/)
+- [Moved to /providers/grubhub/](https://apis.io/collections/grubhub/open-grubhub-order-change-requests-api/)
+- [Moved to /providers/grubhub/](https://apis.io/collections/grubhub/open-grubhub-order-polling-api/)
+- [Moved to /providers/grubhub/](https://apis.io/collections/grubhub/open-grubhub-order-status-api/)
+- [Moved to /providers/grubhub/](https://apis.io/collections/grubhub/open-grubhub-orders/)
+- [Moved to /providers/grubhub/](https://apis.io/collections/grubhub/open-grubhub-orders-api/)
+- [Moved to /providers/grubhub/](https://apis.io/collections/grubhub/open-grubhub-schedule-overrides-api/)
+- [Moved to /providers/grubhub/](https://apis.io/collections/grubhub/open-grubhub-schedules-api/)
+
+#### Overlays (12)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Grubhub Busy Intervals Overlay](https://apis.io/overlays/grubhub/grubhub-busy-intervals-overlay/)
+- [Grubhub Connect Endpoints Overlay](https://apis.io/overlays/grubhub/grubhub-connect-endpoints-overlay/)
+- [Grubhub Connect Webhooks Overlay](https://apis.io/overlays/grubhub/grubhub-connect-webhooks-overlay/)
+- [Grubhub Deliveries Overlay](https://apis.io/overlays/grubhub/grubhub-deliveries-overlay/)
+- [Grubhub Menu Overlay](https://apis.io/overlays/grubhub/grubhub-menu-overlay/)
+- [Grubhub Merchant Data Overlay](https://apis.io/overlays/grubhub/grubhub-merchant-data-overlay/)
+- [Grubhub Merchant Schedules Overlay](https://apis.io/overlays/grubhub/grubhub-merchant-schedules-overlay/)
+- [Grubhub Onboarding Overlay](https://apis.io/overlays/grubhub/grubhub-onboarding-overlay/)
+- [Grubhub Orders Overlay](https://apis.io/overlays/grubhub/grubhub-orders-overlay/)
+- [Grubhub Reporting Endpoints Overlay](https://apis.io/overlays/grubhub/grubhub-reporting-endpoints-overlay/)
+- [Grubhub Reporting Webhooks Overlay](https://apis.io/overlays/grubhub/grubhub-reporting-webhooks-overlay/)
+- [Grubhub Testing Overlay](https://apis.io/overlays/grubhub/grubhub-testing-overlay/)
+
+#### Governance rules (3)
+
+Spectral rulesets for the provider's contracts.
+
+- [Grubhub — asyncapi rules](https://apis.io/rules/grubhub/grubhub-asyncapi-spectral-rules/)
+- [Grubhub — jsonschema rules](https://apis.io/rules/grubhub/grubhub-jsonschema-spectral-rules/)
+- [Grubhub API Rules](https://apis.io/rules/grubhub/grubhub-spectral-rules/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Grubhub Authentication](https://apis.io/security/grubhub/grubhub-authentication/)
+- [Grubhub Domain Security](https://apis.io/security/grubhub/grubhub-domain-security/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Grubhub Scopes](https://apis.io/scopes/grubhub/grubhub-scopes/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Grubhub Plans Pricing](https://apis.io/plans/grubhub/grubhub-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Grubhub Rate Limits](https://apis.io/rate-limits/grubhub/grubhub-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Grubhub Finops](https://apis.io/finops/grubhub/grubhub-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://www.grubhub.com)
-- [DeveloperPortal](https://developer.grubhub.com/)
 - [Documentation](https://developer.grubhub.com/)
-- [APIReference](https://developer.grubhub.com/api/menu)
-- [GettingStarted](https://developer.grubhub.com/get-started)
-- [Support](https://get.grubhub.com/help-center/)
-- [HelpCenter](https://get.grubhub.com/contact/)
+- [Getting started](https://developer.grubhub.com/get-started)
+- [API reference](https://developer.grubhub.com/api/menu)
 - [Pricing](https://get.grubhub.com/grubhub-pricing-and-fees/)
-- [SignUp](https://restaurant.grubhub.com/login/)
-- [TermsOfService](https://www.grubhub.com/legal/terms-of-use)
-- [PrivacyPolicy](https://www.grubhub.com/legal/privacy-policy)
-- [GitHubOrganization](https://github.com/GrubhubProd)
-- [LinkedIn](https://www.linkedin.com/company/grubhub-seamless)
+- [Sign up](https://restaurant.grubhub.com/login/)
+- [Support](https://get.grubhub.com/help-center/)
 - [Blog](https://get.grubhub.com/blog/)
-- [BlogRSS](https://get.grubhub.com/blog/feed/)
-- [Authentication](authentication/grubhub-authentication.yml)
-- [OAuthScopes](scopes/grubhub-scopes.yml)
-- [WellKnown](well-known/grubhub-well-known.yml)
-- [Conventions](conventions/grubhub-conventions.yml)
-- [ErrorCatalog](errors/grubhub-problem-types.yml)
-- [DataModel](data-model/grubhub-data-model.yml)
-- [Lifecycle](lifecycle/grubhub-lifecycle.yml)
-- [Sandbox](sandbox/grubhub-sandbox.yml)
-- [Conformance](conformance/grubhub-conformance.yml)
-- [Packages](packages/grubhub-packages.yml)
-- [LLMsTxt](llms/grubhub-llms.txt)
-- [AgentSkill](skills/_index.yml)
-- [Webhooks](asyncapi/grubhub-webhooks.yml)
-- [AsyncAPI](asyncapi/grubhub-delivery-events-asyncapi.yml)
-- [AgenticAccess](agentic-access/grubhub-agentic-access.yml)
-- [DomainSecurity](security/grubhub-domain-security.yml)
-- [RateLimits](rate-limits/grubhub-rate-limits.yml)
-- [Plans](plans/grubhub-plans-pricing.yml)
-- [FinOps](finops/grubhub-finops.yml)
-- [Vocabulary](vocabulary/grubhub-vocabulary.yml)
-- [Rules](rules/grubhub-spectral-rules.yml)
-- [JSONLD](json-ld/grubhub-context.jsonld)
-- [JSONSchema](json-schema/grubhub-posorder-schema.json)
-- [JSONSchema](json-schema/grubhub-posnormalizedmenu-schema.json)
-- [JSONSchema](json-schema/grubhub-posmerchantdata-schema.json)
-- [JSONSchema](json-schema/grubhub-delivery-schema.json)
+- [Terms of service](https://www.grubhub.com/legal/terms-of-use)
+- [Privacy policy](https://www.grubhub.com/legal/privacy-policy)
+- [GitHub](https://github.com/GrubhubProd)
 
-## Notes
+## API Evangelist rating
 
-- The twelve OpenAPI documents in `openapi/` were fetched verbatim on 2026-09-17 from Grubhub's own
-  developer portal at `https://developer.grubhub.com/resource/partner-docs/api-docs/`. The raw JSON as
-  served is kept in `openapi/_harvested/`.
-- Grubhub publishes no client SDK, no MCP server, no A2A agent card, no CLI, no public status page and
-  no changelog. Those absences are recorded in the artifacts rather than filled in.
+**Kin Score 60.6** — strong · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 78.6 |
+| Contract quality | 61.0 |
+| Contract governance | 45.5 |
+| Operational transparency | 42.1 |
+| Developer ergonomics | 28.0 |
+| Access clarity | 63.2 |
+
+**Agent readiness 47.8** — agent-ready (gated down from agent-native)
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | verified |
+| MCP Server | — |
+| Auth Clarity | served (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | yes |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | yes |
+| Agentic Commerce | — |
+| Pagination Ratio | — |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 34.3** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/grubhub/](https://apis.io/providers/grubhub/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Grubhub: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/grubhub/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
