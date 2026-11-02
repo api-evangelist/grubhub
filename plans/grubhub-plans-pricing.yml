@@ -1,0 +1,115 @@
+# Pricing transcribed from the provider's own page — see provenance. Numbers are quoted, not derived.
+generated: '2026-10-28'
+method: searched
+source: https://get.grubhub.com/grubhub-pricing-and-fees/
+sources:
+- https://get.grubhub.com/grubhub-pricing-and-fees/
+provenance:
+  tool: engine/economics/harvest_pricing.py
+  run: 20261028T141238
+  grounding: every price_text was found verbatim in the fetched page text
+audience: business-product
+pricing_basis: ad-valorem
+delivery:
+  delivery: managed
+  method: page
+  read: '2026-10-28'
+  managed_tier: Basic
+published: true
+note: Restaurant-facing commission plans; percentage-based marketing commission plus optional delivery
+  fees. No API pricing.
+plan_count: 6
+plans:
+- name: Basic
+  price_text: 5% marketing commission
+  price: 5
+  period: per-use
+  unit: order commission
+  included_quota: No platform or maintenance fees; standard customer delivery fee; placement on Grubhub
+    and Seamless apps
+- name: Plus
+  price_text: 15% marketing commission
+  price: 15
+  period: per-use
+  unit: order commission
+  included_quota: No platform or maintenance fees; lower customer delivery fee; ad credit
+- name: All-access
+  price_text: 20% marketing commission
+  price: 20
+  period: per-use
+  unit: order commission
+  included_quota: No platform or maintenance fees; lowest customer delivery fee; ad credit
+- name: Grubhub Delivery
+  price_text: Delivery fees start at 10%.
+  price: 10
+  period: per-use
+  unit: delivery fee
+  included_quota: Grubhub delivery fleet
+- name: Self Delivery
+  price_text: Pay zero delivery fees
+  price: 0
+  period: per-use
+  unit: delivery fee
+  included_quota: Use your own driver fleet
+- name: Grubhub Direct
+  price_text: Zero marketing commission for online orders
+  price: 0
+  period: none
+  unit: commission
+  included_quota: Zero set up fees, zero platform fees, zero monthly hosting fees
+x-canonical:
+  generated: '2026-11-01'
+  vocabulary: engine/economics/plans-canonical.yml
+  models:
+  - free
+  - subscription
+  units: []
+  plans:
+  - name: Basic
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - other
+  - name: Plus
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - other
+  - name: All-access
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - other
+  - name: Grubhub Delivery
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - other
+  - name: Self Delivery
+    access: other
+    model: free
+    model_how: derived
+    units:
+    - other
+    periods:
+    - other
+  - name: Grubhub Direct
+    access: other
+    model: free
+    model_how: derived
+    units:
+    - other
+    periods:
+    - none
