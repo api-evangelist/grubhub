@@ -58,12 +58,13 @@ plans:
   unit: commission
   included_quota: Zero set up fees, zero platform fees, zero monthly hosting fees
 x-canonical:
-  generated: '2026-11-02'
+  generated: '2026-11-06'
   vocabulary: engine/economics/plans-canonical.yml
   models:
   - free
   - subscription
-  units: []
+  units:
+  - period
   plans:
   - name: Basic
     access: other
@@ -94,7 +95,7 @@ x-canonical:
     model: subscription
     model_how: derived
     units:
-    - other
+    - period
     periods:
     - other
   - name: Self Delivery
@@ -102,7 +103,7 @@ x-canonical:
     model: free
     model_how: derived
     units:
-    - other
+    - period
     periods:
     - other
   - name: Grubhub Direct
